@@ -1,5 +1,7 @@
 ﻿using System.Text;
 using FluentAssertions;
+using RecklessSpeech.Application.Write.Sequences.Commands;
+using RecklessSpeech.Domain.Sequences;
 using RecklessSpeech.Domain.Shared;
 using Xunit;
 
@@ -33,4 +35,3 @@ public class CaseOfImportSuccessful
     }
 }
 
-public record ImportSequencesCommand(string FileContent);

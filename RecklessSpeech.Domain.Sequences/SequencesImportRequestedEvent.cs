@@ -1,6 +1,6 @@
 using RecklessSpeech.Domain.Shared;
 
-namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import;
+namespace RecklessSpeech.Domain.Sequences;
 
 public record SequencesImportRequestedEvent
 (

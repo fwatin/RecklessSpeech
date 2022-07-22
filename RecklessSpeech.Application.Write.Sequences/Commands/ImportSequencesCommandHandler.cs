@@ -1,7 +1,9 @@
+using RecklessSpeech.Domain.Sequences;
 using RecklessSpeech.Domain.Shared;
 
-namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import;
+namespace RecklessSpeech.Application.Write.Sequences.Commands;
 
+public record ImportSequencesCommand(string FileContent);
 public class ImportSequencesCommandHandler
 {
     public async Task<IReadOnlyCollection<IDomainEvent>> Handle(ImportSequencesCommand command)

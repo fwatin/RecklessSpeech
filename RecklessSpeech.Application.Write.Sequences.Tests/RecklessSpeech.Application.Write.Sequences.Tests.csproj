@@ -23,6 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RecklessSpeech.Application.Write.Sequences\RecklessSpeech.Application.Write.Sequences.csproj" />
+    <ProjectReference Include="..\RecklessSpeech.Domain.Sequences\RecklessSpeech.Domain.Sequences.csproj" />
     <ProjectReference Include="..\RecklessSpeech.Domain.Shared\RecklessSpeech.Domain.Shared.csproj" />
   </ItemGroup>
 

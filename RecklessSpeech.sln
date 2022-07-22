@@ -9,6 +9,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{63D80F20
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Domain.Shared", "RecklessSpeech.Domain.Shared\RecklessSpeech.Domain.Shared.csproj", "{6CCB91D6-084F-4174-8E4F-BB30AE70849B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Application.Write.Sequences", "RecklessSpeech.Application.Write.Sequences\RecklessSpeech.Application.Write.Sequences.csproj", "{4FA5E21D-6C4C-447E-B506-63862FF7F23F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sequences", "Sequences", "{22521FE8-3588-44AF-96E0-484353487CB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Domain.Sequences", "RecklessSpeech.Domain.Sequences\RecklessSpeech.Domain.Sequences.csproj", "{5BB218B1-7629-4669-9B66-D7B75A1781F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +31,14 @@ Global
 		{6CCB91D6-084F-4174-8E4F-BB30AE70849B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CCB91D6-084F-4174-8E4F-BB30AE70849B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CCB91D6-084F-4174-8E4F-BB30AE70849B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FA5E21D-6C4C-447E-B506-63862FF7F23F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FA5E21D-6C4C-447E-B506-63862FF7F23F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FA5E21D-6C4C-447E-B506-63862FF7F23F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FA5E21D-6C4C-447E-B506-63862FF7F23F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BB218B1-7629-4669-9B66-D7B75A1781F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BB218B1-7629-4669-9B66-D7B75A1781F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BB218B1-7629-4669-9B66-D7B75A1781F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BB218B1-7629-4669-9B66-D7B75A1781F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,5 +48,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F3493D71-DBA9-450E-9789-6F3E76B87018} = {63D80F20-7E9A-45A1-BED1-52C56CD4EBB7}
+		{22521FE8-3588-44AF-96E0-484353487CB5} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
+		{4FA5E21D-6C4C-447E-B506-63862FF7F23F} = {22521FE8-3588-44AF-96E0-484353487CB5}
+		{5BB218B1-7629-4669-9B66-D7B75A1781F5} = {22521FE8-3588-44AF-96E0-484353487CB5}
 	EndGlobalSection
 EndGlobal
