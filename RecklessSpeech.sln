@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech", "RecklessS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{63D80F20-7E9A-45A1-BED1-52C56CD4EBB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Domain.Shared", "RecklessSpeech.Domain.Shared\RecklessSpeech.Domain.Shared.csproj", "{6CCB91D6-084F-4174-8E4F-BB30AE70849B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{F3493D71-DBA9-450E-9789-6F3E76B87018}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3493D71-DBA9-450E-9789-6F3E76B87018}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3493D71-DBA9-450E-9789-6F3E76B87018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CCB91D6-084F-4174-8E4F-BB30AE70849B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CCB91D6-084F-4174-8E4F-BB30AE70849B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CCB91D6-084F-4174-8E4F-BB30AE70849B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CCB91D6-084F-4174-8E4F-BB30AE70849B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

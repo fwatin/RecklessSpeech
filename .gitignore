@@ -5,3 +5,6 @@
 /.idea/*
 /RecklessSpeech.Application.Write.Sequences.Tests/bin/*
 /RecklessSpeech.Application.Write.Sequences.Tests/obj/*
+/RecklessSpeech.Domain.Shared/bin/*
+/RecklessSpeech.Domain.Shared/obj/*
+/RecklessSpeech.sln.DotSettings.user
