@@ -8,3 +8,7 @@
 /RecklessSpeech.Domain.Shared/bin/*
 /RecklessSpeech.Domain.Shared/obj/*
 /RecklessSpeech.sln.DotSettings.user
+/RecklessSpeech.Application.Write.Sequences/bin/*
+/RecklessSpeech.Application.Write.Sequences/obj/*
+/RecklessSpeech.Domain.Sequences/bin/*
+/RecklessSpeech.Domain.Sequences/obj/*
