@@ -17,6 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sequences", "Sequences", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Domain.Sequences", "RecklessSpeech.Domain.Sequences\RecklessSpeech.Domain.Sequences.csproj", "{5BB218B1-7629-4669-9B66-D7B75A1781F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Infrastructure.Sequences.Tests", "RecklessSpeech.Infrastructure.Sequences.Tests\RecklessSpeech.Infrastructure.Sequences.Tests.csproj", "{DF635FD5-431C-4B47-B1EF-D0FA9FCAE7B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Shared.Tests", "RecklessSpeech.Shared.Tests\RecklessSpeech.Shared.Tests.csproj", "{EEBA26D3-3EB1-440D-BE79-3EE791FF557B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{5BB218B1-7629-4669-9B66-D7B75A1781F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BB218B1-7629-4669-9B66-D7B75A1781F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BB218B1-7629-4669-9B66-D7B75A1781F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF635FD5-431C-4B47-B1EF-D0FA9FCAE7B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF635FD5-431C-4B47-B1EF-D0FA9FCAE7B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF635FD5-431C-4B47-B1EF-D0FA9FCAE7B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF635FD5-431C-4B47-B1EF-D0FA9FCAE7B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEBA26D3-3EB1-440D-BE79-3EE791FF557B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEBA26D3-3EB1-440D-BE79-3EE791FF557B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEBA26D3-3EB1-440D-BE79-3EE791FF557B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEBA26D3-3EB1-440D-BE79-3EE791FF557B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,5 +63,7 @@ Global
 		{22521FE8-3588-44AF-96E0-484353487CB5} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
 		{4FA5E21D-6C4C-447E-B506-63862FF7F23F} = {22521FE8-3588-44AF-96E0-484353487CB5}
 		{5BB218B1-7629-4669-9B66-D7B75A1781F5} = {22521FE8-3588-44AF-96E0-484353487CB5}
+		{DF635FD5-431C-4B47-B1EF-D0FA9FCAE7B7} = {63D80F20-7E9A-45A1-BED1-52C56CD4EBB7}
+		{EEBA26D3-3EB1-440D-BE79-3EE791FF557B} = {63D80F20-7E9A-45A1-BED1-52C56CD4EBB7}
 	EndGlobalSection
 EndGlobal

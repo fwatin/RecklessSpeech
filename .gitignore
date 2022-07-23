@@ -12,3 +12,7 @@
 /RecklessSpeech.Application.Write.Sequences/obj/*
 /RecklessSpeech.Domain.Sequences/bin/*
 /RecklessSpeech.Domain.Sequences/obj/*
+/RecklessSpeech.Infrastructure.Sequences.Tests/obj/*
+/RecklessSpeech.Infrastructure.Sequences.Tests/bin/*
+/RecklessSpeech.Shared.Tests/obj/*
+/RecklessSpeech.Shared.Tests/bin/*
