@@ -7,8 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\RecklessSpeech.Domain.Sequences\RecklessSpeech.Domain.Sequences.csproj" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\RecklessSpeech.Infrastructure.Entities\RecklessSpeech.Infrastructure.Entities.csproj" />
+      <ProjectReference Include="..\RecklessSpeech.Infrastructure.Orchestration\RecklessSpeech.Infrastructure.Orchestration.csproj" />
     </ItemGroup>
 
 </Project>

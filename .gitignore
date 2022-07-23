@@ -16,3 +16,11 @@
 /RecklessSpeech.Infrastructure.Sequences.Tests/bin/*
 /RecklessSpeech.Shared.Tests/obj/*
 /RecklessSpeech.Shared.Tests/bin/*
+/RecklessSpeech.Infrastructure.Databases/bin/*
+/RecklessSpeech.Infrastructure.Databases/obj/*
+/RecklessSpeech.Infrastructure.Entities/bin/*
+/RecklessSpeech.Infrastructure.Entities/obj/*
+/RecklessSpeech.Infrastructure.Orchestration/bin/*
+/RecklessSpeech.Infrastructure.Orchestration/obj/*
+/RecklessSpeech.Infrastructure.Sequences/bin/*
+/RecklessSpeech.Infrastructure.Sequences/obj/*
