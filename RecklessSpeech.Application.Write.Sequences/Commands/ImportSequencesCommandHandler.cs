@@ -4,6 +4,7 @@ using RecklessSpeech.Domain.Shared;
 namespace RecklessSpeech.Application.Write.Sequences.Commands;
 
 public record ImportSequencesCommand(string FileContent);
+
 public class ImportSequencesCommandHandler
 {
     public async Task<IReadOnlyCollection<IDomainEvent>> Handle(ImportSequencesCommand command)
@@ -11,7 +12,7 @@ public class ImportSequencesCommandHandler
         List<IDomainEvent> events = new();
         IReadOnlyCollection<ImportSequenceDto> lines = this.Parse(command.FileContent);
 
-        foreach (var line in lines)
+        foreach (ImportSequenceDto line in lines)
         {
             events.Add
             (
@@ -25,13 +26,20 @@ public class ImportSequencesCommandHandler
 
     private IReadOnlyCollection<ImportSequenceDto> Parse(string fileContent)
     {
-        var elements = fileContent.Split("	");
-        List<ImportSequenceDto> dtos = new()
+        string delimiter = "\"<style>";
+        string[] lines = fileContent.Split(delimiter);
+        List<ImportSequenceDto> dtos = new();
+
+        for (int i = 1; i < lines.Length; i++)
         {
-            new ImportSequenceDto(elements[0],
-                ParseAudioFileName(elements[1]),
-                elements[2])
-        };
+            string reconstitutedLine = delimiter + lines[i]; 
+            string[] elements = reconstitutedLine.Split("	");
+            dtos.Add(
+                new ImportSequenceDto(elements[0],
+                    ParseAudioFileName(elements[1]),
+                    elements[2])
+            );
+        }
 
         return dtos;
     }
