@@ -27,15 +27,16 @@ public class CaseOfImportSuccessful
         ImportSequencesCommand command = new(Some.SomeSequenceContent);
 
         //Act
-        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command);
+        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
         events.Should().HaveCount(1);
         ((events.First() as SequencesImportRequestedEvent)!).HtmlContent.Should().NotBeNullOrEmpty();
-        ((events.First() as SequencesImportRequestedEvent)!).AudioFileNameWithExtension.Value.Should().NotBeNullOrEmpty();
+        ((events.First() as SequencesImportRequestedEvent)!).AudioFileNameWithExtension.Value.Should()
+            .NotBeNullOrEmpty();
         ((events.First() as SequencesImportRequestedEvent)!).Tags.Should().NotBeNullOrEmpty();
     }
-    
+
     [Fact]
     public async Task Should_add_a_known_sequence()
     {
@@ -43,7 +44,7 @@ public class CaseOfImportSuccessful
         ImportSequencesCommand command = new(sequenceBuilder.BuildUnformatedSequence());
 
         //Act
-        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command);
+        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
         events.Should().ContainEquivalentOf(sequenceBuilder.BuildEvent());
@@ -56,7 +57,7 @@ public class CaseOfImportSuccessful
         ImportSequencesCommand command = new(Data.SomeContentWithTwoSequences);
 
         //Act
-        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command);
+        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
         events.Should().HaveCount(2);

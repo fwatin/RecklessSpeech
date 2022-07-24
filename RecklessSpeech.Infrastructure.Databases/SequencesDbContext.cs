@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RecklessSpeech.Infrastructure.Databases;
-using RecklessSpeech.Infrastructure.Entities;
+﻿using RecklessSpeech.Infrastructure.Entities;
+using RecklessSpeech.Infrastructure.Sequences;
 
-namespace RecklessSpeech.Infrastructure.Sequences;
+namespace RecklessSpeech.Infrastructure.Databases;
 
-public class SequencesDbContext
+public class SequencesDbContext : ISequencesDbContext
 {
     private readonly InMemoryRecklessSpeechDbContext dbContext;
 

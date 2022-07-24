@@ -14,6 +14,7 @@
     <ItemGroup>
       <ProjectReference Include="..\RecklessSpeech.Infrastructure.Entities\RecklessSpeech.Infrastructure.Entities.csproj" />
       <ProjectReference Include="..\RecklessSpeech.Infrastructure.Orchestration\RecklessSpeech.Infrastructure.Orchestration.csproj" />
+      <ProjectReference Include="..\RecklessSpeech.Infrastructure.Sequences\RecklessSpeech.Infrastructure.Sequences.csproj" />
     </ItemGroup>
 
 </Project>

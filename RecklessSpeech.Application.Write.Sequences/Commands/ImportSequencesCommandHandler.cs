@@ -1,13 +1,15 @@
+using RecklessSpeech.Application.Core;
+using RecklessSpeech.Application.Core.Commands;
 using RecklessSpeech.Domain.Sequences;
 using RecklessSpeech.Domain.Shared;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands;
 
-public record ImportSequencesCommand(string FileContent);
+public record ImportSequencesCommand(string FileContent) : IEventDrivenCommand;
 
-public class ImportSequencesCommandHandler
+public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesCommand>
 {
-    public async Task<IReadOnlyCollection<IDomainEvent>> Handle(ImportSequencesCommand command)
+    protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(ImportSequencesCommand command)
     {
         List<IDomainEvent> events = new();
         IReadOnlyCollection<ImportSequenceDto> lines = this.Parse(command.FileContent);
@@ -32,7 +34,7 @@ public class ImportSequencesCommandHandler
 
         for (int i = 1; i < lines.Length; i++)
         {
-            string reconstitutedLine = delimiter + lines[i]; 
+            string reconstitutedLine = delimiter + lines[i];
             string[] elements = reconstitutedLine.Split("	");
             dtos.Add(
                 new ImportSequenceDto(elements[0],
