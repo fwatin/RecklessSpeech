@@ -4,11 +4,11 @@ using RecklessSpeech.Infrastructure.Entities;
 
 namespace RecklessSpeech.Infrastructure.Databases;
 
-public class RecklessSpeechDbContext : DbContext
+public class InMemoryRecklessSpeechDbContext
 {
-    public RecklessSpeechDbContext()
+    public InMemoryRecklessSpeechDbContext()
     {
         Sequences = new List<SequenceEntity>();
     }
-    public List<SequenceEntity> Sequences { get; set; }
+    public List<SequenceEntity> Sequences { get; }
 }

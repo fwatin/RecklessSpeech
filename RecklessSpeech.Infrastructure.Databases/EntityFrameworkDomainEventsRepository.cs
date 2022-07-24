@@ -4,10 +4,10 @@ namespace RecklessSpeech.Infrastructure.Databases;
 
 public class EntityFrameworkDomainEventsRepository:IDomainEventsRepository
 {
-    private RecklessSpeechDbContext dbContext;
+    private InMemoryRecklessSpeechDbContext dbContext;
     private readonly IEnumerable<IDomainEventRepository> repositories;
     
-    public EntityFrameworkDomainEventsRepository(RecklessSpeechDbContext dbContext, IEnumerable<IDomainEventRepository> repositories)
+    public EntityFrameworkDomainEventsRepository(InMemoryRecklessSpeechDbContext dbContext, IEnumerable<IDomainEventRepository> repositories)
     {
         this.dbContext = dbContext;
         this.repositories = repositories;

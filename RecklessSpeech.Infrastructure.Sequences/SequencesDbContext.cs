@@ -6,9 +6,9 @@ namespace RecklessSpeech.Infrastructure.Sequences;
 
 public class SequencesDbContext
 {
-    private readonly RecklessSpeechDbContext dbContext;
+    private readonly InMemoryRecklessSpeechDbContext dbContext;
 
-    public SequencesDbContext(RecklessSpeechDbContext dbContext)
+    public SequencesDbContext(InMemoryRecklessSpeechDbContext dbContext)
     {
         this.dbContext = dbContext;
     }

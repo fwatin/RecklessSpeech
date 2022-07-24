@@ -11,7 +11,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests.DomainEvents;
 public class CaseOfSequenceEvents
 {
     private readonly SequenceBuilder sequenceBuilder;
-    private readonly RecklessSpeechDbContext dbContext;
+    private readonly InMemoryRecklessSpeechDbContext dbContext;
     private readonly EntityFrameworkDomainEventsRepository sut;
 
     public CaseOfSequenceEvents()

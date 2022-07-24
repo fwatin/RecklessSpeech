@@ -14,6 +14,7 @@ public static class IServiceCollectionExtension
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         return services
+            .AddSingleton<InMemoryRecklessSpeechDbContext>()
             .AddScoped<IDomainEventsRepository, EntityFrameworkDomainEventsRepository>();
     }
 }
