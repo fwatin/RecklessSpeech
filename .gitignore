@@ -24,3 +24,7 @@
 /RecklessSpeech.Infrastructure.Orchestration/obj/*
 /RecklessSpeech.Infrastructure.Sequences/bin/*
 /RecklessSpeech.Infrastructure.Sequences/obj/*
+/RecklessSpeech.AcceptanceTests/bin/*
+/RecklessSpeech.AcceptanceTests/obj/*
+/RecklessSpeech.Web/obj/*
+/RecklessSpeech.Web/bin/*

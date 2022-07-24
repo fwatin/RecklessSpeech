@@ -4,7 +4,7 @@ using RecklessSpeech.Infrastructure.Entities;
 
 namespace RecklessSpeech.Infrastructure.Databases;
 
-public class RecklessSpeechDbContext //: DbContext
+public class RecklessSpeechDbContext : DbContext
 {
     public RecklessSpeechDbContext()
     {
