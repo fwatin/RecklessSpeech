@@ -47,15 +47,6 @@ public class TestsServer : IDisposable
 
     private void ConfigureAcceptanceTests(IServiceCollection services)
     {
-        string databaseName = Guid.NewGuid().ToString();
-        services.AddEntityFrameworkInMemoryDatabase()
-            .AddDbContext<RecklessSpeechDbContext>(
-                (provider, optionsBuilder) =>
-                {
-                    optionsBuilder.UseInMemoryDatabase(databaseName);
-                    optionsBuilder.UseInternalServiceProvider(provider);
-                });
-            
         services.AddScoped<ITestsClient>(p => new AcceptanceClient(CreateClient(p), this.context, p));
     }
 
