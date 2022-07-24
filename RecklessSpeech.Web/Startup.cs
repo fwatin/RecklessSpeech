@@ -1,4 +1,7 @@
-﻿using RecklessSpeech.Infrastructure.Databases;
+﻿using RecklessSpeech.Application.Write.Sequences;
+using RecklessSpeech.Infrastructure.Databases;
+using RecklessSpeech.Infrastructure.Orchestration;
+using RecklessSpeech.Infrastructure.Sequences;
 
 namespace RecklessSpeech.Web;
 
@@ -17,7 +20,10 @@ public class Startup
     {
         services
             .AddWebDependencies(this.configuration,this.environment)
-            .AddInfrastructure();
+            .AddSequencePorts()
+            .AddSequencesCommands()
+            .AddInfrastructure()
+            .AddInfrastructureOrchestration();
     }
 
     public void Configure(IApplicationBuilder app, IConfiguration config)

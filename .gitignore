@@ -28,3 +28,5 @@
 /RecklessSpeech.AcceptanceTests/obj/*
 /RecklessSpeech.Web/obj/*
 /RecklessSpeech.Web/bin/*
+/RecklessSpeech.Application.Core/obj/*
+/RecklessSpeech.Application.Core/bin/*

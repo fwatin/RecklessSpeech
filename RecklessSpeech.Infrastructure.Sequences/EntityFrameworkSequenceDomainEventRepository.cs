@@ -7,9 +7,9 @@ namespace RecklessSpeech.Infrastructure.Sequences;
 
 public class EntityFrameworkSequenceDomainEventRepository : IDomainEventRepository
 {
-    private readonly SequencesDbContext dbContext;
+    private readonly ISequencesDbContext dbContext;
 
-    public EntityFrameworkSequenceDomainEventRepository(SequencesDbContext dbContext)
+    public EntityFrameworkSequenceDomainEventRepository(ISequencesDbContext dbContext)
     {
         this.dbContext = dbContext;
     }

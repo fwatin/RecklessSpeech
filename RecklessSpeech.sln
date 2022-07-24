@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.AcceptanceTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Web", "RecklessSpeech.Web\RecklessSpeech.Web.csproj", "{89928C6E-766D-4F90-8E9B-E7B26050D36C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Application.Core", "RecklessSpeech.Application.Core\RecklessSpeech.Application.Core.csproj", "{32075678-4BB6-4087-8649-F5F837C891C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{89928C6E-766D-4F90-8E9B-E7B26050D36C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89928C6E-766D-4F90-8E9B-E7B26050D36C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89928C6E-766D-4F90-8E9B-E7B26050D36C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32075678-4BB6-4087-8649-F5F837C891C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32075678-4BB6-4087-8649-F5F837C891C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32075678-4BB6-4087-8649-F5F837C891C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32075678-4BB6-4087-8649-F5F837C891C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -107,5 +113,6 @@ Global
 		{7C91D035-5DED-48CC-AA06-BB2A90224420} = {22521FE8-3588-44AF-96E0-484353487CB5}
 		{C47F2315-1A96-4225-B23E-C4F4CBDA2F88} = {63D80F20-7E9A-45A1-BED1-52C56CD4EBB7}
 		{89928C6E-766D-4F90-8E9B-E7B26050D36C} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
+		{32075678-4BB6-4087-8649-F5F837C891C8} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
 	EndGlobalSection
 EndGlobal
