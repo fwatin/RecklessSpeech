@@ -1,0 +1,75 @@
+﻿using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using RecklessSpeech.AcceptanceTests.Configuration.Clients;
+using RecklessSpeech.Infrastructure.Databases;
+using RecklessSpeech.Web;
+using TechTalk.SpecFlow;
+
+namespace RecklessSpeech.AcceptanceTests;
+
+public class TestsServer : IDisposable
+{
+    private readonly ScenarioContext context;
+    private readonly TestServer testServer;
+    private bool isDisposed;
+
+    public IServiceProvider ServiceProvider { get; }
+
+    public TestsServer(ScenarioContext context)
+    {
+        this.context = context;
+        this.testServer = this.Initialize();
+        this.ServiceProvider = this.testServer.Host.Services;
+    }
+
+    private TestServer Initialize()
+    {
+        IWebHostBuilder builder = WebHost.CreateDefaultBuilder()
+            .UseStartup<Startup>()
+            .UseEnvironment("acceptancetest")
+            .ConfigureServices(
+                (ctx, services) => { this.ConfigureAcceptanceTests(services); }
+            );
+
+        return new TestServer(builder);
+    }
+
+    public void Dispose()
+    {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+        ;
+    }
+
+    private void ConfigureAcceptanceTests(IServiceCollection services)
+    {
+        string databaseName = Guid.NewGuid().ToString();
+        services.AddEntityFrameworkInMemoryDatabase()
+            .AddDbContext<RecklessSpeechDbContext>(
+                (provider, optionsBuilder) =>
+                {
+                    optionsBuilder.UseInMemoryDatabase(databaseName);
+                    optionsBuilder.UseInternalServiceProvider(provider);
+                });
+            
+        services.AddScoped<ITestsClient>(p => new AcceptanceClient(CreateClient(p), this.context, p));
+    }
+
+    private static HttpClient CreateClient(IServiceProvider p)
+    {
+        return ((TestServer) p.GetRequiredService<IServer>()).CreateClient();
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing && !this.isDisposed)
+        {
+            this.testServer.Dispose();
+            this.isDisposed = true;
+        }
+    }
+}

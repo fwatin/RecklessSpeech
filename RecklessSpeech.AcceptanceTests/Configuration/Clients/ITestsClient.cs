@@ -1,0 +1,8 @@
+﻿namespace RecklessSpeech.AcceptanceTests.Configuration.Clients;
+
+public interface ITestsClient
+{
+    HttpClient Client { get; }
+    Task Initialize();
+    Task<T> Post<T>(string path, object? parameters = null);
+}

@@ -29,6 +29,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Infrastructu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Infrastructure.Sequences", "RecklessSpeech.Infrastructure.Sequences\RecklessSpeech.Infrastructure.Sequences.csproj", "{7C91D035-5DED-48CC-AA06-BB2A90224420}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.AcceptanceTests", "RecklessSpeech.AcceptanceTests\RecklessSpeech.AcceptanceTests.csproj", "{C47F2315-1A96-4225-B23E-C4F4CBDA2F88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Web", "RecklessSpeech.Web\RecklessSpeech.Web.csproj", "{89928C6E-766D-4F90-8E9B-E7B26050D36C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,14 @@ Global
 		{7C91D035-5DED-48CC-AA06-BB2A90224420}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C91D035-5DED-48CC-AA06-BB2A90224420}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C91D035-5DED-48CC-AA06-BB2A90224420}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C47F2315-1A96-4225-B23E-C4F4CBDA2F88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C47F2315-1A96-4225-B23E-C4F4CBDA2F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C47F2315-1A96-4225-B23E-C4F4CBDA2F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C47F2315-1A96-4225-B23E-C4F4CBDA2F88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89928C6E-766D-4F90-8E9B-E7B26050D36C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89928C6E-766D-4F90-8E9B-E7B26050D36C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89928C6E-766D-4F90-8E9B-E7B26050D36C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89928C6E-766D-4F90-8E9B-E7B26050D36C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,5 +105,7 @@ Global
 		{EF99C468-0B6D-4671-8A40-2B0BE4E77451} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
 		{E95AF266-C9B5-4BE1-BD31-C9EB9BC86E7C} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
 		{7C91D035-5DED-48CC-AA06-BB2A90224420} = {22521FE8-3588-44AF-96E0-484353487CB5}
+		{C47F2315-1A96-4225-B23E-C4F4CBDA2F88} = {63D80F20-7E9A-45A1-BED1-52C56CD4EBB7}
+		{89928C6E-766D-4F90-8E9B-E7B26050D36C} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
 	EndGlobalSection
 EndGlobal
