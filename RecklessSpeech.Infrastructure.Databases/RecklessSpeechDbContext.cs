@@ -4,9 +4,9 @@ using RecklessSpeech.Infrastructure.Entities;
 
 namespace RecklessSpeech.Infrastructure.Databases;
 
-public class InMemoryRecklessSpeechDbContext
+public class RecklessSpeechDbContext
 {
-    public InMemoryRecklessSpeechDbContext()
+    public RecklessSpeechDbContext()
     {
         Sequences = new List<SequenceEntity>();
     }

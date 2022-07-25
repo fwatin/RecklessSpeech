@@ -8,6 +8,6 @@ public static class IServiceCollectionExtensions
     public static IServiceCollection AddSequencePorts(this IServiceCollection services)
     {
         return services
-            .AddScoped<IDomainEventRepository, EntityFrameworkSequenceDomainEventRepository>();
+            .AddScoped<IDomainEventRepository, SequenceDomainEventRepository>();
     }
 }

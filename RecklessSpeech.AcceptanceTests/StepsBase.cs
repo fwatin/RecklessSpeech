@@ -7,7 +7,7 @@ namespace RecklessSpeech.AcceptanceTests;
 
 public class StepsBase
 {
-    protected readonly InMemoryRecklessSpeechDbContext dbContext;
+    protected readonly RecklessSpeechDbContext dbContext;
     protected readonly ScenarioContext Context;
     protected ITestsClient Client { get; }
     protected TestsServer TestServer => this.Context.Get<TestsServer>();
@@ -17,10 +17,10 @@ public class StepsBase
     {
         Context = context;
         this.Client = this.TestServer.ServiceProvider.GetRequiredService<ITestsClient>();
-        this.dbContext = this.GetService<InMemoryRecklessSpeechDbContext>();
+        this.dbContext = this.GetService<RecklessSpeechDbContext>();
     }
 
-    private T GetService<T>() where T : notnull
+    protected T GetService<T>() where T : notnull
     {
         return this.ServiceProvider.GetRequiredService<T>();
     }

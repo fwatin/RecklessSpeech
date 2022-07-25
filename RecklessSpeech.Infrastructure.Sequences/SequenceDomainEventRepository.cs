@@ -5,11 +5,11 @@ using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 
 namespace RecklessSpeech.Infrastructure.Sequences;
 
-public class EntityFrameworkSequenceDomainEventRepository : IDomainEventRepository
+public class SequenceDomainEventRepository : IDomainEventRepository
 {
     private readonly ISequencesDbContext dbContext;
 
-    public EntityFrameworkSequenceDomainEventRepository(ISequencesDbContext dbContext)
+    public SequenceDomainEventRepository(ISequencesDbContext dbContext)
     {
         this.dbContext = dbContext;
     }
