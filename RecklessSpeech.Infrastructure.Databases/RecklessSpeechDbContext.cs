@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using RecklessSpeech.Infrastructure.Entities;
+﻿using RecklessSpeech.Infrastructure.Entities;
 
 namespace RecklessSpeech.Infrastructure.Databases;
 

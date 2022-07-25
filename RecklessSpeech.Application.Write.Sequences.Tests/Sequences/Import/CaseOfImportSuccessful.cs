@@ -1,7 +1,7 @@
-﻿using System.Text;
-using FluentAssertions;
+﻿using FluentAssertions;
 using RecklessSpeech.Application.Write.Sequences.Commands;
 using RecklessSpeech.Domain.Sequences;
+using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 using RecklessSpeech.Shared.Tests;
 using RecklessSpeech.Shared.Tests.Sequences;
@@ -31,10 +31,10 @@ public class CaseOfImportSuccessful
 
         //Assert
         events.Should().HaveCount(1);
-        ((events.First() as SequencesImportRequestedEvent)!).HtmlContent.Should().NotBeNullOrEmpty();
+        ((events.First() as SequencesImportRequestedEvent)!).HtmlContent.Value.Should().NotBeNullOrEmpty();
         ((events.First() as SequencesImportRequestedEvent)!).AudioFileNameWithExtension.Value.Should()
             .NotBeNullOrEmpty();
-        ((events.First() as SequencesImportRequestedEvent)!).Tags.Should().NotBeNullOrEmpty();
+        ((events.First() as SequencesImportRequestedEvent)!).Tags.Value.Should().NotBeNullOrEmpty();
     }
 
     [Fact]

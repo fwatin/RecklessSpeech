@@ -1,30 +1,31 @@
-﻿using System.Runtime.CompilerServices;
-using RecklessSpeech.Domain.Sequences;
+﻿using RecklessSpeech.Domain.Sequences;
+using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Infrastructure.Entities;
 
 namespace RecklessSpeech.Shared.Tests.Sequences;
 
 public record SequenceBuilder(
-    string HtmlContent,
+    HtmlContent HtmlContent,
     AudioFileNameWithExtension AudioFileNameWithExtension,
-    string Tags)
+    Tags Tags)
 {
     public SequencesImportRequestedEvent BuildEvent() =>
         new(this.HtmlContent, this.AudioFileNameWithExtension, this.Tags);
 
     public static SequenceBuilder Create()
     {
-        return new SequenceBuilder(Some.SomeHtml, AudioFileNameWithExtension.Hydrate(Some.SomeAudiofileNameWithExtension),
-            Some.SomeTags);
+        return new SequenceBuilder(HtmlContent.Hydrate(Some.SomeHtml),
+            AudioFileNameWithExtension.Hydrate(Some.SomeAudiofileNameWithExtension),
+            Tags.Hydrate(Some.SomeTags));
     }
 
     public string BuildUnformatedSequence()
     {
-        return $"{Some.SomeHtml}	[sound:{Some.SomeAudiofileNameWithExtension}]	{Some.SomeTags}";
+        return $"{this.HtmlContent.Value}	[sound:{this.AudioFileNameWithExtension.Value}]	{this.Tags.Value}";
     }
 
     public SequenceEntity BuildEntity()
     {
-        return new(this.HtmlContent, this.AudioFileNameWithExtension.Value, this.Tags);
+        return new(this.HtmlContent.Value, this.AudioFileNameWithExtension.Value, this.Tags.Value);
     }
 }

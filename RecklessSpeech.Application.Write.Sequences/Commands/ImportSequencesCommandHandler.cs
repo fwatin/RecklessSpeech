@@ -1,6 +1,6 @@
-using RecklessSpeech.Application.Core;
 using RecklessSpeech.Application.Core.Commands;
 using RecklessSpeech.Domain.Sequences;
+using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands;
@@ -11,6 +11,9 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 {
     protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(ImportSequencesCommand command)
     {
+        if (command.FileContent.StartsWith("\"<style>") is false)
+            throw new InvalidHtmlContentException();
+        
         List<IDomainEvent> events = new();
         IReadOnlyCollection<ImportSequenceDto> lines = this.Parse(command.FileContent);
 
@@ -18,8 +21,10 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         {
             events.Add
             (
-                new SequencesImportRequestedEvent(line.HtmlContent,
-                    AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension), line.Tags)
+                new SequencesImportRequestedEvent(
+                    HtmlContent.Create(line.HtmlContent),
+                    AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension), 
+                    Tags.Create(line.Tags))
             );
         }
 
