@@ -1,5 +1,16 @@
 ﻿using System.Reflection;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using RecklessSpeech.Web.Configuration;
+using RecklessSpeech.Web.Configuration.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace RecklessSpeech.Web;
 
@@ -8,13 +19,26 @@ public static class IServiceCollectionExtension
     public static IServiceCollection AddWebDependencies(this IServiceCollection services, IConfiguration configuration,
         IHostEnvironment environment)
     {
-        return services.AddMvcServices()
+        services
+            .AddTransient<IConfigureOptions<KestrelServerOptions>, ConfigureKestrelOptions>()
+            .AddMvcServices()
+            .ConfigureApiVersioning()
+            .AddHttpContextAccessor()
             .AddDispatcher();
+
+        if (environment.EnvironmentName != "acceptancetest")
+        {
+            services.AddSwaggerServices();
+        }
+
+        return services;
     }
 
     private static IServiceCollection AddMvcServices(this IServiceCollection services)
     {
         services.AddControllers();
+        services.AddTransient<IConfigureOptions<JsonOptions>, ConfigureMvcOptions>();
+
         return services;
     }
 
@@ -22,5 +46,32 @@ public static class IServiceCollectionExtension
     {
         return services.AddMediatR(Assembly.GetCallingAssembly())
             .AddScoped<WebDispatcher>();
+    }
+
+    public static IServiceCollection AddSwaggerServices(this IServiceCollection services)
+    {
+        return services
+            .AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwagger>()
+            .AddTransient<IConfigureOptions<SwaggerUIOptions>, ConfigureSwagger>()
+            .AddSwaggerGen(options => options.OperationFilter<JsonQueryOperationFilter>());
+    }
+    
+    public static IServiceCollection ConfigureApiVersioning(this IServiceCollection services)
+    {
+        return services
+            .AddApiVersioning(
+                setup =>
+                {
+                    setup.DefaultApiVersion = new ApiVersion(1, 0);
+                    setup.AssumeDefaultVersionWhenUnspecified = true;
+                    setup.ReportApiVersions = true;
+                    setup.ApiVersionReader = new UrlSegmentApiVersionReader();
+                })
+            .AddVersionedApiExplorer(
+                setup =>
+                {
+                    setup.GroupNameFormat = "'v'VVV";
+                    setup.SubstituteApiVersionInUrl = true;
+                });
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace RecklessSpeech.Web;
+﻿using Microsoft.Extensions.Configuration;
+
+namespace RecklessSpeech.Web;
 
 public static class IConfigurationExtensions
 {
