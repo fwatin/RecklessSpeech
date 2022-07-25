@@ -11,26 +11,27 @@ public class CaseOfSequenceEvents
 {
     private readonly SequenceBuilder sequenceBuilder;
     private readonly InMemorySequencesDbContext inMemorySequencesDbContext;
-    private readonly EntityFrameworkDomainEventsRepository sut;
+    private readonly DomainEventsRepository sut;
 
     public CaseOfSequenceEvents()
     {
         this.sequenceBuilder = SequenceBuilder.Create();
         this.inMemorySequencesDbContext = new();
-        this.sut = new EntityFrameworkDomainEventsRepository(new(), new IDomainEventRepository[]
+        this.sut = new DomainEventsRepository(new IDomainEventRepository[]
         {
             new SequenceDomainEventRepository(this.inMemorySequencesDbContext)
         });
     }
+
     [Fact]
     public async Task ShouldSaveSequence()
     {
         //Arrange
         var expectedEntity = sequenceBuilder.BuildEntity();
-        
+
         //Act
-        await this.sut.ApplyEvents(new List<DomainEventIdentifier>() {new(Some.EventId,sequenceBuilder.BuildEvent())});
-        
+        await this.sut.ApplyEvents(new List<DomainEventIdentifier>() {new(Some.EventId, sequenceBuilder.BuildEvent())});
+
         //Assert
         this.inMemorySequencesDbContext.Sequences.Should().ContainEquivalentOf(expectedEntity);
     }

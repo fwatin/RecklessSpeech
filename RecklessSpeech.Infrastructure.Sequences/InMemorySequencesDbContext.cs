@@ -1,12 +1,13 @@
 ﻿using RecklessSpeech.Infrastructure.Entities;
 
-namespace RecklessSpeech.Infrastructure.Databases;
+namespace RecklessSpeech.Infrastructure.Sequences;
 
-public class RecklessSpeechDbContext
+public class InMemorySequencesDbContext : ISequencesDbContext
 {
-    public RecklessSpeechDbContext()
+    public InMemorySequencesDbContext()
     {
         Sequences = new List<SequenceEntity>();
     }
+
     public List<SequenceEntity> Sequences { get; }
 }

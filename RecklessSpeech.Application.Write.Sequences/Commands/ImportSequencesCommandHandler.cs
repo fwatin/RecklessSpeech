@@ -13,7 +13,7 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
     {
         if (command.FileContent.StartsWith("\"<style>") is false)
             throw new InvalidHtmlContentException();
-        
+
         List<IDomainEvent> events = new();
         IReadOnlyCollection<ImportSequenceDto> lines = this.Parse(command.FileContent);
 
@@ -23,7 +23,7 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
             (
                 new SequencesImportRequestedEvent(
                     HtmlContent.Create(line.HtmlContent),
-                    AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension), 
+                    AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension),
                     Tags.Create(line.Tags))
             );
         }
@@ -53,9 +53,10 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
     private string ParseAudioFileName(string audioFileNameWithContext)
     {
-        int leftUnchallengeable = "[sound:".Length;
-        return audioFileNameWithContext.Substring("[sound:".Length,
-            audioFileNameWithContext.Length - leftUnchallengeable - 1);
+        int leftPartLength = "[sound:".Length;
+        int rightPartLength = "]".Length;
+        return audioFileNameWithContext.Substring(leftPartLength,
+            audioFileNameWithContext.Length - leftPartLength - rightPartLength);
     }
 
     private record ImportSequenceDto(string HtmlContent, string AudioFileNameWithExtension, string Tags);
