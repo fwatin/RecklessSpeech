@@ -21,11 +21,11 @@ public static class IServiceCollectionExtension
 
     private static IServiceCollection AddInMemoryDbContextServices(this IServiceCollection services)
     {
-        var dbContext = new InMemoryRecklessSpeechDbContext();
+        var dbContext = new RecklessSpeechDbContext();
         
         return services
             .AddSingleton(dbContext)
-            .AddSingleton<ISequencesDbContext>(new SequencesDbContext(dbContext));
+            .AddSingleton<ISequencesDbContext>(new InMemorySequencesDbContext());
     }
     
 }

@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using FluentAssertions;
+using RecklessSpeech.Infrastructure.Databases;
+using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Shared.Tests;
 using TechTalk.SpecFlow;
 
@@ -31,6 +33,7 @@ public class ImportSequencesSteps : StepsBase
     [Then(@"some sequences are saved")]
     public void ThenSomeSequencesAreSaved()
     {
-        this.dbContext.Sequences.Should().HaveCount(1);
+        var sequencesContext = this.GetService<ISequencesDbContext>();
+        sequencesContext.Sequences.Should().HaveCount(1);
     }
 }
