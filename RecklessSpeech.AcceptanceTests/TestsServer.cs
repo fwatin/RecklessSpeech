@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RecklessSpeech.AcceptanceTests.Configuration.Clients;
-using RecklessSpeech.Infrastructure.Databases;
 using RecklessSpeech.Web;
 using TechTalk.SpecFlow;
 

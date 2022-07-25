@@ -5,5 +5,5 @@ namespace RecklessSpeech.AcceptanceTests;
 public static class TestClientExtensions
 {
     private const string LatestApiVersion = "v1";
-    public static TestsClientRequestsLatests Latest(this ITestsClient client) => new(client, LatestApiVersion);
+    public static TestsClientRequestsLatest Latest(this ITestsClient client) => new(client, LatestApiVersion);
 }

@@ -2,12 +2,12 @@
 
 namespace RecklessSpeech.AcceptanceTests;
 
-public class TestsClientRequestsLatests
+public class TestsClientRequestsLatest
 {
     private readonly ITestsClient client;
     private readonly string apiVersion;
 
-    public TestsClientRequestsLatests(ITestsClient client, string apiVersion)
+    public TestsClientRequestsLatest(ITestsClient client, string apiVersion)
     {
         this.client = client;
         this.apiVersion = apiVersion;
