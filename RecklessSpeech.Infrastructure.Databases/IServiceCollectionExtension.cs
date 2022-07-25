@@ -9,22 +9,19 @@ public static class IServiceCollectionExtension
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         return services
-            .AddInMemoryDbContextServices()
+            .AddInMemoryDbContext()
             .AddRepositories();
     }
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         return services
-            .AddScoped<IDomainEventsRepository, EntityFrameworkDomainEventsRepository>();
+            .AddScoped<IDomainEventsRepository, DomainEventsRepository>();
     }
 
-    private static IServiceCollection AddInMemoryDbContextServices(this IServiceCollection services)
+    private static IServiceCollection AddInMemoryDbContext(this IServiceCollection services)
     {
-        var dbContext = new RecklessSpeechDbContext();
-        
         return services
-            .AddSingleton(dbContext)
             .AddSingleton<ISequencesDbContext>(new InMemorySequencesDbContext());
     }
     
