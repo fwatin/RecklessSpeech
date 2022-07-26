@@ -1,9 +1,13 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Write.Sequences.Commands;
+using RecklessSpeech.Web.Sequences;
+using RecklessSpeech.Web.ViewModels.Sequences;
 
 namespace RecklessSpeech.Web;
 
@@ -31,5 +35,14 @@ public class ImportSequenceController : ControllerBase
         await this.dispatcher.Dispatch(command);
 
         return this.Ok();
+    }
+    
+    [HttpGet]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryPresentation>), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> Get()
+    {
+        var result = await this.dispatcher.Dispatch(new GetAllSequencesQuery());
+        return this.Ok(result.ToPresentation());
     }
 }

@@ -10,6 +10,7 @@
       <ProjectReference Include="..\RecklessSpeech.Application.Read\RecklessSpeech.Application.Read.csproj" />
       <ProjectReference Include="..\RecklessSpeech.Domain.Sequences\RecklessSpeech.Domain.Sequences.csproj" />
       <ProjectReference Include="..\RecklessSpeech.Infrastructure.Entities\RecklessSpeech.Infrastructure.Entities.csproj" />
+      <ProjectReference Include="..\RecklessSpeech.Web\RecklessSpeech.Web.csproj" />
     </ItemGroup>
 
 </Project>

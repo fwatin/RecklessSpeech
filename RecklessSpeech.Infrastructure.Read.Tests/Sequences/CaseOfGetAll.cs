@@ -1,5 +1,4 @@
-﻿using System.Net.WebSockets;
-using FluentAssertions;
+﻿using FluentAssertions;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Shared.Tests.Sequences;
@@ -26,7 +25,7 @@ namespace RecklessSpeech.Infrastructure.Read.Tests.Sequences
             memorySequencesDbContext.Sequences.Add(builder.BuildEntity());
             
             //Act
-            IReadOnlyCollection<SequenceQueryModel> result = await this.sut.GetAll();
+            IReadOnlyCollection<SequenceSummaryQueryModel> result = await this.sut.GetAll();
             
             //Assert
             result.Should().ContainEquivalentOf(builder.BuildQueryModel());
