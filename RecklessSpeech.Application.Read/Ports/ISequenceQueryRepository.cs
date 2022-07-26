@@ -4,5 +4,5 @@ namespace RecklessSpeech.Application.Read.Ports;
 
 public interface ISequenceQueryRepository
 {
-    Task<IReadOnlyCollection<SequenceQueryModel>> GetAll();
+    Task<IReadOnlyCollection<SequenceSummaryQueryModel>> GetAll();
 }

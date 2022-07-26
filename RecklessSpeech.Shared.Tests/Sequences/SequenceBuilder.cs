@@ -2,6 +2,7 @@
 using RecklessSpeech.Domain.Sequences;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Infrastructure.Entities;
+using RecklessSpeech.Web.ViewModels.Sequences;
 
 namespace RecklessSpeech.Shared.Tests.Sequences;
 
@@ -30,8 +31,13 @@ public record SequenceBuilder(
         return new(this.HtmlContent.Value, this.AudioFileNameWithExtension.Value, this.Tags.Value);
     }
 
-    public SequenceQueryModel BuildQueryModel()
+    public SequenceSummaryQueryModel BuildQueryModel()
     {
-        return new SequenceQueryModel(this.HtmlContent.Value, this.AudioFileNameWithExtension.Value, this.Tags.Value);
+        return new SequenceSummaryQueryModel(this.HtmlContent.Value, this.AudioFileNameWithExtension.Value, this.Tags.Value);
+    }
+    
+    public SequenceSummaryPresentation BuildSummaryPresentation()
+    {
+        return new SequenceSummaryPresentation(this.HtmlContent.Value, this.AudioFileNameWithExtension.Value, this.Tags.Value);
     }
 }

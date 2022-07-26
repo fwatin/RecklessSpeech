@@ -13,10 +13,10 @@ public class SequenceQueryRepository : ISequenceQueryRepository
         this.dbContext = dbContext;
     }
 
-    public async Task<IReadOnlyCollection<SequenceQueryModel>> GetAll()
+    public async Task<IReadOnlyCollection<SequenceSummaryQueryModel>> GetAll()
     {
-        IReadOnlyCollection<SequenceQueryModel> result= this.dbContext.Sequences.Select(
-            entity=> new SequenceQueryModel(
+        IReadOnlyCollection<SequenceSummaryQueryModel> result= this.dbContext.Sequences.Select(
+            entity=> new SequenceSummaryQueryModel(
                 entity.HtmlContent,
                 entity.AudioFileNameWithExtension,
                 entity.Tags)).ToList();

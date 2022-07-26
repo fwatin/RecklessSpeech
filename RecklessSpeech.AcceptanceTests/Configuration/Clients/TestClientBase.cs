@@ -42,6 +42,19 @@ public class TestClientBase : IDisposable
 
         return default!;
     }
+    
+    public async Task<T> Get<T>(string path, object? parameters = null)
+    {
+        using HttpResponseMessage? response = await this.ExecuteRequest(HttpMethod.Get, path, parameters);
+        if (response!.IsSuccessStatusCode)
+        {
+            string json = await response.Content.ReadAsStringAsync();
+            T? content = JsonConvert.DeserializeObject<T>(json);
+            return content!;
+        }
+
+        return default!;
+    }
 
     private async Task<HttpResponseMessage?> ExecuteRequest(HttpMethod method, string path, object? parameters = null)
     {
