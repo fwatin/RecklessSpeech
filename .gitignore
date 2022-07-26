@@ -30,3 +30,9 @@
 /RecklessSpeech.Web/bin/*
 /RecklessSpeech.Application.Core/obj/*
 /RecklessSpeech.Application.Core/bin/*
+/RecklessSpeech.Application.Read/obj/*
+/RecklessSpeech.Application.Read/bin/*
+/RecklessSpeech.Infrastructure.Read/obj/*
+/RecklessSpeech.Infrastructure.Read/bin/*
+/RecklessSpeech.Infrastructure.Read.Tests/obj/*
+/RecklessSpeech.Infrastructure.Read.Tests/bin/*

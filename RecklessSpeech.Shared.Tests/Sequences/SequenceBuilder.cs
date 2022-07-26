@@ -1,4 +1,5 @@
-﻿using RecklessSpeech.Domain.Sequences;
+﻿using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
+using RecklessSpeech.Domain.Sequences;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Infrastructure.Entities;
 
@@ -27,5 +28,10 @@ public record SequenceBuilder(
     public SequenceEntity BuildEntity()
     {
         return new(this.HtmlContent.Value, this.AudioFileNameWithExtension.Value, this.Tags.Value);
+    }
+
+    public SequenceQueryModel BuildQueryModel()
+    {
+        return new SequenceQueryModel(this.HtmlContent.Value, this.AudioFileNameWithExtension.Value, this.Tags.Value);
     }
 }

@@ -35,6 +35,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Web", "Reckl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Application.Core", "RecklessSpeech.Application.Core\RecklessSpeech.Application.Core.csproj", "{32075678-4BB6-4087-8649-F5F837C891C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Infrastructure.Read.Tests", "RecklessSpeech.Infrastructure.Read.Tests\RecklessSpeech.Infrastructure.Read.Tests.csproj", "{9986F135-F19E-4120-9586-4C82950F2159}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Infrastructure.Read", "RecklessSpeech.Infrastructure.Read\RecklessSpeech.Infrastructure.Read.csproj", "{4C6975CD-4593-47CA-B3DB-443B83A994B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Application.Read", "RecklessSpeech.Application.Read\RecklessSpeech.Application.Read.csproj", "{EE9F83AB-A3A9-478F-B533-009AE6632744}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +99,18 @@ Global
 		{32075678-4BB6-4087-8649-F5F837C891C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32075678-4BB6-4087-8649-F5F837C891C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32075678-4BB6-4087-8649-F5F837C891C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9986F135-F19E-4120-9586-4C82950F2159}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9986F135-F19E-4120-9586-4C82950F2159}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9986F135-F19E-4120-9586-4C82950F2159}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9986F135-F19E-4120-9586-4C82950F2159}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C6975CD-4593-47CA-B3DB-443B83A994B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C6975CD-4593-47CA-B3DB-443B83A994B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C6975CD-4593-47CA-B3DB-443B83A994B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C6975CD-4593-47CA-B3DB-443B83A994B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE9F83AB-A3A9-478F-B533-009AE6632744}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE9F83AB-A3A9-478F-B533-009AE6632744}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE9F83AB-A3A9-478F-B533-009AE6632744}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE9F83AB-A3A9-478F-B533-009AE6632744}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -114,5 +132,8 @@ Global
 		{C47F2315-1A96-4225-B23E-C4F4CBDA2F88} = {63D80F20-7E9A-45A1-BED1-52C56CD4EBB7}
 		{89928C6E-766D-4F90-8E9B-E7B26050D36C} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
 		{32075678-4BB6-4087-8649-F5F837C891C8} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
+		{9986F135-F19E-4120-9586-4C82950F2159} = {63D80F20-7E9A-45A1-BED1-52C56CD4EBB7}
+		{4C6975CD-4593-47CA-B3DB-443B83A994B1} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
+		{EE9F83AB-A3A9-478F-B533-009AE6632744} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
 	EndGlobalSection
 EndGlobal
