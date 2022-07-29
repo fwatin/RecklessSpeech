@@ -11,11 +11,5 @@
       <ProjectReference Include="..\RecklessSpeech.Infrastructure.Entities\RecklessSpeech.Infrastructure.Entities.csproj" />
       <ProjectReference Include="..\RecklessSpeech.Infrastructure.Orchestration\RecklessSpeech.Infrastructure.Orchestration.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
-        <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\6.0.7\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
+    
 </Project>

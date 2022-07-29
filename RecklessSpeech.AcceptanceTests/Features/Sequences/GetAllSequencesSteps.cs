@@ -11,7 +11,7 @@ public class GetAllSequencesSteps : StepsBase
 {
     private readonly SequenceBuilder sequenceBuilder;
     private readonly ISequencesDbContext dbContext;
-    public IReadOnlyCollection<SequenceSummaryPresentation> SequenceListResponse { get; set; }
+    public IReadOnlyCollection<SequenceSummaryPresentation> SequenceListResponse { get; set; } = default!;
 
     public GetAllSequencesSteps(ScenarioContext context) : base(context)
     {
