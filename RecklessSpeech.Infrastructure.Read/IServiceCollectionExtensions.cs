@@ -16,6 +16,6 @@ public static class IServiceCollectionExtensions
     private static IServiceCollection ConfigureRepositories(this IServiceCollection services)
     {
         return services
-            .AddScoped<ISequenceQueryRepository, SequenceQueryRepository>();
+            .AddScoped<ISequenceQueryRepository, InMemorySequenceQueryRepository>();
     }
 }

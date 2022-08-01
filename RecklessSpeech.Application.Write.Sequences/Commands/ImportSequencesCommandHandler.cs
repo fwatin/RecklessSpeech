@@ -19,13 +19,12 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
         foreach (ImportSequenceDto line in lines)
         {
-            events.Add
-            (
-                new SequencesImportRequestedEvent(
-                    HtmlContent.Create(line.HtmlContent),
-                    AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension),
-                    Tags.Create(line.Tags))
-            );
+            var sequence = Sequence.Create(Guid.NewGuid(),
+                HtmlContent.Create(line.HtmlContent),
+                AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension),
+                Tags.Create(line.Tags));
+
+            events.AddRange(sequence.Import());
         }
 
         return await Task.FromResult(events);

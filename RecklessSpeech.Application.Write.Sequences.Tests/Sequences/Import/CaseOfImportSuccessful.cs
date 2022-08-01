@@ -17,7 +17,7 @@ public class CaseOfImportSuccessful
     public CaseOfImportSuccessful()
     {
         this.sut = new ImportSequencesCommandHandler();
-        this.sequenceBuilder = SequenceBuilder.Create();
+        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("6236FA6E-74DE-4B4A-98A4-A9A0B4BAB71D"));
     }
 
     [Fact]
@@ -47,7 +47,7 @@ public class CaseOfImportSuccessful
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        events.Should().ContainEquivalentOf(sequenceBuilder.BuildEvent());
+        events.Should().ContainEquivalentOf(sequenceBuilder.BuildEvent(), AssertExtensions.IgnoreId);
     }
 
     [Fact]

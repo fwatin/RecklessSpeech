@@ -22,9 +22,14 @@ public class SequenceDomainEventRepository : IDomainEventRepository
 
     private async Task Handle(SequencesImportRequestedEvent @event)
     {
-        SequenceEntity entity = new(@event.HtmlContent.Value, @event.AudioFileNameWithExtension.Value,
-            @event.Tags.Value);
-        
+        SequenceEntity entity = new SequenceEntity() with
+        {
+            Id = @event.Id,
+            HtmlContent = @event.HtmlContent.Value,
+            AudioFileNameWithExtension = @event.AudioFileNameWithExtension.Value,
+            Tags = @event.Tags.Value
+        };
+
         this.dbContext.Sequences.Add(entity);
         await Task.CompletedTask;
     }
