@@ -2,15 +2,14 @@
 
 namespace RecklessSpeech.Domain.Sequences.Sequences;
 
-public sealed class Sequence//todo inherite from aggregateId?
+public sealed class Sequence
 {
-    private readonly Guid sequenceId;
+    private readonly SequenceId sequenceId;
     private HtmlContent htmlContent = default!;
     private AudioFileNameWithExtension audioFile= default!;
     private Tags tags= default!;
 
-    //todo value type for sequence id
-    private Sequence(Guid sequenceId)
+    private Sequence(SequenceId sequenceId)
     {
         this.sequenceId = sequenceId;
     }
@@ -24,15 +23,13 @@ public sealed class Sequence//todo inherite from aggregateId?
             this.tags);
     }
 
-    public static Sequence Hydrate(Guid id) => new(id);
-
     public static Sequence Create(
         Guid id,
         HtmlContent htmlContent, 
         AudioFileNameWithExtension audioFileNameWithExtension, 
         Tags tags)
     {
-        return new Sequence(id)
+        return new Sequence(new(id))
         {
             htmlContent = htmlContent,
             audioFile = audioFileNameWithExtension,

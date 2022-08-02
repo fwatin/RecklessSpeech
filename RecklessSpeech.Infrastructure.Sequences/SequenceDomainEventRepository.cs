@@ -1,5 +1,4 @@
-﻿using RecklessSpeech.Domain.Sequences;
-using RecklessSpeech.Domain.Sequences.Sequences;
+﻿using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
@@ -22,9 +21,9 @@ public class SequenceDomainEventRepository : IDomainEventRepository
 
     private async Task Handle(SequencesImportRequestedEvent @event)
     {
-        SequenceEntity entity = new SequenceEntity() with
+        SequenceEntity entity = new SequenceEntity()
         {
-            Id = @event.Id,
+            Id = @event.Id.Value,
             HtmlContent = @event.HtmlContent.Value,
             AudioFileNameWithExtension = @event.AudioFileNameWithExtension.Value,
             Tags = @event.Tags.Value

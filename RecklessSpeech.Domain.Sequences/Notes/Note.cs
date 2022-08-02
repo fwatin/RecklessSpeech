@@ -12,6 +12,7 @@ public sealed class Note
     }
 
     public static Note Hydrate(NoteId id, Question question) => new(id, question);
+    public static Note Create(NoteId id, Question question) => new(id, question);
 
     public NoteDto GetDto()
     {

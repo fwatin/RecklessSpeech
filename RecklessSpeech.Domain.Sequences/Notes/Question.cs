@@ -1,5 +1,3 @@
-using System.Runtime.CompilerServices;
-
 namespace RecklessSpeech.Domain.Sequences.Notes;
 
 public record Question(string Value)

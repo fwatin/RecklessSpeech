@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using RecklessSpeech.Application.Write.Sequences.Commands;
-using RecklessSpeech.Domain.Sequences;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 using RecklessSpeech.Shared.Tests;

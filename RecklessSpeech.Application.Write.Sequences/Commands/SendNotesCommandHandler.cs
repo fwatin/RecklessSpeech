@@ -27,8 +27,7 @@ public class SendNotesCommandHandler : CommandHandlerBase<SendNotesCommand>
         {
             var sequence = sequenceQueryRepository.TryGetOne(id);
 
-            //todo use create 
-            var note = Note.Hydrate(new(Guid.NewGuid()), Question.Create(sequence!.HtmlContent));
+            var note = Note.Create(new(Guid.NewGuid()), Question.Create(sequence!.HtmlContent));
 
             notes.Add(note.GetDto());
         }

@@ -2,7 +2,6 @@ using FluentAssertions;
 using RecklessSpeech.Application.Write.Sequences.Commands;
 using RecklessSpeech.Infrastructure.Read;
 using RecklessSpeech.Infrastructure.Sequences;
-using RecklessSpeech.Shared.Tests;
 using RecklessSpeech.Shared.Tests.Notes;
 using RecklessSpeech.Shared.Tests.Sequences;
 using Xunit;

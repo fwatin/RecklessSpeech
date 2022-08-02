@@ -1,6 +1,5 @@
 ﻿using RecklessSpeech.Application.Read.Ports;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
-using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Sequences;
 
 namespace RecklessSpeech.Infrastructure.Read;

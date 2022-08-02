@@ -1,5 +1,3 @@
-using System.Net.Http.Headers;
-using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using RecklessSpeech.Application.Read.Ports;
 

@@ -4,7 +4,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences;
 
 public record SequencesImportRequestedEvent
 (
-    Guid Id,
+    SequenceId Id,
     HtmlContent HtmlContent,
     AudioFileNameWithExtension AudioFileNameWithExtension,
     Tags Tags
