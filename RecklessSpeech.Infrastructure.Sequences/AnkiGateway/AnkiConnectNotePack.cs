@@ -18,19 +18,32 @@ public class Note
     public string deckName { get; set; }
     public string modelName { get; set; }
     public Fields fields { get; set; }
-    public string[] tags { get; set; }
-    public Audio[] audio { get; set; }
-    public Video[] video { get; set; }
+
+    public options options { get; set; }
+
     public Picture[] picture { get; set; }
 }
 
 public class Fields
 {
-    public string Question { get; set; }
-    public string Answer { get; set; }
-    public string After { get; set; }
-    public string Source { get; set; }
-    public string Audio { get; set; }
+    public string Question { get; set; } = default!;
+    public string Answer { get; set; } = default!;
+    public string After { get; set; } = default!;
+    public string Source { get; set; } = default!;
+    public string Audio { get; set; } = default!;
+}
+
+public class options
+{
+    public bool allowDuplicate { get; set; }
+    public string duplicateScope { get; set; }
+    public duplicateScopeOptions duplicateScopeOptions { get; set; }
+}
+
+public class duplicateScopeOptions
+{
+    public string deckName { get; set; }
+    public bool checkChildren { get; set; }
 }
 
 public class Audio

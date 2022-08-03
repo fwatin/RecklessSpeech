@@ -56,13 +56,19 @@ public record SequenceBuilder
 
     public SequenceSummaryQueryModel BuildQueryModel()
     {
-        return new SequenceSummaryQueryModel(this.HtmlContent.Value, this.AudioFileNameWithExtension.Value,
+        return new SequenceSummaryQueryModel(
+            this.SequenceId.Value,
+            this.HtmlContent.Value,
+            this.AudioFileNameWithExtension.Value,
             this.Tags.Value);
     }
 
     public SequenceSummaryPresentation BuildSummaryPresentation()
     {
-        return new SequenceSummaryPresentation(this.HtmlContent.Value, this.AudioFileNameWithExtension.Value,
+        return new SequenceSummaryPresentation(
+            this.SequenceId.Value,
+            this.HtmlContent.Value,
+            this.AudioFileNameWithExtension.Value,
             this.Tags.Value);
     }
 }

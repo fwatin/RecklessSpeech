@@ -16,7 +16,10 @@ public static class SequenceSummaryQueryModelExtensions
     private static SequenceSummaryPresentation ToPresentation(
         this SequenceSummaryQueryModel queryModel)
     {
-        return new SequenceSummaryPresentation(queryModel.HtmlContent, queryModel.AudioFileNameWithExtension,
+        return new SequenceSummaryPresentation(
+            queryModel.Id,
+            queryModel.HtmlContent, 
+            queryModel.AudioFileNameWithExtension,
             queryModel.Tags);
     }
 }

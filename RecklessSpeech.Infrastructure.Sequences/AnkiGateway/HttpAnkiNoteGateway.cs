@@ -30,10 +30,12 @@ public class HttpAnkiNoteGateway : INoteGateway
 
     private AnkiConnectNotePack BuildPack(IReadOnlyCollection<NoteDto> dtos)
     {
-        var pack = new AnkiConnectNotePack();
-        pack.action = "addNote";
-        pack.version = 6;
-        pack._params = new Params();
+        var pack = new AnkiConnectNotePack
+        {
+            action = "addNote",
+            version = 6,
+            _params = new Params()
+        };
 
 
         List<Note> notes = new();
@@ -43,10 +45,20 @@ public class HttpAnkiNoteGateway : INoteGateway
             {
                 deckName = "All",
                 modelName = "Full_Recto_verso_before_after_Audio",
+                options = new options()
+                {
+                    allowDuplicate = true,
+                    duplicateScope = "deck",
+                    duplicateScopeOptions = new duplicateScopeOptions()
+                    {
+                        deckName = "All",
+                        checkChildren = false,
+                    }
+                },
                 fields = new Fields()
                 {
-                    Question = dto.Question.Value
-                }
+                Question = dto.Question.Value
+            }
             });
         }
 

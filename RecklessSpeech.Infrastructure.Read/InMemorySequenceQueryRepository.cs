@@ -18,6 +18,7 @@ public class InMemorySequenceQueryRepository : ISequenceQueryRepository
     {
         IReadOnlyCollection<SequenceSummaryQueryModel> result= dbContext.Sequences.Select(
             entity=> new SequenceSummaryQueryModel(
+                entity.Id,
                 entity.HtmlContent,
                 entity.AudioFileNameWithExtension,
                 entity.Tags)).ToList();
@@ -31,6 +32,7 @@ public class InMemorySequenceQueryRepository : ISequenceQueryRepository
         if (entity is null) return null;
         
         return new SequenceSummaryQueryModel(
+            entity.Id,
             entity.HtmlContent,
             entity.AudioFileNameWithExtension,
             entity.Tags);
