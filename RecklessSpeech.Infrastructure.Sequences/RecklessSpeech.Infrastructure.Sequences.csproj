@@ -7,9 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\RecklessSpeech.Application.Write.Sequences\RecklessSpeech.Application.Write.Sequences.csproj" />
       <ProjectReference Include="..\RecklessSpeech.Domain.Sequences\RecklessSpeech.Domain.Sequences.csproj" />
       <ProjectReference Include="..\RecklessSpeech.Infrastructure.Entities\RecklessSpeech.Infrastructure.Entities.csproj" />
       <ProjectReference Include="..\RecklessSpeech.Infrastructure.Orchestration\RecklessSpeech.Infrastructure.Orchestration.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     </ItemGroup>
     
 </Project>
