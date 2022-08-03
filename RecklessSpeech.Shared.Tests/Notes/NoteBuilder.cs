@@ -5,23 +5,23 @@ namespace RecklessSpeech.Shared.Tests.Notes;
 
 public record NoteBuilder
 {
-    public NoteIdBuilder IdBuilder { get; init; }
-    public QuestionBuilder QuestionBuilder { get; init; }
+    public NoteIdBuilder Id { get; init; }
+    public QuestionBuilder Question { get; init; }
 
-    private NoteBuilder(NoteIdBuilder idBuilder, QuestionBuilder questionBuilder)
+    private NoteBuilder(NoteIdBuilder id, QuestionBuilder question)
     {
-        this.IdBuilder = idBuilder;
-        this.QuestionBuilder = questionBuilder;
+        this.Id = id;
+        this.Question = question;
     }
 
     public SendNotesCommand BuildCommand()
     {
-        return new SendNotesCommand(new Guid[] {IdBuilder});
+        return new SendNotesCommand(new Guid[] {Id});
     }
 
     public Note BuildAggregate()
     {
-        return Note.Hydrate(IdBuilder, QuestionBuilder);
+        return Note.Hydrate(Id, Question);
     }
 
     public static NoteBuilder Create(Guid id)
@@ -31,6 +31,6 @@ public record NoteBuilder
 
     public NoteDto BuildDto()
     {
-        return new NoteDto(this.QuestionBuilder);
+        return new NoteDto(this.Question);
     }
 }

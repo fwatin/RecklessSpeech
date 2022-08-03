@@ -29,7 +29,7 @@ public class CaseOfNewNotes
         var sut = new SendNotesCommandHandler(spyGateway, sequenceRepository);
         var noteBuilder = NoteBuilder.Create(sequenceId) with
         {
-            QuestionBuilder = new(someHtml)
+            Question = new(someHtml)
         };
         SendNotesCommand command = noteBuilder.BuildCommand();
 

@@ -19,5 +19,3 @@ public sealed class Note
         return new NoteDto(this.question);
     }
 }
-
-public record NoteDto(Question Question);

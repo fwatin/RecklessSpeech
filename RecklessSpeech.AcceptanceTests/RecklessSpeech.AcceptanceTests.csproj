@@ -27,6 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\RecklessSpeech.Application.Write.Sequences.Tests\RecklessSpeech.Application.Write.Sequences.Tests.csproj" />
       <ProjectReference Include="..\RecklessSpeech.Infrastructure.Databases\RecklessSpeech.Infrastructure.Databases.csproj" />
       <ProjectReference Include="..\RecklessSpeech.Shared.Tests\RecklessSpeech.Shared.Tests.csproj" />
       <ProjectReference Include="..\RecklessSpeech.Web\RecklessSpeech.Web.csproj" />

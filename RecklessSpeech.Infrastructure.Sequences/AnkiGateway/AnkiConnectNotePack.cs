@@ -1,4 +1,5 @@
-﻿namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway;
+﻿#pragma warning disable CS8618
+namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway;
 
 public class AnkiConnectNotePack
 {

@@ -5,7 +5,8 @@ using TechTalk.SpecFlow;
 
 namespace RecklessSpeech.AcceptanceTests.Features.Sequences;
 
-[Binding]
+[Binding, Scope(Feature = "Import new sequences")]
+
 public class ImportSequencesSteps : StepsBase
 {
     private string importFileContent = string.Empty;

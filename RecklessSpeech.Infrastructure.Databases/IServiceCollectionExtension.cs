@@ -21,8 +21,9 @@ public static class IServiceCollectionExtension
 
     private static IServiceCollection AddInMemoryDbContext(this IServiceCollection services)
     {
+        var inMemorySequencesDbContext = new InMemorySequencesDbContext();
         return services
-            .AddSingleton<ISequencesDbContext>(new InMemorySequencesDbContext());
+            .AddSingleton<ISequencesDbContext>(inMemorySequencesDbContext)
+            .AddSingleton(inMemorySequencesDbContext);
     }
-    
 }

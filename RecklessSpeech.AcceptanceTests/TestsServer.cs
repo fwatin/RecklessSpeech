@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using RecklessSpeech.AcceptanceTests.Configuration.Clients;
+using RecklessSpeech.AcceptanceTests.Extensions;
 using RecklessSpeech.Web;
 using TechTalk.SpecFlow;
 
@@ -31,7 +32,9 @@ public class TestsServer : IDisposable
             .UseEnvironment("acceptancetest")
             .ConfigureServices(
                 (ctx, services) => { this.ConfigureAcceptanceTests(services); }
-            );
+            )
+            .ConfigureTestServices(services => services
+                .SubstituteNoteGateway());
 
         return new TestServer(builder);
     }
