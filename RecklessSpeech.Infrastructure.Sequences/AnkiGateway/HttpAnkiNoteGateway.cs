@@ -17,33 +17,38 @@ public class HttpAnkiNoteGateway : INoteGateway
 
     public async Task Send(IReadOnlyCollection<NoteDto> notes)
     {
-        AnkiConnectNotePack pack = BuildPack(notes);
+        AnkiConnectAddNotesPayload pack = BuildPack(notes);
 
         var json = JsonConvert.SerializeObject(pack);
 
         var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-        HttpResponseMessage response = await client.PostAsync("", stringContent);
+        HttpResponseMessage responseMessage = await client.PostAsync("", stringContent);
 
-        if (response.IsSuccessStatusCode is false) throw new AnkiSendFailedException();
+        if (responseMessage.IsSuccessStatusCode is false) throw new AnkiSendFailedException();
+
+        var response = await responseMessage.Content.ReadAsStringAsync();
+        
+        var ankiConnectResponse = JsonConvert.DeserializeObject<AnkiConnectAddNotesResponse>(response);
+
     }
 
-    private AnkiConnectNotePack BuildPack(IReadOnlyCollection<NoteDto> dtos)
+    private AnkiConnectAddNotesPayload BuildPack(IReadOnlyCollection<NoteDto> dtos)
     {
-        var pack = new AnkiConnectNotePack
+        var pack = new AnkiConnectAddNotesPayload
         {
-            action = "addNote",
+            action = "addNotes",
             version = 6,
-            _params = new Params()
+            @params = new Params()
         };
 
 
         List<Note> notes = new();
         foreach (var dto in dtos)
         {
-            notes.Add(new Note
+            notes.Add(new Note()
             {
-                deckName = "All",
+                deckName = "All::Langues",
                 modelName = "Full_Recto_verso_before_after_Audio",
                 options = new options()
                 {
@@ -57,12 +62,12 @@ public class HttpAnkiNoteGateway : INoteGateway
                 },
                 fields = new Fields()
                 {
-                Question = dto.Question.Value
-            }
+                    Question = dto.Question.Value
+                }
             });
         }
 
-        pack._params.notes = notes.ToArray();
+        pack.@params.notes = notes.ToArray();
         return pack;
     }
 }

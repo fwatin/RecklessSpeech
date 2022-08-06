@@ -1,11 +1,11 @@
 ﻿#pragma warning disable CS8618
 namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway;
 
-public class AnkiConnectNotePack
+public class AnkiConnectAddNotesPayload
 {
     public string action { get; set; }
     public int version { get; set; }
-    public Params _params { get; set; }
+    public Params @params { get; set; }
 }
 
 public class Params
@@ -27,10 +27,6 @@ public class Note
 public class Fields
 {
     public string Question { get; set; } = default!;
-    public string Answer { get; set; } = default!;
-    public string After { get; set; } = default!;
-    public string Source { get; set; } = default!;
-    public string Audio { get; set; } = default!;
 }
 
 public class options
