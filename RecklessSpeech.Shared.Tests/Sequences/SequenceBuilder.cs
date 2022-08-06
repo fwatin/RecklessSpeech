@@ -40,7 +40,7 @@ public record SequenceBuilder
 
     public string BuildUnformatedSequence()
     {
-        return $"{this.HtmlContent.Value}	[sound:{this.AudioFileNameWithExtension.Value}]	{this.Tags.Value}";
+        return $"\"{this.HtmlContent.Value}\"	[sound:{this.AudioFileNameWithExtension.Value}]	{this.Tags.Value}";
     }
 
     public SequenceEntity BuildEntity()

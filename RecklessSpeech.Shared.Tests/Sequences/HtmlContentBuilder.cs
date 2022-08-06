@@ -10,7 +10,7 @@ public class HtmlContentBuilder
         this.Value = value;
     }
     
-    public string Value { get; set; } = "default value for HtmlContent";
+    public string Value { get; set; } = "<style>default value for HtmlContent";
 
     public static implicit operator HtmlContent(HtmlContentBuilder builder) => new(builder.Value);
 }
