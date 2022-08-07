@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using RecklessSpeech.Application.Read.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Infrastructure.Sequences.AnkiGateway;
@@ -10,8 +11,8 @@ public static class IServiceCollectionExtensions
     public static IServiceCollection AddReadPorts(this IServiceCollection services)
     {
         return services
-            .ConfigureRepositories()
-            .ConfigureNoteGateway()
+                .ConfigureRepositories()
+                .ConfigureNoteGateway()
             ;
     }
 
@@ -20,10 +21,19 @@ public static class IServiceCollectionExtensions
         return services
             .AddScoped<ISequenceQueryRepository, InMemorySequenceQueryRepository>();
     }
-    
+
     public static IServiceCollection ConfigureNoteGateway(this IServiceCollection services)
     {
-        services.AddHttpClient<INoteGateway, HttpAnkiNoteGateway>();
+        services.AddOptions<HttpAnkiNoteGatewayOptions>().BindConfiguration("AnkiNoteGateway")
+            .ValidateDataAnnotations();
+        
+        services.AddHttpClient<INoteGateway, HttpAnkiNoteGateway>(
+            (provider, client) =>
+            {
+                var options = provider.GetRequiredService<IOptions<HttpAnkiNoteGatewayOptions>>().Value;
+                client.BaseAddress = new Uri(options.Path);
+            });
+
         return services;
     }
 }

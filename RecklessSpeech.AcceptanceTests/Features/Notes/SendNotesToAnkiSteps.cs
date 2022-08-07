@@ -14,7 +14,7 @@ public class SendNotesToAnkiSteps : StepsBase
     private readonly Guid sequenceId;
     private readonly InMemorySequencesDbContext dbContext;
     private readonly SpyNoteGateway spyNoteGateway;
-    private const string contentForQuestion = Some.SomeHtml;
+    private const string contentForQuestion = "<style>some html here to be found in sequence and note";
 
     public SendNotesToAnkiSteps(ScenarioContext context) : base(context)
     {

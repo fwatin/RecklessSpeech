@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Notes;
@@ -12,7 +13,6 @@ public class HttpAnkiNoteGateway : INoteGateway
     public HttpAnkiNoteGateway(HttpClient client)
     {
         this.client = client;
-        client.BaseAddress = new Uri("http://localhost:8765/"); //todo mettre config dans appsettings
     }
 
     public async Task Send(IReadOnlyCollection<NoteDto> notes)

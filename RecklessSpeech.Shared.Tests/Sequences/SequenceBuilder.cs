@@ -1,4 +1,5 @@
 ﻿using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
+using RecklessSpeech.Application.Write.Sequences.Commands;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Web.ViewModels.Sequences;
@@ -33,9 +34,9 @@ public record SequenceBuilder
     {
         return new SequenceBuilder(
             new(id),
-            new(Some.SomeHtml),
-            new(Some.SomeAudiofileNameWithExtension),
-            new(Some.SomeTags));
+            new(),
+            new(),
+            new());
     }
 
     public string BuildUnformatedSequence()
@@ -70,5 +71,10 @@ public record SequenceBuilder
             this.HtmlContent.Value,
             this.AudioFileNameWithExtension.Value,
             this.Tags.Value);
+    }
+
+    public ImportSequencesCommand BuildImportCommand()
+    {
+        return new ImportSequencesCommand(this.BuildUnformatedSequence());
     }
 }

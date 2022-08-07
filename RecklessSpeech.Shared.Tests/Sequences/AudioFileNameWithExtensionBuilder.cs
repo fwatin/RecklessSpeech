@@ -13,7 +13,7 @@ public class AudioFileNameWithExtensionBuilder
         this.Value = value;
     }
 
-    public string Value { get; set; } = "default value for AudioFileNameWithExtension";
+    public string Value { get; set; } = "1658501397855.mp3";
 
     public static implicit operator AudioFileNameWithExtension(AudioFileNameWithExtensionBuilder builder) =>
         new(builder.Value);

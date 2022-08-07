@@ -23,7 +23,7 @@ public class CaseOfImportSuccessful
     public async Task Should_add_a_new_sequence()
     {
         //Arrange
-        ImportSequencesCommand command = new(Some.SomeSequenceContent);
+        ImportSequencesCommand command = SequenceBuilder.Create(Guid.Parse("A04EAFA8-A2D0-4055-BE62-6508CA4555E2")).BuildImportCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
