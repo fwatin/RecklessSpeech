@@ -55,7 +55,7 @@ public class CaseOfImportSuccessful
     public async Task Should_add_two_sequences()
     {
         //Arrange
-        ImportSequencesCommand command = new(Data.SomeContentWithTwoSequences);
+        ImportSequencesCommand command = new(Fixture.SomeContentWithTwoSequences);
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
@@ -65,7 +65,7 @@ public class CaseOfImportSuccessful
     }
 
     [Fact]
-    public async Task Should_html_not_contain_style_for_background()
+    public async Task Should_html_not_specify_background_color_for_dc_card()
     {
         //Arrange
         ImportSequencesCommand command = new(Some.SomeRealCaseCsvFileContent);
@@ -75,22 +75,28 @@ public class CaseOfImportSuccessful
 
         //Assert
         SequencesImportRequestedEvent importEvent = (SequencesImportRequestedEvent) events.First();
-        HtmlDocument htmlDoc = new HtmlDocument();
-        htmlDoc.LoadHtml(importEvent.HtmlContent.Value);
-        var styleNode = htmlDoc.DocumentNode.SelectSingleNode("style");
-
-        var parser = new StylesheetParser();
-        var stylesheet = await parser.ParseAsync(styleNode.InnerText);
-        var dcCard = stylesheet.StyleRules.First(rule =>
-            rule.SelectorText ==".dc-card");
-
+        var dcCard = await Fixture.GetStyleRule(importEvent.HtmlContent.Value);
         dcCard.Style.Declarations.Where(property => property.Name == "background-color").Should().BeEmpty();
     }
 
-    private static class Data
+    
+
+    private static class Fixture
     {
         public const string SomeContentWithTwoSequences =
             "\"<style>a lot of things in html\"	[sound:1658501397855.mp3]	\"word-naked lang-nl netflix Green pron \"" +
             "\"<style>a lot of other things in html\"	[sound:123456.mp3]	\"some other tags \"";
+        
+        public static async Task<IStyleRule> GetStyleRule(string htmlContent)
+        {
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(htmlContent);
+            var styleNode = htmlDoc.DocumentNode.SelectSingleNode("style");
+            var parser = new StylesheetParser();
+            var stylesheet = await parser.ParseAsync(styleNode.InnerText);
+            var dcCard = stylesheet.StyleRules.First(rule =>
+                rule.SelectorText == ".dc-card");
+            return dcCard;
+        }
     }
 }
