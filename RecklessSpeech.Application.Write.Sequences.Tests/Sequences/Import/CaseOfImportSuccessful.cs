@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using RecklessSpeech.Application.Write.Sequences.Commands;
-using RecklessSpeech.Domain.Sequences;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 using RecklessSpeech.Shared.Tests;
@@ -17,14 +16,14 @@ public class CaseOfImportSuccessful
     public CaseOfImportSuccessful()
     {
         this.sut = new ImportSequencesCommandHandler();
-        this.sequenceBuilder = SequenceBuilder.Create();
+        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("6236FA6E-74DE-4B4A-98A4-A9A0B4BAB71D"));
     }
 
     [Fact]
     public async Task Should_add_a_new_sequence()
     {
         //Arrange
-        ImportSequencesCommand command = new(Some.SomeSequenceContent);
+        ImportSequencesCommand command = SequenceBuilder.Create(Guid.Parse("A04EAFA8-A2D0-4055-BE62-6508CA4555E2")).BuildImportCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
@@ -47,7 +46,7 @@ public class CaseOfImportSuccessful
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        events.Should().ContainEquivalentOf(sequenceBuilder.BuildEvent());
+        events.Should().ContainEquivalentOf(sequenceBuilder.BuildEvent(), AssertExtensions.IgnoreId);
     }
 
     [Fact]

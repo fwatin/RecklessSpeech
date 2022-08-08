@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -14,18 +15,18 @@ namespace RecklessSpeech.Web;
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/sequences")]
 [ApiController]
-public class ImportSequenceController : ControllerBase
+public class SequenceController : ControllerBase
 {
     private readonly WebDispatcher dispatcher;
 
-    public ImportSequenceController(WebDispatcher dispatcher)
+    public SequenceController(WebDispatcher dispatcher)
     {
         this.dispatcher = dispatcher;
     }
-    
+
     [HttpPost]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
     public async Task<ActionResult<string>> ImportSequences(IFormFile file)
     {
         using var reader = new StreamReader(file.OpenReadStream());
@@ -36,13 +37,24 @@ public class ImportSequenceController : ControllerBase
 
         return this.Ok();
     }
-    
+
     [HttpGet]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryPresentation>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryPresentation>), (int) HttpStatusCode.OK)]
     public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> Get()
     {
         var result = await this.dispatcher.Dispatch(new GetAllSequencesQuery());
         return this.Ok(result.ToPresentation());
+    }
+
+    [HttpPost]
+    [Route("Anki/")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
+    public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> SendToAnki(
+        IReadOnlyCollection<Guid> ids)
+    {
+        await this.dispatcher.Dispatch(new SendNotesCommand(ids));
+        return this.Ok();
     }
 }

@@ -1,5 +1,4 @@
 using RecklessSpeech.Application.Core.Commands;
-using RecklessSpeech.Domain.Sequences;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 
@@ -19,13 +18,12 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
         foreach (ImportSequenceDto line in lines)
         {
-            events.Add
-            (
-                new SequencesImportRequestedEvent(
-                    HtmlContent.Create(line.HtmlContent),
-                    AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension),
-                    Tags.Create(line.Tags))
-            );
+            var sequence = Sequence.Create(Guid.NewGuid(),
+                HtmlContent.Create(line.HtmlContent),
+                AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension),
+                Tags.Create(line.Tags));
+
+            events.AddRange(sequence.Import());
         }
 
         return await Task.FromResult(events);
@@ -42,13 +40,22 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
             string reconstitutedLine = delimiter + lines[i];
             string[] elements = reconstitutedLine.Split("	");
             dtos.Add(
-                new ImportSequenceDto(elements[0],
+                new ImportSequenceDto(
+                    ParseHtmlContent(elements[0]),
                     ParseAudioFileName(elements[1]),
                     elements[2])
             );
         }
 
         return dtos;
+    }
+
+    private string ParseHtmlContent(string element)
+    {
+        if (element.StartsWith("\"")) element = element.Substring(1, element.Length - 1);
+        if (element.EndsWith("\"")) element = element.Substring(0, element.Length - 1);
+        element = element.Replace("\"\"", "\"");
+        return element;
     }
 
     private string ParseAudioFileName(string audioFileNameWithContext)

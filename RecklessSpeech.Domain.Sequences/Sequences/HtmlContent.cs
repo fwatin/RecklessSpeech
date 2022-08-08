@@ -6,9 +6,9 @@ public record HtmlContent(string Value)
 
     public static HtmlContent Create(string value)
     {
-        if (value.StartsWith("\"<style>") is false)
+        if (value.StartsWith("<style>") is false)
             throw new InvalidHtmlContentException();
-        
+
         return new(value);
     }
 }

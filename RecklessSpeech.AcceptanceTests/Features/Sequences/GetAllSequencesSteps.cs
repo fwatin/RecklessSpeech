@@ -6,7 +6,8 @@ using TechTalk.SpecFlow;
 
 namespace RecklessSpeech.AcceptanceTests.Features.Sequences;
 
-[Binding]
+[Binding, Scope(Feature = "Get all sequences")]
+
 public class GetAllSequencesSteps : StepsBase
 {
     private readonly SequenceBuilder sequenceBuilder;
@@ -15,7 +16,7 @@ public class GetAllSequencesSteps : StepsBase
 
     public GetAllSequencesSteps(ScenarioContext context) : base(context)
     {
-        this.sequenceBuilder = SequenceBuilder.Create();
+        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("4AAB1D8C-93A4-4B27-B801-95F4F10F8393"));
         this.dbContext = this.GetService<ISequencesDbContext>();
     }
 

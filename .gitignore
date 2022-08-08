@@ -36,3 +36,5 @@
 /RecklessSpeech.Infrastructure.Read/bin/*
 /RecklessSpeech.Infrastructure.Read.Tests/obj/*
 /RecklessSpeech.Infrastructure.Read.Tests/bin/*
+/RecklessSpeech.Application.Write.Notes.Tests/obj/*
+/RecklessSpeech.Application.Write.Notes.Tests/bin/*

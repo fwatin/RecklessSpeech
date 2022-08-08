@@ -9,19 +9,19 @@ namespace RecklessSpeech.Infrastructure.Read.Tests.Sequences
     public class CaseOfGetAll
     {
         private readonly InMemorySequencesDbContext memorySequencesDbContext;
-        private readonly SequenceQueryRepository sut;
+        private readonly InMemorySequenceQueryRepository sut;
 
         public CaseOfGetAll()
         {
             this.memorySequencesDbContext = new();
-            this.sut = new SequenceQueryRepository(this.memorySequencesDbContext);
+            this.sut = new InMemorySequenceQueryRepository(this.memorySequencesDbContext);
         }
 
         [Fact]
         public async Task Should_find_a_sequence()
         {
             //Arrange
-            var builder = SequenceBuilder.Create();
+            var builder = SequenceBuilder.Create(Guid.Parse("46AA5502-39A3-4E17-BFF7-ECAAEF56237B"));
             memorySequencesDbContext.Sequences.Add(builder.BuildEntity());
             
             //Act

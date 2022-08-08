@@ -1,3 +1,5 @@
-﻿namespace RecklessSpeech.Web.ViewModels.Sequences;
+﻿using System;
 
-public record SequenceSummaryPresentation(string HtmlContent, string AudioFileNameWithExtension, string Tags);
+namespace RecklessSpeech.Web.ViewModels.Sequences;
+
+public record SequenceSummaryPresentation(Guid Id, string HtmlContent, string AudioFileNameWithExtension, string Tags);

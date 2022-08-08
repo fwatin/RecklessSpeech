@@ -1,43 +1,80 @@
 ﻿using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
-using RecklessSpeech.Domain.Sequences;
+using RecklessSpeech.Application.Write.Sequences.Commands;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Web.ViewModels.Sequences;
 
 namespace RecklessSpeech.Shared.Tests.Sequences;
 
-public record SequenceBuilder(
-    HtmlContent HtmlContent,
-    AudioFileNameWithExtension AudioFileNameWithExtension,
-    Tags Tags)
+public record SequenceBuilder
 {
-    public SequencesImportRequestedEvent BuildEvent() =>
-        new(this.HtmlContent, this.AudioFileNameWithExtension, this.Tags);
+    public SequenceId SequenceId { get; init; }
+    public HtmlContentBuilder HtmlContent { get; init; }
+    public AudioFileNameWithExtensionBuilder AudioFileNameWithExtension { get; init; }
+    public TagsBuilder Tags { get; init; }
 
-    public static SequenceBuilder Create()
+
+    private SequenceBuilder(
+        SequenceIdBuilder sequenceId,
+        HtmlContentBuilder htmlContent,
+        AudioFileNameWithExtensionBuilder audioFileNameWithExtension,
+        TagsBuilder tags)
     {
-        return new SequenceBuilder(HtmlContent.Hydrate(Some.SomeHtml),
-            AudioFileNameWithExtension.Hydrate(Some.SomeAudiofileNameWithExtension),
-            Tags.Hydrate(Some.SomeTags));
+        this.SequenceId = sequenceId;
+        this.HtmlContent = htmlContent;
+        this.AudioFileNameWithExtension = audioFileNameWithExtension;
+        this.Tags = tags;
+    }
+
+
+    public SequencesImportRequestedEvent BuildEvent() =>
+        new(this.SequenceId, this.HtmlContent, this.AudioFileNameWithExtension, this.Tags);
+
+    public static SequenceBuilder Create(Guid id)
+    {
+        return new SequenceBuilder(
+            new(id),
+            new(),
+            new(),
+            new());
     }
 
     public string BuildUnformatedSequence()
     {
-        return $"{this.HtmlContent.Value}	[sound:{this.AudioFileNameWithExtension.Value}]	{this.Tags.Value}";
+        return $"\"{this.HtmlContent.Value}\"	[sound:{this.AudioFileNameWithExtension.Value}]	{this.Tags.Value}";
     }
 
     public SequenceEntity BuildEntity()
     {
-        return new(this.HtmlContent.Value, this.AudioFileNameWithExtension.Value, this.Tags.Value);
+        return new()
+        {
+            Id = this.SequenceId.Value,
+            AudioFileNameWithExtension = this.AudioFileNameWithExtension.Value,
+            Tags = this.Tags.Value,
+            HtmlContent = this.HtmlContent.Value
+        };
     }
 
     public SequenceSummaryQueryModel BuildQueryModel()
     {
-        return new SequenceSummaryQueryModel(this.HtmlContent.Value, this.AudioFileNameWithExtension.Value, this.Tags.Value);
+        return new SequenceSummaryQueryModel(
+            this.SequenceId.Value,
+            this.HtmlContent.Value,
+            this.AudioFileNameWithExtension.Value,
+            this.Tags.Value);
     }
-    
+
     public SequenceSummaryPresentation BuildSummaryPresentation()
     {
-        return new SequenceSummaryPresentation(this.HtmlContent.Value, this.AudioFileNameWithExtension.Value, this.Tags.Value);
+        return new SequenceSummaryPresentation(
+            this.SequenceId.Value,
+            this.HtmlContent.Value,
+            this.AudioFileNameWithExtension.Value,
+            this.Tags.Value);
+    }
+
+    public ImportSequencesCommand BuildImportCommand()
+    {
+        return new ImportSequencesCommand(this.BuildUnformatedSequence());
     }
 }

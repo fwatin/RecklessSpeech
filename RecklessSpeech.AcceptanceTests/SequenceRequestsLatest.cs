@@ -24,4 +24,9 @@ public class SequenceRequestsLatest
 
     public Task<IReadOnlyCollection<SequenceSummaryPresentation>> GetAll()
         => this.client.Get<IReadOnlyCollection<SequenceSummaryPresentation>>($"http://localhost{this.basePath}");
+
+    public async Task SendToAnki(List<Guid> ids)
+    {
+        await this.client.Post<string>($"http://localhost{this.basePath}/Anki", ids);
+    }
 }

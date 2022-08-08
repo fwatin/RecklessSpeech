@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RecklessSpeech.AcceptanceTests.Configuration.Clients;
-using RecklessSpeech.Infrastructure.Databases;
 using TechTalk.SpecFlow;
 
 namespace RecklessSpeech.AcceptanceTests;
