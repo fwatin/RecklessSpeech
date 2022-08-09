@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using RecklessSpeech.Application.Write.Sequences.Tests.Notes;
 using RecklessSpeech.Infrastructure.Sequences;
-using RecklessSpeech.Shared.Tests;
 using RecklessSpeech.Shared.Tests.Notes;
 using RecklessSpeech.Shared.Tests.Sequences;
 using TechTalk.SpecFlow;

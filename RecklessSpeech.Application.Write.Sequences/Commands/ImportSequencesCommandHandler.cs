@@ -55,6 +55,9 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         if (element.StartsWith("\"")) element = element.Substring(1, element.Length - 1);
         if (element.EndsWith("\"")) element = element.Substring(0, element.Length - 1);
         element = element.Replace("\"\"", "\"");
+        
+        element = element.Replace("background-color: white;", "");
+
         return element;
     }
 

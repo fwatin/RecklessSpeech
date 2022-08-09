@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Notes;
