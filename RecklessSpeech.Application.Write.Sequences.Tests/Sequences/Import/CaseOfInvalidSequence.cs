@@ -24,7 +24,8 @@ public class CaseOfInvalidSequence
             AudioFileNameWithExtension =new("344348.xml")
         };
 
-        ImportSequencesCommand command = new(sequenceBuilder.BuildUnformatedSequence());
+        ImportSequencesCommand command = sequenceBuilder.BuildImportCommand();
+
 
         //Act & Assert
         await sut.Invoking(x => x.Handle(command, CancellationToken.None))
@@ -38,10 +39,11 @@ public class CaseOfInvalidSequence
         //Arrange
         var sequenceBuilder = SequenceBuilder.Create(Guid.Parse("9D421C00-94FE-4051-943E-19885B440C7B")) with
         {
-            HtmlContent = new("some content that does not start with \"style")
+            RawCsvContent = "some content that does not start with \"style"
         };
 
-        ImportSequencesCommand command = new(sequenceBuilder.BuildUnformatedSequence());
+        ImportSequencesCommand command = sequenceBuilder.BuildImportCommand();
+
 
         //Act & Assert
         await sut.Invoking(x => x.Handle(command, CancellationToken.None))

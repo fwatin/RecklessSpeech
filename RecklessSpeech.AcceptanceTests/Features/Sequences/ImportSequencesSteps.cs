@@ -19,7 +19,7 @@ public class ImportSequencesSteps : StepsBase
     [Given(@"a file containing some sequences")]
     public void GivenAFileContainingSomeSequences()
     {
-        this.importFileContent = Some.SomeRealCaseCsvFileContentForGimmicks;
+        this.importFileContent = Some.SomeRealCaseCsvFileContentForGimmicksInMoneyBall;
     }
 
     [When(@"the user imports this file")]

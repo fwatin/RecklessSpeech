@@ -10,7 +10,7 @@ public class WordBuilder
         this.Value = value;
     }
     
-    public string Value { get; set; } = "";
+    public string Value { get; set; } = "gimmicks";
 
     public static implicit operator Word(WordBuilder builder) => new(builder.Value);
 }

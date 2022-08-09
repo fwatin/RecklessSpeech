@@ -42,7 +42,7 @@ public class CaseOfImportSuccessful
     {
         //Arrange
         var sequenceBuilder = SequenceBuilder.Create(Guid.Parse("6236FA6E-74DE-4B4A-98A4-A9A0B4BAB71D"));
-        ImportSequencesCommand command = new(sequenceBuilder.BuildUnformatedSequence());
+        ImportSequencesCommand command = sequenceBuilder.BuildImportCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
@@ -68,7 +68,7 @@ public class CaseOfImportSuccessful
     public async Task Should_html_not_specify_background_color_for_dc_card()
     {
         //Arrange
-        ImportSequencesCommand command = new(Some.SomeRealCaseCsvFileContentForGimmicks);
+        ImportSequencesCommand command = new(Some.SomeRealCaseCsvFileContentForGimmicksInMoneyBall);
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
@@ -83,24 +83,23 @@ public class CaseOfImportSuccessful
     public async Task Should_get_word_in_sequence()
     {
         //Arrange
-        ImportSequencesCommand command = new(Some.SomeRealCaseCsvFileContentForGimmicks);
-        
+        ImportSequencesCommand command = new(Some.SomeRealCaseCsvFileContentForGimmicksInMoneyBall);
+
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
-        
+
         //Assert
         SequencesImportRequestedEvent importEvent = (SequencesImportRequestedEvent) events.First();
         importEvent.Word.Value.Should().Be("gimmicks");
     }
 
-    
 
     private static class Fixture
     {
         public const string SomeContentWithTwoSequences =
             "\"<style>a lot of things in html\"	[sound:1658501397855.mp3]	\"word-naked lang-nl netflix Green pron \"" +
             "\"<style>a lot of other things in html\"	[sound:123456.mp3]	\"some other tags \"";
-        
+
         public static async Task<IStyleRule> GetStyleRule(string htmlContent)
         {
             HtmlDocument htmlDoc = new HtmlDocument();

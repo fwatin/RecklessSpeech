@@ -20,11 +20,11 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         foreach (ImportSequenceDto line in lines)
         {
             var htmlContent = HtmlContent.Create(line.RawHtml);
-            
+
             var sequence = Sequence.Create(Guid.NewGuid(),
                 htmlContent,
                 AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension),
-                Tags.Create(line.Tags),
+                GetTags(line.Tags),
                 GetWordFromHtml(htmlContent));
 
             events.AddRange(sequence.Import());
@@ -33,12 +33,19 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         return await Task.FromResult(events);
     }
 
+    private Tags GetTags(string element)
+    {
+        if (element.StartsWith("\"")) element = element.Substring(1, element.Length - 1);
+        if (element.EndsWith("\"")) element = element.Substring(0, element.Length - 1);
+        return Tags.Create(element.Trim());
+    }
+
     private Word GetWordFromHtml(HtmlContent htmlContent)
     {
         HtmlDocument htmlDoc = new HtmlDocument();
         htmlDoc.LoadHtml(htmlContent.Value);
-        HtmlNode node = htmlDoc.DocumentNode.Descendants().First(n => n.HasClass("dc-gap"));
-        return Word.Create(node.InnerText);
+        HtmlNode? node = htmlDoc.DocumentNode.Descendants().FirstOrDefault(n => n.HasClass("dc-gap"));
+        return Word.Create(node != null ? node.InnerText : "");
     }
 
     private IReadOnlyCollection<ImportSequenceDto> Parse(string fileContent)
@@ -67,7 +74,7 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         if (element.StartsWith("\"")) element = element.Substring(1, element.Length - 1);
         if (element.EndsWith("\"")) element = element.Substring(0, element.Length - 1);
         element = element.Replace("\"\"", "\"");
-        
+
         element = element.Replace("background-color: white;", "");
 
         return element;
