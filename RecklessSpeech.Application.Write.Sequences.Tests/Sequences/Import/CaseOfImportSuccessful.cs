@@ -68,7 +68,7 @@ public class CaseOfImportSuccessful
     public async Task Should_html_not_specify_background_color_for_dc_card()
     {
         //Arrange
-        ImportSequencesCommand command = new(Some.SomeRealCaseCsvFileContent);
+        ImportSequencesCommand command = new(Some.SomeRealCaseCsvFileContentForGimmicks);
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
@@ -77,6 +77,20 @@ public class CaseOfImportSuccessful
         SequencesImportRequestedEvent importEvent = (SequencesImportRequestedEvent) events.First();
         var dcCard = await Fixture.GetStyleRule(importEvent.HtmlContent.Value);
         dcCard.Style.Declarations.Where(property => property.Name == "background-color").Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task Should_get_word_in_sequence()
+    {
+        //Arrange
+        ImportSequencesCommand command = new(Some.SomeRealCaseCsvFileContentForGimmicks);
+        
+        //Act
+        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
+        
+        //Assert
+        SequencesImportRequestedEvent importEvent = (SequencesImportRequestedEvent) events.First();
+        importEvent.Word.Value.Should().Be("gimmicks");
     }
 
     

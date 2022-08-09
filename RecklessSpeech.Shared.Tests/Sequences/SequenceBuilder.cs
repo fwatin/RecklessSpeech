@@ -13,27 +13,32 @@ public record SequenceBuilder
     public AudioFileNameWithExtensionBuilder AudioFileNameWithExtension { get; init; }
     public TagsBuilder Tags { get; init; }
 
+    public WordBuilder Word { get; init; }
+
 
     private SequenceBuilder(
         SequenceIdBuilder sequenceId,
         HtmlContentBuilder htmlContent,
         AudioFileNameWithExtensionBuilder audioFileNameWithExtension,
-        TagsBuilder tags)
+        TagsBuilder tags,
+        WordBuilder word)
     {
         this.SequenceId = sequenceId;
         this.HtmlContent = htmlContent;
         this.AudioFileNameWithExtension = audioFileNameWithExtension;
         this.Tags = tags;
+        this.Word = word;
     }
 
 
     public SequencesImportRequestedEvent BuildEvent() =>
-        new(this.SequenceId, this.HtmlContent, this.AudioFileNameWithExtension, this.Tags);
+        new(this.SequenceId, this.HtmlContent, this.AudioFileNameWithExtension, this.Tags, this.Word);
 
     public static SequenceBuilder Create(Guid id)
     {
         return new SequenceBuilder(
             new(id),
+            new(),
             new(),
             new(),
             new());

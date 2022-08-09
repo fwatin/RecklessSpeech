@@ -1,3 +1,4 @@
+using HtmlAgilityPack;
 using RecklessSpeech.Application.Core.Commands;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
@@ -18,15 +19,26 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
         foreach (ImportSequenceDto line in lines)
         {
+            var htmlContent = HtmlContent.Create(line.RawHtml);
+            
             var sequence = Sequence.Create(Guid.NewGuid(),
-                HtmlContent.Create(line.HtmlContent),
+                htmlContent,
                 AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension),
-                Tags.Create(line.Tags));
+                Tags.Create(line.Tags),
+                GetWordFromHtml(htmlContent));
 
             events.AddRange(sequence.Import());
         }
 
         return await Task.FromResult(events);
+    }
+
+    private Word GetWordFromHtml(HtmlContent htmlContent)
+    {
+        HtmlDocument htmlDoc = new HtmlDocument();
+        htmlDoc.LoadHtml(htmlContent.Value);
+        HtmlNode node = htmlDoc.DocumentNode.Descendants().First(n => n.HasClass("dc-gap"));
+        return Word.Create(node.InnerText);
     }
 
     private IReadOnlyCollection<ImportSequenceDto> Parse(string fileContent)
@@ -69,5 +81,5 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
             audioFileNameWithContext.Length - leftPartLength - rightPartLength);
     }
 
-    private record ImportSequenceDto(string HtmlContent, string AudioFileNameWithExtension, string Tags);
+    private record ImportSequenceDto(string RawHtml, string AudioFileNameWithExtension, string Tags);
 }
