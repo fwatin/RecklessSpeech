@@ -15,7 +15,7 @@ public record SequenceBuilder
 
     public WordBuilder Word { get; init; }
 
-    public string? RawCsvContent { get; init; }
+    public string? RawCsvContent { get; init; }//todo faire un truc avec une string null privé
 
 
     private SequenceBuilder(

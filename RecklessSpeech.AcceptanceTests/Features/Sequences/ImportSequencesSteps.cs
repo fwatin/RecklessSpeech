@@ -2,6 +2,7 @@
 using HtmlAgilityPack;
 using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Shared.Tests;
+using RecklessSpeech.Shared.Tests.Sequences;
 using TechTalk.SpecFlow;
 
 namespace RecklessSpeech.AcceptanceTests.Features.Sequences;
@@ -11,15 +12,17 @@ public class ImportSequencesSteps : StepsBase
 {
     private string importFileContent = string.Empty;
     private readonly string importFileName = "import.csv";
+    private readonly SequenceBuilder sequenceBuilder;
 
     public ImportSequencesSteps(ScenarioContext context) : base(context)
     {
+        sequenceBuilder = SequenceBuilder.Create(Guid.Parse("E673F36C-9FBC-421D-9AF8-4B134E49B5C1"));
     }
 
     [Given(@"a file containing some sequences")]
     public void GivenAFileContainingSomeSequences()
     {
-        this.importFileContent = Some.SomeRealCaseCsvFileContentForGimmicksInMoneyBall;
+        this.importFileContent = sequenceBuilder.BuildImportCommand().FileContent;
     }
 
     [When(@"the user imports this file")]
@@ -33,7 +36,7 @@ public class ImportSequencesSteps : StepsBase
     public void ThenSomeSequencesAreSaved()
     {
         var sequencesContext = this.GetService<ISequencesDbContext>();
-        sequencesContext.Sequences.Should().HaveCount(1);
+        sequencesContext.Sequences.Single().Should().BeEquivalentTo(sequenceBuilder.BuildEntity(),AssertExtensions.IgnoreId);
     }
 
     [Then(@"the html in HTML Content is valid")]
@@ -53,7 +56,7 @@ public class ImportSequencesSteps : StepsBase
         var sequence = sequencesContext.Sequences.First();
         HtmlDocument htmlDoc = new HtmlDocument();
         htmlDoc.LoadHtml(sequence.HtmlContent);
-        
+
         HtmlNode node = htmlDoc.DocumentNode.Descendants().First(n => n.HasClass("dc-title"));
         node.InnerText.Should().Be("Moneyball");
 
