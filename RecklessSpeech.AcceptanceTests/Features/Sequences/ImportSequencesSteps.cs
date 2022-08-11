@@ -22,7 +22,7 @@ public class ImportSequencesSteps : StepsBase
     [Given(@"a file containing some sequences")]
     public void GivenAFileContainingSomeSequences()
     {
-        this.importFileContent = sequenceBuilder.BuildImportCommand().FileContent;
+        this.importFileContent = sequenceBuilder.RawCsvContent;
     }
 
     [When(@"the user imports this file")]

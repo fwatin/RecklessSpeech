@@ -18,15 +18,8 @@ public record SequenceBuilder
 
     public string RawCsvContent
     {
-        get
-        {
-            if (rawCsvContent == null)
-            {
-                return DefaultExampleFromMoneyBall();
-            }
-            else return rawCsvContent!;
-        }
-        set { rawCsvContent = value; }
+        get => rawCsvContent == null ? DefaultExampleFromMoneyBall() : rawCsvContent!;
+        set => rawCsvContent = value;
     }
 
 
