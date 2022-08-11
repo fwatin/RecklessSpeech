@@ -8,5 +8,6 @@ public record SequencesImportRequestedEvent
     HtmlContent HtmlContent,
     AudioFileNameWithExtension AudioFileNameWithExtension,
     Tags Tags,
-    Word Word
+    Word Word,
+    TranslatedSentence TranslatedSentence
 ) : IDomainEvent;

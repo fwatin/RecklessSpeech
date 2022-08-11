@@ -25,7 +25,8 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
                 htmlContent,
                 AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension),
                 GetTags(line.Tags),
-                GetWordFromHtml(htmlContent));
+                GetWordFromHtml(htmlContent),
+                GetTranslatedSentence(htmlContent));
 
             events.AddRange(sequence.Import());
         }
@@ -33,10 +34,25 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         return await Task.FromResult(events);
     }
 
+    private TranslatedSentence GetTranslatedSentence(HtmlContent htmlContent)
+    {
+        HtmlDocument htmlDoc = new HtmlDocument();
+        htmlDoc.LoadHtml(htmlContent.Value);
+        HtmlNode? node = htmlDoc.DocumentNode.Descendants()
+            .FirstOrDefault(n => n.HasClass("dc-translation"));
+        return TranslatedSentence.Create(node != null
+            ? node.InnerText
+            : "");
+    }
+
     private Tags GetTags(string element)
     {
-        if (element.StartsWith("\"")) element = element.Substring(1, element.Length - 1);
-        if (element.EndsWith("\"")) element = element.Substring(0, element.Length - 1);
+        if (element.StartsWith("\""))
+            element = element.Substring(1,
+                element.Length - 1);
+        if (element.EndsWith("\""))
+            element = element.Substring(0,
+                element.Length - 1);
         return Tags.Create(element.Trim());
     }
 
@@ -44,8 +60,11 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
     {
         HtmlDocument htmlDoc = new HtmlDocument();
         htmlDoc.LoadHtml(htmlContent.Value);
-        HtmlNode? node = htmlDoc.DocumentNode.Descendants().FirstOrDefault(n => n.HasClass("dc-gap"));
-        return Word.Create(node != null ? node.InnerText : "");
+        HtmlNode? node = htmlDoc.DocumentNode.Descendants()
+            .FirstOrDefault(n => n.HasClass("dc-gap"));
+        return Word.Create(node != null
+            ? node.InnerText
+            : "");
     }
 
     private IReadOnlyCollection<ImportSequenceDto> Parse(string fileContent)
@@ -54,7 +73,9 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         string[] lines = fileContent.Split(delimiter);
         List<ImportSequenceDto> dtos = new();
 
-        for (int i = 1; i < lines.Length; i++)
+        for (int i = 1;
+             i < lines.Length;
+             i++)
         {
             string reconstitutedLine = delimiter + lines[i];
             string[] elements = reconstitutedLine.Split("	");
@@ -71,11 +92,17 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
     private string ParseHtmlContent(string element)
     {
-        if (element.StartsWith("\"")) element = element.Substring(1, element.Length - 1);
-        if (element.EndsWith("\"")) element = element.Substring(0, element.Length - 1);
-        element = element.Replace("\"\"", "\"");
+        if (element.StartsWith("\""))
+            element = element.Substring(1,
+                element.Length - 1);
+        if (element.EndsWith("\""))
+            element = element.Substring(0,
+                element.Length - 1);
+        element = element.Replace("\"\"",
+            "\"");
 
-        element = element.Replace("background-color: white;", "");
+        element = element.Replace("background-color: white;",
+            "");
 
         return element;
     }
@@ -88,5 +115,7 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
             audioFileNameWithContext.Length - leftPartLength - rightPartLength);
     }
 
-    private record ImportSequenceDto(string RawHtml, string AudioFileNameWithExtension, string Tags);
+    private record ImportSequenceDto(string RawHtml,
+        string AudioFileNameWithExtension,
+        string Tags);
 }
