@@ -20,13 +20,14 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         foreach (ImportSequenceDto line in lines)
         {
             var htmlContent = HtmlContent.Create(line.RawHtml);
+            var data = GetDataFromHtml(htmlContent);
 
             var sequence = Sequence.Create(Guid.NewGuid(),
                 htmlContent,
                 AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension),
                 GetTags(line.Tags),
-                GetWordFromHtml(htmlContent),
-                GetTranslatedSentence(htmlContent));
+                data.Item1,
+                data.Item2);
 
             events.AddRange(sequence.Import());
         }
@@ -34,15 +35,25 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         return await Task.FromResult(events);
     }
 
-    private TranslatedSentence GetTranslatedSentence(HtmlContent htmlContent)
+    private static (Word,TranslatedSentence) GetDataFromHtml(HtmlContent htmlContent)
     {
         HtmlDocument htmlDoc = new HtmlDocument();
         htmlDoc.LoadHtml(htmlContent.Value);
-        HtmlNode? node = htmlDoc.DocumentNode.Descendants()
-            .FirstOrDefault(n => n.HasClass("dc-translation"));
-        return TranslatedSentence.Create(node != null
-            ? node.InnerText
+        
+        HtmlNode? wordNode = htmlDoc.DocumentNode.Descendants()
+            .FirstOrDefault(n => n.HasClass("dc-gap"));
+        var word = Word.Create(wordNode != null
+            ? wordNode.InnerText
             : "");
+        
+        HtmlNode? translatedSentenceNode = htmlDoc.DocumentNode.Descendants()
+            .FirstOrDefault(n => n.HasClass("dc-translation"));
+
+        var translatedSentence = TranslatedSentence.Create(translatedSentenceNode != null
+            ? translatedSentenceNode.InnerText
+            : "");
+
+        return (word,translatedSentence);
     }
 
     private Tags GetTags(string element)
@@ -54,17 +65,6 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
             element = element.Substring(0,
                 element.Length - 1);
         return Tags.Create(element.Trim());
-    }
-
-    private Word GetWordFromHtml(HtmlContent htmlContent)
-    {
-        HtmlDocument htmlDoc = new HtmlDocument();
-        htmlDoc.LoadHtml(htmlContent.Value);
-        HtmlNode? node = htmlDoc.DocumentNode.Descendants()
-            .FirstOrDefault(n => n.HasClass("dc-gap"));
-        return Word.Create(node != null
-            ? node.InnerText
-            : "");
     }
 
     private IReadOnlyCollection<ImportSequenceDto> Parse(string fileContent)
