@@ -93,6 +93,20 @@ public class CaseOfImportSuccessful
         SequencesImportRequestedEvent importEvent = (SequencesImportRequestedEvent) events.First();
         importEvent.Word.Value.Should().Be("gimmicks");
     }
+    
+    [Fact]
+    public async Task Should_get_translated_sentence_in_sequence()
+    {
+        //Arrange
+        ImportSequencesCommand command = builder.BuildImportCommand();
+
+        //Act
+        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
+
+        //Assert
+        SequencesImportRequestedEvent importEvent = (SequencesImportRequestedEvent) events.First();
+        importEvent.TranslatedSentence.Value.Should().Be("Et ça n'arrive pas par quelques astuces statistiques.");
+    }
 
 
     private static class Fixture

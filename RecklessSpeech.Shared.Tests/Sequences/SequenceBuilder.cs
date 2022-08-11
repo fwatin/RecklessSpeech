@@ -12,14 +12,19 @@ public record SequenceBuilder
     public HtmlContentBuilder HtmlContent { get; init; }
     public AudioFileNameWithExtensionBuilder AudioFileNameWithExtension { get; init; }
     public TagsBuilder Tags { get; init; }
-
     public WordBuilder Word { get; init; }
+    public TranslatedSentenceBuilder TranslatedSentence { get; init; }
+
     private string? rawCsvContent = default!;
 
     public string RawCsvContent
     {
-        get => rawCsvContent == null ? DefaultExampleFromMoneyBall() : rawCsvContent!;
-        set => rawCsvContent = value;
+        get =>
+            rawCsvContent == null
+                ? DefaultExampleFromMoneyBall()
+                : rawCsvContent!;
+        set =>
+            rawCsvContent = value;
     }
 
 
@@ -28,7 +33,8 @@ public record SequenceBuilder
         HtmlContentBuilder htmlContent,
         AudioFileNameWithExtensionBuilder audioFileNameWithExtension,
         TagsBuilder tags,
-        WordBuilder word)
+        WordBuilder word,
+        TranslatedSentenceBuilder translatedSentence)
     {
         this.SequenceId = sequenceId;
         this.HtmlContent = htmlContent;
@@ -36,16 +42,23 @@ public record SequenceBuilder
         this.Tags = tags;
         this.Word = word;
         this.rawCsvContent = null;
+        this.TranslatedSentence = translatedSentence;
     }
 
 
     public SequencesImportRequestedEvent BuildEvent() =>
-        new(this.SequenceId, this.HtmlContent, this.AudioFileNameWithExtension, this.Tags, this.Word);
+        new(this.SequenceId,
+            this.HtmlContent,
+            this.AudioFileNameWithExtension,
+            this.Tags,
+            this.Word,
+            this.TranslatedSentence);
 
     public static SequenceBuilder Create(Guid id)
     {
         return new SequenceBuilder(
             new(id),
+            new(),
             new(),
             new(),
             new(),
@@ -124,5 +137,7 @@ public record SequenceBuilder
         "</span><span class=\"\"dc-gap\"\"><span class=\"\"dc-down dc-lang-en dc-orig\"\">gimmicks</span>" +
         "</span><span class=\"\"dc-down dc-lang-en dc-orig\"\">.</span></div>" +
         "<div class=\"\"dc-line dc-translation dc-lang-fr\"\">Et ça n'arrive pas par quelques astuces statistiques.</div></div></div>" +
-        "\"	[sound:" + this.AudioFileNameWithExtension.Value + "]	\"word-naked lang-nl netflix Green pron \"";
+        "\"	[sound:" +
+        this.AudioFileNameWithExtension.Value +
+        "]	\"word-naked lang-nl netflix Green pron \"";
 }

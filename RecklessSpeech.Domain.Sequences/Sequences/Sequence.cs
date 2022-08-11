@@ -7,6 +7,7 @@ public sealed class Sequence
     private readonly SequenceId sequenceId;
     private HtmlContent htmlContent = default!;
     private Word word = default!;
+    private TranslatedSentence translatedSentence = default!;
     private AudioFileNameWithExtension audioFile= default!;
     private Tags tags= default!;
 
@@ -22,7 +23,8 @@ public sealed class Sequence
             this.htmlContent,
             this.audioFile,
             this.tags,
-            this.word);
+            this.word,
+            this.translatedSentence);
     }
 
     public static Sequence Create(
@@ -30,14 +32,16 @@ public sealed class Sequence
         HtmlContent htmlContent, 
         AudioFileNameWithExtension audioFileNameWithExtension, 
         Tags tags,
-        Word word)
+        Word word,
+        TranslatedSentence translatedSentence)
     {
         return new Sequence(new(id))
         {
             htmlContent = htmlContent,
             audioFile = audioFileNameWithExtension,
             tags = tags,
-            word = word
+            word = word,
+            translatedSentence = translatedSentence
         };
     }
 }
