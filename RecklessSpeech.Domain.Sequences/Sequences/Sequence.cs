@@ -6,6 +6,7 @@ public sealed class Sequence
 {
     private readonly SequenceId sequenceId;
     private HtmlContent htmlContent = default!;
+    private Word word = default!;
     private AudioFileNameWithExtension audioFile= default!;
     private Tags tags= default!;
 
@@ -20,20 +21,23 @@ public sealed class Sequence
             this.sequenceId,
             this.htmlContent,
             this.audioFile,
-            this.tags);
+            this.tags,
+            this.word);
     }
 
     public static Sequence Create(
         Guid id,
         HtmlContent htmlContent, 
         AudioFileNameWithExtension audioFileNameWithExtension, 
-        Tags tags)
+        Tags tags,
+        Word word)
     {
         return new Sequence(new(id))
         {
             htmlContent = htmlContent,
             audioFile = audioFileNameWithExtension,
-            tags = tags
+            tags = tags,
+            word = word
         };
     }
 }

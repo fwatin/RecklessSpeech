@@ -13,18 +13,20 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import;
 public class CaseOfImportSuccessful
 {
     private readonly ImportSequencesCommandHandler sut;
+    private readonly SequenceBuilder builder;
 
     public CaseOfImportSuccessful()
     {
         this.sut = new ImportSequencesCommandHandler();
+        builder = SequenceBuilder.Create(Guid.Parse("259FD4F4-082E-46CB-BF1A-94F99780D2E2"));
+
     }
 
     [Fact]
     public async Task Should_add_a_new_sequence()
     {
         //Arrange
-        ImportSequencesCommand command = SequenceBuilder.Create(Guid.Parse("A04EAFA8-A2D0-4055-BE62-6508CA4555E2"))
-            .BuildImportCommand();
+        ImportSequencesCommand command = builder.BuildImportCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
@@ -41,14 +43,13 @@ public class CaseOfImportSuccessful
     public async Task Should_add_a_known_sequence()
     {
         //Arrange
-        var sequenceBuilder = SequenceBuilder.Create(Guid.Parse("6236FA6E-74DE-4B4A-98A4-A9A0B4BAB71D"));
-        ImportSequencesCommand command = new(sequenceBuilder.BuildUnformatedSequence());
+        ImportSequencesCommand command = builder.BuildImportCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        events.Should().ContainEquivalentOf(sequenceBuilder.BuildEvent(), AssertExtensions.IgnoreId);
+        events.Should().ContainEquivalentOf(builder.BuildEvent(), AssertExtensions.IgnoreId);
     }
 
     [Fact]
@@ -68,10 +69,10 @@ public class CaseOfImportSuccessful
     public async Task Should_html_not_specify_background_color_for_dc_card()
     {
         //Arrange
-        ImportSequencesCommand command = new(Some.SomeRealCaseCsvFileContent);
+        var importSequencesCommand = builder.BuildImportCommand();
 
         //Act
-        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
+        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(importSequencesCommand, CancellationToken.None);
 
         //Assert
         SequencesImportRequestedEvent importEvent = (SequencesImportRequestedEvent) events.First();
@@ -79,14 +80,27 @@ public class CaseOfImportSuccessful
         dcCard.Style.Declarations.Where(property => property.Name == "background-color").Should().BeEmpty();
     }
 
-    
+    [Fact]
+    public async Task Should_get_word_in_sequence()
+    {
+        //Arrange
+        ImportSequencesCommand command = builder.BuildImportCommand();
+
+        //Act
+        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
+
+        //Assert
+        SequencesImportRequestedEvent importEvent = (SequencesImportRequestedEvent) events.First();
+        importEvent.Word.Value.Should().Be("gimmicks");
+    }
+
 
     private static class Fixture
     {
         public const string SomeContentWithTwoSequences =
             "\"<style>a lot of things in html\"	[sound:1658501397855.mp3]	\"word-naked lang-nl netflix Green pron \"" +
             "\"<style>a lot of other things in html\"	[sound:123456.mp3]	\"some other tags \"";
-        
+
         public static async Task<IStyleRule> GetStyleRule(string htmlContent)
         {
             HtmlDocument htmlDoc = new HtmlDocument();
