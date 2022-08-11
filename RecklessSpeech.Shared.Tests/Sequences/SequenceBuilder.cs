@@ -14,8 +14,20 @@ public record SequenceBuilder
     public TagsBuilder Tags { get; init; }
 
     public WordBuilder Word { get; init; }
+    private string? rawCsvContent = default!;
 
-    public string? RawCsvContent { get; init; }//todo faire un truc avec une string null privé
+    public string RawCsvContent
+    {
+        get
+        {
+            if (rawCsvContent == null)
+            {
+                return DefaultExampleFromMoneyBall();
+            }
+            else return rawCsvContent!;
+        }
+        set { rawCsvContent = value; }
+    }
 
 
     private SequenceBuilder(
@@ -30,7 +42,7 @@ public record SequenceBuilder
         this.AudioFileNameWithExtension = audioFileNameWithExtension;
         this.Tags = tags;
         this.Word = word;
-        this.RawCsvContent = null;
+        this.rawCsvContent = null;
     }
 
 
@@ -78,7 +90,7 @@ public record SequenceBuilder
 
     public ImportSequencesCommand BuildImportCommand()
     {
-        return new ImportSequencesCommand(this.RawCsvContent ?? DefaultExampleFromMoneyBall());
+        return new ImportSequencesCommand(this.RawCsvContent);
     }
 
     private string DefaultExampleFromMoneyBall() =>

@@ -37,10 +37,8 @@ public class CaseOfInvalidSequence
     public async Task Should_throw_exception_if_html_does_not_start_with_style()
     {
         //Arrange
-        var sequenceBuilder = SequenceBuilder.Create(Guid.Parse("9D421C00-94FE-4051-943E-19885B440C7B")) with
-        {
-            RawCsvContent = "some content that does not start with \"style"
-        };
+        var sequenceBuilder = SequenceBuilder.Create(Guid.Parse("9D421C00-94FE-4051-943E-19885B440C7B"));
+        sequenceBuilder.RawCsvContent = "some content that does not start with \"style";
 
         ImportSequencesCommand command = sequenceBuilder.BuildImportCommand();
 
