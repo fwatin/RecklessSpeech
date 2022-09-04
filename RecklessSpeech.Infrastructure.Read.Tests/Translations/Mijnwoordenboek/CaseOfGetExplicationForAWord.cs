@@ -1,0 +1,26 @@
+﻿using FluentAssertions;
+using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
+using RecklessSpeech.Infrastructure.Sequences;
+using RecklessSpeech.Shared.Tests.Sequences;
+using Xunit;
+
+namespace RecklessSpeech.Infrastructure.Read.Tests.Translations.Mijnwoordenboek;
+
+public class CaseOfGetExplicationForAWord
+{
+    [Fact]
+    public void Should_the_explication_contain_the_most_obvious_translation()
+    {
+        //Arrange
+        string word = "brood";
+        IMijnwoordenboekGatewayAccess access = new MijnwoordenboekGatewayLocalAccess();
+        IMijnwoordenboekGateway gateway = new MijnwoordenboekGateway(access);
+
+        //Act
+        Explanation explanation = gateway.GetExplanation(word);
+        
+        //Assert
+        explanation.RawContent.Should().Contain("pain");
+        explanation.RawContent.Should().Contain("voedsel dat je bij de bakker koopt");
+    }
+}
