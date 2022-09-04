@@ -72,7 +72,8 @@ public record SequenceBuilder
             Id = this.SequenceId.Value,
             AudioFileNameWithExtension = this.AudioFileNameWithExtension.Value,
             Tags = this.Tags.Value,
-            HtmlContent = this.HtmlContent.Value
+            HtmlContent = this.HtmlContent.Value,
+            Word = this.Word.Value
         };
     }
 
@@ -140,4 +141,9 @@ public record SequenceBuilder
         "\"	[sound:" +
         this.AudioFileNameWithExtension.Value +
         "]	\"word-naked lang-nl netflix Green pron \"";
+
+    public EnrichSequenceCommand BuildEnrichCommand()
+    {
+        return new EnrichSequenceCommand(this.SequenceId.Value);
+    }
 }

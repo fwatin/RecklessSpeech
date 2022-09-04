@@ -1,5 +1,6 @@
 ﻿using RecklessSpeech.Application.Core.Commands;
 using RecklessSpeech.Application.Read.Ports;
+using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Notes;
 using RecklessSpeech.Domain.Shared;
@@ -11,7 +12,7 @@ public record SendNotesCommand(IReadOnlyCollection<Guid> ids) : IEventDrivenComm
 public class SendNotesCommandHandler : CommandHandlerBase<SendNotesCommand>
 {
     private readonly INoteGateway noteGateway;
-    private readonly ISequenceQueryRepository sequenceQueryRepository;
+    private readonly ISequenceQueryRepository sequenceQueryRepository; //todo changer ne pas utiliser le query repo
 
     public SendNotesCommandHandler(INoteGateway noteGateway, ISequenceQueryRepository sequenceQueryRepository)
     {
@@ -25,7 +26,7 @@ public class SendNotesCommandHandler : CommandHandlerBase<SendNotesCommand>
 
         foreach (Guid id in command.ids)
         {
-            var sequence = sequenceQueryRepository.TryGetOne(id);
+            SequenceSummaryQueryModel? sequence = sequenceQueryRepository.TryGetOne(id); //todo devrait pas etre des query model
 
             var note = Note.Create(new(Guid.NewGuid()), Question.Create(sequence!.HtmlContent));
 

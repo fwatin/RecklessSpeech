@@ -26,7 +26,8 @@ public class SequenceDomainEventRepository : IDomainEventRepository
             Id = @event.Id.Value,
             HtmlContent = @event.HtmlContent.Value,
             AudioFileNameWithExtension = @event.AudioFileNameWithExtension.Value,
-            Tags = @event.Tags.Value
+            Tags = @event.Tags.Value,
+            Word = @event.Word.Value
         };
 
         this.dbContext.Sequences.Add(entity);

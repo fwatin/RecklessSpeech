@@ -1,6 +1,9 @@
 ﻿using FluentAssertions;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
+using RecklessSpeech.Application.Write.Sequences.Ports;
+using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
 using RecklessSpeech.Infrastructure.Sequences;
+using RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
 using RecklessSpeech.Shared.Tests.Sequences;
 using Xunit;
 
@@ -14,7 +17,7 @@ public class CaseOfGetExplicationForAWord
         //Arrange
         string word = "brood";
         IMijnwoordenboekGatewayAccess access = new MijnwoordenboekGatewayLocalAccess();
-        IMijnwoordenboekGateway gateway = new MijnwoordenboekGateway(access);
+        ITranslatorGateway gateway = new MijnwoordenboekGateway(access);
 
         //Act
         Explanation explanation = gateway.GetExplanation(word);

@@ -6,7 +6,7 @@ public sealed class Sequence
 {
     private readonly SequenceId sequenceId;
     private HtmlContent htmlContent = default!;
-    private Word word = default!;
+    public Word Word { get; private init; }
     private TranslatedSentence translatedSentence = default!;
     private AudioFileNameWithExtension audioFile= default!;
     private Tags tags= default!;
@@ -23,7 +23,7 @@ public sealed class Sequence
             this.htmlContent,
             this.audioFile,
             this.tags,
-            this.word,
+            this.Word,
             this.translatedSentence);
     }
 
@@ -40,7 +40,7 @@ public sealed class Sequence
             htmlContent = htmlContent,
             audioFile = audioFileNameWithExtension,
             tags = tags,
-            word = word,
+            Word = word,
             translatedSentence = translatedSentence
         };
     }

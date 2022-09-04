@@ -1,6 +1,8 @@
-﻿namespace RecklessSpeech.Infrastructure.Read.Tests.Translations.Mijnwoordenboek;
+﻿using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
 
-public class MijnwoordenboekGateway : IMijnwoordenboekGateway
+namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
+
+public class MijnwoordenboekGateway : ITranslatorGateway
 {
     private readonly IMijnwoordenboekGatewayAccess access;
 

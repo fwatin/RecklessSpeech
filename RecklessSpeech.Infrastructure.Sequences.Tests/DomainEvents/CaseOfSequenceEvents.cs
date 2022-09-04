@@ -15,7 +15,10 @@ public class CaseOfSequenceEvents
 
     public CaseOfSequenceEvents()
     {
-        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("0CE0088F-256B-483A-9174-CAA40A558B05"));
+        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("0CE0088F-256B-483A-9174-CAA40A558B05")) with
+        {
+            HtmlContent = new HtmlContentBuilder("this is a html content")
+        };
         this.inMemorySequencesDbContext = new();
         this.sut = new DomainEventsRepository(new IDomainEventRepository[]
         {
