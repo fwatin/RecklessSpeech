@@ -30,7 +30,7 @@ public class EnrichSequenceCommandHandler : CommandHandlerBase<EnrichSequenceCom
 
         EnrichSequenceEvent[] events =
         {
-            new(command.sequenceId, explanation)
+            new(new SequenceId(command.sequenceId), explanation)
         };
 
         return events;

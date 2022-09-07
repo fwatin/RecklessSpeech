@@ -47,7 +47,7 @@ public class SequenceDomainEventRepository : IDomainEventRepository
 
     private async Task Handle(EnrichSequenceEvent @event)
     {
-        SequenceEntity entity = this.dbContext.Sequences.Single(x => x.Id == @event.sequenceId);
+        SequenceEntity entity = this.dbContext.Sequences.Single(x => x.Id == @event.SequenceId.Value);
         entity.Explanation = @event.Explanation.Value;
         await Task.CompletedTask;
     }

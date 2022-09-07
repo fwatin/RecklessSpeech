@@ -3,8 +3,8 @@ using RecklessSpeech.Domain.Shared;
 
 namespace RecklessSpeech.Domain.Sequences.Sequences;
 
-public record EnrichSequenceEvent //todo value object for sequenceId
+public record EnrichSequenceEvent
 (
-    Guid sequenceId,
+    SequenceId SequenceId,
     Explanation Explanation
 ) : IDomainEvent;
