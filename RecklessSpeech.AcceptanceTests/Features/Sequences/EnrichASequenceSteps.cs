@@ -19,22 +19,22 @@ public class EnrichASequenceSteps: StepsBase
     public EnrichASequenceSteps(ScenarioContext context) : base(context)
     {
         this.dbContext = this.GetService<ISequencesDbContext>();
+        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("825B8D27-301A-4974-8024-7DE798C17765")) with
+        {
+            Word = new WordBuilder("brood")
+        };
     }
 
     [Given(@"a sequence to be enriched")]
     public void GivenASequenceToBeEnriched()
     {
-        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("825B8D27-301A-4974-8024-7DE798C17765")) with
-        {
-            Word = new WordBuilder("brood")
-        };
         this.dbContext.Sequences.Add(sequenceBuilder.BuildEntity());
     }
 
     [When(@"the user enriches this sequence")]
-    public void WhenTheUserEnrichesThisSequence()
+    public async Task WhenTheUserEnrichesThisSequence()
     {
-        //call api to enrich
+        await this.Client.Latest().SequenceRequests().Enrich(this.sequenceBuilder.SequenceId.Value);
     }
 
     [Then(@"the sequence enriched data contains the raw explanation")]

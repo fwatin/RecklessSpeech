@@ -1,5 +1,6 @@
 ﻿using RecklessSpeech.Application.Core.Commands;
 using RecklessSpeech.Application.Read.Ports;
+using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
 using RecklessSpeech.Domain.Sequences.Sequences;
@@ -11,27 +12,27 @@ public record EnrichSequenceCommand(Guid sequenceId) : IEventDrivenCommand;
 
 public class EnrichSequenceCommandHandler : CommandHandlerBase<EnrichSequenceCommand>
 {
-    private readonly ISequenceRepository sequenceRepository;
+    private readonly ISequenceQueryRepository sequenceRepository; //todo utiliser le sequence repository in mem
     private readonly ITranslatorGateway translatorGateway;
 
-    public EnrichSequenceCommandHandler(ISequenceRepository sequenceRepository,
+    public EnrichSequenceCommandHandler(ISequenceQueryRepository sequenceQueryRepository,
         ITranslatorGateway translatorGateway)
     {
-        this.sequenceRepository = sequenceRepository;
+        this.sequenceRepository = sequenceQueryRepository;
         this.translatorGateway = translatorGateway;
     }
 
     protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(EnrichSequenceCommand command)
     {
-        Sequence sequence = await sequenceRepository.GetOne(command.sequenceId);
+        SequenceSummaryQueryModel? sequence = this.sequenceRepository.TryGetOne(command.sequenceId);
 
-        Explanation explanation = translatorGateway.GetExplanation(sequence.Word.Value);
+        Explanation explanation = this.translatorGateway.GetExplanation(sequence!.Word);
 
-        var events = new[]
+        EnrichSequenceEvent[] events =
         {
-            new EnrichSequenceEvent(command.sequenceId, explanation)
+            new(command.sequenceId, explanation)
         };
-        
+
         return await Task.FromResult(events);
     }
 }

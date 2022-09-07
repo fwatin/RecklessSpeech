@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -55,6 +56,17 @@ public class SequenceController : ControllerBase
         IReadOnlyCollection<Guid> ids)
     {
         await this.dispatcher.Dispatch(new SendNotesCommand(ids));
+        return this.Ok();
+    }
+    
+    [HttpPost]
+    [Route("Dictionary/")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
+    public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> Enrich(
+        IReadOnlyCollection<Guid> ids)
+    {
+        await this.dispatcher.Dispatch(new EnrichSequenceCommand(ids.First()));
         return this.Ok();
     }
 }

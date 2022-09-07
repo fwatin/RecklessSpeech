@@ -13,7 +13,6 @@ public class InMemorySequenceQueryRepository : ISequenceQueryRepository
         this.dbContext = dbContext;
     }
 
-
     public async Task<IReadOnlyCollection<SequenceSummaryQueryModel>> GetAll()
     {
         IReadOnlyCollection<SequenceSummaryQueryModel> result = dbContext.Sequences.Select(
@@ -22,6 +21,7 @@ public class InMemorySequenceQueryRepository : ISequenceQueryRepository
                     entity.HtmlContent,
                     entity.AudioFileNameWithExtension,
                     entity.Tags,
+                    entity.Word,
                     entity.Explanation))
             .ToList();
 
@@ -38,6 +38,7 @@ public class InMemorySequenceQueryRepository : ISequenceQueryRepository
             entity.HtmlContent,
             entity.AudioFileNameWithExtension,
             entity.Tags,
+            entity.Word,
             entity.Explanation);
     }
 }

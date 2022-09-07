@@ -23,7 +23,7 @@ public class CaseOfGetExplicationForAWord
         Explanation explanation = gateway.GetExplanation(word);
         
         //Assert
-        explanation.RawContent.Should().Contain("pain");
-        explanation.RawContent.Should().Contain("voedsel dat je bij de bakker koopt");
+        explanation.Value.Should().Contain("pain");
+        explanation.Value.Should().Contain("voedsel dat je bij de bakker koopt");
     }
 }
