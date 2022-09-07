@@ -5,6 +5,7 @@ using RecklessSpeech.Domain.Shared;
 using RecklessSpeech.Infrastructure.Databases;
 using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
+using RecklessSpeech.Shared.Tests.Explanations;
 using RecklessSpeech.Shared.Tests.Sequences;
 using Xunit;
 
@@ -25,7 +26,7 @@ public class CaseOfEnrichSuccessful
         this.sut = new(this.sequenceRepository, new MijnwoordenboekGateway(new MijnwoordenboekGatewayLocalAccess()));
 
 
-        this.explanationBuilder = new ExplanationBuilder(Guid.Parse("F189810B-B15E-4360-911C-5FBCCA771887"));
+        this.explanationBuilder = ExplanationBuilder.Create(Guid.Parse("F189810B-B15E-4360-911C-5FBCCA771887"));
         this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("5CFF7781-7892-4172-9656-8EF0E6A76D2C"))with
         {
             Word = new WordBuilder("brood"),

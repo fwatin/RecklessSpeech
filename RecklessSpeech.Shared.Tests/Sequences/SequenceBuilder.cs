@@ -2,13 +2,14 @@
 using RecklessSpeech.Application.Write.Sequences.Commands;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Infrastructure.Entities;
+using RecklessSpeech.Shared.Tests.Explanations;
 using RecklessSpeech.Web.ViewModels.Sequences;
 
 namespace RecklessSpeech.Shared.Tests.Sequences;
 
 public record SequenceBuilder
 {
-    public SequenceId SequenceId { get; init; }
+    public SequenceId SequenceId { get; init; } //todo sequenceIdBuilder?
     public HtmlContentBuilder HtmlContent { get; init; }
     public AudioFileNameWithExtensionBuilder AudioFileNameWithExtension { get; init; }
     public TagsBuilder Tags { get; init; }
@@ -91,7 +92,7 @@ public record SequenceBuilder
             this.AudioFileNameWithExtension.Value,
             this.Tags.Value,
             this.Word.Value,
-            this.Explanation?.Value);
+            this.Explanation?.Content.Value);
     }
 
     public SequenceSummaryPresentation BuildSummaryPresentation()
@@ -101,7 +102,7 @@ public record SequenceBuilder
             this.HtmlContent.Value,
             this.AudioFileNameWithExtension.Value,
             this.Tags.Value,
-            this.Explanation?.Value);
+            this.Explanation?.Content.Value);
     }
 
     public ImportSequencesCommand BuildImportCommand()
