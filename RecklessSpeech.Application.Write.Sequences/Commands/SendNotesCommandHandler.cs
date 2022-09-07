@@ -29,7 +29,7 @@ public class SendNotesCommandHandler : CommandHandlerBase<SendNotesCommand>
         {
             Sequence sequence = await this.sequenceRepository.GetOne(id);
 
-            Note note = Note.Create(new(Guid.NewGuid()), Question.Create(sequence!.HtmlContent.Value));
+            Note note = Note.CreateFromSequence(sequence);
 
             notes.Add(note.GetDto());
         }

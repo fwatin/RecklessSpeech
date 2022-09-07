@@ -1,4 +1,6 @@
-﻿namespace RecklessSpeech.Domain.Sequences.Notes;
+﻿using RecklessSpeech.Domain.Sequences.Sequences;
+
+namespace RecklessSpeech.Domain.Sequences.Notes;
 
 public sealed class Note
 {
@@ -12,7 +14,13 @@ public sealed class Note
     }
 
     public static Note Hydrate(NoteId id, Question question) => new(id, question);
-    public static Note Create(NoteId id, Question question) => new(id, question);
+    public static Note CreateFromSequence(Sequence sequence)
+    {
+        return new Note(
+            new(Guid.NewGuid()),
+            Question.Create(sequence!.HtmlContent)
+        );
+    }
 
     public NoteDto GetDto()
     {
