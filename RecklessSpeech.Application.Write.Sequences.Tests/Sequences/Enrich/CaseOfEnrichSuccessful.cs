@@ -15,13 +15,13 @@ public class CaseOfEnrichSuccessful
 {
     private readonly EnrichSequenceCommandHandler sut;
     private readonly SequenceBuilder builder;
-    private readonly InMemorySequenceQueryRepository sequenceRepository;
+    private readonly InMemorySequenceRepository sequenceRepository;
     private InMemorySequencesDbContext dbContext;
 
     public CaseOfEnrichSuccessful()
     {
         this.dbContext = new();
-        this.sequenceRepository = new InMemorySequenceQueryRepository(this.dbContext);
+        this.sequenceRepository = new InMemorySequenceRepository(this.dbContext);
         this.sut = new(this.sequenceRepository, new MijnwoordenboekGateway(new MijnwoordenboekGatewayLocalAccess()));
         this.builder = SequenceBuilder.Create(Guid.Parse("5CFF7781-7892-4172-9656-8EF0E6A76D2C"))with
         {

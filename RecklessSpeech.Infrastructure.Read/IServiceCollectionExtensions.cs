@@ -13,19 +13,19 @@ public static class IServiceCollectionExtensions
     public static IServiceCollection AddReadPorts(this IServiceCollection services)
     {
         return services
-                .ConfigureRepositories()
-                .ConfigureNoteGateway()
-                .ConfigureTranslatorGateway()
+                .AddRepositories()
+                .AddNoteGateway()
+                .AddTranslatorGateway()
             ;
     }
 
-    private static IServiceCollection ConfigureRepositories(this IServiceCollection services)
+    private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         return services
             .AddScoped<ISequenceQueryRepository, InMemorySequenceQueryRepository>();
     }
 
-    public static IServiceCollection ConfigureNoteGateway(this IServiceCollection services)
+    public static IServiceCollection AddNoteGateway(this IServiceCollection services)
     {
         services.AddOptions<HttpAnkiNoteGatewayOptions>()
             .BindConfiguration("AnkiNoteGateway")
@@ -41,7 +41,7 @@ public static class IServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection ConfigureTranslatorGateway(this IServiceCollection services)
+    public static IServiceCollection AddTranslatorGateway(this IServiceCollection services)
     {
         services.AddSingleton<IMijnwoordenboekGatewayAccess>(new MijnwoordenboekGatewayLocalAccess());
         services.AddSingleton<ITranslatorGateway, MijnwoordenboekGateway>();

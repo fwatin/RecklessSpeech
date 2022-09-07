@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 using RecklessSpeech.Infrastructure.Sequences;
 
@@ -15,13 +16,18 @@ public static class IServiceCollectionExtension
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        return services
-            .AddScoped<IDomainEventsRepository, DomainEventsRepository>();
+        services.AddScoped<IDomainEventsRepository, DomainEventsRepository>();
+
+        services.AddScoped<ISequenceRepository, InMemorySequenceRepository>();
+        services.AddScoped<InMemorySequenceRepository>();
+
+        return services;
     }
 
     private static IServiceCollection AddInMemoryDbContext(this IServiceCollection services)
     {
-        var inMemorySequencesDbContext = new InMemorySequencesDbContext();
+        InMemorySequencesDbContext inMemorySequencesDbContext = new();
+
         return services
             .AddSingleton<ISequencesDbContext>(inMemorySequencesDbContext)
             .AddSingleton(inMemorySequencesDbContext);

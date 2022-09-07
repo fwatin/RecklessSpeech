@@ -6,20 +6,20 @@ using RecklessSpeech.Infrastructure.Sequences;
 
 namespace RecklessSpeech.Infrastructure.Databases;
 
-public class InMemorySequenceRepository : ISequenceRepository //todo à mettre ailleurs
+public class InMemorySequenceRepository : ISequenceRepository
 {
-    private readonly List<SequenceEntity> sequences = new();
+    private readonly ISequencesDbContext dbContext;
 
-    public void FeedOne(SequenceEntity entity)
+    public InMemorySequenceRepository(ISequencesDbContext dbContext)
     {
-        sequences.Add(entity);
+        this.dbContext = dbContext;
     }
 
     public async Task<Sequence> GetOne(Guid id)
     {
-        var entity = sequences.Single(x => x.Id == id);
+        SequenceEntity entity = this.dbContext.Sequences.Single(x => x.Id == id);
 
-        var sequence = Sequence.Create(
+        Sequence sequence = Sequence.Create(
             entity.Id,
             HtmlContent.Hydrate(entity.HtmlContent),
             AudioFileNameWithExtension.Hydrate(entity.AudioFileNameWithExtension),

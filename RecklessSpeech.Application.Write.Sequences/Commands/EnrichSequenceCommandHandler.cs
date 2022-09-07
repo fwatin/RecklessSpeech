@@ -12,27 +12,27 @@ public record EnrichSequenceCommand(Guid sequenceId) : IEventDrivenCommand;
 
 public class EnrichSequenceCommandHandler : CommandHandlerBase<EnrichSequenceCommand>
 {
-    private readonly ISequenceQueryRepository sequenceRepository; //todo utiliser le sequence repository in mem
+    private readonly ISequenceRepository sequenceRepository;
     private readonly ITranslatorGateway translatorGateway;
 
-    public EnrichSequenceCommandHandler(ISequenceQueryRepository sequenceQueryRepository,
+    public EnrichSequenceCommandHandler(ISequenceRepository sequenceRepository,
         ITranslatorGateway translatorGateway)
     {
-        this.sequenceRepository = sequenceQueryRepository;
+        this.sequenceRepository = sequenceRepository;
         this.translatorGateway = translatorGateway;
     }
 
     protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(EnrichSequenceCommand command)
     {
-        SequenceSummaryQueryModel? sequence = this.sequenceRepository.TryGetOne(command.sequenceId);
+        Sequence sequence = await this.sequenceRepository.GetOne(command.sequenceId);
 
-        Explanation explanation = this.translatorGateway.GetExplanation(sequence!.Word);
+        Explanation explanation = this.translatorGateway.GetExplanation(sequence.Word.Value);
 
         EnrichSequenceEvent[] events =
         {
             new(command.sequenceId, explanation)
         };
 
-        return await Task.FromResult(events);
+        return events;
     }
 }
