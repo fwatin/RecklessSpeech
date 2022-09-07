@@ -7,7 +7,7 @@ using RecklessSpeech.Domain.Shared;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands;
 
-public record EnrichSequenceCommand(Guid sequenceId) : IEventDrivenCommand;
+public record EnrichSequenceCommand(Guid SequenceId) : IEventDrivenCommand;
 
 public class EnrichSequenceCommandHandler : CommandHandlerBase<EnrichSequenceCommand>
 {
@@ -23,7 +23,7 @@ public class EnrichSequenceCommandHandler : CommandHandlerBase<EnrichSequenceCom
 
     protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(EnrichSequenceCommand command)
     {
-        Sequence sequence = await this.sequenceRepository.GetOne(command.sequenceId);
+        Sequence sequence = await this.sequenceRepository.GetOne(command.SequenceId);
 
         Explanation explanation = this.translatorGateway.GetExplanation(sequence.Word.Value);
 
@@ -33,7 +33,6 @@ public class EnrichSequenceCommandHandler : CommandHandlerBase<EnrichSequenceCom
             new ExplanationAssignedToSequenceEvent(sequence.SequenceId, explanation.ExplanationId)
         };
 
-        //todo faire test : si explanation existe déjà
         return events;
     }
 }
