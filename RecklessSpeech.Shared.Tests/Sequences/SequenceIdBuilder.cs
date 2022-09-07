@@ -4,13 +4,12 @@ namespace RecklessSpeech.Shared.Tests.Sequences;
 
 public class SequenceIdBuilder
 {
-    public SequenceIdBuilder() { }
-    public SequenceIdBuilder(Guid id)
+    public SequenceIdBuilder(Guid value)
     {
-        this.Id = id;
+        this.Value = value;
     }
     
-    public Guid Id { get; set; } = Guid.Parse("A2527331-DACE-49AA-8339-0FC9C11ED6AB");
+    public Guid Value { get; } = Guid.Parse("A2527331-DACE-49AA-8339-0FC9C11ED6AB");
 
-    public static implicit operator SequenceId(SequenceIdBuilder builder) => new(builder.Id);
+    public static implicit operator SequenceId(SequenceIdBuilder builder) => new(builder.Value);
 }

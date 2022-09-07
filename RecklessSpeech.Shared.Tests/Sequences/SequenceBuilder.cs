@@ -9,7 +9,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences;
 
 public record SequenceBuilder
 {
-    public SequenceId SequenceId { get; init; } //todo sequenceIdBuilder?
+    public SequenceIdBuilder SequenceId { get; init; }
     public HtmlContentBuilder HtmlContent { get; init; }
     public AudioFileNameWithExtensionBuilder AudioFileNameWithExtension { get; init; }
     public TagsBuilder Tags { get; init; }
@@ -18,17 +18,15 @@ public record SequenceBuilder
 
     public ExplanationBuilder? Explanation { get; init; }
 
-
-    private string? rawCsvContent = default!;
+    private readonly string? rawCsvContent = default!;
 
     public string RawCsvContent
     {
         get =>
-            rawCsvContent == null
+            this.rawCsvContent == null
                 ? DefaultExampleFromMoneyBall()
-                : rawCsvContent!;
-        set =>
-            rawCsvContent = value;
+                : this.rawCsvContent!;
+        init => this.rawCsvContent = value;
     }
 
 
