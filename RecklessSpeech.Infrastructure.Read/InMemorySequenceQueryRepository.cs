@@ -22,7 +22,7 @@ public class InMemorySequenceQueryRepository : ISequenceQueryRepository
         foreach (SequenceEntity entity in this.dbContext.Sequences)
         {
 
-            ExplanationEntity? explanation = this.dbContext.Explanations.SingleOrDefault(x => x.Id == entity.Explanation);
+            ExplanationEntity? explanation = this.dbContext.Explanations.SingleOrDefault(x => x.Id == entity.ExplanationId);
 
             var queryModel = new SequenceSummaryQueryModel(
                 entity.Id,
@@ -44,9 +44,9 @@ public class InMemorySequenceQueryRepository : ISequenceQueryRepository
         if (entity is null) return null;
 
         ExplanationEntity? explanation = null;
-        if (entity.Explanation is not null)
+        if (entity.ExplanationId is not null)
         {
-            explanation = this.dbContext.Explanations.Single(x => x.Id == entity.Explanation);
+            explanation = this.dbContext.Explanations.Single(x => x.Id == entity.ExplanationId);
         }
 
         return new SequenceSummaryQueryModel(
