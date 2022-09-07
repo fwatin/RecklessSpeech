@@ -1,3 +1,3 @@
-﻿namespace RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek; //todo fix
+﻿namespace RecklessSpeech.Domain.Sequences.Sequences;
 
 public record Explanation(string Value);
