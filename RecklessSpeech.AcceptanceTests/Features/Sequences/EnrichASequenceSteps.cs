@@ -13,9 +13,12 @@ public class EnrichASequenceSteps: StepsBase
 {
     private SequenceBuilder sequenceBuilder;
     private readonly ITranslatorGateway mijnwoordenboekgateway;
+    private readonly ISequencesDbContext dbContext;
+    public IReadOnlyCollection<SequenceSummaryPresentation> SequenceListResponse { get; set; }
 
     public EnrichASequenceSteps(ScenarioContext context) : base(context)
     {
+        this.dbContext = this.GetService<ISequencesDbContext>();
     }
 
     [Given(@"a sequence to be enriched")]
@@ -25,17 +28,20 @@ public class EnrichASequenceSteps: StepsBase
         {
             Word = new WordBuilder("brood")
         };
+        this.dbContext.Sequences.Add(sequenceBuilder.BuildEntity());
     }
 
     [When(@"the user enriches this sequence")]
     public void WhenTheUserEnrichesThisSequence()
     {
-        ScenarioContext.StepIsPending();
+        //call api to enrich
     }
 
     [Then(@"the sequence enriched data contains the raw explanation")]
-    public void ThenTheSequenceEnrichedDataContainsTheRawExplanation()
+    public async Task ThenTheSequenceEnrichedDataContainsTheRawExplanation()
     {
-        ScenarioContext.StepIsPending();
+        this.SequenceListResponse = (await this.Client.Latest().SequenceRequests().GetAll());
+        var sequencePresentationForBrood = SequenceListResponse.Single(x => x.Id == sequenceBuilder.SequenceId.Value);
+        sequencePresentationForBrood.Explanation.Should().NotBeNullOrEmpty();
     }
 }

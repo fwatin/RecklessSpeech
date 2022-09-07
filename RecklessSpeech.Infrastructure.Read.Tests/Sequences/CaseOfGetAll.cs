@@ -28,7 +28,8 @@ namespace RecklessSpeech.Infrastructure.Read.Tests.Sequences
             IReadOnlyCollection<SequenceSummaryQueryModel> result = await this.sut.GetAll();
             
             //Assert
-            result.Should().ContainEquivalentOf(builder.BuildQueryModel());
+            var expected = builder.BuildQueryModel();
+            result.Should().ContainEquivalentOf(expected);
         }
     }
 }

@@ -20,6 +20,7 @@ public static class SequenceSummaryQueryModelExtensions
             queryModel.Id,
             queryModel.HtmlContent, 
             queryModel.AudioFileNameWithExtension,
-            queryModel.Tags);
+            queryModel.Tags,
+            queryModel.Explanation);
     }
 }
