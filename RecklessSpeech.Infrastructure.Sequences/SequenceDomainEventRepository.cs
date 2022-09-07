@@ -19,15 +19,15 @@ public class SequenceDomainEventRepository : IDomainEventRepository
     {
         switch (@event)
         {
-            case SequencesImportRequestedEvent requestedEvent:
+            case AddedSequenceEvent requestedEvent:
                 await Handle(requestedEvent);
                 break;
             
-            case AssignExplanationToSequenceEvent enrichSequenceEvent:
+            case ExplanationAssignedToSequenceEvent enrichSequenceEvent:
                 await Handle(enrichSequenceEvent);
                 break;
             
-            case AddExplanationEvent addExplanationEvent:
+            case ExplanationAddedEvent addExplanationEvent:
                 await Handle(addExplanationEvent);
                 break;
             
@@ -35,7 +35,7 @@ public class SequenceDomainEventRepository : IDomainEventRepository
         }
     }
 
-    private async Task Handle(SequencesImportRequestedEvent @event)
+    private async Task Handle(AddedSequenceEvent @event)
     {
         SequenceEntity entity = new()
         {
@@ -50,20 +50,20 @@ public class SequenceDomainEventRepository : IDomainEventRepository
         await Task.CompletedTask;
     }
     
-    private async Task Handle(AddExplanationEvent @event)
+    private async Task Handle(ExplanationAddedEvent addedEvent)
     {
         ExplanationEntity entity = new()
         {
-            Id = @event.Explanation.ExplanationId.Value,
-            Value = @event.Explanation.Content.Value,
-            Word = @event.Explanation.Word.Value
+            Id = addedEvent.Explanation.ExplanationId.Value,
+            Value = addedEvent.Explanation.Content.Value,
+            Word = addedEvent.Explanation.Word.Value
         };
         
         this.dbContext.Explanations.Add(entity); //passer en addAsync plus tard quand EF
         await Task.CompletedTask;
     }
 
-    private async Task Handle(AssignExplanationToSequenceEvent @event)
+    private async Task Handle(ExplanationAssignedToSequenceEvent @event)
     {
         SequenceEntity sequenceEntity = this.dbContext.Sequences.Single(x => x.Id == @event.SequenceId.Value);
 

@@ -51,7 +51,7 @@ public record SequenceBuilder
     }
 
 
-    public SequencesImportRequestedEvent BuildEvent() =>
+    public AddedSequenceEvent BuildEvent() =>
         new(this.SequenceId,
             this.HtmlContent,
             this.AudioFileNameWithExtension,

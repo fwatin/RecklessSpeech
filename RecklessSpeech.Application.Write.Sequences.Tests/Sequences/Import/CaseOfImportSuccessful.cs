@@ -33,10 +33,10 @@ public class CaseOfImportSuccessful
 
         //Assert
         events.Should().HaveCount(1);
-        ((events.First() as SequencesImportRequestedEvent)!).HtmlContent.Value.Should().NotBeNullOrEmpty();
-        ((events.First() as SequencesImportRequestedEvent)!).AudioFileNameWithExtension.Value.Should()
+        ((events.First() as AddedSequenceEvent)!).HtmlContent.Value.Should().NotBeNullOrEmpty();
+        ((events.First() as AddedSequenceEvent)!).AudioFileNameWithExtension.Value.Should()
             .NotBeNullOrEmpty();
-        ((events.First() as SequencesImportRequestedEvent)!).Tags.Value.Should().NotBeNullOrEmpty();
+        ((events.First() as AddedSequenceEvent)!).Tags.Value.Should().NotBeNullOrEmpty();
     }
 
     [Fact]
@@ -75,7 +75,7 @@ public class CaseOfImportSuccessful
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(importSequencesCommand, CancellationToken.None);
 
         //Assert
-        SequencesImportRequestedEvent importEvent = (SequencesImportRequestedEvent) events.First();
+        AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
         var dcCard = await Fixture.GetStyleRule(importEvent.HtmlContent.Value);
         dcCard.Style.Declarations.Where(property => property.Name == "background-color").Should().BeEmpty();
     }
@@ -90,7 +90,7 @@ public class CaseOfImportSuccessful
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        SequencesImportRequestedEvent importEvent = (SequencesImportRequestedEvent) events.First();
+        AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
         importEvent.Word.Value.Should().Be("gimmicks");
     }
     
@@ -104,7 +104,7 @@ public class CaseOfImportSuccessful
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        SequencesImportRequestedEvent importEvent = (SequencesImportRequestedEvent) events.First();
+        AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
         importEvent.TranslatedSentence.Value.Should().Be("Et ça n'arrive pas par quelques astuces statistiques.");
     }
 

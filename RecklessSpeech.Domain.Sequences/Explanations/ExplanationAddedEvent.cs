@@ -2,7 +2,7 @@ using RecklessSpeech.Domain.Shared;
 
 namespace RecklessSpeech.Domain.Sequences.Explanations;
 
-public record AddExplanationEvent //todo mettre tous les events au participe passé
+public record ExplanationAddedEvent
 (
     Explanation Explanation
 ) : IDomainEvent;

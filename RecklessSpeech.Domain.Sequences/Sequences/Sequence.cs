@@ -18,7 +18,7 @@ public sealed class Sequence
 
     public IEnumerable<IDomainEvent> Import()
     {
-        yield return new SequencesImportRequestedEvent(
+        yield return new AddedSequenceEvent(
             this.sequenceId,
             this.HtmlContent,
             this.audioFile,
