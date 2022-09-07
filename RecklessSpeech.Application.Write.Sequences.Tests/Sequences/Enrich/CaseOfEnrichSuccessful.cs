@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using RecklessSpeech.Application.Write.Sequences.Commands;
+using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 using RecklessSpeech.Infrastructure.Databases;
@@ -14,7 +15,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich;
 public class CaseOfEnrichSuccessful
 {
     private readonly EnrichSequenceCommandHandler sut;
-    private readonly SequenceBuilder builder;
+    private readonly SequenceBuilder sequenceBuilder;
     private readonly InMemorySequenceRepository sequenceRepository;
     private InMemorySequencesDbContext dbContext;
 
@@ -23,24 +24,30 @@ public class CaseOfEnrichSuccessful
         this.dbContext = new();
         this.sequenceRepository = new InMemorySequenceRepository(this.dbContext);
         this.sut = new(this.sequenceRepository, new MijnwoordenboekGateway(new MijnwoordenboekGatewayLocalAccess()));
-        this.builder = SequenceBuilder.Create(Guid.Parse("5CFF7781-7892-4172-9656-8EF0E6A76D2C"))with
+        
+        
+        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("5CFF7781-7892-4172-9656-8EF0E6A76D2C"))with
         {
-            Word = new WordBuilder("brood")
-        };
+            Word = new WordBuilder("brood"),
+        }; //todo mettre un explanation builder custom et y passer un id
     }
 
     [Fact]
-    public async Task Should_add_a_new_sequence()
+    public async Task Should_enrich_a_sequence_with_explanation()
     {
         //Arrange
-        this.dbContext.Sequences.Add(this.builder.BuildEntity());
-        EnrichSequenceCommand command = this.builder.BuildEnrichCommand();
+        this.dbContext.Sequences.Add(this.sequenceBuilder.BuildEntity());
+        EnrichSequenceCommand command = this.sequenceBuilder.BuildEnrichCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        events.Should().HaveCount(1);
-        ((events.First() as EnrichSequenceEvent)!).Explanation.Value.Should().Contain("pain");
+        events.Should().HaveCount(2);
+        IDomainEvent assignExplanationToSequenceEvent = events.First(x => x is AssignExplanationToSequenceEvent);
+        IDomainEvent addExplanationEvent = events.First(x => x is AddExplanationEvent);
+
+        ((AddExplanationEvent) addExplanationEvent).Explanation.Value.Should().Contain("pain");
+        ((AssignExplanationToSequenceEvent) assignExplanationToSequenceEvent).Explanation.Value.Should().Contain("pain");
     }
 }

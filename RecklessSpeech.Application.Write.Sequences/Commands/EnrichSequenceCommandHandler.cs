@@ -3,6 +3,7 @@ using RecklessSpeech.Application.Read.Ports;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
+using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 
@@ -28,11 +29,12 @@ public class EnrichSequenceCommandHandler : CommandHandlerBase<EnrichSequenceCom
 
         Explanation explanation = this.translatorGateway.GetExplanation(sequence.Word.Value);
 
-        EnrichSequenceEvent[] events =
+        IDomainEvent[] events =
         {
-            new(new SequenceId(command.sequenceId), explanation)
+            new AddExplanationEvent(explanation),
+            new AssignExplanationToSequenceEvent(new SequenceId(command.sequenceId), explanation)
         };
-
+        //todo shooter deux events : un pour ajouter selon condition et un pour assigner + et faire des tests accep selon les cas
         return events;
     }
 }

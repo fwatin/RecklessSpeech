@@ -6,8 +6,10 @@ public class InMemorySequencesDbContext : ISequencesDbContext
 {
     public InMemorySequencesDbContext()
     {
-        Sequences = new List<SequenceEntity>();
+        this.Explanations = new();
+        this.Sequences = new();
     }
 
     public List<SequenceEntity> Sequences { get; }
+    public List<ExplanationEntity> Explanations { get; }
 }

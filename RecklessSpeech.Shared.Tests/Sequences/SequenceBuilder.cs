@@ -15,7 +15,7 @@ public record SequenceBuilder
     public WordBuilder Word { get; init; }
     public TranslatedSentenceBuilder TranslatedSentence { get; init; }
 
-    public ExplanationBuilder Explanation { get; init; }
+    public ExplanationBuilder? Explanation { get; init; }
 
 
     private string? rawCsvContent = default!;
@@ -38,7 +38,7 @@ public record SequenceBuilder
         TagsBuilder tags,
         WordBuilder word,
         TranslatedSentenceBuilder translatedSentence,
-        ExplanationBuilder explanation)
+        ExplanationBuilder? explanation)
     {
         this.SequenceId = sequenceId;
         this.HtmlContent = htmlContent;
@@ -68,7 +68,7 @@ public record SequenceBuilder
             new(),
             new(),
             new(),
-            new());
+            default);
     }
 
     public SequenceEntity BuildEntity()
@@ -91,7 +91,7 @@ public record SequenceBuilder
             this.AudioFileNameWithExtension.Value,
             this.Tags.Value,
             this.Word.Value,
-            this.Explanation.Value);
+            this.Explanation?.Value);
     }
 
     public SequenceSummaryPresentation BuildSummaryPresentation()
@@ -101,7 +101,7 @@ public record SequenceBuilder
             this.HtmlContent.Value,
             this.AudioFileNameWithExtension.Value,
             this.Tags.Value,
-            this.Explanation.Value);
+            this.Explanation?.Value);
     }
 
     public ImportSequencesCommand BuildImportCommand()

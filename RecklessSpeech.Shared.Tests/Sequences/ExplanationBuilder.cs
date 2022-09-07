@@ -1,4 +1,5 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
+using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Shared.Tests.Sequences;
@@ -10,8 +11,8 @@ public class ExplanationBuilder
     {
         this.Value = value;
     }
-    
-    public string? Value { get; set; } = null;
 
-    public static implicit operator Explanation(ExplanationBuilder builder) => new(builder.Value);
+    public string Value { get; set; } = "veut dire genre trucs, astuces";
+    public string Word { get; set; } = "gimmicks";
+    public static implicit operator Explanation(ExplanationBuilder builder) => Explanation.Create(builder.Value, builder.Word);
 }

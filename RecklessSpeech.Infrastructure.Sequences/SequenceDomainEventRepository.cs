@@ -1,4 +1,5 @@
-﻿using RecklessSpeech.Domain.Sequences.Sequences;
+﻿using RecklessSpeech.Domain.Sequences.Explanations;
+using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
@@ -22,8 +23,12 @@ public class SequenceDomainEventRepository : IDomainEventRepository
                 await Handle(requestedEvent);
                 break;
             
-            case EnrichSequenceEvent enrichSequenceEvent:
+            case AssignExplanationToSequenceEvent enrichSequenceEvent:
                 await Handle(enrichSequenceEvent);
+                break;
+            
+            case AddExplanationEvent addExplanationEvent:
+                await Handle(addExplanationEvent);
                 break;
             
             default: throw new Exception("event type is not known for ApplyEvent");
@@ -44,11 +49,26 @@ public class SequenceDomainEventRepository : IDomainEventRepository
         this.dbContext.Sequences.Add(entity);
         await Task.CompletedTask;
     }
-
-    private async Task Handle(EnrichSequenceEvent @event)
+    
+    private async Task Handle(AddExplanationEvent @event)
     {
-        SequenceEntity entity = this.dbContext.Sequences.Single(x => x.Id == @event.SequenceId.Value);
-        entity.Explanation = @event.Explanation.Value;
+        ExplanationEntity entity = new()
+        {
+            Id = @event.Explanation.Id,
+            Value = @event.Explanation.Value,
+            Word = @event.Explanation.Word
+        };
+        
+        this.dbContext.Explanations.Add(entity); //passer en addAsync plus tard quand EF
+        await Task.CompletedTask;
+    }
+
+    private async Task Handle(AssignExplanationToSequenceEvent @event)
+    {
+        SequenceEntity sequenceEntity = this.dbContext.Sequences.Single(x => x.Id == @event.SequenceId.Value);
+
+        sequenceEntity.Explanation = @event.Explanation.Id;
+
         await Task.CompletedTask;
     }
 }
