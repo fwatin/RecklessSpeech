@@ -1,6 +1,4 @@
 ﻿using RecklessSpeech.Application.Core.Commands;
-using RecklessSpeech.Application.Read.Ports;
-using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Notes;
 using RecklessSpeech.Domain.Sequences.Sequences;

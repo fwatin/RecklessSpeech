@@ -13,10 +13,10 @@ public sealed class Explanation
         this.Word = word;
 
     }
-    public static Explanation Create(string value, string word)
+    public static Explanation Create(Guid id, string value, string word)
     {
         return new Explanation(
-            new(Guid.NewGuid()),
+            new(id),
             new(value),
             new(word));
     }

@@ -1,18 +1,16 @@
-﻿using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
-using RecklessSpeech.Domain.Sequences.Explanations;
-using RecklessSpeech.Domain.Sequences.Sequences;
+﻿using RecklessSpeech.Domain.Sequences.Explanations;
 
 namespace RecklessSpeech.Shared.Tests.Sequences;
 
 public class ExplanationBuilder
 {
-    public ExplanationBuilder() { }
-    public ExplanationBuilder(string? value)
+    public ExplanationBuilder(Guid id) //todo mettre un Create
     {
-        this.Value = value;
+        this.Id = id;
     }
 
-    public string Value { get; set; } = "veut dire genre trucs, astuces";
-    public string Word { get; set; } = "gimmicks";
-    public static implicit operator Explanation(ExplanationBuilder builder) => Explanation.Create(builder.Value, builder.Word);
+    public string Value { get; set; } = "veut dire genre trucs, astuces"; //todo mettre des value type
+    public string Word { get; set; } = "gimmicks";//todo mettre des value type
+    public Guid Id { get; set; }
+    public static implicit operator Explanation(ExplanationBuilder builder) => Explanation.Create(builder.Id, builder.Value, builder.Word);
 }

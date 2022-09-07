@@ -1,7 +1,5 @@
 ﻿using FluentAssertions;
-using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
-using RecklessSpeech.Infrastructure.Databases;
 using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Shared.Tests.Sequences;
 using RecklessSpeech.Web.ViewModels.Sequences;

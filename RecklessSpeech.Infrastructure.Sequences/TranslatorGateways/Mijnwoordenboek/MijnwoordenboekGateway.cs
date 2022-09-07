@@ -1,6 +1,5 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
 using RecklessSpeech.Domain.Sequences.Explanations;
-using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
 
@@ -17,7 +16,7 @@ public class MijnwoordenboekGateway : ITranslatorGateway
     {
         string value = this.access.GetDataForAWord(word);
 
-        Explanation explanation = Explanation.Create(value, word);
+        Explanation explanation = Explanation.Create(Guid.NewGuid(), value, word);
 
         return explanation;
     }

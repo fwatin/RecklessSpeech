@@ -3,7 +3,6 @@ using RecklessSpeech.Application.Write.Sequences.Commands;
 using RecklessSpeech.Domain.Sequences.Notes;
 using RecklessSpeech.Infrastructure.Databases;
 using RecklessSpeech.Infrastructure.Entities;
-using RecklessSpeech.Infrastructure.Read;
 using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Shared.Tests.Notes;
 using RecklessSpeech.Shared.Tests.Sequences;

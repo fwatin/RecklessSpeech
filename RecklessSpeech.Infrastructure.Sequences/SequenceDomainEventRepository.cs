@@ -67,7 +67,7 @@ public class SequenceDomainEventRepository : IDomainEventRepository
     {
         SequenceEntity sequenceEntity = this.dbContext.Sequences.Single(x => x.Id == @event.SequenceId.Value);
 
-        sequenceEntity.Explanation = @event.Explanation.ExplanationId.Value;
+        sequenceEntity.Explanation = @event.ExplanationId.Value;
 
         await Task.CompletedTask;
     }

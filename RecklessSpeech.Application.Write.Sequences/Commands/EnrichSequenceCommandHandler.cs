@@ -1,6 +1,4 @@
 ﻿using RecklessSpeech.Application.Core.Commands;
-using RecklessSpeech.Application.Read.Ports;
-using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
 using RecklessSpeech.Domain.Sequences.Explanations;
@@ -32,9 +30,9 @@ public class EnrichSequenceCommandHandler : CommandHandlerBase<EnrichSequenceCom
         IDomainEvent[] events =
         {
             new ExplanationAddedEvent(explanation),
-            new ExplanationAssignedToSequenceEvent(new SequenceId(command.sequenceId), explanation)
+            new ExplanationAssignedToSequenceEvent(sequence.SequenceId, explanation.ExplanationId)
         };
-        
+
         //todo faire test : si explanation existe déjà
         return events;
     }
