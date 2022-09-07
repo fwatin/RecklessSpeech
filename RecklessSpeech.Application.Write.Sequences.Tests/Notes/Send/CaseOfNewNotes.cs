@@ -1,5 +1,8 @@
 using FluentAssertions;
 using RecklessSpeech.Application.Write.Sequences.Commands;
+using RecklessSpeech.Domain.Sequences.Notes;
+using RecklessSpeech.Infrastructure.Databases;
+using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Read;
 using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Shared.Tests.Notes;
@@ -16,18 +19,18 @@ public class CaseOfNewNotes
         //Arrange
         Guid sequenceId = Guid.Parse("79FAD304-21BC-4B58-BECF-0884016DCC11");
         string someHtml = "\"<style> some html here for this test\"";
-        var sequenceBuilder = SequenceBuilder.Create(sequenceId) with
+        SequenceBuilder sequenceBuilder = SequenceBuilder.Create(sequenceId) with
         {
             HtmlContent = new(someHtml)
         };
-        var sequenceEntity = sequenceBuilder.BuildEntity();
-        var dbContext = new InMemorySequencesDbContext();
+        SequenceEntity sequenceEntity = sequenceBuilder.BuildEntity();
+        InMemorySequencesDbContext dbContext = new();
         dbContext.Sequences.Add(sequenceEntity);
-        var sequenceRepository = new InMemorySequenceQueryRepository(dbContext);
+        InMemorySequenceRepository sequenceRepository = new(dbContext);
 
-        var spyGateway = new SpyNoteGateway();
-        var sut = new SendNotesCommandHandler(spyGateway, sequenceRepository);
-        var noteBuilder = NoteBuilder.Create(sequenceId) with
+        SpyNoteGateway spyGateway = new();
+        SendNotesCommandHandler sut = new SendNotesCommandHandler(spyGateway, sequenceRepository);
+        NoteBuilder noteBuilder = NoteBuilder.Create(sequenceId) with
         {
             Question = new(someHtml)
         };
@@ -37,7 +40,7 @@ public class CaseOfNewNotes
         await sut.Handle(command, CancellationToken.None);
 
         //Assert
-        var expected = noteBuilder.BuildDto();
+        NoteDto expected = noteBuilder.BuildDto();
         spyGateway.Notes.Should().ContainEquivalentOf(expected);
     }
 }

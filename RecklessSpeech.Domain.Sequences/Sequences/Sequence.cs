@@ -5,7 +5,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences;
 public sealed class Sequence
 {
     private readonly SequenceId sequenceId;
-    private HtmlContent htmlContent = default!;
+    public HtmlContent HtmlContent { get; private init; }
     public Word Word { get; private init; }
     private TranslatedSentence translatedSentence = default!;
     private AudioFileNameWithExtension audioFile= default!;
@@ -20,7 +20,7 @@ public sealed class Sequence
     {
         yield return new SequencesImportRequestedEvent(
             this.sequenceId,
-            this.htmlContent,
+            this.HtmlContent,
             this.audioFile,
             this.tags,
             this.Word,
@@ -37,7 +37,7 @@ public sealed class Sequence
     {
         return new Sequence(new(id))
         {
-            htmlContent = htmlContent,
+            HtmlContent = htmlContent,
             audioFile = audioFileNameWithExtension,
             tags = tags,
             Word = word,

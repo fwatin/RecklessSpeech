@@ -3,6 +3,7 @@ using RecklessSpeech.Application.Read.Ports;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Notes;
+using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands;
@@ -12,23 +13,23 @@ public record SendNotesCommand(IReadOnlyCollection<Guid> ids) : IEventDrivenComm
 public class SendNotesCommandHandler : CommandHandlerBase<SendNotesCommand>
 {
     private readonly INoteGateway noteGateway;
-    private readonly ISequenceQueryRepository sequenceQueryRepository; //todo changer ne pas utiliser le query repo
+    private readonly ISequenceRepository sequenceRepository;
 
-    public SendNotesCommandHandler(INoteGateway noteGateway, ISequenceQueryRepository sequenceQueryRepository)
+    public SendNotesCommandHandler(INoteGateway noteGateway, ISequenceRepository sequenceRepository)
     {
         this.noteGateway = noteGateway;
-        this.sequenceQueryRepository = sequenceQueryRepository;
+        this.sequenceRepository = sequenceRepository;
     }
 
     protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(SendNotesCommand command)
     {
-        var notes = new List<NoteDto>();
+        List<NoteDto> notes = new();
 
         foreach (Guid id in command.ids)
         {
-            SequenceSummaryQueryModel? sequence = sequenceQueryRepository.TryGetOne(id); //todo devrait pas etre des query model
+            Sequence sequence = await this.sequenceRepository.GetOne(id);
 
-            var note = Note.Create(new(Guid.NewGuid()), Question.Create(sequence!.HtmlContent));
+            Note note = Note.Create(new(Guid.NewGuid()), Question.Create(sequence!.HtmlContent.Value));
 
             notes.Add(note.GetDto());
         }
