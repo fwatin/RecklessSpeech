@@ -54,9 +54,9 @@ public class SequenceDomainEventRepository : IDomainEventRepository
     {
         ExplanationEntity entity = new()
         {
-            Id = @event.Explanation.Id,
-            Value = @event.Explanation.Value,
-            Word = @event.Explanation.Word
+            Id = @event.Explanation.ExplanationId.Value,
+            Value = @event.Explanation.Content.Value,
+            Word = @event.Explanation.Word.Value
         };
         
         this.dbContext.Explanations.Add(entity); //passer en addAsync plus tard quand EF
@@ -67,7 +67,7 @@ public class SequenceDomainEventRepository : IDomainEventRepository
     {
         SequenceEntity sequenceEntity = this.dbContext.Sequences.Single(x => x.Id == @event.SequenceId.Value);
 
-        sequenceEntity.Explanation = @event.Explanation.Id;
+        sequenceEntity.Explanation = @event.Explanation.ExplanationId.Value;
 
         await Task.CompletedTask;
     }

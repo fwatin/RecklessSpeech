@@ -6,5 +6,5 @@ public record SequenceEntity : AggregateRootEntity
     public string AudioFileNameWithExtension { get; init; }
     public string Tags { get; init; }
     public string Word { get; init; }
-    public Guid? Explanation { get; set; }
+    public Guid? Explanation { get; set; } //todo rename with id
 }

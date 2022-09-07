@@ -34,7 +34,8 @@ public class EnrichSequenceCommandHandler : CommandHandlerBase<EnrichSequenceCom
             new AddExplanationEvent(explanation),
             new AssignExplanationToSequenceEvent(new SequenceId(command.sequenceId), explanation)
         };
-        //todo shooter deux events : un pour ajouter selon condition et un pour assigner + et faire des tests accep selon les cas
+        
+        //todo faire test : si explanation existe déjà
         return events;
     }
 }

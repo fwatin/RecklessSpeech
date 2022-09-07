@@ -2,20 +2,22 @@
 
 public sealed class Explanation
 {
-    public string Value { get; set; } //todo mettre un value type
-    //todo rename
-    public string Word { get; set; } //todo mettre un value type
-    public Guid Id { get; init; } //todo mettre un value type
+    public Content Content { get; set; }
+    public Word Word { get; set; }
+    public ExplanationId ExplanationId { get; init; }
 
-    private Explanation(Guid id, string value, string word)
+    private Explanation(ExplanationId explanationId, Content content, Word word)
     {
-        this.Id = id;
-        this.Value = value;
+        this.ExplanationId = explanationId;
+        this.Content = content;
         this.Word = word;
 
     }
     public static Explanation Create(string value, string word)
     {
-        return new Explanation(Guid.NewGuid(), value, word);
+        return new Explanation(
+            new(Guid.NewGuid()),
+            new(value),
+            new(word));
     }
-} 
+}

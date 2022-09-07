@@ -47,7 +47,7 @@ public class CaseOfEnrichSuccessful
         IDomainEvent assignExplanationToSequenceEvent = events.First(x => x is AssignExplanationToSequenceEvent);
         IDomainEvent addExplanationEvent = events.First(x => x is AddExplanationEvent);
 
-        ((AddExplanationEvent) addExplanationEvent).Explanation.Value.Should().Contain("pain");
-        ((AssignExplanationToSequenceEvent) assignExplanationToSequenceEvent).Explanation.Value.Should().Contain("pain");
+        ((AddExplanationEvent) addExplanationEvent).Explanation.Content.Value.Should().Contain("pain");
+        ((AssignExplanationToSequenceEvent) assignExplanationToSequenceEvent).Explanation.Content.Value.Should().Contain("pain");
     }
 }
