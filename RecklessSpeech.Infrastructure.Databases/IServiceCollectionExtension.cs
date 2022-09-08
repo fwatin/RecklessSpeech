@@ -21,6 +21,10 @@ public static class IServiceCollectionExtension
         services.AddScoped<ISequenceRepository, InMemorySequenceRepository>();
         services.AddScoped<InMemorySequenceRepository>();
 
+        services.AddScoped<IExplanationRepository, InMemoryExplanationRepository>();
+        services.AddScoped<InMemoryExplanationRepository>();
+
+        
         return services;
     }
 

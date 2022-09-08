@@ -1,8 +1,9 @@
 ﻿using RecklessSpeech.Domain.Sequences.Explanations;
+using RecklessSpeech.Infrastructure.Entities;
 
 namespace RecklessSpeech.Shared.Tests.Explanations;
 
-public class ExplanationBuilder
+public record ExplanationBuilder
 {
     public ExplanationIdBuilder ExplanationId { get; init; }
     public ContentBuilder Content { get; init; }
@@ -31,4 +32,14 @@ public class ExplanationBuilder
             builder.ExplanationId.Value,
             builder.Content.Value,
             builder.Target.Value);
+    
+    public ExplanationEntity BuildEntity()
+    {
+        return new ExplanationEntity()
+        {
+            Id = this.ExplanationId.Value,
+            Content = this.Content.Value,
+            Target = this.Target.Value
+        };
+    }
 }

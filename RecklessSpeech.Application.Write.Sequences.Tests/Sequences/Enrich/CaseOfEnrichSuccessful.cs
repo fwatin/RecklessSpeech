@@ -18,12 +18,19 @@ public class CaseOfEnrichSuccessful
     private readonly InMemorySequenceRepository sequenceRepository;
     private InMemorySequencesDbContext dbContext;
     private ExplanationBuilder explanationBuilder;
+    private readonly InMemoryExplanationRepository explanationRepository;
 
     public CaseOfEnrichSuccessful()
     {
         this.dbContext = new();
+        
         this.sequenceRepository = new InMemorySequenceRepository(this.dbContext);
-        this.sut = new(this.sequenceRepository, new MijnwoordenboekGateway(new MijnwoordenboekGatewayLocalAccess()));
+        this.explanationRepository = new InMemoryExplanationRepository(this.dbContext);
+        
+        this.sut = new(
+            this.sequenceRepository,
+            this.explanationRepository,
+            new MijnwoordenboekGateway(new MijnwoordenboekGatewayLocalAccess()));
 
 
         this.explanationBuilder = ExplanationBuilder.Create(Guid.Parse("F189810B-B15E-4360-911C-5FBCCA771887"));
@@ -48,7 +55,7 @@ public class CaseOfEnrichSuccessful
         events.Should().HaveCount(2);
         ExplanationAssignedToSequenceEvent assignExplanationToSequenceEvent =
             (ExplanationAssignedToSequenceEvent) events.First(x => x is ExplanationAssignedToSequenceEvent);
-        
+
         ExplanationAddedEvent addExplanationEvent = (ExplanationAddedEvent) events.First(x => x is ExplanationAddedEvent);
 
         addExplanationEvent.Explanation.Content.Value.Should().Contain("pain");

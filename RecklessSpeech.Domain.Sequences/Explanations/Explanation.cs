@@ -13,11 +13,19 @@ public sealed class Explanation
         this.Target = target;
 
     }
-    public static Explanation Create(Guid id, string value, string target)
+    public static Explanation Create(Guid id, string content, string target)
     {
         return new Explanation(
             new(id),
-            new(value),
+            new(content),
+            new(target));
+    }
+    
+    public static Explanation Hydrate(Guid id, string content, string target)
+    {
+        return new Explanation(
+            new(id),
+            new(content),
             new(target));
     }
 }

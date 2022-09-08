@@ -12,12 +12,16 @@ public record EnrichSequenceCommand(Guid SequenceId) : IEventDrivenCommand;
 public class EnrichSequenceCommandHandler : CommandHandlerBase<EnrichSequenceCommand>
 {
     private readonly ISequenceRepository sequenceRepository;
+    private readonly IExplanationRepository explanationRepository;
     private readonly ITranslatorGateway translatorGateway;
 
-    public EnrichSequenceCommandHandler(ISequenceRepository sequenceRepository,
+    public EnrichSequenceCommandHandler(
+        ISequenceRepository sequenceRepository,
+        IExplanationRepository explanationRepository,
         ITranslatorGateway translatorGateway)
     {
         this.sequenceRepository = sequenceRepository;
+        this.explanationRepository = explanationRepository;
         this.translatorGateway = translatorGateway;
     }
 
@@ -25,13 +29,18 @@ public class EnrichSequenceCommandHandler : CommandHandlerBase<EnrichSequenceCom
     {
         Sequence sequence = await this.sequenceRepository.GetOne(command.SequenceId);
 
-        Explanation explanation = this.translatorGateway.GetExplanation(sequence.Word.Value);
+        Explanation? existingExplanation = this.explanationRepository.TryGetByTarget(sequence.Word.Value);
 
-        IDomainEvent[] events =
+        Explanation explanation = existingExplanation ?? this.translatorGateway.GetExplanation(sequence.Word.Value);
+
+        List<IDomainEvent> events = new()
         {
-            new ExplanationAddedEvent(explanation),
             new ExplanationAssignedToSequenceEvent(sequence.SequenceId, explanation.ExplanationId)
         };
+        if (existingExplanation is null)
+        {
+            events.Add(new ExplanationAddedEvent(explanation));
+        }
 
         return events;
     }

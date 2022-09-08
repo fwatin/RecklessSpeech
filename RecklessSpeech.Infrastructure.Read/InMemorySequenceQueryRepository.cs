@@ -30,7 +30,7 @@ public class InMemorySequenceQueryRepository : ISequenceQueryRepository
                 entity.AudioFileNameWithExtension,
                 entity.Tags,
                 entity.Word,
-                explanation?.Value);
+                explanation?.Content);
 
             result.Add(queryModel);
         }
@@ -55,6 +55,6 @@ public class InMemorySequenceQueryRepository : ISequenceQueryRepository
             entity.AudioFileNameWithExtension,
             entity.Tags,
             entity.Word,
-            explanation?.Value);
+            explanation?.Content);
     }
 }

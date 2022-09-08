@@ -55,8 +55,8 @@ public class SequenceDomainEventRepository : IDomainEventRepository
         ExplanationEntity entity = new()
         {
             Id = addedEvent.Explanation.ExplanationId.Value,
-            Value = addedEvent.Explanation.Content.Value,
-            Word = addedEvent.Explanation.Target.Value
+            Content = addedEvent.Explanation.Content.Value,
+            Target = addedEvent.Explanation.Target.Value
         };
         
         this.dbContext.Explanations.Add(entity); //passer en addAsync plus tard quand EF
