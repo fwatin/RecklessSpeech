@@ -22,7 +22,7 @@ namespace RecklessSpeech.Infrastructure.Read.Tests.Sequences
         {
             //Arrange
             SequenceBuilder builder = SequenceBuilder.Create(Guid.Parse("46AA5502-39A3-4E17-BFF7-ECAAEF56237B"));
-            memorySequencesDbContext.Sequences.Add(builder.BuildEntity());
+            this.memorySequencesDbContext.Sequences.Add(builder.BuildEntity());
             
             //Act
             IReadOnlyCollection<SequenceSummaryQueryModel> result = await this.sut.GetAll();

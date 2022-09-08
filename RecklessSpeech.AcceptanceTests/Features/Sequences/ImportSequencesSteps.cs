@@ -17,13 +17,13 @@ public class ImportSequencesSteps : StepsBase
 
     public ImportSequencesSteps(ScenarioContext context) : base(context)
     {
-        sequenceBuilder = SequenceBuilder.Create(Guid.Parse("E673F36C-9FBC-421D-9AF8-4B134E49B5C1"));
+        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("E673F36C-9FBC-421D-9AF8-4B134E49B5C1"));
     }
 
     [Given(@"a file containing some sequences")]
     public void GivenAFileContainingSomeSequences()
     {
-        this.importFileContent = sequenceBuilder.RawCsvContent;
+        this.importFileContent = this.sequenceBuilder.RawCsvContent;
     }
 
     [When(@"the user imports this file")]
@@ -36,14 +36,14 @@ public class ImportSequencesSteps : StepsBase
     [Then(@"some sequences are saved")]
     public void ThenSomeSequencesAreSaved()
     {
-        ISequencesDbContext? sequencesContext = this.GetService<ISequencesDbContext>();
-        sequencesContext.Sequences.Single().Should().BeEquivalentTo(sequenceBuilder.BuildEntity(),AssertExtensions.IgnoreId);
+        ISequencesDbContext? sequencesContext = GetService<ISequencesDbContext>();
+        sequencesContext.Sequences.Single().Should().BeEquivalentTo(this.sequenceBuilder.BuildEntity(),AssertExtensions.IgnoreId);
     }
 
     [Then(@"the html in HTML Content is valid")]
     public void ThenTheHtmlInHtmlContentIsValid()
     {
-        ISequencesDbContext? sequencesContext = this.GetService<ISequencesDbContext>();
+        ISequencesDbContext? sequencesContext = GetService<ISequencesDbContext>();
         SequenceEntity? sequence = sequencesContext.Sequences.First();
         HtmlDocument doc = new();
         doc.LoadHtml(sequence.HtmlContent);
@@ -53,7 +53,7 @@ public class ImportSequencesSteps : StepsBase
     [Then(@"the HTML contains some nodes for title and images")]
     public void ThenTheHtmlContainsSomeNodesForTitleAndImages()
     {
-        ISequencesDbContext? sequencesContext = this.GetService<ISequencesDbContext>();
+        ISequencesDbContext? sequencesContext = GetService<ISequencesDbContext>();
         SequenceEntity? sequence = sequencesContext.Sequences.First();
         HtmlDocument htmlDoc = new();
         htmlDoc.LoadHtml(sequence.HtmlContent);

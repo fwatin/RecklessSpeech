@@ -36,7 +36,7 @@ public class SequenceController : ControllerBase
 
         await this.dispatcher.Dispatch(command);
 
-        return this.Ok();
+        return Ok();
     }
 
     [HttpGet]
@@ -45,7 +45,7 @@ public class SequenceController : ControllerBase
     public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> Get()
     {
         IReadOnlyCollection<SequenceSummaryQueryModel>? result = await this.dispatcher.Dispatch(new GetAllSequencesQuery());
-        return this.Ok(result.ToPresentation());
+        return Ok(result.ToPresentation());
     }
 
     [HttpPost]
@@ -56,7 +56,7 @@ public class SequenceController : ControllerBase
         IReadOnlyCollection<Guid> ids)
     {
         await this.dispatcher.Dispatch(new SendNotesCommand(ids));
-        return this.Ok();
+        return Ok();
     }
     
     [HttpPost]
@@ -67,6 +67,6 @@ public class SequenceController : ControllerBase
         IReadOnlyCollection<Guid> ids)
     {
         await this.dispatcher.Dispatch(new EnrichSequenceCommand(ids.First()));
-        return this.Ok();
+        return Ok();
     }
 }

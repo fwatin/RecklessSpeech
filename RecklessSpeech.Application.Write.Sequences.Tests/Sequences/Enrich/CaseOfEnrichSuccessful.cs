@@ -15,29 +15,28 @@ public class CaseOfEnrichSuccessful
 {
     private readonly EnrichSequenceCommandHandler sut;
     private readonly SequenceBuilder sequenceBuilder;
-    private readonly InMemorySequenceRepository sequenceRepository;
     private readonly InMemorySequencesDbContext dbContext;
-    private readonly ExplanationBuilder explanationBuilder;
-    private readonly InMemoryExplanationRepository explanationRepository;
 
     public CaseOfEnrichSuccessful()
     {
         this.dbContext = new();
         
-        this.sequenceRepository = new InMemorySequenceRepository(this.dbContext);
-        this.explanationRepository = new InMemoryExplanationRepository(this.dbContext);
+        InMemorySequenceRepository sequenceRepository = new(this.dbContext);
+        InMemoryExplanationRepository explanationRepository = new(this.dbContext);
         
         this.sut = new(
-            this.sequenceRepository,
-            this.explanationRepository,
+            sequenceRepository,
+            explanationRepository,
             new MijnwoordenboekGateway(new MijnwoordenboekGatewayLocalAccess()));
 
 
-        this.explanationBuilder = ExplanationBuilder.Create(Guid.Parse("F189810B-B15E-4360-911C-5FBCCA771887"));
+        ExplanationBuilder explanationBuilder = ExplanationBuilder.Create(Guid.Parse("F189810B-B15E-4360-911C-5FBCCA771887"));
+        this.dbContext.Explanations.Add(explanationBuilder.BuildEntity());
+        
         this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("5CFF7781-7892-4172-9656-8EF0E6A76D2C"))with
         {
             Word = new WordBuilder("brood"),
-            Explanation = this.explanationBuilder
+            Explanation = explanationBuilder
         };
     }
 

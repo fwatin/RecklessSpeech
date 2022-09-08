@@ -28,7 +28,7 @@ public class CaseOfInvalidSequence
 
 
         //Act & Assert
-        await sut.Invoking(x => x.Handle(command, CancellationToken.None))
+        await this.sut.Invoking(x => x.Handle(command, CancellationToken.None))
             .Should()
             .ThrowAsync<InvalidAudioFileFormatException>();
     }
@@ -46,7 +46,7 @@ public class CaseOfInvalidSequence
 
 
         //Act & Assert
-        await sut.Invoking(x => x.Handle(command, CancellationToken.None))
+        await this.sut.Invoking(x => x.Handle(command, CancellationToken.None))
             .Should()
             .ThrowAsync<InvalidHtmlContentException>();
     }

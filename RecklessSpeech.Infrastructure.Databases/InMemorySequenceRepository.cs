@@ -1,4 +1,5 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Ports;
+using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Sequences;
@@ -18,13 +19,26 @@ public class InMemorySequenceRepository : ISequenceRepository
     {
         SequenceEntity entity = this.dbContext.Sequences.Single(x => x.Id == id);
 
-        Sequence sequence = Sequence.Create(
+        Explanation? explanation = default;
+        if (entity.ExplanationId is not null)
+        {
+            ExplanationEntity explanationEntity = this.dbContext.Explanations.Single(x => x.Id == entity.ExplanationId);
+            
+            explanation = Explanation.Hydrate(
+                explanationEntity.Id,
+                explanationEntity.Content,
+                explanationEntity.Target);
+        }
+
+        Sequence sequence = Sequence.Hydrate(
             entity.Id,
-            HtmlContent.Hydrate(entity.HtmlContent),
-            AudioFileNameWithExtension.Hydrate(entity.AudioFileNameWithExtension),
-            Tags.Hydrate(entity.Tags),
-            Word.Hydrate(entity.Word),
-            TranslatedSentence.Hydrate(""));
+            entity.HtmlContent,
+            entity.AudioFileNameWithExtension,
+            entity.Tags,
+            entity.Word,
+            "",
+            explanation
+        );
 
         return await Task.FromResult(sequence);
     }

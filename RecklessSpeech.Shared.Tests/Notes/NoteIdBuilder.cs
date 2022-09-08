@@ -8,7 +8,7 @@ public class NoteIdBuilder
 
     public NoteIdBuilder(Guid Id)
     {
-        id = Id;
+        this.id = Id;
     }
     
     public static implicit operator Guid(NoteIdBuilder builder) => builder.id;

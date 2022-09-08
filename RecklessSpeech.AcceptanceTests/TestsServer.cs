@@ -21,7 +21,7 @@ public class TestsServer : IDisposable
     public TestsServer(ScenarioContext context)
     {
         this.context = context;
-        this.testServer = this.Initialize();
+        this.testServer = Initialize();
         this.ServiceProvider = this.testServer.Host.Services;
     }
 
@@ -31,7 +31,7 @@ public class TestsServer : IDisposable
             .UseStartup<Startup>()
             .UseEnvironment("acceptancetest")
             .ConfigureServices(
-                (ctx, services) => { this.ConfigureAcceptanceTests(services); }
+                (ctx, services) => { ConfigureAcceptanceTests(services); }
             )
             .ConfigureTestServices(services => services
                 .SubstituteNoteGateway()
@@ -43,7 +43,7 @@ public class TestsServer : IDisposable
 
     public void Dispose()
     {
-        this.Dispose(true);
+        Dispose(true);
         GC.SuppressFinalize(this);
         ;
     }

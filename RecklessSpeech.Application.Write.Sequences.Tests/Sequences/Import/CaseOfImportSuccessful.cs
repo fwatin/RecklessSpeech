@@ -18,7 +18,7 @@ public class CaseOfImportSuccessful
     public CaseOfImportSuccessful()
     {
         this.sut = new ImportSequencesCommandHandler();
-        builder = SequenceBuilder.Create(Guid.Parse("259FD4F4-082E-46CB-BF1A-94F99780D2E2"));
+        this.builder = SequenceBuilder.Create(Guid.Parse("259FD4F4-082E-46CB-BF1A-94F99780D2E2"));
 
     }
 
@@ -26,7 +26,7 @@ public class CaseOfImportSuccessful
     public async Task Should_add_a_new_sequence()
     {
         //Arrange
-        ImportSequencesCommand command = builder.BuildImportCommand();
+        ImportSequencesCommand command = this.builder.BuildImportCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
@@ -43,13 +43,13 @@ public class CaseOfImportSuccessful
     public async Task Should_add_a_known_sequence()
     {
         //Arrange
-        ImportSequencesCommand command = builder.BuildImportCommand();
+        ImportSequencesCommand command = this.builder.BuildImportCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        events.Should().ContainEquivalentOf(builder.BuildEvent(), AssertExtensions.IgnoreId);
+        events.Should().ContainEquivalentOf(this.builder.BuildEvent(), AssertExtensions.IgnoreId);
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public class CaseOfImportSuccessful
     public async Task Should_html_not_specify_background_color_for_dc_card()
     {
         //Arrange
-        ImportSequencesCommand? importSequencesCommand = builder.BuildImportCommand();
+        ImportSequencesCommand? importSequencesCommand = this.builder.BuildImportCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(importSequencesCommand, CancellationToken.None);
@@ -84,7 +84,7 @@ public class CaseOfImportSuccessful
     public async Task Should_get_word_in_sequence()
     {
         //Arrange
-        ImportSequencesCommand command = builder.BuildImportCommand();
+        ImportSequencesCommand command = this.builder.BuildImportCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
@@ -98,7 +98,7 @@ public class CaseOfImportSuccessful
     public async Task Should_get_translated_sentence_in_sequence()
     {
         //Arrange
-        ImportSequencesCommand command = builder.BuildImportCommand();
+        ImportSequencesCommand command = this.builder.BuildImportCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);

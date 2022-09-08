@@ -12,12 +12,13 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send;
 
 public class CaseOfNewNotes
 {
-    [Fact]
-    public async Task Should_send_a_new_note_to_Anki()
+    private readonly NoteBuilder noteBuilder;
+    private readonly SendNotesCommandHandler sut;
+    private readonly SpyNoteGateway spyGateway;
+    public CaseOfNewNotes()
     {
-        //Arrange
         Guid sequenceId = Guid.Parse("79FAD304-21BC-4B58-BECF-0884016DCC11");
-        string someHtml = "\"<style> some html here for this test\"";
+        const string someHtml = "\"<style> some html here for this test\"";
         SequenceBuilder sequenceBuilder = SequenceBuilder.Create(sequenceId) with
         {
             HtmlContent = new(someHtml)
@@ -27,19 +28,25 @@ public class CaseOfNewNotes
         dbContext.Sequences.Add(sequenceEntity);
         InMemorySequenceRepository sequenceRepository = new(dbContext);
 
-        SpyNoteGateway spyGateway = new();
-        SendNotesCommandHandler sut = new(spyGateway, sequenceRepository);
-        NoteBuilder noteBuilder = NoteBuilder.Create(sequenceId) with
+        this.spyGateway = new();
+        this.sut = new(this.spyGateway, sequenceRepository);
+        this.noteBuilder = NoteBuilder.Create(sequenceId) with
         {
-            Question = new(someHtml)
+            Question = new(someHtml),
+            After = new("")
         };
-        SendNotesCommand command = noteBuilder.BuildCommand();
+    }
+    [Fact]
+    public async Task Should_send_a_new_note_to_Anki()
+    {
+        //Arrange
+        SendNotesCommand command = this.noteBuilder.BuildCommand();
 
         //Act
-        await sut.Handle(command, CancellationToken.None);
+        await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        NoteDto expected = noteBuilder.BuildDto();
-        spyGateway.Notes.Should().ContainEquivalentOf(expected);
+        NoteDto expected = this.noteBuilder.BuildDto();
+        this.spyGateway.Notes.Should().ContainEquivalentOf(expected);
     }
 }

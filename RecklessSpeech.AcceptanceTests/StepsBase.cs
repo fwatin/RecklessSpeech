@@ -14,7 +14,7 @@ public class StepsBase
 
     public StepsBase(ScenarioContext context)
     {
-        Context = context;
+        this.Context = context;
         this.Client = this.TestServer.ServiceProvider.GetRequiredService<ITestsClient>();
     }
 

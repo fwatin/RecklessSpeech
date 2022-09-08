@@ -30,11 +30,11 @@ public class CaseOfSequenceEvents
     public async Task ShouldSaveSequence()
     {
         //Arrange
-        SequenceEntity expectedEntity = sequenceBuilder.BuildEntity();
+        SequenceEntity expectedEntity = this.sequenceBuilder.BuildEntity();
 
         //Act
         await this.sut.ApplyEvents(new List<DomainEventIdentifier>()
-            {new(Guid.Parse("6328FAC7-7AC9-4F3F-8652-9161FF345D4E"), sequenceBuilder.BuildEvent())});
+            {new(Guid.Parse("6328FAC7-7AC9-4F3F-8652-9161FF345D4E"), this.sequenceBuilder.BuildEvent())});
 
         //Assert
         this.inMemorySequencesDbContext.Sequences.Should().ContainEquivalentOf(expectedEntity);

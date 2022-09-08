@@ -22,7 +22,7 @@ public class HttpAnkiNoteGateway : INoteGateway
 
         StringContent? stringContent = new(json, Encoding.UTF8, "application/json");
 
-        HttpResponseMessage responseMessage = await client.PostAsync("", stringContent);
+        HttpResponseMessage responseMessage = await this.client.PostAsync("", stringContent);
 
         if (responseMessage.IsSuccessStatusCode is false) throw new AnkiSendFailedException();
 

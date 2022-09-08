@@ -1,4 +1,5 @@
-﻿using RecklessSpeech.Domain.Shared;
+﻿using RecklessSpeech.Domain.Sequences.Explanations;
+using RecklessSpeech.Domain.Shared;
 
 namespace RecklessSpeech.Domain.Sequences.Sequences;
 
@@ -10,6 +11,7 @@ public sealed class Sequence
     private TranslatedSentence translatedSentence = default!;
     private AudioFileNameWithExtension audioFile = default!;
     private Tags tags = default!;
+    public Explanation? Explanation { get; init; } = default!;
 
     private Sequence(SequenceId sequenceId)
     {
@@ -42,6 +44,26 @@ public sealed class Sequence
             tags = tags,
             Word = word,
             translatedSentence = translatedSentence
+        };
+    }
+
+    public static Sequence Hydrate(
+        Guid id,
+        string htmlContent,
+        string audioFileNameWithExtension,
+        string tags,
+        string word,
+        string translatedSentence,
+        Explanation? explanation)
+    {
+        return new Sequence(new(id))
+        {
+            HtmlContent = HtmlContent.Hydrate(htmlContent),
+            audioFile = AudioFileNameWithExtension.Hydrate(audioFileNameWithExtension),
+            tags = Tags.Hydrate(tags),
+            Word = Word.Hydrate(word),
+            translatedSentence = TranslatedSentence.Hydrate(translatedSentence),
+            Explanation = explanation
         };
     }
 }

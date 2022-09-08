@@ -78,7 +78,8 @@ public record SequenceBuilder
             AudioFileNameWithExtension = this.AudioFileNameWithExtension.Value,
             Tags = this.Tags.Value,
             HtmlContent = this.HtmlContent.Value,
-            Word = this.Word.Value
+            Word = this.Word.Value,
+            ExplanationId = this.Explanation?.ExplanationId.Value
         };
     }
 

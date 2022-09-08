@@ -15,7 +15,7 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
             throw new InvalidHtmlContentException();
 
         List<IDomainEvent> events = new();
-        IReadOnlyCollection<ImportSequenceDto> lines = this.Parse(command.FileContent);
+        IReadOnlyCollection<ImportSequenceDto> lines = Parse(command.FileContent);
 
         foreach (ImportSequenceDto line in lines)
         {
