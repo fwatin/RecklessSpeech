@@ -1,4 +1,5 @@
-﻿using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
+﻿using RecklessSpeech.Domain.Shared;
+using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 
 namespace RecklessSpeech.Infrastructure.Databases;
 
@@ -13,7 +14,7 @@ public class DomainEventsRepository : IDomainEventsRepository
 
     public async Task ApplyEvents(IEnumerable<DomainEventIdentifier> domainEvents)
     {
-        foreach (var domainEvent in domainEvents.Select(x => x.DomainEvent))
+        foreach (IDomainEvent? domainEvent in domainEvents.Select(x => x.DomainEvent))
         {
             await Task.WhenAll(
                 this.repositories.Select(repo => repo.ApplyEvent(domainEvent)));

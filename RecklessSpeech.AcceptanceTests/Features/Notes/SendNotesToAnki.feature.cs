@@ -111,6 +111,40 @@ namespace RecklessSpeech.AcceptanceTests.Features.Notes
             this.ScenarioCleanup();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="The dutch note sent to Anki contains explanation in the AFTER field")]
+        [Xunit.TraitAttribute("FeatureTitle", "Send Notes to Anki")]
+        [Xunit.TraitAttribute("Description", "The dutch note sent to Anki contains explanation in the AFTER field")]
+        public void TheDutchNoteSentToAnkiContainsExplanationInTheAFTERField()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("The dutch note sent to Anki contains explanation in the AFTER field", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 8
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 9
+        testRunner.Given("some note for a dutch sequence", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 10
+        testRunner.Given("some existing explanation for this dutch word", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 11
+        testRunner.When("the user sends the sequence to Anki", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 12
+        testRunner.Then("the anki note contains the translation for the word in the after field", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

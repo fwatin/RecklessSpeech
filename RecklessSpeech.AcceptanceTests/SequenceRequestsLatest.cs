@@ -29,4 +29,9 @@ public class SequenceRequestsLatest
     {
         await this.client.Post<string>($"http://localhost{this.basePath}/Anki", ids);
     }
+
+    public async Task Enrich(Guid sequenceId)
+    {
+        await this.client.Post<string>($"http://localhost{this.basePath}/Dictionary", new List<Guid>() {sequenceId});
+    }
 }

@@ -18,7 +18,7 @@ public class CaseOfImportSuccessful
     public CaseOfImportSuccessful()
     {
         this.sut = new ImportSequencesCommandHandler();
-        builder = SequenceBuilder.Create(Guid.Parse("259FD4F4-082E-46CB-BF1A-94F99780D2E2"));
+        this.builder = SequenceBuilder.Create(Guid.Parse("259FD4F4-082E-46CB-BF1A-94F99780D2E2"));
 
     }
 
@@ -26,30 +26,30 @@ public class CaseOfImportSuccessful
     public async Task Should_add_a_new_sequence()
     {
         //Arrange
-        ImportSequencesCommand command = builder.BuildImportCommand();
+        ImportSequencesCommand command = this.builder.BuildImportCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
         events.Should().HaveCount(1);
-        ((events.First() as SequencesImportRequestedEvent)!).HtmlContent.Value.Should().NotBeNullOrEmpty();
-        ((events.First() as SequencesImportRequestedEvent)!).AudioFileNameWithExtension.Value.Should()
+        ((events.First() as AddedSequenceEvent)!).HtmlContent.Value.Should().NotBeNullOrEmpty();
+        ((events.First() as AddedSequenceEvent)!).AudioFileNameWithExtension.Value.Should()
             .NotBeNullOrEmpty();
-        ((events.First() as SequencesImportRequestedEvent)!).Tags.Value.Should().NotBeNullOrEmpty();
+        ((events.First() as AddedSequenceEvent)!).Tags.Value.Should().NotBeNullOrEmpty();
     }
 
     [Fact]
     public async Task Should_add_a_known_sequence()
     {
         //Arrange
-        ImportSequencesCommand command = builder.BuildImportCommand();
+        ImportSequencesCommand command = this.builder.BuildImportCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        events.Should().ContainEquivalentOf(builder.BuildEvent(), AssertExtensions.IgnoreId);
+        events.Should().ContainEquivalentOf(this.builder.BuildEvent(), AssertExtensions.IgnoreId);
     }
 
     [Fact]
@@ -69,14 +69,14 @@ public class CaseOfImportSuccessful
     public async Task Should_html_not_specify_background_color_for_dc_card()
     {
         //Arrange
-        var importSequencesCommand = builder.BuildImportCommand();
+        ImportSequencesCommand? importSequencesCommand = this.builder.BuildImportCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(importSequencesCommand, CancellationToken.None);
 
         //Assert
-        SequencesImportRequestedEvent importEvent = (SequencesImportRequestedEvent) events.First();
-        var dcCard = await Fixture.GetStyleRule(importEvent.HtmlContent.Value);
+        AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
+        IStyleRule? dcCard = await Fixture.GetStyleRule(importEvent.HtmlContent.Value);
         dcCard.Style.Declarations.Where(property => property.Name == "background-color").Should().BeEmpty();
     }
 
@@ -84,13 +84,13 @@ public class CaseOfImportSuccessful
     public async Task Should_get_word_in_sequence()
     {
         //Arrange
-        ImportSequencesCommand command = builder.BuildImportCommand();
+        ImportSequencesCommand command = this.builder.BuildImportCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        SequencesImportRequestedEvent importEvent = (SequencesImportRequestedEvent) events.First();
+        AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
         importEvent.Word.Value.Should().Be("gimmicks");
     }
     
@@ -98,13 +98,13 @@ public class CaseOfImportSuccessful
     public async Task Should_get_translated_sentence_in_sequence()
     {
         //Arrange
-        ImportSequencesCommand command = builder.BuildImportCommand();
+        ImportSequencesCommand command = this.builder.BuildImportCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        SequencesImportRequestedEvent importEvent = (SequencesImportRequestedEvent) events.First();
+        AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
         importEvent.TranslatedSentence.Value.Should().Be("Et ça n'arrive pas par quelques astuces statistiques.");
     }
 
@@ -117,12 +117,12 @@ public class CaseOfImportSuccessful
 
         public static async Task<IStyleRule> GetStyleRule(string htmlContent)
         {
-            HtmlDocument htmlDoc = new HtmlDocument();
+            HtmlDocument htmlDoc = new();
             htmlDoc.LoadHtml(htmlContent);
-            var styleNode = htmlDoc.DocumentNode.SelectSingleNode("style");
-            var parser = new StylesheetParser();
-            var stylesheet = await parser.ParseAsync(styleNode.InnerText);
-            var dcCard = stylesheet.StyleRules.First(rule =>
+            HtmlNode? styleNode = htmlDoc.DocumentNode.SelectSingleNode("style");
+            StylesheetParser? parser = new();
+            Stylesheet? stylesheet = await parser.ParseAsync(styleNode.InnerText);
+            IStyleRule? dcCard = stylesheet.StyleRules.First(rule =>
                 rule.SelectorText == ".dc-card");
             return dcCard;
         }

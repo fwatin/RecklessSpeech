@@ -28,4 +28,15 @@
       <ProjectReference Include="..\RecklessSpeech.Shared.Tests\RecklessSpeech.Shared.Tests.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Translations\Mijnwoordenboek\Data\mijnwoordenboek_translations_for_brood.htm" />
+      <None Remove="Translations\Mijnwoordenboek\Data\mijnwoordenboek_translations_for_rapport.htm" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Data\mijnwoordenboek_translations_for_brood.htm">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+
 </Project>

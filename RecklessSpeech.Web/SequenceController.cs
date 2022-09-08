@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -29,13 +30,13 @@ public class SequenceController : ControllerBase
     [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
     public async Task<ActionResult<string>> ImportSequences(IFormFile file)
     {
-        using var reader = new StreamReader(file.OpenReadStream());
-        var data = await reader.ReadToEndAsync();
-        var command = new ImportSequencesCommand(data);
+        using StreamReader? reader = new(file.OpenReadStream());
+        string? data = await reader.ReadToEndAsync();
+        ImportSequencesCommand? command = new(data);
 
         await this.dispatcher.Dispatch(command);
 
-        return this.Ok();
+        return Ok();
     }
 
     [HttpGet]
@@ -43,8 +44,8 @@ public class SequenceController : ControllerBase
     [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryPresentation>), (int) HttpStatusCode.OK)]
     public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> Get()
     {
-        var result = await this.dispatcher.Dispatch(new GetAllSequencesQuery());
-        return this.Ok(result.ToPresentation());
+        IReadOnlyCollection<SequenceSummaryQueryModel>? result = await this.dispatcher.Dispatch(new GetAllSequencesQuery());
+        return Ok(result.ToPresentation());
     }
 
     [HttpPost]
@@ -55,6 +56,17 @@ public class SequenceController : ControllerBase
         IReadOnlyCollection<Guid> ids)
     {
         await this.dispatcher.Dispatch(new SendNotesCommand(ids));
-        return this.Ok();
+        return Ok();
+    }
+    
+    [HttpPost]
+    [Route("Dictionary/")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
+    public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> Enrich(
+        IReadOnlyCollection<Guid> ids)
+    {
+        await this.dispatcher.Dispatch(new EnrichSequenceCommand(ids.First()));
+        return Ok();
     }
 }

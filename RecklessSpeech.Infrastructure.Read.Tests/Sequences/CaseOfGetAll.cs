@@ -21,14 +21,15 @@ namespace RecklessSpeech.Infrastructure.Read.Tests.Sequences
         public async Task Should_find_a_sequence()
         {
             //Arrange
-            var builder = SequenceBuilder.Create(Guid.Parse("46AA5502-39A3-4E17-BFF7-ECAAEF56237B"));
-            memorySequencesDbContext.Sequences.Add(builder.BuildEntity());
+            SequenceBuilder builder = SequenceBuilder.Create(Guid.Parse("46AA5502-39A3-4E17-BFF7-ECAAEF56237B"));
+            this.memorySequencesDbContext.Sequences.Add(builder.BuildEntity());
             
             //Act
             IReadOnlyCollection<SequenceSummaryQueryModel> result = await this.sut.GetAll();
             
             //Assert
-            result.Should().ContainEquivalentOf(builder.BuildQueryModel());
+            SequenceSummaryQueryModel expected = builder.BuildQueryModel();
+            result.Should().ContainEquivalentOf(expected);
         }
     }
 }

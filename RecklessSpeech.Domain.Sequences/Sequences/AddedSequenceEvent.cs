@@ -2,7 +2,7 @@ using RecklessSpeech.Domain.Shared;
 
 namespace RecklessSpeech.Domain.Sequences.Sequences;
 
-public record SequencesImportRequestedEvent
+public record AddedSequenceEvent
 (
     SequenceId Id,
     HtmlContent HtmlContent,

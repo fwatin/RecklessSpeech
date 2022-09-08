@@ -15,7 +15,10 @@ public class CaseOfSequenceEvents
 
     public CaseOfSequenceEvents()
     {
-        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("0CE0088F-256B-483A-9174-CAA40A558B05"));
+        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("0CE0088F-256B-483A-9174-CAA40A558B05")) with
+        {
+            HtmlContent = new HtmlContentBuilder("this is a html content")
+        };
         this.inMemorySequencesDbContext = new();
         this.sut = new DomainEventsRepository(new IDomainEventRepository[]
         {
@@ -27,11 +30,11 @@ public class CaseOfSequenceEvents
     public async Task ShouldSaveSequence()
     {
         //Arrange
-        SequenceEntity expectedEntity = sequenceBuilder.BuildEntity();
+        SequenceEntity expectedEntity = this.sequenceBuilder.BuildEntity();
 
         //Act
         await this.sut.ApplyEvents(new List<DomainEventIdentifier>()
-            {new(Guid.Parse("6328FAC7-7AC9-4F3F-8652-9161FF345D4E"), sequenceBuilder.BuildEvent())});
+            {new(Guid.Parse("6328FAC7-7AC9-4F3F-8652-9161FF345D4E"), this.sequenceBuilder.BuildEvent())});
 
         //Assert
         this.inMemorySequencesDbContext.Sequences.Should().ContainEquivalentOf(expectedEntity);

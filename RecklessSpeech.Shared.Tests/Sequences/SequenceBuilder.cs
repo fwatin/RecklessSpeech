@@ -2,29 +2,31 @@
 using RecklessSpeech.Application.Write.Sequences.Commands;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Infrastructure.Entities;
+using RecklessSpeech.Shared.Tests.Explanations;
 using RecklessSpeech.Web.ViewModels.Sequences;
 
 namespace RecklessSpeech.Shared.Tests.Sequences;
 
 public record SequenceBuilder
 {
-    public SequenceId SequenceId { get; init; }
+    public SequenceIdBuilder SequenceId { get; init; }
     public HtmlContentBuilder HtmlContent { get; init; }
     public AudioFileNameWithExtensionBuilder AudioFileNameWithExtension { get; init; }
     public TagsBuilder Tags { get; init; }
     public WordBuilder Word { get; init; }
     public TranslatedSentenceBuilder TranslatedSentence { get; init; }
 
-    private string? rawCsvContent = default!;
+    public ExplanationBuilder? Explanation { get; init; }
+
+    private readonly string? rawCsvContent = default!;
 
     public string RawCsvContent
     {
         get =>
-            rawCsvContent == null
+            this.rawCsvContent == null
                 ? DefaultExampleFromMoneyBall()
-                : rawCsvContent!;
-        set =>
-            rawCsvContent = value;
+                : this.rawCsvContent!;
+        init => this.rawCsvContent = value;
     }
 
 
@@ -34,7 +36,8 @@ public record SequenceBuilder
         AudioFileNameWithExtensionBuilder audioFileNameWithExtension,
         TagsBuilder tags,
         WordBuilder word,
-        TranslatedSentenceBuilder translatedSentence)
+        TranslatedSentenceBuilder translatedSentence,
+        ExplanationBuilder? explanation)
     {
         this.SequenceId = sequenceId;
         this.HtmlContent = htmlContent;
@@ -43,10 +46,11 @@ public record SequenceBuilder
         this.Word = word;
         this.rawCsvContent = null;
         this.TranslatedSentence = translatedSentence;
+        this.Explanation = explanation;
     }
 
 
-    public SequencesImportRequestedEvent BuildEvent() =>
+    public AddedSequenceEvent BuildEvent() =>
         new(this.SequenceId,
             this.HtmlContent,
             this.AudioFileNameWithExtension,
@@ -62,7 +66,8 @@ public record SequenceBuilder
             new(),
             new(),
             new(),
-            new());
+            new(),
+            default);
     }
 
     public SequenceEntity BuildEntity()
@@ -72,7 +77,9 @@ public record SequenceBuilder
             Id = this.SequenceId.Value,
             AudioFileNameWithExtension = this.AudioFileNameWithExtension.Value,
             Tags = this.Tags.Value,
-            HtmlContent = this.HtmlContent.Value
+            HtmlContent = this.HtmlContent.Value,
+            Word = this.Word.Value,
+            ExplanationId = this.Explanation?.ExplanationId.Value
         };
     }
 
@@ -82,7 +89,9 @@ public record SequenceBuilder
             this.SequenceId.Value,
             this.HtmlContent.Value,
             this.AudioFileNameWithExtension.Value,
-            this.Tags.Value);
+            this.Tags.Value,
+            this.Word.Value,
+            this.Explanation?.Content.Value);
     }
 
     public SequenceSummaryPresentation BuildSummaryPresentation()
@@ -91,7 +100,8 @@ public record SequenceBuilder
             this.SequenceId.Value,
             this.HtmlContent.Value,
             this.AudioFileNameWithExtension.Value,
-            this.Tags.Value);
+            this.Tags.Value,
+            this.Explanation?.Content.Value);
     }
 
     public ImportSequencesCommand BuildImportCommand()
@@ -140,4 +150,9 @@ public record SequenceBuilder
         "\"	[sound:" +
         this.AudioFileNameWithExtension.Value +
         "]	\"word-naked lang-nl netflix Green pron \"";
+
+    public EnrichSequenceCommand BuildEnrichCommand()
+    {
+        return new EnrichSequenceCommand(this.SequenceId.Value);
+    }
 }

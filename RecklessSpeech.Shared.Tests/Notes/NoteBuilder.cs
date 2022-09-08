@@ -7,30 +7,38 @@ public record NoteBuilder
 {
     public NoteIdBuilder Id { get; init; }
     public QuestionBuilder Question { get; init; }
+    public AfterBuilder After { get; init; }
 
-    private NoteBuilder(NoteIdBuilder id, QuestionBuilder question)
+    private NoteBuilder(NoteIdBuilder id, QuestionBuilder question, AfterBuilder after)
     {
         this.Id = id;
         this.Question = question;
+        this.After = after;
     }
 
     public SendNotesCommand BuildCommand()
     {
-        return new SendNotesCommand(new Guid[] {Id});
+        return new SendNotesCommand(new Guid[]
+        {
+            this.Id
+        });
     }
 
     public Note BuildAggregate()
     {
-        return Note.Hydrate(Id, Question);
+        return Note.Hydrate(this.Id, this.Question, this.After);
     }
 
     public static NoteBuilder Create(Guid id)
     {
-        return new NoteBuilder(new(id), new());
+        return new NoteBuilder(
+            new(id),
+            new(),
+            new());
     }
 
     public NoteDto BuildDto()
     {
-        return new NoteDto(this.Question);
+        return new NoteDto(this.Question, this.After);
     }
 }

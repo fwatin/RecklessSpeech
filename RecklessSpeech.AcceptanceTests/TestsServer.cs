@@ -21,7 +21,7 @@ public class TestsServer : IDisposable
     public TestsServer(ScenarioContext context)
     {
         this.context = context;
-        this.testServer = this.Initialize();
+        this.testServer = Initialize();
         this.ServiceProvider = this.testServer.Host.Services;
     }
 
@@ -31,17 +31,19 @@ public class TestsServer : IDisposable
             .UseStartup<Startup>()
             .UseEnvironment("acceptancetest")
             .ConfigureServices(
-                (ctx, services) => { this.ConfigureAcceptanceTests(services); }
+                (ctx, services) => { ConfigureAcceptanceTests(services); }
             )
             .ConfigureTestServices(services => services
-                .SubstituteNoteGateway());
+                .SubstituteNoteGateway()
+                .SubstituteMijnwoordenboekGatewayAccess())
+            ;
 
         return new TestServer(builder);
     }
 
     public void Dispose()
     {
-        this.Dispose(true);
+        Dispose(true);
         GC.SuppressFinalize(this);
         ;
     }
@@ -58,10 +60,8 @@ public class TestsServer : IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (disposing && !this.isDisposed)
-        {
-            this.testServer.Dispose();
-            this.isDisposed = true;
-        }
+        if (!disposing || this.isDisposed) return;
+        this.testServer.Dispose();
+        this.isDisposed = true;
     }
 }

@@ -8,7 +8,7 @@ public abstract class CommandHandlerBase<TCommand> : IRequestHandler<TCommand, I
 {
     public async Task<IReadOnlyCollection<IDomainEvent>> Handle(TCommand request, CancellationToken cancellationToken)
     {
-        return await this.Handle(request);
+        return await Handle(request);
     }
 
     protected abstract Task<IReadOnlyCollection<IDomainEvent>> Handle(TCommand command);

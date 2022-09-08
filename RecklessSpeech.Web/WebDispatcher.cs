@@ -21,7 +21,7 @@ public class WebDispatcher
     public async Task Dispatch(IEventDrivenCommand command)
     {
         var domainEvents = await this.dispatcher.Dispatch(new RootTransactionalStrategy(), command);
-        await this.Publish(domainEvents);
+        await Publish(domainEvents);
     }
 
     public Task Publish(IEnumerable<DomainEventIdentifier> domainEvents) => this.dispatcher.Publish(domainEvents);

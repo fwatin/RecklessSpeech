@@ -15,14 +15,14 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
             throw new InvalidHtmlContentException();
 
         List<IDomainEvent> events = new();
-        IReadOnlyCollection<ImportSequenceDto> lines = this.Parse(command.FileContent);
+        IReadOnlyCollection<ImportSequenceDto> lines = Parse(command.FileContent);
 
         foreach (ImportSequenceDto line in lines)
         {
-            var htmlContent = HtmlContent.Create(line.RawHtml);
-            var data = GetDataFromHtml(htmlContent);
+            HtmlContent? htmlContent = HtmlContent.Create(line.RawHtml);
+            (Word, TranslatedSentence) data = GetDataFromHtml(htmlContent);
 
-            var sequence = Sequence.Create(Guid.NewGuid(),
+            Sequence? sequence = Sequence.Create(Guid.NewGuid(),
                 htmlContent,
                 AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension),
                 GetTags(line.Tags),
@@ -37,19 +37,19 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
     private static (Word,TranslatedSentence) GetDataFromHtml(HtmlContent htmlContent)
     {
-        HtmlDocument htmlDoc = new HtmlDocument();
+        HtmlDocument htmlDoc = new();
         htmlDoc.LoadHtml(htmlContent.Value);
         
         HtmlNode? wordNode = htmlDoc.DocumentNode.Descendants()
             .FirstOrDefault(n => n.HasClass("dc-gap"));
-        var word = Word.Create(wordNode != null
+        Word? word = Word.Create(wordNode != null
             ? wordNode.InnerText
             : "");
         
         HtmlNode? translatedSentenceNode = htmlDoc.DocumentNode.Descendants()
             .FirstOrDefault(n => n.HasClass("dc-translation"));
 
-        var translatedSentence = TranslatedSentence.Create(translatedSentenceNode != null
+        TranslatedSentence? translatedSentence = TranslatedSentence.Create(translatedSentenceNode != null
             ? translatedSentenceNode.InnerText
             : "");
 

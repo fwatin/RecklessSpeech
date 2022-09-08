@@ -2,38 +2,51 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RecklessSpeech.Application.Read.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports;
+using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
 using RecklessSpeech.Infrastructure.Sequences.AnkiGateway;
+using RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
 
 namespace RecklessSpeech.Infrastructure.Read;
 
-public static class IServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddReadPorts(this IServiceCollection services)
     {
         return services
-                .ConfigureRepositories()
-                .ConfigureNoteGateway()
+                .AddRepositories()
+                .AddNoteGateway()
+                .AddTranslatorGateway()
             ;
     }
 
-    private static IServiceCollection ConfigureRepositories(this IServiceCollection services)
+    private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         return services
             .AddScoped<ISequenceQueryRepository, InMemorySequenceQueryRepository>();
     }
 
-    public static IServiceCollection ConfigureNoteGateway(this IServiceCollection services)
+    private static IServiceCollection AddNoteGateway(this IServiceCollection services)
     {
-        services.AddOptions<HttpAnkiNoteGatewayOptions>().BindConfiguration("AnkiNoteGateway")
+        services.AddOptions<HttpAnkiNoteGatewayOptions>()
+            .BindConfiguration("AnkiNoteGateway")
             .ValidateDataAnnotations();
-        
+
         services.AddHttpClient<INoteGateway, HttpAnkiNoteGateway>(
             (provider, client) =>
             {
-                var options = provider.GetRequiredService<IOptions<HttpAnkiNoteGatewayOptions>>().Value;
+                HttpAnkiNoteGatewayOptions? options = provider.GetRequiredService<IOptions<HttpAnkiNoteGatewayOptions>>().Value;
                 client.BaseAddress = new Uri(options.Path);
             });
 
+        return services;
+    }
+
+    private static IServiceCollection AddTranslatorGateway(this IServiceCollection services)
+    {
+        services.AddSingleton<IMijnwoordenboekGatewayAccess>(new MijnwoordenboekGatewayOnlineAccess());
+        
+        services.AddSingleton<ITranslatorGateway, MijnwoordenboekGateway>();
+        
         return services;
     }
 }

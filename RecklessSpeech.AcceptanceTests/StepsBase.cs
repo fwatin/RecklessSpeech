@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RecklessSpeech.AcceptanceTests.Configuration.Clients;
+using RecklessSpeech.Infrastructure.Sequences;
 using TechTalk.SpecFlow;
 
 namespace RecklessSpeech.AcceptanceTests;
@@ -13,12 +14,17 @@ public class StepsBase
 
     public StepsBase(ScenarioContext context)
     {
-        Context = context;
+        this.Context = context;
         this.Client = this.TestServer.ServiceProvider.GetRequiredService<ITestsClient>();
     }
 
     protected T GetService<T>() where T : notnull
     {
         return this.ServiceProvider.GetRequiredService<T>();
+    }
+    
+    protected ISequencesDbContext GetDbContext()
+    {
+        return this.ServiceProvider.GetRequiredService<ISequencesDbContext>();
     }
 }

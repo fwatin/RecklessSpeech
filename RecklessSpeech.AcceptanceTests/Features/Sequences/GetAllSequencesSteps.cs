@@ -17,13 +17,13 @@ public class GetAllSequencesSteps : StepsBase
     public GetAllSequencesSteps(ScenarioContext context) : base(context)
     {
         this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("4AAB1D8C-93A4-4B27-B801-95F4F10F8393"));
-        this.dbContext = this.GetService<ISequencesDbContext>();
+        this.dbContext = GetService<ISequencesDbContext>();
     }
 
     [Given(@"an existing sequence")]
     public void GivenAnExistingSequence()
     {
-        this.dbContext.Sequences.Add(sequenceBuilder.BuildEntity());
+        this.dbContext.Sequences.Add(this.sequenceBuilder.BuildEntity());
     }
 
     [When(@"the user retrieves sequences")]
@@ -36,6 +36,6 @@ public class GetAllSequencesSteps : StepsBase
     [Then(@"the existing sequence is returned")]
     public void ThenTheExistingSequenceIsReturned()
     {
-        this.SequenceListResponse.Should().ContainEquivalentOf(sequenceBuilder.BuildSummaryPresentation());
+        this.SequenceListResponse.Should().ContainEquivalentOf(this.sequenceBuilder.BuildSummaryPresentation());
     }
 }

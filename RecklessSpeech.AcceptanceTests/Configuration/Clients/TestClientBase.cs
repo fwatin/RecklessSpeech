@@ -13,7 +13,7 @@ public class TestClientBase : IDisposable
     protected TestClientBase(ScenarioContext context, HttpClient client)
     {
         this.context = context;
-        Client = client;
+        this.Client = client;
     }
 
     protected virtual void Dispose(bool disposing)
@@ -26,13 +26,13 @@ public class TestClientBase : IDisposable
 
     public void Dispose()
     {
-        this.Dispose(true);
+        Dispose(true);
         GC.SuppressFinalize(this);
     }
 
     public async Task<T> Post<T>(string path, object? parameters = null)
     {
-        using HttpResponseMessage? response = await this.ExecuteRequest(HttpMethod.Post, path, parameters);
+        using HttpResponseMessage? response = await ExecuteRequest(HttpMethod.Post, path, parameters);
         if (response!.IsSuccessStatusCode)
         {
             string json = await response.Content.ReadAsStringAsync();
@@ -45,7 +45,7 @@ public class TestClientBase : IDisposable
     
     public async Task<T> Get<T>(string path, object? parameters = null)
     {
-        using HttpResponseMessage? response = await this.ExecuteRequest(HttpMethod.Get, path, parameters);
+        using HttpResponseMessage? response = await ExecuteRequest(HttpMethod.Get, path, parameters);
         if (response!.IsSuccessStatusCode)
         {
             string json = await response.Content.ReadAsStringAsync();

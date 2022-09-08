@@ -48,7 +48,7 @@ internal class Dispatcher : IRecklessSpeechDispatcher
     {
         try
         {
-            return mediator.Send(query);
+            return this.mediator.Send(query);
         }
         catch (Exception e)
         {
