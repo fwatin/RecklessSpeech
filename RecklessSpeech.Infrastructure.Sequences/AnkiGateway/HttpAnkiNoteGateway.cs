@@ -61,7 +61,8 @@ public class HttpAnkiNoteGateway : INoteGateway
                 },
                 fields = new Fields()
                 {
-                    Question = dto.Question.Value
+                    Question = dto.Question.Value,
+                    After = dto.After.Value
                 }
             });
         }
