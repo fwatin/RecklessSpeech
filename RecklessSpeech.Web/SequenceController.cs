@@ -30,9 +30,9 @@ public class SequenceController : ControllerBase
     [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
     public async Task<ActionResult<string>> ImportSequences(IFormFile file)
     {
-        using var reader = new StreamReader(file.OpenReadStream());
-        var data = await reader.ReadToEndAsync();
-        var command = new ImportSequencesCommand(data);
+        using StreamReader? reader = new StreamReader(file.OpenReadStream());
+        string? data = await reader.ReadToEndAsync();
+        ImportSequencesCommand? command = new ImportSequencesCommand(data);
 
         await this.dispatcher.Dispatch(command);
 
@@ -44,7 +44,7 @@ public class SequenceController : ControllerBase
     [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryPresentation>), (int) HttpStatusCode.OK)]
     public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> Get()
     {
-        var result = await this.dispatcher.Dispatch(new GetAllSequencesQuery());
+        IReadOnlyCollection<SequenceSummaryQueryModel>? result = await this.dispatcher.Dispatch(new GetAllSequencesQuery());
         return this.Ok(result.ToPresentation());
     }
 

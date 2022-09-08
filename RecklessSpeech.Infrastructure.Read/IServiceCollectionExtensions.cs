@@ -34,7 +34,7 @@ public static class IServiceCollectionExtensions
         services.AddHttpClient<INoteGateway, HttpAnkiNoteGateway>(
             (provider, client) =>
             {
-                var options = provider.GetRequiredService<IOptions<HttpAnkiNoteGatewayOptions>>().Value;
+                HttpAnkiNoteGatewayOptions? options = provider.GetRequiredService<IOptions<HttpAnkiNoteGatewayOptions>>().Value;
                 client.BaseAddress = new Uri(options.Path);
             });
 

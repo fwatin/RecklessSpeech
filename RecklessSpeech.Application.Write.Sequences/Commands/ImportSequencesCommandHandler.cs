@@ -19,10 +19,10 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
         foreach (ImportSequenceDto line in lines)
         {
-            var htmlContent = HtmlContent.Create(line.RawHtml);
-            var data = GetDataFromHtml(htmlContent);
+            HtmlContent? htmlContent = HtmlContent.Create(line.RawHtml);
+            (Word, TranslatedSentence) data = GetDataFromHtml(htmlContent);
 
-            var sequence = Sequence.Create(Guid.NewGuid(),
+            Sequence? sequence = Sequence.Create(Guid.NewGuid(),
                 htmlContent,
                 AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension),
                 GetTags(line.Tags),
@@ -42,14 +42,14 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         
         HtmlNode? wordNode = htmlDoc.DocumentNode.Descendants()
             .FirstOrDefault(n => n.HasClass("dc-gap"));
-        var word = Word.Create(wordNode != null
+        Word? word = Word.Create(wordNode != null
             ? wordNode.InnerText
             : "");
         
         HtmlNode? translatedSentenceNode = htmlDoc.DocumentNode.Descendants()
             .FirstOrDefault(n => n.HasClass("dc-translation"));
 
-        var translatedSentence = TranslatedSentence.Create(translatedSentenceNode != null
+        TranslatedSentence? translatedSentence = TranslatedSentence.Create(translatedSentenceNode != null
             ? translatedSentenceNode.InnerText
             : "");
 

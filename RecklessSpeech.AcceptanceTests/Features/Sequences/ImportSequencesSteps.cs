@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using HtmlAgilityPack;
+using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Shared.Tests;
 using RecklessSpeech.Shared.Tests.Sequences;
@@ -35,15 +36,15 @@ public class ImportSequencesSteps : StepsBase
     [Then(@"some sequences are saved")]
     public void ThenSomeSequencesAreSaved()
     {
-        var sequencesContext = this.GetService<ISequencesDbContext>();
+        ISequencesDbContext? sequencesContext = this.GetService<ISequencesDbContext>();
         sequencesContext.Sequences.Single().Should().BeEquivalentTo(sequenceBuilder.BuildEntity(),AssertExtensions.IgnoreId);
     }
 
     [Then(@"the html in HTML Content is valid")]
     public void ThenTheHtmlInHtmlContentIsValid()
     {
-        var sequencesContext = this.GetService<ISequencesDbContext>();
-        var sequence = sequencesContext.Sequences.First();
+        ISequencesDbContext? sequencesContext = this.GetService<ISequencesDbContext>();
+        SequenceEntity? sequence = sequencesContext.Sequences.First();
         HtmlDocument doc = new HtmlDocument();
         doc.LoadHtml(sequence.HtmlContent);
         doc.ParseErrors.Should().BeEmpty();
@@ -52,8 +53,8 @@ public class ImportSequencesSteps : StepsBase
     [Then(@"the HTML contains some nodes for title and images")]
     public void ThenTheHtmlContainsSomeNodesForTitleAndImages()
     {
-        var sequencesContext = this.GetService<ISequencesDbContext>();
-        var sequence = sequencesContext.Sequences.First();
+        ISequencesDbContext? sequencesContext = this.GetService<ISequencesDbContext>();
+        SequenceEntity? sequence = sequencesContext.Sequences.First();
         HtmlDocument htmlDoc = new HtmlDocument();
         htmlDoc.LoadHtml(sequence.HtmlContent);
 

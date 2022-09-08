@@ -69,14 +69,14 @@ public class CaseOfImportSuccessful
     public async Task Should_html_not_specify_background_color_for_dc_card()
     {
         //Arrange
-        var importSequencesCommand = builder.BuildImportCommand();
+        ImportSequencesCommand? importSequencesCommand = builder.BuildImportCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(importSequencesCommand, CancellationToken.None);
 
         //Assert
         AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
-        var dcCard = await Fixture.GetStyleRule(importEvent.HtmlContent.Value);
+        IStyleRule? dcCard = await Fixture.GetStyleRule(importEvent.HtmlContent.Value);
         dcCard.Style.Declarations.Where(property => property.Name == "background-color").Should().BeEmpty();
     }
 
@@ -119,10 +119,10 @@ public class CaseOfImportSuccessful
         {
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(htmlContent);
-            var styleNode = htmlDoc.DocumentNode.SelectSingleNode("style");
-            var parser = new StylesheetParser();
-            var stylesheet = await parser.ParseAsync(styleNode.InnerText);
-            var dcCard = stylesheet.StyleRules.First(rule =>
+            HtmlNode? styleNode = htmlDoc.DocumentNode.SelectSingleNode("style");
+            StylesheetParser? parser = new StylesheetParser();
+            Stylesheet? stylesheet = await parser.ParseAsync(styleNode.InnerText);
+            IStyleRule? dcCard = stylesheet.StyleRules.First(rule =>
                 rule.SelectorText == ".dc-card");
             return dcCard;
         }

@@ -5,7 +5,7 @@ using RecklessSpeech.Infrastructure.Sequences;
 
 namespace RecklessSpeech.Infrastructure.Databases;
 
-public static class IServiceCollectionExtension
+public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {

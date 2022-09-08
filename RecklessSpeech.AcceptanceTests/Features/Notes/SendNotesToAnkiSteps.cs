@@ -25,7 +25,7 @@ public class SendNotesToAnkiSteps : StepsBase
     [Given(@"an existing sequence")]
     public void GivenAnExistingSequence()
     {
-        var builder = SequenceBuilder.Create(sequenceId) with
+        SequenceBuilder? builder = SequenceBuilder.Create(sequenceId) with
         {
             HtmlContent = new(contentForQuestion)
         };
@@ -41,7 +41,7 @@ public class SendNotesToAnkiSteps : StepsBase
     [Then(@"a corresponding note is sent to Anki")]
     public void ThenACorrespondingNoteIsSentToAnki()
     {
-        var builder = NoteBuilder.Create(sequenceId) with
+        NoteBuilder? builder = NoteBuilder.Create(sequenceId) with
         {
             Question = new(contentForQuestion)
         };

@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
 using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Shared.Tests.Sequences;
 using RecklessSpeech.Web.ViewModels.Sequences;
@@ -10,10 +9,9 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences;
 [Binding, Scope(Feature = "Enrich A Sequence")]
 public class EnrichASequenceSteps : StepsBase
 {
-    private SequenceBuilder sequenceBuilder;
-    private readonly ITranslatorGateway mijnwoordenboekgateway;
+    private readonly SequenceBuilder sequenceBuilder;
     private readonly ISequencesDbContext inMemorySequencesDbContext;
-    public IReadOnlyCollection<SequenceSummaryPresentation> SequenceListResponse { get; set; }
+    private IReadOnlyCollection<SequenceSummaryPresentation> SequenceListResponse { get; set; } = default!;
 
     public EnrichASequenceSteps(ScenarioContext context) : base(context)
     {
@@ -40,7 +38,7 @@ public class EnrichASequenceSteps : StepsBase
     public async Task ThenTheSequenceEnrichedDataContainsTheRawExplanation()
     {
         this.SequenceListResponse = (await this.Client.Latest().SequenceRequests().GetAll());
-        var sequencePresentationForBrood = this.SequenceListResponse.Single(x => x.Id == this.sequenceBuilder.SequenceId.Value);
+        SequenceSummaryPresentation? sequencePresentationForBrood = this.SequenceListResponse.Single(x => x.Id == this.sequenceBuilder.SequenceId.Value);
         sequencePresentationForBrood.Explanation.Should().NotBeNullOrEmpty();
     }
 }

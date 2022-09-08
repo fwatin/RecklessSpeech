@@ -17,8 +17,8 @@ public class CaseOfAlreadyExistingExplanation
     private readonly EnrichSequenceCommandHandler sut;
     private readonly SequenceBuilder sequenceBuilder;
     private readonly InMemorySequenceRepository sequenceRepository;
-    private InMemorySequencesDbContext dbContext;
-    private ExplanationBuilder explanationBuilder;
+    private readonly InMemorySequencesDbContext dbContext;
+    private readonly ExplanationBuilder explanationBuilder;
     private readonly InMemoryExplanationRepository explanationRepository;
 
     public CaseOfAlreadyExistingExplanation()
