@@ -28,7 +28,7 @@ public class CaseOfNewNotes
         InMemorySequenceRepository sequenceRepository = new(dbContext);
 
         SpyNoteGateway spyGateway = new();
-        SendNotesCommandHandler sut = new SendNotesCommandHandler(spyGateway, sequenceRepository);
+        SendNotesCommandHandler sut = new(spyGateway, sequenceRepository);
         NoteBuilder noteBuilder = NoteBuilder.Create(sequenceId) with
         {
             Question = new(someHtml)

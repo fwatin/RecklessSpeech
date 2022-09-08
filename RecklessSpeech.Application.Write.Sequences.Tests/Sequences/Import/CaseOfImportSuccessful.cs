@@ -117,10 +117,10 @@ public class CaseOfImportSuccessful
 
         public static async Task<IStyleRule> GetStyleRule(string htmlContent)
         {
-            HtmlDocument htmlDoc = new HtmlDocument();
+            HtmlDocument htmlDoc = new();
             htmlDoc.LoadHtml(htmlContent);
             HtmlNode? styleNode = htmlDoc.DocumentNode.SelectSingleNode("style");
-            StylesheetParser? parser = new StylesheetParser();
+            StylesheetParser? parser = new();
             Stylesheet? stylesheet = await parser.ParseAsync(styleNode.InnerText);
             IStyleRule? dcCard = stylesheet.StyleRules.First(rule =>
                 rule.SelectorText == ".dc-card");

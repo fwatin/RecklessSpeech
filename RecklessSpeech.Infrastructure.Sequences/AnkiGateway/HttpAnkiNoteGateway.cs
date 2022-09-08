@@ -20,7 +20,7 @@ public class HttpAnkiNoteGateway : INoteGateway
 
         string? json = JsonConvert.SerializeObject(pack);
 
-        StringContent? stringContent = new StringContent(json, Encoding.UTF8, "application/json");
+        StringContent? stringContent = new(json, Encoding.UTF8, "application/json");
 
         HttpResponseMessage responseMessage = await client.PostAsync("", stringContent);
 
@@ -34,7 +34,7 @@ public class HttpAnkiNoteGateway : INoteGateway
 
     private AnkiConnectAddNotesPayload BuildPack(IReadOnlyCollection<NoteDto> dtos)
     {
-        AnkiConnectAddNotesPayload? pack = new AnkiConnectAddNotesPayload
+        AnkiConnectAddNotesPayload? pack = new()
         {
             action = "addNotes",
             version = 6,

@@ -44,7 +44,9 @@ public static class IServiceCollectionExtensions
     public static IServiceCollection AddTranslatorGateway(this IServiceCollection services)
     {
         services.AddSingleton<IMijnwoordenboekGatewayAccess>(new MijnwoordenboekGatewayLocalAccess());
+        
         services.AddSingleton<ITranslatorGateway, MijnwoordenboekGateway>();
+        
         return services;
     }
 }

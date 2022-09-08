@@ -30,9 +30,9 @@ public class SequenceController : ControllerBase
     [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
     public async Task<ActionResult<string>> ImportSequences(IFormFile file)
     {
-        using StreamReader? reader = new StreamReader(file.OpenReadStream());
+        using StreamReader? reader = new(file.OpenReadStream());
         string? data = await reader.ReadToEndAsync();
-        ImportSequencesCommand? command = new ImportSequencesCommand(data);
+        ImportSequencesCommand? command = new(data);
 
         await this.dispatcher.Dispatch(command);
 

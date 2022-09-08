@@ -37,7 +37,7 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
     private static (Word,TranslatedSentence) GetDataFromHtml(HtmlContent htmlContent)
     {
-        HtmlDocument htmlDoc = new HtmlDocument();
+        HtmlDocument htmlDoc = new();
         htmlDoc.LoadHtml(htmlContent.Value);
         
         HtmlNode? wordNode = htmlDoc.DocumentNode.Descendants()

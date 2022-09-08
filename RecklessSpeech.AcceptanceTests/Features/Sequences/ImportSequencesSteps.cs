@@ -45,7 +45,7 @@ public class ImportSequencesSteps : StepsBase
     {
         ISequencesDbContext? sequencesContext = this.GetService<ISequencesDbContext>();
         SequenceEntity? sequence = sequencesContext.Sequences.First();
-        HtmlDocument doc = new HtmlDocument();
+        HtmlDocument doc = new();
         doc.LoadHtml(sequence.HtmlContent);
         doc.ParseErrors.Should().BeEmpty();
     }
@@ -55,7 +55,7 @@ public class ImportSequencesSteps : StepsBase
     {
         ISequencesDbContext? sequencesContext = this.GetService<ISequencesDbContext>();
         SequenceEntity? sequence = sequencesContext.Sequences.First();
-        HtmlDocument htmlDoc = new HtmlDocument();
+        HtmlDocument htmlDoc = new();
         htmlDoc.LoadHtml(sequence.HtmlContent);
 
         HtmlNode node = htmlDoc.DocumentNode.Descendants().First(n => n.HasClass("dc-title"));
