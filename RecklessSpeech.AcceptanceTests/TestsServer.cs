@@ -34,7 +34,9 @@ public class TestsServer : IDisposable
                 (ctx, services) => { this.ConfigureAcceptanceTests(services); }
             )
             .ConfigureTestServices(services => services
-                .SubstituteNoteGateway());
+                .SubstituteNoteGateway()
+                .SubstituteMijnwoordenboekGatewayAccess())
+            ;
 
         return new TestServer(builder);
     }
@@ -58,10 +60,8 @@ public class TestsServer : IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (disposing && !this.isDisposed)
-        {
-            this.testServer.Dispose();
-            this.isDisposed = true;
-        }
+        if (!disposing || this.isDisposed) return;
+        this.testServer.Dispose();
+        this.isDisposed = true;
     }
 }

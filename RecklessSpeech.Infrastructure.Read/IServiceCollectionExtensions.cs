@@ -8,7 +8,7 @@ using RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek
 
 namespace RecklessSpeech.Infrastructure.Read;
 
-public static class IServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddReadPorts(this IServiceCollection services)
     {
@@ -25,7 +25,7 @@ public static class IServiceCollectionExtensions
             .AddScoped<ISequenceQueryRepository, InMemorySequenceQueryRepository>();
     }
 
-    public static IServiceCollection AddNoteGateway(this IServiceCollection services)
+    private static IServiceCollection AddNoteGateway(this IServiceCollection services)
     {
         services.AddOptions<HttpAnkiNoteGatewayOptions>()
             .BindConfiguration("AnkiNoteGateway")
@@ -41,9 +41,9 @@ public static class IServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddTranslatorGateway(this IServiceCollection services)
+    private static IServiceCollection AddTranslatorGateway(this IServiceCollection services)
     {
-        services.AddSingleton<IMijnwoordenboekGatewayAccess>(new MijnwoordenboekGatewayLocalAccess());
+        services.AddSingleton<IMijnwoordenboekGatewayAccess>(new MijnwoordenboekGatewayOnlineAccess());
         
         services.AddSingleton<ITranslatorGateway, MijnwoordenboekGateway>();
         
