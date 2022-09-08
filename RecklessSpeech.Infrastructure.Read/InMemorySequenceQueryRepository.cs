@@ -16,31 +16,21 @@ public class InMemorySequenceQueryRepository : ISequenceQueryRepository
 
     public async Task<IReadOnlyCollection<SequenceSummaryQueryModel>> GetAll()
     {
-        //todo faire une jointure
-        List<SequenceSummaryQueryModel> result = new();
-
-        foreach (SequenceEntity entity in this.dbContext.Sequences)
-        {
-
-            ExplanationEntity? explanation = this.dbContext.Explanations.SingleOrDefault(x => x.Id == entity.ExplanationId);
-
-            var queryModel = new SequenceSummaryQueryModel(
-                entity.Id,
+        List<SequenceSummaryQueryModel> result = (from entity in this.dbContext.Sequences
+            let explanation = this.dbContext.Explanations.SingleOrDefault(x => x.Id == entity.ExplanationId)
+            select new SequenceSummaryQueryModel(entity.Id,
                 entity.HtmlContent,
                 entity.AudioFileNameWithExtension,
                 entity.Tags,
                 entity.Word,
-                explanation?.Content);
-
-            result.Add(queryModel);
-        }
+                explanation?.Content)).ToList();
 
         return await Task.FromResult(result);
     }
 
     public SequenceSummaryQueryModel? TryGetOne(Guid id)
     {
-        var entity = this.dbContext.Sequences.FirstOrDefault(x => x.Id == id);
+        SequenceEntity? entity = this.dbContext.Sequences.FirstOrDefault(x => x.Id == id);
         if (entity is null) return null;
 
         ExplanationEntity? explanation = null;
