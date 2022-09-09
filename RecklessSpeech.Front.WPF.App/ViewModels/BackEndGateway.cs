@@ -8,34 +8,30 @@ using System.Threading.Tasks;
 
 namespace RecklessSpeech.Front.WPF.App.ViewModels
 {
-    public class FacadeClient //todo renommer en ApplicationGateway
+    public class BackEndGateway
     {
         private const string apiVersion = "v1";
 
-        public async Task ImportSequencesFromCsvFile(string filePath)
+        public static async Task ImportSequencesFromCsvFile(string filePath)
         {
             using HttpClient client = new();
 
-            using var content = new MultipartFormDataContent();
+            using MultipartFormDataContent content = new MultipartFormDataContent();
 
-            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
 
             content.Add(new StreamContent(fileStream), "file", "fileName_what_for");
 
-            var basePath = $"/api/{apiVersion}/sequences";
-
-            string url = @$"https://localhost:47973/api/{apiVersion}/sequences";
+            const string url = @$"https://localhost:47973/api/{apiVersion}/sequences";
 
             await client.PostAsync(new Uri(url), content);
         }
 
-        public async Task<IReadOnlyCollection<SequenceDto>> GetAllSequences()
+        public static async Task<IReadOnlyCollection<SequenceDto>> GetAllSequences()
         {
             using HttpClient client = new();
 
-            var basePath = $"/api/{apiVersion}/sequences";
-
-            string url = @$"https://localhost:47973/api/{apiVersion}/sequences";
+            const string url = @$"https://localhost:47973/api/{apiVersion}/sequences";
 
             HttpResponseMessage? responseMessage = await client.GetAsync(new Uri(url));
 
@@ -49,13 +45,17 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
                 Word = "mettre le bon mot"
             }).ToList();
         }
+        
+        // ReSharper disable once ClassNeverInstantiated.Local
+        private record SequenceSummaryPresentation(
+            Guid Id,
+            string HtmlContent,
+            string AudioFileNameWithExtension,
+            string Tags,
+            string? Explanation);
     }
 
 
-    public record SequenceSummaryPresentation(
-        Guid Id,
-        string HtmlContent,
-        string AudioFileNameWithExtension,
-        string Tags,
-        string? Explanation);
+    
+    
 }

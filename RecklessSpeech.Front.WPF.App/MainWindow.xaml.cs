@@ -19,28 +19,30 @@ namespace RecklessSpeech.Front.WPF.App
 {
     public partial class MainWindow : Window
     {
-        public FlowPageVM ViewModel { get => (FlowPageVM)DataContext; }
+        // ReSharper disable once MemberCanBePrivate.Global
+        public FlowPageViewModel ViewModel => (FlowPageViewModel) this.DataContext;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            DataContext = new FlowPageVM(); //todo renommer avec suffixe ViewModel
+            this.DataContext = new FlowPageViewModel();
         }
 
-        private void CommandBinding_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+        private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
 
-        private void CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
-            {
-                var filePath = openFileDialog.FileName;
-                ViewModel.AddFlowCommand.Execute(filePath);
-            }
+            OpenFileDialog openFileDialog = new();
+
+            if (openFileDialog.ShowDialog() is false) return;
+
+            string filePath = openFileDialog.FileName;
+
+            this.ViewModel.AddSequencesCommand.Execute(filePath);
         }
     }
 }
