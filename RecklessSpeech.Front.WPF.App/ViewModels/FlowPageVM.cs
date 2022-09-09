@@ -52,13 +52,13 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
 
         private async Task AddFlow(string filePath)
         {
-            await facadeClient.Flow_CreateAPI(filePath);
+            await facadeClient.ImportSequencesFromCsvFile(filePath);
 
-            //IReadOnlyCollection<SequenceDto> newSequences = await facadeClient.GetAllSequences();
-            //foreach (var newSequence in newSequences)
-            //{
-            //    Sequences.Add(newSequence);
-            //}
+            IReadOnlyCollection<SequenceDto> newSequences = await facadeClient.GetAllSequences();
+            foreach (var newSequence in newSequences)
+            {
+                Sequences.Add(newSequence);
+            }
         }
     }
 }

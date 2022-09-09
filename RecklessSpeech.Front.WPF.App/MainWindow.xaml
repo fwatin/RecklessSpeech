@@ -37,7 +37,7 @@
 
         <ListView x:Name="SequenceListView"
                   Grid.Row="2"
-                  ItemsSource="{Binding CurrentFlow.Sequences, Mode=OneWay}">
+                  ItemsSource="{Binding Sequences, Mode=OneWay}">
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
@@ -45,7 +45,7 @@
                         <GridViewColumn x:Name="SequenceColumn">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Word}" />
+                                    <TextBlock Text="{Binding Id}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
