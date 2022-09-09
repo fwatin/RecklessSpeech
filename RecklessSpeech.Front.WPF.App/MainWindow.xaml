@@ -45,7 +45,7 @@
                         <GridViewColumn x:Name="SequenceColumn">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Id}" />
+                                    <TextBlock Text="{Binding Word}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

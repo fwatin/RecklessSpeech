@@ -16,9 +16,9 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
         {
             using HttpClient client = new();
 
-            using MultipartFormDataContent content = new MultipartFormDataContent();
+            using MultipartFormDataContent content = new();
 
-            FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            FileStream fileStream = new(filePath, FileMode.Open, FileAccess.Read);
 
             content.Add(new StreamContent(fileStream), "file", "fileName_what_for");
 
@@ -42,7 +42,7 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
             return result.Select(presentation => new SequenceDto()
             {
                 Id = presentation.Id,
-                Word = "mettre le bon mot"
+                Word = presentation.Word
             }).ToList();
         }
         
@@ -52,6 +52,7 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
             string HtmlContent,
             string AudioFileNameWithExtension,
             string Tags,
+            string Word,
             string? Explanation);
     }
 

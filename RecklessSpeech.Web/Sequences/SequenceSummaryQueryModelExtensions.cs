@@ -21,6 +21,7 @@ public static class SequenceSummaryQueryModelExtensions
             queryModel.HtmlContent, 
             queryModel.AudioFileNameWithExtension,
             queryModel.Tags,
+            queryModel.Word,
             queryModel.Explanation);
     }
 }
