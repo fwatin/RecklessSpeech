@@ -38,6 +38,17 @@
         <ListView x:Name="SequenceListView"
                   Grid.Row="2"
                   ItemsSource="{Binding Sequences, Mode=OneWay}">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Enrich with online dictionary"
+                              Command="{Binding Path=EnrichSequenceCommand}"
+                              Click="ContextMenu_Enrich_Click" />
+                    
+                    <MenuItem Header="Send to Anki"
+                              Command="{Binding Path=SendSequenceToAnkiCommand}"
+                              Click="ContextMenu_Send_to_Anki_Click" />
+                </ContextMenu>
+            </ListView.ContextMenu>
             <ListView.View>
                 <GridView>
                     <GridView.Columns>

@@ -36,6 +36,8 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
 
         //commands
         public ICommand AddSequencesCommand { get; }
+        public ICommand EnrichSequenceCommand { get; }
+        public ICommand SendSequenceToAnkiCommand { get; }
 
 
         public FlowPageViewModel()
@@ -45,7 +47,10 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
             this.Sequences = new ObservableCollection<SequenceDto>();
 
             //todo essayer une relaycommand plutot c'est natif wpf
+            
             this.AddSequencesCommand = new DelegateCommand<string>(async s => await AddSequences(s));
+            this.EnrichSequenceCommand = new DelegateCommand<SequenceDto>(async s => await EnrichSequence(s));
+            this.SendSequenceToAnkiCommand = new DelegateCommand<SequenceDto>(async s => await SendSequenceToAnki(s));
         }
 
         private async Task AddSequences(string filePath)
@@ -57,6 +62,16 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
             {
                 this.Sequences.Add(newSequence);
             }
+        }
+        
+        private async Task EnrichSequence(SequenceDto sequence)
+        {
+            await BackEndGateway.EnrichSequence(sequence.Id);
+        }
+        
+        private async Task SendSequenceToAnki(SequenceDto sequence)
+        {
+            await BackEndGateway.SendSequenceToAnki(sequence.Id);
         }
     }
 }

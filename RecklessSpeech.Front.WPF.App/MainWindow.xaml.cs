@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using RecklessSpeech.Front.WPF.App.ViewModels;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,6 +44,22 @@ namespace RecklessSpeech.Front.WPF.App
             string filePath = openFileDialog.FileName;
 
             this.ViewModel.AddSequencesCommand.Execute(filePath);
+        }
+        
+        private void ContextMenu_Enrich_Click(object sender, RoutedEventArgs e)
+        {
+            IList seq = this.SequenceListView.SelectedItems;
+
+            SequenceDto sequence = seq.Cast<SequenceDto>().First();
+            
+            this.ViewModel.EnrichSequenceCommand.Execute(sequence);
+        }
+        
+        private void ContextMenu_Send_to_Anki_Click(object sender, RoutedEventArgs e)
+        {
+            IList seq = this.SequenceListView.SelectedItems;
+
+            this.ViewModel.SendSequenceToAnkiCommand.Execute(seq.Cast<SequenceDto>().First());
         }
     }
 }
