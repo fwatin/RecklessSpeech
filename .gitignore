@@ -38,3 +38,6 @@
 /RecklessSpeech.Infrastructure.Read.Tests/bin/*
 /RecklessSpeech.Application.Write.Notes.Tests/obj/*
 /RecklessSpeech.Application.Write.Notes.Tests/bin/*
+/RecklessSpeech.Front.WPF.App/bin/*
+/RecklessSpeech.Front.WPF.App/debug/*
+/RecklessSpeech.Front.WPF.App/obj/*
