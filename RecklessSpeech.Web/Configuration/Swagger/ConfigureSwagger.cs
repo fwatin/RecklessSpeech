@@ -30,6 +30,10 @@ namespace RecklessSpeech.Web.Configuration.Swagger
                         Title = "RecklessSpeech Api " + description.GroupName.ToUpperInvariant(),
                         Version = description.ApiVersion.ToString()
                     }));
+            
+            options.OperationFilter<ControllerErrorsOperationFilter>();
+            options.DocumentFilter<ExposeErrorsDocumentFilter>();
+            options.SchemaFilter<ErrorsSchemaFilter>();
         }
 
         public void Configure(SwaggerUIOptions options)

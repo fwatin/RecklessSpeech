@@ -1,5 +1,3 @@
-using RecklessSpeech.Domain.Sequences.Sequences;
-
 namespace RecklessSpeech.Domain.Sequences.Notes;
 
 public record After(string Value)

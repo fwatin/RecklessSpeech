@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using Flurl;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using RecklessSpeech.AcceptanceTests.Extensions;
 using TechTalk.SpecFlow;
 
 namespace RecklessSpeech.AcceptanceTests.Configuration.Clients;
@@ -62,6 +64,7 @@ public class TestClientBase : IDisposable
         {
             using HttpRequestMessage request = BuildMessage(method, path, parameters);
             HttpResponseMessage response = await this.Client.SendAsync(request);
+            await RecordErrorIfAny(response);
             return response;
         }
         catch (HttpRequestException e)
@@ -108,5 +111,19 @@ public class TestClientBase : IDisposable
             Content = multipartContent
         };
         return request;
+    }
+    
+    private async Task RecordErrorIfAny(HttpResponseMessage response)
+    {
+        try
+        {
+            response.EnsureSuccessStatusCode();
+        }
+        catch (HttpRequestException)
+        {
+            string content = await response.Content.ReadAsStringAsync();
+            ProblemDetails details = JsonConvert.DeserializeObject<ProblemDetails>(content)!;
+            this.context.SetError(new HttpTestServerException(response.StatusCode, details));
+        }
     }
 }

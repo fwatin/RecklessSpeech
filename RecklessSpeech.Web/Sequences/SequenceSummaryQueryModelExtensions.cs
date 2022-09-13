@@ -13,7 +13,7 @@ public static class SequenceSummaryQueryModelExtensions
         return queryModels.Select(x => x.ToPresentation()).ToList();
     }
 
-    private static SequenceSummaryPresentation ToPresentation(
+    internal static SequenceSummaryPresentation ToPresentation(
         this SequenceSummaryQueryModel queryModel)
     {
         return new SequenceSummaryPresentation(
@@ -21,6 +21,7 @@ public static class SequenceSummaryQueryModelExtensions
             queryModel.HtmlContent, 
             queryModel.AudioFileNameWithExtension,
             queryModel.Tags,
+            queryModel.Word,
             queryModel.Explanation);
     }
 }

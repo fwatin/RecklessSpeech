@@ -3,45 +3,49 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech", "RecklessSpeech.Application.Write.Sequences.Tests\RecklessSpeech.Application.Write.Sequences.Tests.csproj", "{F3493D71-DBA9-450E-9789-6F3E76B87018}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Application.Write.Sequences.Tests", "RecklessSpeech.Application.Write.Sequences.Tests\RecklessSpeech.Application.Write.Sequences.Tests.csproj", "{F3493D71-DBA9-450E-9789-6F3E76B87018}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{63D80F20-7E9A-45A1-BED1-52C56CD4EBB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Domain.Shared", "RecklessSpeech.Domain.Shared\RecklessSpeech.Domain.Shared.csproj", "{6CCB91D6-084F-4174-8E4F-BB30AE70849B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Domain.Shared", "RecklessSpeech.Domain.Shared\RecklessSpeech.Domain.Shared.csproj", "{6CCB91D6-084F-4174-8E4F-BB30AE70849B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Application.Write.Sequences", "RecklessSpeech.Application.Write.Sequences\RecklessSpeech.Application.Write.Sequences.csproj", "{4FA5E21D-6C4C-447E-B506-63862FF7F23F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Application.Write.Sequences", "RecklessSpeech.Application.Write.Sequences\RecklessSpeech.Application.Write.Sequences.csproj", "{4FA5E21D-6C4C-447E-B506-63862FF7F23F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sequences", "Sequences", "{22521FE8-3588-44AF-96E0-484353487CB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Domain.Sequences", "RecklessSpeech.Domain.Sequences\RecklessSpeech.Domain.Sequences.csproj", "{5BB218B1-7629-4669-9B66-D7B75A1781F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Domain.Sequences", "RecklessSpeech.Domain.Sequences\RecklessSpeech.Domain.Sequences.csproj", "{5BB218B1-7629-4669-9B66-D7B75A1781F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Infrastructure.Sequences.Tests", "RecklessSpeech.Infrastructure.Sequences.Tests\RecklessSpeech.Infrastructure.Sequences.Tests.csproj", "{DF635FD5-431C-4B47-B1EF-D0FA9FCAE7B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Infrastructure.Sequences.Tests", "RecklessSpeech.Infrastructure.Sequences.Tests\RecklessSpeech.Infrastructure.Sequences.Tests.csproj", "{DF635FD5-431C-4B47-B1EF-D0FA9FCAE7B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Shared.Tests", "RecklessSpeech.Shared.Tests\RecklessSpeech.Shared.Tests.csproj", "{EEBA26D3-3EB1-440D-BE79-3EE791FF557B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Shared.Tests", "RecklessSpeech.Shared.Tests\RecklessSpeech.Shared.Tests.csproj", "{EEBA26D3-3EB1-440D-BE79-3EE791FF557B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Infrastructure.Entities", "RecklessSpeech.Infrastructure.Entities\RecklessSpeech.Infrastructure.Entities.csproj", "{277067B2-CCC0-4910-AC00-7638C249AF4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Infrastructure.Entities", "RecklessSpeech.Infrastructure.Entities\RecklessSpeech.Infrastructure.Entities.csproj", "{277067B2-CCC0-4910-AC00-7638C249AF4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Infrastructure.Orchestration", "RecklessSpeech.Infrastructure.Orchestration\RecklessSpeech.Infrastructure.Orchestration.csproj", "{EF99C468-0B6D-4671-8A40-2B0BE4E77451}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Infrastructure.Orchestration", "RecklessSpeech.Infrastructure.Orchestration\RecklessSpeech.Infrastructure.Orchestration.csproj", "{EF99C468-0B6D-4671-8A40-2B0BE4E77451}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Infrastructure.Databases", "RecklessSpeech.Infrastructure.Databases\RecklessSpeech.Infrastructure.Databases.csproj", "{E95AF266-C9B5-4BE1-BD31-C9EB9BC86E7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Infrastructure.Databases", "RecklessSpeech.Infrastructure.Databases\RecklessSpeech.Infrastructure.Databases.csproj", "{E95AF266-C9B5-4BE1-BD31-C9EB9BC86E7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Infrastructure.Sequences", "RecklessSpeech.Infrastructure.Sequences\RecklessSpeech.Infrastructure.Sequences.csproj", "{7C91D035-5DED-48CC-AA06-BB2A90224420}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Infrastructure.Sequences", "RecklessSpeech.Infrastructure.Sequences\RecklessSpeech.Infrastructure.Sequences.csproj", "{7C91D035-5DED-48CC-AA06-BB2A90224420}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.AcceptanceTests", "RecklessSpeech.AcceptanceTests\RecklessSpeech.AcceptanceTests.csproj", "{C47F2315-1A96-4225-B23E-C4F4CBDA2F88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.AcceptanceTests", "RecklessSpeech.AcceptanceTests\RecklessSpeech.AcceptanceTests.csproj", "{C47F2315-1A96-4225-B23E-C4F4CBDA2F88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Web", "RecklessSpeech.Web\RecklessSpeech.Web.csproj", "{89928C6E-766D-4F90-8E9B-E7B26050D36C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Web", "RecklessSpeech.Web\RecklessSpeech.Web.csproj", "{89928C6E-766D-4F90-8E9B-E7B26050D36C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Application.Core", "RecklessSpeech.Application.Core\RecklessSpeech.Application.Core.csproj", "{32075678-4BB6-4087-8649-F5F837C891C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Application.Core", "RecklessSpeech.Application.Core\RecklessSpeech.Application.Core.csproj", "{32075678-4BB6-4087-8649-F5F837C891C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Infrastructure.Read.Tests", "RecklessSpeech.Infrastructure.Read.Tests\RecklessSpeech.Infrastructure.Read.Tests.csproj", "{9986F135-F19E-4120-9586-4C82950F2159}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Infrastructure.Read.Tests", "RecklessSpeech.Infrastructure.Read.Tests\RecklessSpeech.Infrastructure.Read.Tests.csproj", "{9986F135-F19E-4120-9586-4C82950F2159}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Infrastructure.Read", "RecklessSpeech.Infrastructure.Read\RecklessSpeech.Infrastructure.Read.csproj", "{4C6975CD-4593-47CA-B3DB-443B83A994B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Infrastructure.Read", "RecklessSpeech.Infrastructure.Read\RecklessSpeech.Infrastructure.Read.csproj", "{4C6975CD-4593-47CA-B3DB-443B83A994B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Application.Read", "RecklessSpeech.Application.Read\RecklessSpeech.Application.Read.csproj", "{EE9F83AB-A3A9-478F-B533-009AE6632744}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Application.Read", "RecklessSpeech.Application.Read\RecklessSpeech.Application.Read.csproj", "{EE9F83AB-A3A9-478F-B533-009AE6632744}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Queries", "Queries", "{847819C5-1039-4C49-ABA1-4764D9838C19}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Front", "Front", "{D7F3D698-7359-4393-80F5-F6D615426DA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Front.WPF.App", "RecklessSpeech.Front.WPF.App\RecklessSpeech.Front.WPF.App.csproj", "{C8AC4C14-9B1C-42AE-AECB-F71F602A963F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,17 +117,18 @@ Global
 		{EE9F83AB-A3A9-478F-B533-009AE6632744}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE9F83AB-A3A9-478F-B533-009AE6632744}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE9F83AB-A3A9-478F-B533-009AE6632744}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8AC4C14-9B1C-42AE-AECB-F71F602A963F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8AC4C14-9B1C-42AE-AECB-F71F602A963F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8AC4C14-9B1C-42AE-AECB-F71F602A963F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8AC4C14-9B1C-42AE-AECB-F71F602A963F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D6DDC6F2-CD4F-4DFD-B477-D143345078EF}
-	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F3493D71-DBA9-450E-9789-6F3E76B87018} = {63D80F20-7E9A-45A1-BED1-52C56CD4EBB7}
-		{22521FE8-3588-44AF-96E0-484353487CB5} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
 		{4FA5E21D-6C4C-447E-B506-63862FF7F23F} = {22521FE8-3588-44AF-96E0-484353487CB5}
+		{22521FE8-3588-44AF-96E0-484353487CB5} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
 		{5BB218B1-7629-4669-9B66-D7B75A1781F5} = {22521FE8-3588-44AF-96E0-484353487CB5}
 		{DF635FD5-431C-4B47-B1EF-D0FA9FCAE7B7} = {63D80F20-7E9A-45A1-BED1-52C56CD4EBB7}
 		{EEBA26D3-3EB1-440D-BE79-3EE791FF557B} = {63D80F20-7E9A-45A1-BED1-52C56CD4EBB7}
@@ -136,7 +141,11 @@ Global
 		{32075678-4BB6-4087-8649-F5F837C891C8} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
 		{9986F135-F19E-4120-9586-4C82950F2159} = {63D80F20-7E9A-45A1-BED1-52C56CD4EBB7}
 		{4C6975CD-4593-47CA-B3DB-443B83A994B1} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
-		{847819C5-1039-4C49-ABA1-4764D9838C19} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
 		{EE9F83AB-A3A9-478F-B533-009AE6632744} = {847819C5-1039-4C49-ABA1-4764D9838C19}
+		{847819C5-1039-4C49-ABA1-4764D9838C19} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
+		{C8AC4C14-9B1C-42AE-AECB-F71F602A963F} = {D7F3D698-7359-4393-80F5-F6D615426DA3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D6DDC6F2-CD4F-4DFD-B477-D143345078EF}
 	EndGlobalSection
 EndGlobal

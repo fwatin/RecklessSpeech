@@ -7,4 +7,5 @@ public record SequenceSummaryPresentation(
     string HtmlContent,
     string AudioFileNameWithExtension,
     string Tags,
+    string Word,
     string? Explanation);

@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
+using RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
 using RecklessSpeech.Application.Write.Sequences.Commands;
-using RecklessSpeech.Web.Sequences;
+using RecklessSpeech.Web.Configuration;
+using RecklessSpeech.Web.Configuration.Swagger;
 using RecklessSpeech.Web.ViewModels.Sequences;
 
-namespace RecklessSpeech.Web;
+namespace RecklessSpeech.Web.Sequences;
 
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/sequences")]
@@ -48,6 +50,16 @@ public class SequenceController : ControllerBase
         return Ok(result.ToPresentation());
     }
 
+    [HttpGet("{sequenceId:guid}")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(typeof(SequenceSummaryPresentation), (int) HttpStatusCode.OK)]
+    [SwaggerResponseErrors((int) HttpStatusCode.NotFound, ApiErrors.ReadSequenceNotFound)]
+    public async Task<ActionResult<SequenceSummaryPresentation>> GetOne(Guid sequenceId)
+    {
+        SequenceSummaryQueryModel result = await this.dispatcher.Dispatch(new GetOneSequenceQuery(new(sequenceId)));
+        return Ok(result.ToPresentation());
+    }
+
     [HttpPost]
     [Route("Anki/")]
     [MapToApiVersion("1.0")]
@@ -58,7 +70,7 @@ public class SequenceController : ControllerBase
         await this.dispatcher.Dispatch(new SendNotesCommand(ids));
         return Ok();
     }
-    
+
     [HttpPost]
     [Route("Dictionary/")]
     [MapToApiVersion("1.0")]

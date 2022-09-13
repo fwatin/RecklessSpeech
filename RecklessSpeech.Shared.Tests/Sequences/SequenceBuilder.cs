@@ -101,6 +101,7 @@ public record SequenceBuilder
             this.HtmlContent.Value,
             this.AudioFileNameWithExtension.Value,
             this.Tags.Value,
+            this.Word.Value,
             this.Explanation?.Content.Value);
     }
 
