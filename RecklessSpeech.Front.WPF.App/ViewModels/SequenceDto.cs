@@ -7,5 +7,7 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
         public Guid Id { get; set; }
 
         public string Word { get; set; }
+
+        public string? Explanation { get; set; }
     }
 }

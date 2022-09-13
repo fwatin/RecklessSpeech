@@ -43,7 +43,8 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
             return result.Select(presentation => new SequenceDto()
                 {
                     Id = presentation.Id,
-                    Word = presentation.Word
+                    Word = presentation.Word,
+                    Explanation = presentation.Explanation
                 })
                 .ToList();
         }
