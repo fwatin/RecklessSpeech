@@ -15,19 +15,19 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
             throw new InvalidHtmlContentException();
 
         List<IDomainEvent> events = new();
-        IReadOnlyCollection<ImportSequenceDto> lines = Parse(command.FileContent);
+        IEnumerable<ImportSequenceDto> lines = Parse(command.FileContent);
 
-        foreach (ImportSequenceDto line in lines)
+        foreach ((string? rawHtml, string? audioFileNameWithExtension, string? tags) in lines)
         {
-            HtmlContent? htmlContent = HtmlContent.Create(line.RawHtml);
-            (Word, TranslatedSentence) data = GetDataFromHtml(htmlContent);
+            HtmlContent? htmlContent = HtmlContent.Create(rawHtml);
+            (Word? word, TranslatedSentence? translatedSentence) = GetDataFromHtml(htmlContent);
 
             Sequence? sequence = Sequence.Create(Guid.NewGuid(),
                 htmlContent,
-                AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension),
-                GetTags(line.Tags),
-                data.Item1,
-                data.Item2);
+                AudioFileNameWithExtension.Create(audioFileNameWithExtension),
+                GetTags(tags),
+                word,
+                translatedSentence);
 
             events.AddRange(sequence.Import());
         }
@@ -56,18 +56,17 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         return (word,translatedSentence);
     }
 
-    private Tags GetTags(string element)
+    private static Tags GetTags(string element)
     {
         if (element.StartsWith("\""))
             element = element.Substring(1,
                 element.Length - 1);
         if (element.EndsWith("\""))
-            element = element.Substring(0,
-                element.Length - 1);
+            element = element[..^1];
         return Tags.Create(element.Trim());
     }
 
-    private IReadOnlyCollection<ImportSequenceDto> Parse(string fileContent)
+    private static IEnumerable<ImportSequenceDto> Parse(string fileContent)
     {
         string delimiter = "\"<style>";
         string[] lines = fileContent.Split(delimiter);
@@ -90,7 +89,7 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         return dtos;
     }
 
-    private string ParseHtmlContent(string element)
+    private static string ParseHtmlContent(string element)
     {
         if (element.StartsWith("\""))
             element = element.Substring(1,
@@ -107,7 +106,7 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         return element;
     }
 
-    private string ParseAudioFileName(string audioFileNameWithContext)
+    private static string ParseAudioFileName(string audioFileNameWithContext)
     {
         int leftPartLength = "[sound:".Length;
         int rightPartLength = "]".Length;
