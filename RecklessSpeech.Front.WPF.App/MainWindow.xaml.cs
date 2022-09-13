@@ -21,7 +21,7 @@ namespace RecklessSpeech.Front.WPF.App
     public partial class MainWindow : Window
     {
         // ReSharper disable once MemberCanBePrivate.Global
-        public FlowPageViewModel ViewModel => (FlowPageViewModel) this.DataContext;
+        public FlowPageViewModel ViewModel => (FlowPageViewModel)this.DataContext;
 
         public MainWindow()
         {
@@ -45,21 +45,21 @@ namespace RecklessSpeech.Front.WPF.App
 
             this.ViewModel.AddSequencesCommand.Execute(filePath);
         }
-        
+
         private void ContextMenu_Enrich_Click(object sender, RoutedEventArgs e)
         {
-            IList seq = this.SequenceListView.SelectedItems;
-
-            SequenceDto sequence = seq.Cast<SequenceDto>().First();
-            
-            this.ViewModel.EnrichSequenceCommand.Execute(sequence);
+            foreach (SequenceDto sequence in this.SequenceListView.SelectedItems)
+            {
+                this.ViewModel.EnrichSequenceCommand.Execute(sequence);
+            }
         }
-        
+
         private void ContextMenu_Send_to_Anki_Click(object sender, RoutedEventArgs e)
         {
-            IList seq = this.SequenceListView.SelectedItems;
-
-            this.ViewModel.SendSequenceToAnkiCommand.Execute(seq.Cast<SequenceDto>().First());
+            foreach (SequenceDto sequence in this.SequenceListView.SelectedItems)
+            {
+                this.ViewModel.SendSequenceToAnkiCommand.Execute(sequence);
+            }
         }
     }
 }

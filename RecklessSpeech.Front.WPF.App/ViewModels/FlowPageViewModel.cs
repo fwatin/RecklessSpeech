@@ -31,7 +31,6 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
             }
         }
 
-        private readonly BackEndGateway backEndGateway;
 
 
         //commands
@@ -42,12 +41,8 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
 
         public FlowPageViewModel()
         {
-            this.backEndGateway = new BackEndGateway();
-
             this.Sequences = new ObservableCollection<SequenceDto>();
 
-            //todo essayer une relaycommand plutot c'est natif wpf
-            
             this.AddSequencesCommand = new DelegateCommand<string>(async s => await AddSequences(s));
             this.EnrichSequenceCommand = new DelegateCommand<SequenceDto>(async s => await EnrichSequence(s));
             this.SendSequenceToAnkiCommand = new DelegateCommand<SequenceDto>(async s => await SendSequenceToAnki(s));

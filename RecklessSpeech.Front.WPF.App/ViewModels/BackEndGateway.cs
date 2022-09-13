@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RecklessSpeech.Front.WPF.App.ViewModels
 {
-    public class BackEndGateway
+    public static class BackEndGateway
     {
         private const string apiVersion = "v1";
 
