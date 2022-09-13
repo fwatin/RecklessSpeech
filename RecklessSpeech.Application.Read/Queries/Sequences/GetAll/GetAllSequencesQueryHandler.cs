@@ -19,3 +19,4 @@ public class GetAllSequencesQueryHandler : QueryHandler<GetAllSequencesQuery, IR
         return (await this.sequenceQueryRepository.GetAll()).ToList();
     }
 }
+

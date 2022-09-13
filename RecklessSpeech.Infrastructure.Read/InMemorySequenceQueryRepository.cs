@@ -28,7 +28,7 @@ public class InMemorySequenceQueryRepository : ISequenceQueryRepository
         return await Task.FromResult(result);
     }
 
-    public SequenceSummaryQueryModel? TryGetOne(Guid id)
+    public async Task<SequenceSummaryQueryModel?> TryGetOne(Guid id)
     {
         SequenceEntity? entity = this.dbContext.Sequences.FirstOrDefault(x => x.Id == id);
         if (entity is null) return null;
@@ -39,12 +39,15 @@ public class InMemorySequenceQueryRepository : ISequenceQueryRepository
             explanation = this.dbContext.Explanations.Single(x => x.Id == entity.ExplanationId);
         }
 
-        return new SequenceSummaryQueryModel(
+        SequenceSummaryQueryModel result = new SequenceSummaryQueryModel(
             entity.Id,
             entity.HtmlContent,
             entity.AudioFileNameWithExtension,
             entity.Tags,
             entity.Word,
             explanation?.Content);
+        
+        return await Task.FromResult(result);
+
     }
 }
