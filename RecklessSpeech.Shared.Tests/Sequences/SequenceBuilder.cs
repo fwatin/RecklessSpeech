@@ -148,10 +148,10 @@ public record SequenceBuilder
         "</span>{{c1::<span class=\"\"dc-gap\"\"><span class=\"\"dc-down dc-lang-en dc-orig\"\">gimmicks</span></span>}}" +
         "<span class=\"\"dc-down dc-lang-en dc-orig\"\">.</span></div><div class=\"\"dc-line dc-translation dc-lang-fr\"\">" +
         "Et ça n'arrive pas par quelques astuces statistiques.</div></div></div>\"	[sound:" +
-        AudioFileNameWithExtension.Value +
+        this.AudioFileNameWithExtension.Value +
         "]	" +
         "\"" +
-        Tags.Value +
+        this.Tags.Value +
         " \"\n";
 
     public EnrichSequenceCommand BuildEnrichCommand()

@@ -19,7 +19,7 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
         foreach ((string? rawHtml, string? audioFileNameWithExtension, string? tags) in lines)
         {
-            HtmlContent? htmlContent = HtmlContent.Create(rawHtml);
+            HtmlContent? htmlContent = GetHtmlContent(rawHtml);
             (Word? word, TranslatedSentence? translatedSentence) = GetDataFromHtml(htmlContent);
 
             Sequence? sequence = Sequence.Create(Guid.NewGuid(),
@@ -35,17 +35,27 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         return await Task.FromResult(events);
     }
 
-    private static (Word,TranslatedSentence) GetDataFromHtml(HtmlContent htmlContent)
+    private HtmlContent GetHtmlContent(string rawHtml)
+    {
+        string content = rawHtml;
+        content = content.Replace("{{c1::", "");
+        content = content.Replace("}}", "");
+
+        HtmlContent? htmlContent = HtmlContent.Create(content);
+        return htmlContent;
+    }
+
+    private static (Word, TranslatedSentence) GetDataFromHtml(HtmlContent htmlContent)
     {
         HtmlDocument htmlDoc = new();
         htmlDoc.LoadHtml(htmlContent.Value);
-        
+
         HtmlNode? wordNode = htmlDoc.DocumentNode.Descendants()
             .FirstOrDefault(n => n.HasClass("dc-gap"));
         Word? word = Word.Create(wordNode != null
             ? wordNode.InnerText
             : "");
-        
+
         HtmlNode? translatedSentenceNode = htmlDoc.DocumentNode.Descendants()
             .FirstOrDefault(n => n.HasClass("dc-translation"));
 
@@ -53,7 +63,7 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
             ? translatedSentenceNode.InnerText
             : "");
 
-        return (word,translatedSentence);
+        return (word, translatedSentence);
     }
 
     private static Tags GetTags(string element)
@@ -61,13 +71,13 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         if (element.StartsWith("\""))
             element = element.Substring(1,
                 element.Length - 1);
-        
+
         if (element.EndsWith("\n"))
             element = element[..^1];
-        
+
         if (element.EndsWith("\""))
             element = element[..^1];
-        
+
         return Tags.Create(element.Trim());
     }
 
