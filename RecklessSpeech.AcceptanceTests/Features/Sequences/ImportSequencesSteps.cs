@@ -37,7 +37,8 @@ public class ImportSequencesSteps : StepsBase
     public void ThenSomeSequencesAreSaved()
     {
         ISequencesDbContext? sequencesContext = GetService<ISequencesDbContext>();
-        sequencesContext.Sequences.Single().Should().BeEquivalentTo(this.sequenceBuilder.BuildEntity(),AssertExtensions.IgnoreId);
+        SequenceEntity expected = this.sequenceBuilder.BuildEntity();
+        sequencesContext.Sequences.Single().Should().BeEquivalentTo(expected,AssertExtensions.IgnoreId);
     }
 
     [Then(@"the html in HTML Content is valid")]

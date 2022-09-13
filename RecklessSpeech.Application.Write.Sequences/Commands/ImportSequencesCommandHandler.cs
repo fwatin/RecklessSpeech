@@ -61,8 +61,13 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         if (element.StartsWith("\""))
             element = element.Substring(1,
                 element.Length - 1);
+        
+        if (element.EndsWith("\n"))
+            element = element[..^1];
+        
         if (element.EndsWith("\""))
             element = element[..^1];
+        
         return Tags.Create(element.Trim());
     }
 

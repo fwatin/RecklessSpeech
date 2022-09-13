@@ -107,6 +107,20 @@ public class CaseOfImportSuccessful
         AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
         importEvent.TranslatedSentence.Value.Should().Be("Et ça n'arrive pas par quelques astuces statistiques.");
     }
+    
+    [Fact]
+    public async Task Should_html_not_contain_any_c1_for_flag()
+    {
+        //Arrange
+        ImportSequencesCommand command = this.builder.BuildImportCommand();
+
+        //Act
+        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
+
+        //Assert
+        AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
+        importEvent.HtmlContent.Value.Should().NotContain("c1::");
+    }
 
 
     private static class Fixture

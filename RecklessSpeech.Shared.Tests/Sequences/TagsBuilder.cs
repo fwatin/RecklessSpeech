@@ -10,7 +10,7 @@ public class TagsBuilder
         this.Value = value;
     }
     
-    public string Value { get; set; } = "word-naked lang-nl netflix Green pron";
+    public string Value { get; set; } = "word-naked lang-en netflix Green noun";
 
     public static implicit operator Tags(TagsBuilder builder) => new(builder.Value);
 }
