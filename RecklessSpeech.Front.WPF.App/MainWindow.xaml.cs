@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -48,17 +49,27 @@ namespace RecklessSpeech.Front.WPF.App
 
         private void ContextMenu_Enrich_Click(object sender, RoutedEventArgs e)
         {
+            int total = SequenceListView.SelectedItems.Count;
+            int count = 0;
+
+            this.ViewModel.Progress = 0;
             foreach (SequenceDto sequence in this.SequenceListView.SelectedItems)
             {
                 this.ViewModel.EnrichSequenceCommand.Execute(sequence);
+                this.ViewModel.Progress = ++count / total * 100;
             }
         }
 
         private void ContextMenu_Send_to_Anki_Click(object sender, RoutedEventArgs e)
         {
+            int total = SequenceListView.SelectedItems.Count;
+            int count = 0;
+
+            this.ViewModel.Progress = 0;
             foreach (SequenceDto sequence in this.SequenceListView.SelectedItems)
             {
                 this.ViewModel.SendSequenceToAnkiCommand.Execute(sequence);
+                this.ViewModel.Progress = ++count / total * 100;
             }
         }
     }

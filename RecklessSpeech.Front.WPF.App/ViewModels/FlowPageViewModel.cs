@@ -31,6 +31,20 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
             }
         }
 
+        private int progress;
+        public int Progress
+        {
+            get
+            {
+                return progress;
+            }
+            set
+            {
+                progress = value;
+                OnPropertyChanged("Progress");
+            }
+        }
+
 
 
         //commands
