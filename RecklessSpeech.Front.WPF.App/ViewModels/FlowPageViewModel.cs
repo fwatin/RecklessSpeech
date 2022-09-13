@@ -76,6 +76,10 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
         private async Task EnrichSequence(SequenceDto sequence)
         {
             await BackEndGateway.EnrichSequence(sequence.Id);
+
+            SequenceDto updatedSequence = await BackEndGateway.GetOneSequence(sequence.Id);
+
+            sequence.Explanation = updatedSequence.Explanation;
         }
         
         private async Task SendSequenceToAnki(SequenceDto sequence)

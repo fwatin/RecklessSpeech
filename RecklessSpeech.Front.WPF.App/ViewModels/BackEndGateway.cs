@@ -48,6 +48,27 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
                 })
                 .ToList();
         }
+        
+        public static async Task<SequenceDto> GetOneSequence(Guid id)
+        {
+            using HttpClient client = new();
+
+            string url = @$"https://localhost:47973/api/{apiVersion}/sequences/{id}";
+
+            HttpResponseMessage? responseMessage = await client.GetAsync(new Uri(url));
+
+            string contentString = await responseMessage.Content.ReadAsStringAsync();
+
+            SequenceSummaryPresentation result =
+                JsonConvert.DeserializeObject<SequenceSummaryPresentation>(contentString);
+
+            return new SequenceDto()
+                {
+                    Id = result.Id,
+                    Word = result.Word,
+                    Explanation = result.Explanation
+                };
+        }
 
         public static async Task EnrichSequence(Guid id)
         {
