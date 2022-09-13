@@ -29,7 +29,7 @@ public class InMemorySequenceQueryRepository : ISequenceQueryRepository
         return await Task.FromResult(result);
     }
 
-    public async Task<SequenceSummaryQueryModel?> TryGetOne(Guid id)
+    private async Task<SequenceSummaryQueryModel?> TryGetOne(Guid id)
     {
         SequenceEntity? entity = this.dbContext.Sequences.FirstOrDefault(x => x.Id == id);
         if (entity is null) return null;

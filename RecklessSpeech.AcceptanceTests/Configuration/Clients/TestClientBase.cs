@@ -121,11 +121,6 @@ public class TestClientBase : IDisposable
         }
         catch (HttpRequestException)
         {
-            await HandleDefaultHttpException();
-        }
-
-        async Task HandleDefaultHttpException()
-        {
             string content = await response.Content.ReadAsStringAsync();
             ProblemDetails details = JsonConvert.DeserializeObject<ProblemDetails>(content)!;
             this.context.SetError(new HttpTestServerException(response.StatusCode, details));
