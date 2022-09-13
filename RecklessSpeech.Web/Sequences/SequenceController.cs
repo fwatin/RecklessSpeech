@@ -9,18 +9,16 @@ using Microsoft.AspNetCore.Mvc;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
 using RecklessSpeech.Application.Write.Sequences.Commands;
-using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Web.Configuration;
 using RecklessSpeech.Web.Configuration.Swagger;
-using RecklessSpeech.Web.Sequences;
 using RecklessSpeech.Web.ViewModels.Sequences;
 
-namespace RecklessSpeech.Web;
+namespace RecklessSpeech.Web.Sequences;
 
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/sequences")]
 [ApiController]
-public class SequenceController : ControllerBase //todo move into controllers folder
+public class SequenceController : ControllerBase
 {
     private readonly WebDispatcher dispatcher;
 
