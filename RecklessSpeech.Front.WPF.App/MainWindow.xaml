@@ -72,9 +72,13 @@
             <ProgressBar Minimum="0"
                          Maximum="100"
                          Value="{Binding Progress, Mode=OneWay}"
-                         Name="ProgressBar" />
+                         Name="ProgressBar"
+                         Margin="0,0,10,0"
+                         HorizontalAlignment="Right"
+                         Width="150"/>
             <TextBlock Text="{Binding ElementName=ProgressBar, Path=Value, StringFormat={}{0:0}%}"
-                       HorizontalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       Margin="0,0,70,0"
                        VerticalAlignment="Center" />
         </Grid>
 
