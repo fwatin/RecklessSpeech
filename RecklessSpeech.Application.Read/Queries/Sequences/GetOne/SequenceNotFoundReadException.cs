@@ -1,4 +1,4 @@
-namespace RecklessSpeech.Infrastructure.Read;
+namespace RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
 
 public sealed class SequenceNotFoundReadException : Exception
 {

@@ -1,5 +1,6 @@
 ﻿using RecklessSpeech.Application.Read.Ports;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
+using RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Sequences;
 
@@ -28,7 +29,7 @@ public class InMemorySequenceQueryRepository : ISequenceQueryRepository
         return await Task.FromResult(result);
     }
 
-    private async Task<SequenceSummaryQueryModel?> TryGetOne(Guid id)
+    public async Task<SequenceSummaryQueryModel?> TryGetOne(Guid id)
     {
         SequenceEntity? entity = this.dbContext.Sequences.FirstOrDefault(x => x.Id == id);
         if (entity is null) return null;

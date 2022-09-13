@@ -6,4 +6,5 @@ public interface ISequenceQueryRepository
 {
     Task<IReadOnlyCollection<SequenceSummaryQueryModel>> GetAll();
     Task<SequenceSummaryQueryModel> GetOne(Guid sequenceIdValue);
+    Task<SequenceSummaryQueryModel?> TryGetOne(Guid sequenceIdValue);
 }

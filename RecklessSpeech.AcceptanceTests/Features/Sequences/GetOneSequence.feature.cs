@@ -111,6 +111,37 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
             this.ScenarioCleanup();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Get an unknown sequence")]
+        [Xunit.TraitAttribute("FeatureTitle", "Get one sequence")]
+        [Xunit.TraitAttribute("Description", "Get an unknown sequence")]
+        [Xunit.TraitAttribute("Category", "ErrorHandling")]
+        public void GetAnUnknownSequence()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "ErrorHandling"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get an unknown sequence", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 9
+ this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 10
+  testRunner.When("the user tries to get an unknown sequence", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 11
+  testRunner.Then("an error is thrown with an HTTP status 404 and error type \"Read_Sequence_NotFound" +
+                        "\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

@@ -31,6 +31,10 @@ public class GetOneSequenceSteps : StepsBase
     {            
         this.SequenceResponse = (await this.Client.Latest().SequenceRequests().GetOne(this.sequenceBuilder.SequenceId.Value));
     }
+    
+    [When(@"the user tries to get an unknown sequence")]
+    public async Task WhenTheUserTriesToGetAnUnknownSequence()
+        => await this.Client.Latest().SequenceRequests().GetOne(Guid.Parse("A44DFAD1-3742-42E1-A56D-D4E68AC65DFC"));
 
 
     [Then(@"the existing sequence is returned")]
