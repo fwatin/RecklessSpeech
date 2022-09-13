@@ -18,9 +18,8 @@ public class GetOneSequencesQueryHandler : QueryHandler<GetOneSequenceQuery, Seq
 
     protected override async Task<SequenceSummaryQueryModel> Handle(GetOneSequenceQuery query)
     {
-        SequenceSummaryQueryModel? sequenceSummaryQueryModel = await this.sequenceQueryRepository.TryGetOne(query.SequenceId.Value);
-        if (sequenceSummaryQueryModel is not null) return sequenceSummaryQueryModel!;
+        SequenceSummaryQueryModel sequenceSummaryQueryModel = await this.sequenceQueryRepository.GetOne(query.SequenceId.Value);
+        return sequenceSummaryQueryModel!;
 
-        else throw new CannotFoundSequenceException();
     }
 }
