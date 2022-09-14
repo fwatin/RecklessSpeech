@@ -59,7 +59,7 @@
                 <GridView>
                     <GridView.Columns>
 
-                        <GridViewColumn x:Name="SequenceColumn">
+                        <GridViewColumn x:Name="SequenceColumn" Width="auto" Header="Word">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Word}"

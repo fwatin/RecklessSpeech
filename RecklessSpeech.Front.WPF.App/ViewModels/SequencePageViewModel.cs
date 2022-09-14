@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace RecklessSpeech.Front.WPF.App.ViewModels
 {
-    public class FlowPageViewModel : INotifyPropertyChanged
+    public class SequencePageViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string? name = null)
@@ -50,7 +50,7 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
         public ICommand SendSequenceToAnkiCommand { get; }
 
 
-        public FlowPageViewModel()
+        public SequencePageViewModel()
         {
             this.Sequences = new ObservableCollection<SequenceDto>();
 
@@ -64,6 +64,8 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
             await BackEndGateway.ImportSequencesFromCsvFile(filePath);
 
             IReadOnlyCollection<SequenceDto> newSequences = await BackEndGateway.GetAllSequences();
+            this.Sequences.Clear();
+            
             foreach (SequenceDto newSequence in newSequences)
             {
                 this.Sequences.Add(newSequence);

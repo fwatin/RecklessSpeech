@@ -8,13 +8,13 @@ namespace RecklessSpeech.Front.WPF.App
     public partial class MainWindow : Window
     {
         // ReSharper disable once MemberCanBePrivate.Global
-        public FlowPageViewModel ViewModel => (FlowPageViewModel)this.DataContext;
+        public SequencePageViewModel ViewModel => (SequencePageViewModel)this.DataContext;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            this.DataContext = new FlowPageViewModel();
+            this.DataContext = new SequencePageViewModel();
         }
 
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)

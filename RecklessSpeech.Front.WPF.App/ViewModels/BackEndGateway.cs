@@ -21,7 +21,7 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
 
             FileStream fileStream = new(filePath, FileMode.Open, FileAccess.Read);
 
-            content.Add(new StreamContent(fileStream), "file", "fileName_what_for");
+            content.Add(new StreamContent(fileStream), "file", Path.GetFileName(filePath));
 
             const string url = @$"https://localhost:47973/api/{apiVersion}/sequences";
 
