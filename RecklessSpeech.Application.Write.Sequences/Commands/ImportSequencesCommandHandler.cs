@@ -19,8 +19,9 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
         foreach ((string? rawHtml, string? audioFileNameWithExtension, string? tags) in lines)
         {
-            HtmlContent? htmlContent = GetHtmlContent(rawHtml);
-            (Word? word, TranslatedSentence? translatedSentence) = GetDataFromHtml(htmlContent);
+            (Word? word, TranslatedSentence? translatedSentence) = GetDataFromHtml(rawHtml);
+
+            HtmlContent? htmlContent = GetHtmlContent(rawHtml, translatedSentence);
 
             Sequence? sequence = Sequence.Create(Guid.NewGuid(),
                 htmlContent,
@@ -35,9 +36,11 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         return await Task.FromResult(events);
     }
 
-    private HtmlContent GetHtmlContent(string rawHtml)
+    private static HtmlContent GetHtmlContent(string rawHtml, TranslatedSentence translatedSentence)
     {
         string html = RemoveGap(rawHtml);
+
+        html = RemoveTranslatedSentence(html, translatedSentence);
 
         HtmlDocument htmlDoc = SetBackgroundToRedForWordNode(html);
 
@@ -48,6 +51,16 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
         html = html.Replace("{{c1::", "");
         html = html.Replace("}}", "");
+        return html;
+    }
+
+    private static string RemoveTranslatedSentence(string html, TranslatedSentence translatedSentence)
+    {
+
+        if (string.IsNullOrEmpty(translatedSentence.Value) is false)
+        {
+            html = html.Replace(translatedSentence.Value, "");
+        }
         return html;
     }
     private static HtmlDocument SetBackgroundToRedForWordNode(string html)
@@ -63,18 +76,18 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         return htmlDoc;
     }
 
-    private static (Word, TranslatedSentence) GetDataFromHtml(HtmlContent htmlContent)
+    private static (Word, TranslatedSentence) GetDataFromHtml(string rawHtml)
     {
         HtmlDocument htmlDoc = new();
-        htmlDoc.LoadHtml(htmlContent.Value);
+        htmlDoc.LoadHtml(rawHtml);
 
         HtmlNode? wordNode = htmlDoc.DocumentNode.Descendants()
             .FirstOrDefault(n => n.HasClass("dc-gap"));
         Word? word = Word.Create(wordNode != null
             ? wordNode.InnerText
             : "");
-        
-        
+
+
         HtmlNode? translatedSentenceNode = htmlDoc.DocumentNode.Descendants()
             .FirstOrDefault(n => n.HasClass("dc-translation"));
 
