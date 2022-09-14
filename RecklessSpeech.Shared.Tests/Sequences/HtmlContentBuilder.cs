@@ -49,7 +49,7 @@ public class HtmlContentBuilder
         "</span><span class=\"dc-down dc-lang-en dc-orig\">bunch</span><span class=\"dc-down dc-lang-en dc-orig\"> " +
         "</span><span class=\"dc-down dc-lang-en dc-orig\">of</span><span class=\"dc-down dc-lang-en dc-orig\"> " +
         "</span><span class=\"dc-down dc-lang-en dc-orig\">statistical</span><span class=\"dc-down dc-lang-en dc-orig\"> " +
-        "</span><span class=\"dc-gap\"><span class=\"dc-down dc-lang-en dc-orig\">gimmicks</span></span>" +
+        "</span><span class=\"dc-gap\"><span class=\"dc-down dc-lang-en dc-orig\" style=\"background-color: rgb(157, 0, 0);\">gimmicks</span></span>" +
         "<span class=\"dc-down dc-lang-en dc-orig\">.</span></div><div class=\"dc-line dc-translation dc-lang-fr\">" +
         "Et ça n'arrive pas par quelques astuces statistiques.</div></div></div>";
 }

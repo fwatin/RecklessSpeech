@@ -121,6 +121,20 @@ public class CaseOfImportSuccessful
         AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
         importEvent.HtmlContent.Value.Should().NotContain("c1::");
     }
+    
+    [Fact]
+    public async Task Should_show_word_in_red_background_in_html()
+    {
+        //Arrange
+        ImportSequencesCommand? importSequencesCommand = this.builder.BuildImportCommand();
+
+        //Act
+        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(importSequencesCommand, CancellationToken.None);
+
+        //Assert
+        AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
+        Fixture.VerifyWordHasAttributeBackgroundInRed(importEvent.HtmlContent.Value);
+    }
 
 
     private static class Fixture
@@ -139,6 +153,16 @@ public class CaseOfImportSuccessful
             IStyleRule? dcCard = stylesheet.StyleRules.First(rule =>
                 rule.SelectorText == ".dc-card");
             return dcCard;
+        }
+        
+        public static void VerifyWordHasAttributeBackgroundInRed(string htmlContent)
+        {
+            HtmlDocument htmlDoc = new();
+            htmlDoc.LoadHtml(htmlContent);
+            HtmlNodeCollection? nodes = htmlDoc.DocumentNode.SelectNodes("//span[@class='" + "dc-gap" + "']");
+            HtmlNode? dcgapNode =  nodes.Single();
+            HtmlNode? wordNode = dcgapNode.ChildNodes.Single();
+             wordNode.Attributes.Single(x => x.Name == "style").Value.Should().Be("background-color: rgb(157, 0, 0);");
         }
     }
 }
