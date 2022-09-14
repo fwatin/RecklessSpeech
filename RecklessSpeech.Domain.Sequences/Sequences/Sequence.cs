@@ -8,8 +8,10 @@ public sealed class Sequence
     public SequenceId SequenceId { get; private init; }
     public HtmlContent HtmlContent { get; private init; } = default!;
     public Word Word { get; private init; } = default!;
-    private TranslatedSentence translatedSentence = default!;
+    public TranslatedSentence TranslatedSentence { get; private init; } = default!;
+    
     private AudioFileNameWithExtension audioFile = default!;
+    
     private Tags tags = default!;
     public Explanation? Explanation { get; init; } = default!;
 
@@ -26,7 +28,7 @@ public sealed class Sequence
             this.audioFile,
             this.tags,
             this.Word,
-            this.translatedSentence);
+            this.TranslatedSentence);
     }
 
     public static Sequence Create(
@@ -43,7 +45,7 @@ public sealed class Sequence
             audioFile = audioFileNameWithExtension,
             tags = tags,
             Word = word,
-            translatedSentence = translatedSentence
+            TranslatedSentence = translatedSentence
         };
     }
 
@@ -62,7 +64,7 @@ public sealed class Sequence
             audioFile = AudioFileNameWithExtension.Hydrate(audioFileNameWithExtension),
             tags = Tags.Hydrate(tags),
             Word = Word.Hydrate(word),
-            translatedSentence = TranslatedSentence.Hydrate(translatedSentence),
+            TranslatedSentence = TranslatedSentence.Hydrate(translatedSentence),
             Explanation = explanation
         };
     }

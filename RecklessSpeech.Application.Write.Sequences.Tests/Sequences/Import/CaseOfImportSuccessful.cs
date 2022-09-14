@@ -135,6 +135,20 @@ public class CaseOfImportSuccessful
         AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
         Fixture.VerifyWordHasAttributeBackgroundInRed(importEvent.HtmlContent.Value);
     }
+    
+    [Fact]
+    public async Task Should_html_not_contain_the_translated_sentence()
+    {
+        //Arrange
+        ImportSequencesCommand command = this.builder.BuildImportCommand();
+
+        //Act
+        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
+
+        //Assert
+        AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
+        importEvent.HtmlContent.Value.Should().NotContain(this.builder.TranslatedSentence.Value);
+    }
 
 
     private static class Fixture

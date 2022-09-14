@@ -10,7 +10,9 @@ public class AfterBuilder
         this.Value = value;
     }
     
-    public string Value { get; set; } = "default value for After";
+    public string Value { get; set; } = "translated sentence from Netflix: \"Et ça n'arrive pas par quelques astuces statistiques.\"" +
+                                        "and many explanations from any dictionary";
+    
 
     public static implicit operator After(AfterBuilder builder) => new(builder.Value);
 }
