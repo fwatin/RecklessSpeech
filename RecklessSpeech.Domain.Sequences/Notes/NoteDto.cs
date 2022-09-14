@@ -1,3 +1,3 @@
 namespace RecklessSpeech.Domain.Sequences.Notes;
 
-public record NoteDto(Question Question, After After);
+public record NoteDto(Question Question, After After, Source Source);

@@ -5,7 +5,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoorden
 
 public class MijnwoordenboekGatewayOnlineAccess : IMijnwoordenboekGatewayAccess
 {
-    public string GetDataForAWord(string word)
+    public (string, string) GetTranslationsAndSourceForAWord(string word)
     {
         string url = $"https://www.mijnwoordenboek.nl/vertaal/NL/FR/{word}"; //todo config dans appsettings
 
@@ -17,7 +17,7 @@ public class MijnwoordenboekGatewayOnlineAccess : IMijnwoordenboekGatewayAccess
 
         HtmlNode endNode = Remove(node, "script");
 
-        return endNode.ParentNode.InnerHtml;
+        return (endNode.ParentNode.InnerHtml, url);
     }
 
     private HtmlNode GetNodeByNameAndAttribute(HtmlNode htmlNode, string name, string attribute, string value)

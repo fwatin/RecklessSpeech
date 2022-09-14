@@ -16,7 +16,7 @@ public class CaseOfNewNotes
     private readonly SendNotesCommandHandler sut;
     private readonly SpyNoteGateway spyGateway;
     private readonly InMemorySequencesDbContext dbContext;
-    private InMemorySequenceRepository sequenceRepository;
+    private readonly InMemorySequenceRepository sequenceRepository;
     public CaseOfNewNotes()
     {
         this.spyGateway = new();
@@ -42,7 +42,8 @@ public class CaseOfNewNotes
         NoteBuilder noteBuilder = NoteBuilder.Create(sequenceId) with
         {
             Question = new(someHtml),
-            After = new("translated sentence from Netflix: \"translation\"")
+            After = new("translated sentence from Netflix: \"translation\""),
+            Source = new("")
         };
         SendNotesCommand command = noteBuilder.BuildCommand();
 
@@ -69,5 +70,28 @@ public class CaseOfNewNotes
 
         //Assert
         this.spyGateway.Notes.Single().After.Value.Should().Contain(sequenceBuilder.TranslatedSentence.Value);
+    }
+    
+    [Fact]
+    public async Task Should_note_contains_url_of_dictionary_in_source()
+    {
+        //Arrange
+        ExplanationBuilder explanationBuilder = ExplanationBuilder.Create(Guid.Parse("684F35A0-B472-4D5A-8C42-74C4646490CB"));
+        this.dbContext.Explanations.Add(explanationBuilder.BuildEntity());
+        SequenceBuilder sequenceBuilder = SequenceBuilder.Create(Guid.Parse("B03B23B5-EB9F-4EB8-A762-308A39ADA735")) with
+        {
+            Explanation = ExplanationBuilder.Create(explanationBuilder.ExplanationId.Value)
+        };
+        SequenceEntity sequenceEntity = sequenceBuilder.BuildEntity();
+        this.dbContext.Sequences.Add(sequenceEntity);
+        
+        NoteBuilder noteBuilder = NoteBuilder.Create(sequenceBuilder.SequenceId.Value);
+        SendNotesCommand command = noteBuilder.BuildCommand();
+
+        //Act
+        await this.sut.Handle(command, CancellationToken.None);
+
+        //Assert
+        this.spyGateway.Notes.Single().Source.Value.Should().Be("https://www.mijnwoordenboek.nl/vertaal/NL/FR/gimmicks");
     }
 }

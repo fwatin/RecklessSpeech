@@ -21,6 +21,6 @@ public class InMemoryExplanationRepository : IExplanationRepository
         
         return entity is null
             ? null
-            : Explanation.Hydrate(entity.Id, entity.Content, entity.Target);
+            : Explanation.Hydrate(entity.Id, entity.Content, entity.Target,entity.SourceUrl);
     }
 }
