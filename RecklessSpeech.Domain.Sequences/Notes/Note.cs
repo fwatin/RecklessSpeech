@@ -30,9 +30,13 @@ public sealed class Note
     }
     private static Source CreateSource(Sequence sequence)
     {
-        return Source.Create(sequence.Explanation is not null
-            ? sequence.Explanation.SourceUrl.Value
-            : "");
+        if (sequence.Explanation is null) return Source.Create("");
+        
+        string url = sequence.Explanation.SourceUrl.Value;
+            
+        string urlWithHyperlink = $"<a href=\"{url}\">{url}</a>";
+            
+        return Source.Create(urlWithHyperlink);
     }
 
     private static After CreateAfter(Sequence sequence)

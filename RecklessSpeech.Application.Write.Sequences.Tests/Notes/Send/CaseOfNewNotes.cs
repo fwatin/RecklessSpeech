@@ -92,6 +92,7 @@ public class CaseOfNewNotes
         await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        this.spyGateway.Notes.Single().Source.Value.Should().Be("https://www.mijnwoordenboek.nl/vertaal/NL/FR/gimmicks");
+        const string expectedUrl = "https://www.mijnwoordenboek.nl/vertaal/NL/FR/gimmicks";
+        this.spyGateway.Notes.Single().Source.Value.Should().Be($"<a href=\"{expectedUrl}\">{expectedUrl}</a>");
     }
 }
