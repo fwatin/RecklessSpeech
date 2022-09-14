@@ -10,7 +10,7 @@ public class SourceBuilder
         this.Value = value;
     }
     
-    public string Value { get; set; } = "to be replaced by local url"; //todo
+    public string Value { get; set; } = "https://www.mijnwoordenboek.nl/vertaal/NL/FR/gimmicks";
     
 
     public static implicit operator Source(SourceBuilder builder) => new(builder.Value);

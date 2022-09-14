@@ -2,5 +2,5 @@
 
 public interface IMijnwoordenboekGatewayAccess
 {
-    (string,string) GetDataForAWord(string word);
+    (string,string) GetTranslationsAndSourceForAWord(string word);
 }

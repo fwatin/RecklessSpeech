@@ -4,7 +4,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoorden
 
 public class MijnwoordenboekGatewayLocalAccess : IMijnwoordenboekGatewayAccess
 {
-    public (string, string) GetDataForAWord(string word)
+    public (string, string) GetTranslationsAndSourceForAWord(string word)
     {
         string currentDirectory = Directory.GetCurrentDirectory();
 

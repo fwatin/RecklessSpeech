@@ -5,7 +5,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoorden
 
 public class MijnwoordenboekGatewayOnlineAccess : IMijnwoordenboekGatewayAccess
 {
-    public (string, string) GetDataForAWord(string word)
+    public (string, string) GetTranslationsAndSourceForAWord(string word)
     {
         string url = $"https://www.mijnwoordenboek.nl/vertaal/NL/FR/{word}"; //todo config dans appsettings
 
