@@ -37,20 +37,30 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
     private HtmlContent GetHtmlContent(string rawHtml)
     {
-        string html = rawHtml;
+        string html = RemoveGap(rawHtml);
+
+        HtmlDocument htmlDoc = SetBackgroundToRedForWordNode(html);
+
+        return HtmlContent.Create(htmlDoc.DocumentNode.InnerHtml);
+    }
+    private static string RemoveGap(string html)
+    {
+
         html = html.Replace("{{c1::", "");
         html = html.Replace("}}", "");
-        
+        return html;
+    }
+    private static HtmlDocument SetBackgroundToRedForWordNode(string html)
+    {
+
         HtmlDocument htmlDoc = new();
         htmlDoc.LoadHtml(html);
 
         HtmlNode? wordNode = htmlDoc.DocumentNode.Descendants()
             .FirstOrDefault(n => n.HasClass("dc-gap"));
-        
-        wordNode?.ChildNodes.Single().Attributes.Add("style","background-color: rgb(157, 0, 0);");
 
-        HtmlContent? htmlContent = HtmlContent.Create(htmlDoc.DocumentNode.InnerHtml);
-        return htmlContent;
+        wordNode?.ChildNodes.Single().Attributes.Add("style", "background-color: rgb(157, 0, 0);");
+        return htmlDoc;
     }
 
     private static (Word, TranslatedSentence) GetDataFromHtml(HtmlContent htmlContent)
