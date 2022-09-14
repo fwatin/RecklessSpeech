@@ -2,5 +2,5 @@
 
 public interface IMijnwoordenboekGatewayAccess
 {
-    string GetDataForAWord(string word);
+    (string,string) GetDataForAWord(string word);
 }

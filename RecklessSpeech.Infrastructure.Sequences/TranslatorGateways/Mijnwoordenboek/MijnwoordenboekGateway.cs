@@ -14,9 +14,9 @@ public class MijnwoordenboekGateway : ITranslatorGateway
 
     public Explanation GetExplanation(string word)
     {
-        string value = this.access.GetDataForAWord(word);
+        (string value, string sourceUrl) = this.access.GetDataForAWord(word);
 
-        Explanation explanation = Explanation.Create(Guid.NewGuid(), value, word);
+        Explanation explanation = Explanation.Create(Guid.NewGuid(), value, word, sourceUrl);
 
         return explanation;
     }

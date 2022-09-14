@@ -32,42 +32,39 @@ public class HttpAnkiNoteGateway : INoteGateway
 
     }
 
-    private AnkiConnectAddNotesPayload BuildPack(IReadOnlyCollection<NoteDto> dtos)
+    private static AnkiConnectAddNotesPayload BuildPack(IEnumerable<NoteDto> dtos)
     {
         AnkiConnectAddNotesPayload? pack = new()
         {
             action = "addNotes",
             version = 6,
-            @params = new Params()
+            @params = new Params
+            {
+                notes = dtos.Select(dto => new Note()
+                {
+                    deckName = "All::Langues",
+                    modelName = "Full_Recto_verso_before_after_Audio",
+                    options = new options()
+                    {
+                        allowDuplicate = true,
+                        duplicateScope = "deck",
+                        duplicateScopeOptions = new duplicateScopeOptions()
+                        {
+                            deckName = "All",
+                            checkChildren = false,
+                        }
+                    },
+                    fields = new Fields()
+                    {
+                        Question = dto.Question.Value,
+                        After = dto.After.Value,
+                        Source = dto.Source.Value
+                    }
+                }).ToArray()
+            }
         };
 
 
-        List<Note> notes = new();
-        foreach (NoteDto? dto in dtos)
-        {
-            notes.Add(new Note()
-            {
-                deckName = "All::Langues",
-                modelName = "Full_Recto_verso_before_after_Audio",
-                options = new options()
-                {
-                    allowDuplicate = true,
-                    duplicateScope = "deck",
-                    duplicateScopeOptions = new duplicateScopeOptions()
-                    {
-                        deckName = "All",
-                        checkChildren = false,
-                    }
-                },
-                fields = new Fields()
-                {
-                    Question = dto.Question.Value,
-                    After = dto.After.Value
-                }
-            });
-        }
-
-        pack.@params.notes = notes.ToArray();
         return pack;
     }
 }

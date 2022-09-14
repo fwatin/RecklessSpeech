@@ -27,7 +27,8 @@ public class InMemorySequenceRepository : ISequenceRepository
             explanation = Explanation.Hydrate(
                 explanationEntity.Id,
                 explanationEntity.Content,
-                explanationEntity.Target);
+                explanationEntity.Target,
+                explanationEntity.SourceUrl);
         }
 
         Sequence sequence = Sequence.Hydrate(

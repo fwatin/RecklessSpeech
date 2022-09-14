@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using RecklessSpeech.Application.Write.Sequences.Tests.Notes;
+using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Shared.Tests.Explanations;
 using RecklessSpeech.Shared.Tests.Notes;
@@ -52,7 +53,8 @@ public class SendNotesToAnkiSteps : StepsBase
         ExplanationBuilder explanationBuilder = ExplanationBuilder.Create(explanationId) with
         {
             Target = new("brood"),
-            Content = new("pain")
+            Content = new("pain"),
+            SourceUrl = new("https://www.mijnwoordenboek.nl/vertaal/NL/FR/brood")
         };
         this.dbContext.Explanations.Add(explanationBuilder.BuildEntity());
     }
@@ -70,7 +72,8 @@ public class SendNotesToAnkiSteps : StepsBase
         NoteBuilder? builder = NoteBuilder.Create(this.sequenceId) with
         {
             Question = new(ContentForQuestion),
-            After = new AfterBuilder("translated sentence from Netflix: \"er is geen brood.\"")
+            After = new AfterBuilder("translated sentence from Netflix: \"er is geen brood.\""),
+            Source = new SourceBuilder("")
         };
         this.spyNoteGateway.Notes.Should().ContainEquivalentOf(builder.BuildDto());
     }
@@ -80,5 +83,12 @@ public class SendNotesToAnkiSteps : StepsBase
     {
         this.spyNoteGateway.Notes.Should().HaveCount(1);
         this.spyNoteGateway.Notes.First().After.Value.Should().Contain("pain");
+    }
+    
+    [Then(@"the anki note contains the source")]
+    public void ThenTheAnkiNoteContainsTheSource()
+    {
+        this.spyNoteGateway.Notes.Should().HaveCount(1);
+        this.spyNoteGateway.Notes.Single().Source.Value.Should().Contain("https://www.mijnwoordenboek.nl/vertaal/NL/FR/brood");
     }
 }

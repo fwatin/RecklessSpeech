@@ -8,6 +8,7 @@ public record NoteBuilder
     public NoteIdBuilder Id { get; init; }
     public QuestionBuilder Question { get; init; }
     public AfterBuilder After { get; init; }
+    public SourceBuilder Source { get; init; }
 
     private NoteBuilder(NoteIdBuilder id, QuestionBuilder question, AfterBuilder after)
     {
@@ -26,7 +27,7 @@ public record NoteBuilder
 
     public Note BuildAggregate()
     {
-        return Note.Hydrate(this.Id, this.Question, this.After);
+        return Note.Hydrate(this.Id, this.Question, this.After, this.Source);
     }
 
     public static NoteBuilder Create(Guid id)
@@ -39,6 +40,6 @@ public record NoteBuilder
 
     public NoteDto BuildDto()
     {
-        return new NoteDto(this.Question, this.After);
+        return new NoteDto(this.Question, this.After, this.Source);
     }
 }
