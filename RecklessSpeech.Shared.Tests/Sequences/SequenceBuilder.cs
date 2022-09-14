@@ -132,25 +132,27 @@ public record SequenceBuilder
         ".dc-lang-fa.dc-orig {\n        font-size: 1.2rem;\n    }\n    .dc-lang-ur.dc-orig {\n        " +
         "font-size: 1.2rem;\n    }\n</style><div class=\"\"dc-bg\"\"><div class=\"\"dc-card dc-lang-en dc-word-naked\"\">" +
         "<div class=\"\"dc-title\"\">Moneyball</div><div class=\"\"dc-images\"\">" +
-        "<div class=\"\"dc-image dc-image-prev\"\" style=\"\"background-image: url(1653367161565_prev.jpg)\"\">" +
-        "</div><div class=\"\"dc-image dc-image-next\"\" style=\"\"background-image: url(1653367161565_next.jpg)\"\">" +
+        "<div class=\"\"dc-image dc-image-prev\"\" style=\"\"background-image: url(1663090831503_prev.jpg)\"\">" +
+        "</div><div class=\"\"dc-image dc-image-next\"\" style=\"\"background-image: url(1663090831503_next.jpg)\"\">" +
         "</div></div><div class=\"\"dc-line\"\"><span class=\"\"dc-down dc-lang-en dc-orig\"\">And</span>" +
         "<span class=\"\"dc-down dc-lang-en dc-orig\"\"> </span><span class=\"\"dc-down dc-lang-en dc-orig\"\">you</span>" +
         "<span class=\"\"dc-down dc-lang-en dc-orig\"\"> </span><span class=\"\"dc-down dc-lang-en dc-orig\"\">do</span>" +
-        "<span class=\"\"dc-down dc-lang-en dc-orig\"\">n't</span><span class=\"\"dc-down dc-lang-en dc-orig\"\"> " +
-        "</span><span class=\"\"dc-down dc-lang-en dc-orig\"\">do</span><span class=\"\"dc-down dc-lang-en dc-orig\"\"> " +
-        "</span><span class=\"\"dc-down dc-lang-en dc-orig\"\">that</span><span class=\"\"dc-down dc-lang-en dc-orig\"\"> " +
-        "</span><span class=\"\"dc-down dc-lang-en dc-orig\"\">with</span><span class=\"\"dc-down dc-lang-en dc-orig\"\"> " +
-        "</span><span class=\"\"dc-down dc-lang-en dc-orig\"\">a</span><span class=\"\"dc-down dc-lang-en dc-orig\"\"> " +
-        "</span><span class=\"\"dc-down dc-lang-en dc-orig\"\">bunch</span><span class=\"\"dc-down dc-lang-en dc-orig\"\"> " +
-        "</span><span class=\"\"dc-down dc-lang-en dc-orig\"\">of</span><span class=\"\"dc-down dc-lang-en dc-orig\"\"> " +
+        "<span class=\"\"dc-down dc-lang-en dc-orig\"\">n't</span><span class=\"\"dc-down dc-lang-en dc-orig\"\"> </span>" +
+        "<span class=\"\"dc-down dc-lang-en dc-orig\"\">do</span><span class=\"\"dc-down dc-lang-en dc-orig\"\"> </span>" +
+        "<span class=\"\"dc-down dc-lang-en dc-orig\"\">that</span><span class=\"\"dc-down dc-lang-en dc-orig\"\"> </span>" +
+        "<span class=\"\"dc-down dc-lang-en dc-orig\"\">with</span><span class=\"\"dc-down dc-lang-en dc-orig\"\"> </span>" +
+        "<span class=\"\"dc-down dc-lang-en dc-orig\"\">a</span><span class=\"\"dc-down dc-lang-en dc-orig\"\"> " +
+        "</span><span class=\"\"dc-down dc-lang-en dc-orig\"\">bunch</span><span class=\"\"dc-down dc-lang-en dc-orig\"\"> </span>" +
+        "<span class=\"\"dc-down dc-lang-en dc-orig\"\">of</span><span class=\"\"dc-down dc-lang-en dc-orig\"\"> " +
         "</span><span class=\"\"dc-down dc-lang-en dc-orig\"\">statistical</span><span class=\"\"dc-down dc-lang-en dc-orig\"\"> " +
-        "</span><span class=\"\"dc-gap\"\"><span class=\"\"dc-down dc-lang-en dc-orig\"\">gimmicks</span>" +
-        "</span><span class=\"\"dc-down dc-lang-en dc-orig\"\">.</span></div>" +
-        "<div class=\"\"dc-line dc-translation dc-lang-fr\"\">Et ça n'arrive pas par quelques astuces statistiques.</div></div></div>" +
-        "\"	[sound:" +
+        "</span>{{c1::<span class=\"\"dc-gap\"\"><span class=\"\"dc-down dc-lang-en dc-orig\"\">gimmicks</span></span>}}" +
+        "<span class=\"\"dc-down dc-lang-en dc-orig\"\">.</span></div><div class=\"\"dc-line dc-translation dc-lang-fr\"\">" +
+        "Et ça n'arrive pas par quelques astuces statistiques.</div></div></div>\"	[sound:" +
         this.AudioFileNameWithExtension.Value +
-        "]	\"word-naked lang-nl netflix Green pron \"";
+        "]	" +
+        "\"" +
+        this.Tags.Value +
+        " \"\n";
 
     public EnrichSequenceCommand BuildEnrichCommand()
     {

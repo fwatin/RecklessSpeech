@@ -15,19 +15,19 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
             throw new InvalidHtmlContentException();
 
         List<IDomainEvent> events = new();
-        IReadOnlyCollection<ImportSequenceDto> lines = Parse(command.FileContent);
+        IEnumerable<ImportSequenceDto> lines = Parse(command.FileContent);
 
-        foreach (ImportSequenceDto line in lines)
+        foreach ((string? rawHtml, string? audioFileNameWithExtension, string? tags) in lines)
         {
-            HtmlContent? htmlContent = HtmlContent.Create(line.RawHtml);
-            (Word, TranslatedSentence) data = GetDataFromHtml(htmlContent);
+            HtmlContent? htmlContent = GetHtmlContent(rawHtml);
+            (Word? word, TranslatedSentence? translatedSentence) = GetDataFromHtml(htmlContent);
 
             Sequence? sequence = Sequence.Create(Guid.NewGuid(),
                 htmlContent,
-                AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension),
-                GetTags(line.Tags),
-                data.Item1,
-                data.Item2);
+                AudioFileNameWithExtension.Create(audioFileNameWithExtension),
+                GetTags(tags),
+                word,
+                translatedSentence);
 
             events.AddRange(sequence.Import());
         }
@@ -35,16 +35,45 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         return await Task.FromResult(events);
     }
 
-    private static (Word,TranslatedSentence) GetDataFromHtml(HtmlContent htmlContent)
+    private HtmlContent GetHtmlContent(string rawHtml)
+    {
+        string html = RemoveGap(rawHtml);
+
+        HtmlDocument htmlDoc = SetBackgroundToRedForWordNode(html);
+
+        return HtmlContent.Create(htmlDoc.DocumentNode.InnerHtml);
+    }
+    private static string RemoveGap(string html)
+    {
+
+        html = html.Replace("{{c1::", "");
+        html = html.Replace("}}", "");
+        return html;
+    }
+    private static HtmlDocument SetBackgroundToRedForWordNode(string html)
+    {
+
+        HtmlDocument htmlDoc = new();
+        htmlDoc.LoadHtml(html);
+
+        HtmlNode? wordNode = htmlDoc.DocumentNode.Descendants()
+            .FirstOrDefault(n => n.HasClass("dc-gap"));
+
+        wordNode?.ChildNodes.Single().Attributes.Add("style", "background-color: rgb(157, 0, 0);");
+        return htmlDoc;
+    }
+
+    private static (Word, TranslatedSentence) GetDataFromHtml(HtmlContent htmlContent)
     {
         HtmlDocument htmlDoc = new();
         htmlDoc.LoadHtml(htmlContent.Value);
-        
+
         HtmlNode? wordNode = htmlDoc.DocumentNode.Descendants()
             .FirstOrDefault(n => n.HasClass("dc-gap"));
         Word? word = Word.Create(wordNode != null
             ? wordNode.InnerText
             : "");
+        
         
         HtmlNode? translatedSentenceNode = htmlDoc.DocumentNode.Descendants()
             .FirstOrDefault(n => n.HasClass("dc-translation"));
@@ -53,21 +82,25 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
             ? translatedSentenceNode.InnerText
             : "");
 
-        return (word,translatedSentence);
+        return (word, translatedSentence);
     }
 
-    private Tags GetTags(string element)
+    private static Tags GetTags(string element)
     {
         if (element.StartsWith("\""))
             element = element.Substring(1,
                 element.Length - 1);
+
+        if (element.EndsWith("\n"))
+            element = element[..^1];
+
         if (element.EndsWith("\""))
-            element = element.Substring(0,
-                element.Length - 1);
+            element = element[..^1];
+
         return Tags.Create(element.Trim());
     }
 
-    private IReadOnlyCollection<ImportSequenceDto> Parse(string fileContent)
+    private static IEnumerable<ImportSequenceDto> Parse(string fileContent)
     {
         string delimiter = "\"<style>";
         string[] lines = fileContent.Split(delimiter);
@@ -90,7 +123,7 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         return dtos;
     }
 
-    private string ParseHtmlContent(string element)
+    private static string ParseHtmlContent(string element)
     {
         if (element.StartsWith("\""))
             element = element.Substring(1,
@@ -107,7 +140,7 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         return element;
     }
 
-    private string ParseAudioFileName(string audioFileNameWithContext)
+    private static string ParseAudioFileName(string audioFileNameWithContext)
     {
         int leftPartLength = "[sound:".Length;
         int rightPartLength = "]".Length;
