@@ -7,4 +7,5 @@ public record SequenceEntity : AggregateRootEntity
     public string Tags { get; init; } = default!;
     public string Word { get; init; } = default!;
     public Guid? ExplanationId { get; set; }
+    public string TranslatedSentence { get; init; } = default!;
 }

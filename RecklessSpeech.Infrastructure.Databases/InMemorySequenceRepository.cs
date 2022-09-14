@@ -36,7 +36,7 @@ public class InMemorySequenceRepository : ISequenceRepository
             entity.AudioFileNameWithExtension,
             entity.Tags,
             entity.Word,
-            "",
+            entity.TranslatedSentence,
             explanation
         );
 

@@ -43,7 +43,8 @@ public class SequenceDomainEventRepository : IDomainEventRepository
             HtmlContent = @event.HtmlContent.Value,
             AudioFileNameWithExtension = @event.AudioFileNameWithExtension.Value,
             Tags = @event.Tags.Value,
-            Word = @event.Word.Value
+            Word = @event.Word.Value,
+            TranslatedSentence = @event.TranslatedSentence.Value
         };
 
         this.dbContext.Sequences.Add(entity);

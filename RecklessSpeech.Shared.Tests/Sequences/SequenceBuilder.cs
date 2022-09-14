@@ -79,7 +79,8 @@ public record SequenceBuilder
             Tags = this.Tags.Value,
             HtmlContent = this.HtmlContent.Value,
             Word = this.Word.Value,
-            ExplanationId = this.Explanation?.ExplanationId.Value
+            ExplanationId = this.Explanation?.ExplanationId.Value,
+            TranslatedSentence = this.TranslatedSentence.Value
         };
     }
 

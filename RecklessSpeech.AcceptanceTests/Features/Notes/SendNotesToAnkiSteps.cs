@@ -29,7 +29,8 @@ public class SendNotesToAnkiSteps : StepsBase
     {
         SequenceBuilder? builder = SequenceBuilder.Create(this.sequenceId) with
         {
-            HtmlContent = new(ContentForQuestion)
+            HtmlContent = new(ContentForQuestion),
+            TranslatedSentence = new("er is geen brood.")
         };
         this.dbContext.Sequences.Add(builder.BuildEntity());
     }
@@ -69,7 +70,7 @@ public class SendNotesToAnkiSteps : StepsBase
         NoteBuilder? builder = NoteBuilder.Create(this.sequenceId) with
         {
             Question = new(ContentForQuestion),
-            After = new AfterBuilder("")
+            After = new AfterBuilder("translated sentence from Netflix: \"er is geen brood.\"")
         };
         this.spyNoteGateway.Notes.Should().ContainEquivalentOf(builder.BuildDto());
     }
