@@ -9,40 +9,34 @@ using System.Threading.Tasks;
 
 namespace RecklessSpeech.Front.WPF.App.ViewModels
 {
-    public interface IBackEndGateway
+    public class HttpBackEndGateway
     {
-        Task ImportSequencesFromCsvFile(string filePath);
-        Task<IReadOnlyCollection<SequenceDto>> GetAllSequences();
-        Task<SequenceDto> GetOneSequence(Guid id);
-        Task EnrichSequence(Guid id);
-        Task SendSequenceToAnki(Guid id);
-    }
+        private readonly IBackEndGatewayAccess access;
+        private const string ApiVersion = "v1";
 
-    public class BackEndGateway : IBackEndGateway
-    {
-        private const string apiVersion = "v1";
+        public HttpBackEndGateway(IBackEndGatewayAccess access)
+        {
+            this.access = access;
+
+        }
 
         public async Task ImportSequencesFromCsvFile(string filePath)
         {
-            using HttpClient client = new();
-
             using MultipartFormDataContent content = new();
 
             FileStream fileStream = new(filePath, FileMode.Open, FileAccess.Read);
 
             content.Add(new StreamContent(fileStream), "file", Path.GetFileName(filePath));
 
-            const string url = @$"https://localhost:47973/api/{apiVersion}/sequences";
-
-            await client.PostAsync(new Uri(url), content);
+            const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences";
+            
+            await this.access.PostAsync(url, content);
         }
         public async Task<IReadOnlyCollection<SequenceDto>> GetAllSequences()
         {
-            using HttpClient client = new();
+            const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences";
 
-            const string url = @$"https://localhost:47973/api/{apiVersion}/sequences";
-
-            HttpResponseMessage? responseMessage = await client.GetAsync(new Uri(url));
+            HttpResponseMessage responseMessage = await this.access.GetAsync(url);
 
             string contentString = await responseMessage.Content.ReadAsStringAsync();
 
@@ -57,14 +51,12 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
                 })
                 .ToList();
         }
-        
+
         public async Task<SequenceDto> GetOneSequence(Guid id)
         {
-            using HttpClient client = new();
+            string url = @$"https://localhost:47973/api/{ApiVersion}/sequences/{id}";
 
-            string url = @$"https://localhost:47973/api/{apiVersion}/sequences/{id}";
-
-            HttpResponseMessage? responseMessage = await client.GetAsync(new Uri(url));
+            HttpResponseMessage? responseMessage = await this.access.GetAsync(url);
 
             string contentString = await responseMessage.Content.ReadAsStringAsync();
 
@@ -81,27 +73,24 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
 
         public async Task EnrichSequence(Guid id)
         {
-            using HttpClient client = new();
-
-            const string url = @$"https://localhost:47973/api/{apiVersion}/sequences/Dictionary";
+            const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences/Dictionary";
 
             HttpRequestMessage request = BuildJsonMessage(HttpMethod.Post, url, new List<Guid>() {id});
 
-            await client.SendAsync(request);
+            await this.access.SendAsync(request);
         }
         
+
         public async Task SendSequenceToAnki(Guid id)
         {
-            using HttpClient client = new();
-
-            const string url = @$"https://localhost:47973/api/{apiVersion}/sequences/Anki";
+            const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences/Anki";
 
             HttpRequestMessage request = BuildJsonMessage(HttpMethod.Post, url, new List<Guid>() {id});
 
-            await client.SendAsync(request);
+            await this.access.SendAsync(request);
         }
 
-        private HttpRequestMessage BuildJsonMessage(HttpMethod method, string path, object? parameters)
+        private static HttpRequestMessage BuildJsonMessage(HttpMethod method, string path, object? parameters)
         {
             HttpRequestMessage request = new(method, new Uri(path, UriKind.RelativeOrAbsolute));
             if (parameters != null)
@@ -115,12 +104,5 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
         }
 
         // ReSharper disable once ClassNeverInstantiated.Local
-        private record SequenceSummaryPresentation(
-            Guid Id,
-            string HtmlContent,
-            string AudioFileNameWithExtension,
-            string Tags,
-            string Word,
-            string? Explanation);
     }
 }

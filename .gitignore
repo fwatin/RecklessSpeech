@@ -41,3 +41,6 @@
 /RecklessSpeech.Front.WPF.App/bin/*
 /RecklessSpeech.Front.WPF.App/debug/*
 /RecklessSpeech.Front.WPF.App/obj/*
+/RecklessSpeech.Front.Tests/bin/*
+/RecklessSpeech.Front.Tests/debug/*
+/RecklessSpeech.Front.Tests/obj/*

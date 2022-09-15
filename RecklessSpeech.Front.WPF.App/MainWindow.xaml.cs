@@ -14,7 +14,7 @@ namespace RecklessSpeech.Front.WPF.App
         {
             InitializeComponent();
 
-            this.DataContext = new SequencePageViewModel(new BackEndGateway());
+            this.DataContext = new SequencePageViewModel(new HttpBackEndGateway(new HttpBackEndGatewayAccess()));
         }
 
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)

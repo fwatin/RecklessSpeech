@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Front", "Front", "{D7F3D698
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Front.WPF.App", "RecklessSpeech.Front.WPF.App\RecklessSpeech.Front.WPF.App.csproj", "{C8AC4C14-9B1C-42AE-AECB-F71F602A963F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Front.Tests", "RecklessSpeech.Front.Tests\RecklessSpeech.Front.Tests.csproj", "{B86437DA-F86A-402A-961A-071B94439BEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,10 @@ Global
 		{C8AC4C14-9B1C-42AE-AECB-F71F602A963F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8AC4C14-9B1C-42AE-AECB-F71F602A963F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8AC4C14-9B1C-42AE-AECB-F71F602A963F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B86437DA-F86A-402A-961A-071B94439BEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B86437DA-F86A-402A-961A-071B94439BEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B86437DA-F86A-402A-961A-071B94439BEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B86437DA-F86A-402A-961A-071B94439BEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,6 +150,7 @@ Global
 		{EE9F83AB-A3A9-478F-B533-009AE6632744} = {847819C5-1039-4C49-ABA1-4764D9838C19}
 		{847819C5-1039-4C49-ABA1-4764D9838C19} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
 		{C8AC4C14-9B1C-42AE-AECB-F71F602A963F} = {D7F3D698-7359-4393-80F5-F6D615426DA3}
+		{B86437DA-F86A-402A-961A-071B94439BEF} = {63D80F20-7E9A-45A1-BED1-52C56CD4EBB7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6DDC6F2-CD4F-4DFD-B477-D143345078EF}

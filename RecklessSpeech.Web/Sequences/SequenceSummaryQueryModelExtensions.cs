@@ -18,9 +18,6 @@ public static class SequenceSummaryQueryModelExtensions
     {
         return new SequenceSummaryPresentation(
             queryModel.Id,
-            queryModel.HtmlContent, 
-            queryModel.AudioFileNameWithExtension,
-            queryModel.Tags,
             queryModel.Word,
             queryModel.Explanation);
     }

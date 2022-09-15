@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace RecklessSpeech.Web.ViewModels.Sequences;
+namespace RecklessSpeech.Front.WPF.App.ViewModels;
 
 public record SequenceSummaryPresentation(
     Guid Id,

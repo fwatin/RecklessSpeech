@@ -29,7 +29,7 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
         }
 
         private int progress;
-        private readonly IBackEndGateway backEndGateway;
+        private readonly HttpBackEndGateway backEndGateway;
 
         public int Progress
         {
@@ -52,7 +52,7 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
         public ICommand SendSequenceToAnkiCommand { get; }
 
 
-        public SequencePageViewModel(IBackEndGateway backEndGateway)
+        public SequencePageViewModel(HttpBackEndGateway backEndGateway)
         {
             this.backEndGateway = backEndGateway;
             this.Sequences = new ObservableCollection<SequenceDto>();
