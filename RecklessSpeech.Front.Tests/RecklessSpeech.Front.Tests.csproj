@@ -23,6 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <KnownFrameworkReference Update="Microsoft.WindowsDesktop.App.WPF" IsWindowsOnly="false" />
       <ProjectReference Include="..\RecklessSpeech.Front.WPF.App\RecklessSpeech.Front.WPF.App.csproj" />
     </ItemGroup>
 
