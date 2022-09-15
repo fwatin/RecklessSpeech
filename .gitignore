@@ -44,3 +44,5 @@
 /RecklessSpeech.Front.Tests/bin/*
 /RecklessSpeech.Front.Tests/debug/*
 /RecklessSpeech.Front.Tests/obj/*
+/RecklessSpeech.Packaging/bin/*
+/RecklessSpeech.Packaging/obj/*
