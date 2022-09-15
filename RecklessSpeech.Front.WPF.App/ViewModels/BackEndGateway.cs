@@ -9,11 +9,20 @@ using System.Threading.Tasks;
 
 namespace RecklessSpeech.Front.WPF.App.ViewModels
 {
-    public static class BackEndGateway
+    public interface IBackEndGateway
+    {
+        Task ImportSequencesFromCsvFile(string filePath);
+        Task<IReadOnlyCollection<SequenceDto>> GetAllSequences();
+        Task<SequenceDto> GetOneSequence(Guid id);
+        Task EnrichSequence(Guid id);
+        Task SendSequenceToAnki(Guid id);
+    }
+
+    public class BackEndGateway : IBackEndGateway
     {
         private const string apiVersion = "v1";
 
-        public static async Task ImportSequencesFromCsvFile(string filePath)
+        public async Task ImportSequencesFromCsvFile(string filePath)
         {
             using HttpClient client = new();
 
@@ -27,7 +36,7 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
 
             await client.PostAsync(new Uri(url), content);
         }
-        public static async Task<IReadOnlyCollection<SequenceDto>> GetAllSequences()
+        public async Task<IReadOnlyCollection<SequenceDto>> GetAllSequences()
         {
             using HttpClient client = new();
 
@@ -49,7 +58,7 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
                 .ToList();
         }
         
-        public static async Task<SequenceDto> GetOneSequence(Guid id)
+        public async Task<SequenceDto> GetOneSequence(Guid id)
         {
             using HttpClient client = new();
 
@@ -70,7 +79,7 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
                 };
         }
 
-        public static async Task EnrichSequence(Guid id)
+        public async Task EnrichSequence(Guid id)
         {
             using HttpClient client = new();
 
@@ -81,7 +90,7 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
             await client.SendAsync(request);
         }
         
-        public static async Task SendSequenceToAnki(Guid id)
+        public async Task SendSequenceToAnki(Guid id)
         {
             using HttpClient client = new();
 
@@ -92,7 +101,7 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
             await client.SendAsync(request);
         }
 
-        private static HttpRequestMessage BuildJsonMessage(HttpMethod method, string path, object? parameters)
+        private HttpRequestMessage BuildJsonMessage(HttpMethod method, string path, object? parameters)
         {
             HttpRequestMessage request = new(method, new Uri(path, UriKind.RelativeOrAbsolute));
             if (parameters != null)

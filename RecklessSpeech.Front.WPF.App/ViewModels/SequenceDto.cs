@@ -15,11 +15,11 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
         {
             get
             {
-                return explanation;
+                return this.explanation;
             }
             set
             {
-                explanation = value;
+                this.explanation = value;
                 OnPropertyChanged("explanation");
             }
         }
