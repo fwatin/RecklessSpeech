@@ -29,5 +29,17 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Acceptance tests
+      run: dotnet test RecklessSpeech.AcceptanceTests\RecklessSpeech.AcceptanceTests.csproj --no-build --verbosity normal
+
+    - name: Write tests
+      run: dotnet test RecklessSpeech.Application.Write.Notes.Tests\RecklessSpeech.Application.Write.Notes.Tests.csproj --no-build --verbosity normal
+
+    - name: Write sequences tests
+      run: dotnet test RecklessSpeech.Application.Write.Sequences.Tests\RecklessSpeech.Application.Write.Sequences.Tests.csproj --no-build --verbosity normal
+
+    - name: Read infra tests
+      run: dotnet test RecklessSpeech.Infrastructure.Read.Tests\RecklessSpeech.Infrastructure.Read.Tests.csproj --no-build --verbosity normal
+
+    - name: Write infra tests
+      run: dotnet test RecklessSpeech.Infrastructure.Sequences.Tests\RecklessSpeech.Infrastructure.Sequences.Tests.csproj --no-build --verbosity normal      
