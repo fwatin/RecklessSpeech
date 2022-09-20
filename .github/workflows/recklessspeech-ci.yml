@@ -16,7 +16,7 @@ on:
 
 jobs:
 
-- build:
+  build:
 
     strategy:
       matrix:
@@ -45,7 +45,7 @@ jobs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
 
-- test:
+  test:
     
     steps:
     #Unit Tests
