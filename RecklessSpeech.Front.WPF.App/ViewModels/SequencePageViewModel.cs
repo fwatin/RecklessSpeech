@@ -52,7 +52,7 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
         public ICommand SendSequenceToAnkiCommand { get; }
 
 
-        public SequencePageViewModel(HttpBackEndGateway backEndGateway)
+        public SequencePageViewModel(HttpBackEndGateway backEndGateway) 
         {
             this.backEndGateway = backEndGateway;
             this.Sequences = new ObservableCollection<SequenceDto>();
