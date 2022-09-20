@@ -46,13 +46,12 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
 
   - test:
-
+    
+    steps:
     #Unit Tests
-      name: Unit Tests 
-      run: dotnet test --no-build --verbosity normal
+      - name: Unit Tests 
+        run: dotnet test --no-build --verbosity normal
 
     # WPF Test
-    - name: Execute WPF Tests
-      run: dotnet test $env:Test_Project_Path
-
-    
+      - name: Execute WPF Tests
+        run: dotnet test $env:Test_Project_Path
