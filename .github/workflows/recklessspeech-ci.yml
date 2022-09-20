@@ -48,7 +48,3 @@ jobs:
     # WPF Test
     - name: Execute WPF Tests
       run: dotnet test $env:Test_Project_Path
-
-    #Unit Tests
-      name: Unit Tests
-      run: dotnet test --no-build --verbosity normal
