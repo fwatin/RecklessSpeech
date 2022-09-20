@@ -20,19 +20,14 @@ jobs:
 
     strategy:
       matrix:
-        targetplatform: [x64]
+        targetplatform: [x64,x86]
 
     runs-on: windows-latest
 
     env:
-      App_Packages_Directory: AppPackages
-      SigningCertificate: GitHubActionsDemo.pfx
       Solution_Path: RecklessSpeech.sln
       Test_Project_Path: RecklessSpeech.Front.Tests\RecklessSpeech.Front.Tests.csproj
       Wpf_Project_Path: RecklessSpeech.Front.WPF.App\RecklessSpeech.Front.WPF.App.csproj
-      Wap_Project_Directory: RecklessSpeech.Packaging
-      Wap_Project_Name: RecklessSpeech.Packaging.wapproj
-      Actions_Allow_Unsecure_Commands: true # Allows AddPAth and SetEnv commands
 
     steps:
     - name: Checkout
