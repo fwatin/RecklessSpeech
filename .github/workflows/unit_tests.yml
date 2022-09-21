@@ -29,19 +29,15 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
-      #tests run ok
     - name: Read infra tests
       run: dotnet test RecklessSpeech.Infrastructure.Read.Tests\RecklessSpeech.Infrastructure.Read.Tests.csproj --no-build --verbosity normal
 
-      #tests run ok
     - name: Write infra tests
       run: dotnet test RecklessSpeech.Infrastructure.Sequences.Tests\RecklessSpeech.Infrastructure.Sequences.Tests.csproj --no-build --verbosity normal      
     
-    #foire rien passe
     - name: Acceptance tests
       run: dotnet test RecklessSpeech.AcceptanceTests\RecklessSpeech.AcceptanceTests.csproj --no-build --verbosity normal
 
-    #foire rien passe
     - name: Write sequences tests
       run: dotnet test RecklessSpeech.Application.Write.Sequences.Tests\RecklessSpeech.Application.Write.Sequences.Tests.csproj --no-build --verbosity normal
 
