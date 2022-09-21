@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace RecklessSpeech.Front.WPF.App.ViewModels
 {
-    public class FlowPageViewModel : INotifyPropertyChanged
+    public class SequencePageViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string? name = null)
@@ -29,15 +29,17 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
         }
 
         private int progress;
+        private readonly HttpBackEndGateway backEndGateway;
+
         public int Progress
         {
             get
             {
-                return progress;
+                return this.progress;
             }
             set
             {
-                progress = value;
+                this.progress = value;
                 OnPropertyChanged("Progress");
             }
         }
@@ -50,8 +52,9 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
         public ICommand SendSequenceToAnkiCommand { get; }
 
 
-        public FlowPageViewModel()
+        public SequencePageViewModel(HttpBackEndGateway backEndGateway) 
         {
+            this.backEndGateway = backEndGateway;
             this.Sequences = new ObservableCollection<SequenceDto>();
 
             this.AddSequencesCommand = new DelegateCommand<string>(async s => await AddSequences(s));
@@ -61,9 +64,11 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
 
         private async Task AddSequences(string filePath)
         {
-            await BackEndGateway.ImportSequencesFromCsvFile(filePath);
+            await this.backEndGateway.ImportSequencesFromCsvFile(filePath);
 
-            IReadOnlyCollection<SequenceDto> newSequences = await BackEndGateway.GetAllSequences();
+            IReadOnlyCollection<SequenceDto> newSequences = await this.backEndGateway.GetAllSequences();
+            this.Sequences.Clear();
+            
             foreach (SequenceDto newSequence in newSequences)
             {
                 this.Sequences.Add(newSequence);
@@ -72,16 +77,16 @@ namespace RecklessSpeech.Front.WPF.App.ViewModels
         
         private async Task EnrichSequence(SequenceDto sequence)
         {
-            await BackEndGateway.EnrichSequence(sequence.Id);
+            await this.backEndGateway.EnrichSequence(sequence.Id);
 
-            SequenceDto updatedSequence = await BackEndGateway.GetOneSequence(sequence.Id);
+            SequenceDto updatedSequence = await this.backEndGateway.GetOneSequence(sequence.Id);
 
             sequence.Explanation = updatedSequence.Explanation;
         }
         
         private async Task SendSequenceToAnki(SequenceDto sequence)
         {
-            await BackEndGateway.SendSequenceToAnki(sequence.Id);
+            await this.backEndGateway.SendSequenceToAnki(sequence.Id);
         }
     }
 }

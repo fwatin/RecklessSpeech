@@ -1,0 +1,98 @@
+"<style>
+
+    html,
+    body {
+        padding: 0;
+        margin: 0;
+    }
+
+    .card {
+        background: rgb(255,243,248);
+        background: linear-gradient(76deg, rgba(255,243,248,1) 0%, rgba(238,246,255,1) 100%);
+    }
+
+    .nightMode.card {
+        background: black;
+    }
+    
+    .dc-card {
+        background-color: white;
+        padding-bottom: 1rem;
+        border-bottom: 0.5px solid grey;
+    }
+
+    .nightMode .dc-card {
+        background: #333;
+        border-bottom: none;
+    }
+
+    .nightMode .cloze {
+        color: #1569C7;
+    }
+
+    .dc-title {
+        color: rgb(127, 127, 127);
+        font-size: 0.8rem;
+        text-align: center;
+        padding-top: 0.65rem;
+        margin-bottom: 0.65rem;
+    }
+
+    .dc-images {
+        text-align: center;
+        max-width: 450px;
+        margin: 0 auto 0.5rem;
+    }
+
+    .dc-image {
+       margin-left: 2px;
+       margin-right: 2px;
+        display: inline-block;
+        width: calc(50% - 10px);
+        padding-bottom: 29%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .dc-line {
+        padding: 0.4rem;
+    }
+
+    .dc-up {
+        display: block;
+        font-size: 0.75rem;
+    }
+
+    .dc-translation {
+        color: fuchsia;
+    }
+
+    .dc-layer {
+        display: inline-block;
+        text-align: center;
+        line-height: 1.3rem;
+    }
+
+    .dc-lang-zh-CN.dc-orig {
+        font-size: 1.2rem;
+    }
+    .dc-lang-zh-TW.dc-orig {
+        font-size: 1.2rem;
+    }
+    .dc-lang-ja.dc-orig {
+        font-size: 1.2rem;
+    }
+    .dc-lang-th.dc-orig {
+        font-size: 1.2rem;
+    }
+    .dc-lang-ar.dc-orig {
+        font-size: 1.2rem;
+    }
+    .dc-lang-fa.dc-orig {
+        font-size: 1.2rem;
+    }
+    .dc-lang-ur.dc-orig {
+        font-size: 1.2rem;
+    }
+</style><div class=""dc-bg""><div class=""dc-card dc-lang-en dc-word-naked""><div class=""dc-title"">Moneyball</div><div class=""dc-images""><div class=""dc-image dc-image-prev"" style=""background-image: url(1663090831503_prev.jpg)""></div><div class=""dc-image dc-image-next"" style=""background-image: url(1663090831503_next.jpg)""></div></div><div class=""dc-line""><span class=""dc-down dc-lang-en dc-orig"">And</span><span class=""dc-down dc-lang-en dc-orig""> </span><span class=""dc-down dc-lang-en dc-orig"">you</span><span class=""dc-down dc-lang-en dc-orig""> </span><span class=""dc-down dc-lang-en dc-orig"">do</span><span class=""dc-down dc-lang-en dc-orig"">n't</span><span class=""dc-down dc-lang-en dc-orig""> </span><span class=""dc-down dc-lang-en dc-orig"">do</span><span class=""dc-down dc-lang-en dc-orig""> </span><span class=""dc-down dc-lang-en dc-orig"">that</span><span class=""dc-down dc-lang-en dc-orig""> </span><span class=""dc-down dc-lang-en dc-orig"">with</span><span class=""dc-down dc-lang-en dc-orig""> </span><span class=""dc-down dc-lang-en dc-orig"">a</span><span class=""dc-down dc-lang-en dc-orig""> </span><span class=""dc-down dc-lang-en dc-orig"">bunch</span><span class=""dc-down dc-lang-en dc-orig""> </span><span class=""dc-down dc-lang-en dc-orig"">of</span><span class=""dc-down dc-lang-en dc-orig""> </span><span class=""dc-down dc-lang-en dc-orig"">statistical</span><span class=""dc-down dc-lang-en dc-orig""> </span>{{c1::<span class=""dc-gap""><span class=""dc-down dc-lang-en dc-orig"">gimmicks</span></span>}}<span class=""dc-down dc-lang-en dc-orig"">.</span></div><div class=""dc-line dc-translation dc-lang-fr"">Et ça n'arrive pas par quelques astuces statistiques.</div></div></div>"	[sound:1663090831503.mp3]	"word-naked lang-en netflix Green noun "
