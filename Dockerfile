@@ -19,8 +19,9 @@ COPY RecklessSpeech.Infrastructure.Sequences/*.csproj .
 COPY RecklessSpeech.Infrastructure.Sequences.Tests/*.csproj .
 COPY RecklessSpeech.Shared.Tests/*.csproj .
 COPY RecklessSpeech.Web/*.csproj .
+COPY RecklessSpeech.sln .
 
-#RUN dotnet restore RecklessSpeech.sln
+RUN dotnet restore RecklessSpeech.sln
 
 #Copy the project files
 #COPY . ./
