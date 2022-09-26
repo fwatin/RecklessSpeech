@@ -4,14 +4,14 @@ WORKDIR /app
 
 #Copy the csproj and restore dependencies
 COPY *.csproj ./
-RUN dotnet restore
-#
-##Copy the project files
-#COPY . ./
-#RUN dotnet publish -c Release -o out
+RUN dotnet restore ./RecklessSpeech.sln
+
+#Copy the project files
+COPY . ./
+RUN dotnet publish -c Release -o out
 #
 ##Generate runtime image
-#FROM mcr.microsoft.com/dotnet/core/aspnet/2.2
+#FROM mcr.microsoft.com/dotnet/sdk:6.0
 #WORKDIR /app
 #EXPOSE 80
 #COPY --from=build-env /app/out .
