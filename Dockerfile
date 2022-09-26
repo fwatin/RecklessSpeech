@@ -14,4 +14,4 @@ RUN dotnet publish RecklessSpeech.Web/RecklessSpeech.Web.csproj -o /app
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build /app .
-ENTRYPOINT ["dotnet", "RecklessSpeech.Web/RecklessSpeech.Web.dll"]
+ENTRYPOINT ["dotnet", "RecklessSpeech.Web.dll"]
