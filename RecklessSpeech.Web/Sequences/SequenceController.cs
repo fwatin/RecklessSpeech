@@ -81,4 +81,14 @@ public class SequenceController : ControllerBase
         await this.dispatcher.Dispatch(new EnrichSequenceCommand(ids.First()));
         return Ok();
     }
+    
+    [HttpPut("{id:guid}")]
+    [Route("Dictionary/")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
+    public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> Enrich(Guid id)
+    {
+        await this.dispatcher.Dispatch(new EnrichSequenceCommand(id));
+        return Ok();
+    }
 }
