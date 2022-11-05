@@ -1,2 +1,15 @@
-- front pouvoir choisir le dictionnaire
-- pouvoir stocker dans une base les mots déjà connus
+ongoing:
+- select language dictionary back
+	reste test d'infra sur la "db"
+	reste endpoint put a finir dans sequenceController
+	reste a brancher test d'acceptance
+
+
+
+future:
+- select language dictionary back
+- select language dictionary front
+- appesettings in front with url of back inside
+- package front in store with production appsettings
+- be able to store known words in memory back
+- be able to allocate words to known front
