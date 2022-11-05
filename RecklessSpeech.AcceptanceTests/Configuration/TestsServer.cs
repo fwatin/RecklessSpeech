@@ -8,7 +8,7 @@ using RecklessSpeech.AcceptanceTests.Extensions;
 using RecklessSpeech.Web;
 using TechTalk.SpecFlow;
 
-namespace RecklessSpeech.AcceptanceTests;
+namespace RecklessSpeech.AcceptanceTests.Configuration;
 
 public class TestsServer : IDisposable
 {

@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using HtmlAgilityPack;
+using RecklessSpeech.AcceptanceTests.Configuration;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Shared.Tests;
