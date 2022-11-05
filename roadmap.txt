@@ -1,0 +1,3 @@
+- supporter nl comme avant
+- ajout front
+- pouvoir stocker dans une base les mots déjà connus
