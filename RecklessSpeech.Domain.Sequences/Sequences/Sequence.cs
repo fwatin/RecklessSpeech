@@ -73,7 +73,7 @@ public sealed class Sequence
     {
         this.LanguageDictionaryId = new(languageDictionaryId);
         
-        yield return new SetLanguageDictionaryInASequenceEvent(
+        yield return new AssignLanguageDictionaryInASequenceEvent(
             this.SequenceId,
             this.LanguageDictionaryId
         );

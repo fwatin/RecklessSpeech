@@ -15,8 +15,8 @@ public record SequenceBuilder
     public TagsBuilder Tags { get; init; }
     public WordBuilder Word { get; init; }
     public TranslatedSentenceBuilder TranslatedSentence { get; init; }
-
     public ExplanationBuilder? Explanation { get; init; }
+    public LanguageDictionaryIdBuilder LanguageDictionaryId { get; init; }
 
     private readonly string? rawCsvContent = default!;
 
@@ -37,7 +37,8 @@ public record SequenceBuilder
         TagsBuilder tags,
         WordBuilder word,
         TranslatedSentenceBuilder translatedSentence,
-        ExplanationBuilder? explanation)
+        ExplanationBuilder? explanation,
+        LanguageDictionaryIdBuilder languageDictionaryId)
     {
         this.SequenceId = sequenceId;
         this.HtmlContent = htmlContent;
@@ -47,6 +48,7 @@ public record SequenceBuilder
         this.rawCsvContent = null;
         this.TranslatedSentence = translatedSentence;
         this.Explanation = explanation;
+        this.LanguageDictionaryId = languageDictionaryId;
     }
 
 
@@ -67,7 +69,8 @@ public record SequenceBuilder
             new(),
             new(),
             new(),
-            default);
+            default,
+            new());
     }
 
     public SequenceEntity BuildEntity()
@@ -106,6 +109,11 @@ public record SequenceBuilder
     public ImportSequencesCommand BuildImportCommand()
     {
         return new ImportSequencesCommand(this.RawCsvContent);
+    }
+
+    public AssignLanguageDictionaryCommand BuildAssignDictionaryCommand()
+    {
+        return new AssignLanguageDictionaryCommand(this.SequenceId.Value, this.LanguageDictionaryId.Value);
     }
 
     private string DefaultExampleFromMoneyBall() =>

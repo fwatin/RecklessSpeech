@@ -21,7 +21,8 @@ public class AssignLanguageDictionaryCommandHandler : CommandHandlerBase<AssignL
     }
     protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(AssignLanguageDictionaryCommand command)
     {
-        Sequence sequence = await this.sequenceRepository.GetOne(command.SequenceId);
+        Sequence? sequence = await this.sequenceRepository.GetOne(command.SequenceId);
+        if (sequence is null) throw new Exception("the sequence does not exist.");
         
         IEnumerable<IDomainEvent> events = sequence.SetDictionary(command.DictionaryId);
         
