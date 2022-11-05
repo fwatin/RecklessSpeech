@@ -1,3 +1,2 @@
-- supporter nl comme avant
-- ajout front
+- front pouvoir choisir le dictionnaire
 - pouvoir stocker dans une base les mots déjà connus
