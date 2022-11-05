@@ -2,7 +2,7 @@
 using RecklessSpeech.AcceptanceTests.Configuration.Clients;
 using RecklessSpeech.Web.ViewModels.Sequences;
 
-namespace RecklessSpeech.AcceptanceTests;
+namespace RecklessSpeech.AcceptanceTests.Configuration;
 
 public class SequenceRequestsLatest
 {

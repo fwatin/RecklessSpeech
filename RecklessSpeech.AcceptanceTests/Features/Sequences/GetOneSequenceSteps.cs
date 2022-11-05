@@ -12,19 +12,17 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences;
 public class GetOneSequenceSteps : StepsBase
 {
     private readonly SequenceBuilder sequenceBuilder;
-    private readonly ISequencesDbContext dbContext;
     public SequenceSummaryPresentation? SequenceResponse { get; set; } = default!;
 
     public GetOneSequenceSteps(ScenarioContext context) : base(context)
     {
         this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("4AAB1D8C-93A4-4B27-B801-95F4F10F8393"));
-        this.dbContext = GetService<ISequencesDbContext>();
     }
 
     [Given(@"an existing sequence")]
     public void GivenAnExistingSequence()
     {
-        this.dbContext.Sequences.Add(this.sequenceBuilder.BuildEntity());
+        DbContext.Sequences.Add(this.sequenceBuilder.BuildEntity());
     }
 
     [When(@"the user retrieves this sequence")]

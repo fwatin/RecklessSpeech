@@ -14,3 +14,5 @@
         Given a file containing some sequences
         When the user imports this file
         Then the HTML contains some nodes for title and images
+        
+        
