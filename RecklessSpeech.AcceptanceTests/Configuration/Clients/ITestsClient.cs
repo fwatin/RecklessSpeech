@@ -6,4 +6,5 @@ public interface ITestsClient
     Task Initialize();
     Task<T> Post<T>(string path, object? parameters = null);
     Task<T> Get<T>(string path, object? parameters = null);
+    Task<T> Put<T>(string path, object? parameters = null);
 }

@@ -37,4 +37,9 @@ public class SequenceRequestsLatest
     {
         await this.client.Post<string>($"http://localhost{this.basePath}/Dictionary", new List<Guid>() {sequenceId});
     }
+    
+    public async Task AssignLanguageDictionary(Guid id, Guid dictionaryId)
+    {
+        await this.client.Put<string>($"http://localhost{this.basePath}/Dictionary/{id}", dictionaryId);
+    }
 }
