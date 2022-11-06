@@ -8,5 +8,5 @@ public record SequenceEntity : AggregateRootEntity
     public string Word { get; init; } = default!;
     public Guid? ExplanationId { get; set; }
     public string TranslatedSentence { get; init; } = default!;
-    public Guid LanguageDictionaryId { get; set; } = default!;
+    public Guid? LanguageDictionaryId { get; set; } = default!;
 }

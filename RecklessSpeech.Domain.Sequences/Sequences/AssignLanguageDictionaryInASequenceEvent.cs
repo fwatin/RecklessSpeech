@@ -2,4 +2,4 @@
 
 namespace RecklessSpeech.Domain.Sequences.Sequences;
 
-public record AssignLanguageDictionaryInASequenceEvent(SequenceId SequenceId, LanguageDictionaryId LanguageDictionaryId) : IDomainEvent;
+public record AssignLanguageDictionaryInASequenceEvent(SequenceId SequenceId, LanguageDictionaryId? LanguageDictionaryId) : IDomainEvent;

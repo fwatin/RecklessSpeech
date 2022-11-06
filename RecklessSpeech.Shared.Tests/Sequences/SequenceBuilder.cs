@@ -16,7 +16,7 @@ public record SequenceBuilder
     public WordBuilder Word { get; init; }
     public TranslatedSentenceBuilder TranslatedSentence { get; init; }
     public ExplanationBuilder? Explanation { get; init; }
-    public LanguageDictionaryIdBuilder LanguageDictionaryId { get; init; }
+    public LanguageDictionaryIdBuilder? LanguageDictionaryId { get; init; }
 
     private readonly string? rawCsvContent = default!;
 
@@ -38,7 +38,7 @@ public record SequenceBuilder
         WordBuilder word,
         TranslatedSentenceBuilder translatedSentence,
         ExplanationBuilder? explanation,
-        LanguageDictionaryIdBuilder languageDictionaryId)
+        LanguageDictionaryIdBuilder? languageDictionaryId)
     {
         this.SequenceId = sequenceId;
         this.HtmlContent = htmlContent;
@@ -60,6 +60,9 @@ public record SequenceBuilder
             this.Word,
             this.TranslatedSentence);
 
+    public AssignLanguageDictionaryInASequenceEvent BuildAssignLanguageDictionaryEvent() =>
+        new(this.SequenceId, this.LanguageDictionaryId);
+
     public static SequenceBuilder Create(Guid id)
     {
         return new SequenceBuilder(
@@ -70,7 +73,7 @@ public record SequenceBuilder
             new(),
             new(),
             default,
-            new());
+            default);
     }
 
     public SequenceEntity BuildEntity()
@@ -83,7 +86,8 @@ public record SequenceBuilder
             HtmlContent = this.HtmlContent.Value,
             Word = this.Word.Value,
             ExplanationId = this.Explanation?.ExplanationId.Value,
-            TranslatedSentence = this.TranslatedSentence.Value
+            TranslatedSentence = this.TranslatedSentence.Value,
+            LanguageDictionaryId = this.LanguageDictionaryId?.Value
         };
     }
 
