@@ -6,11 +6,13 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RecklessSpeech.Application.Read.Queries.LanguageDictionaries.GetAll;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
 using RecklessSpeech.Application.Write.Sequences.Commands;
 using RecklessSpeech.Web.Configuration;
 using RecklessSpeech.Web.Configuration.Swagger;
+using RecklessSpeech.Web.ViewModels.LanguageDictionaries;
 using RecklessSpeech.Web.ViewModels.Sequences;
 
 namespace RecklessSpeech.Web.Sequences;
@@ -80,6 +82,18 @@ public class SequenceController : ControllerBase
     {
         await this.dispatcher.Dispatch(new EnrichSequenceCommand(ids.First()));
         return Ok();
+    }
+
+    [HttpGet]
+    [Route("Dictionary/")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(typeof(IReadOnlyCollection<LanguageDictionarySummaryPresentation>), (int) HttpStatusCode.OK)]
+    public async Task<ActionResult<IReadOnlyCollection<LanguageDictionarySummaryPresentation>>> GetAll()
+    {
+        IReadOnlyCollection<LanguageDictionarySummaryQueryModel>? result =
+            await this.dispatcher.Dispatch(new GetAllLanguageDictionariesQuery());
+        
+        return Ok(result.ToPresentation());
     }
 
     [HttpPut]

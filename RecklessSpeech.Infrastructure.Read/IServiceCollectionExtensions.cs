@@ -13,16 +13,17 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddReadPorts(this IServiceCollection services)
     {
         return services
-                .AddRepositories()
+                .AddQueryRepositories()
                 .AddNoteGateway()
                 .AddTranslatorGateway()
             ;
     }
 
-    private static IServiceCollection AddRepositories(this IServiceCollection services)
+    private static IServiceCollection AddQueryRepositories(this IServiceCollection services)
     {
         return services
-            .AddScoped<ISequenceQueryRepository, InMemorySequenceQueryRepository>();
+            .AddScoped<ISequenceQueryRepository, InMemorySequenceQueryRepository>()
+            .AddScoped<ILanguageDictionaryQueryRepository, InMemoryLanguageDictionaryQueryRepository>();
     }
 
     private static IServiceCollection AddNoteGateway(this IServiceCollection services)

@@ -29,9 +29,9 @@ public class GetAllDictionariesSteps : StepsBase
     }
     
     [When(@"the users gets all the language dictionaries")]
-    public void WhenTheUsersGetsAllTheLanguageDictionaries()
+    public async Task WhenTheUsersGetsAllTheLanguageDictionaries()
     {
-    
+        this.result = await this.Client.Latest().SequenceRequests().GetAllLanguageDictionaries();
     }
     
     [Then(@"the result contains these two")]
