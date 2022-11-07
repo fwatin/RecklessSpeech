@@ -1,5 +1,7 @@
 ﻿using RecklessSpeech.Application.Read.Queries.LanguageDictionaries.GetAll;
 using RecklessSpeech.Infrastructure.Entities;
+using RecklessSpeech.Web.ViewModels.LanguageDictionaries;
+using RecklessSpeech.Web.ViewModels.Sequences;
 
 namespace RecklessSpeech.Shared.Tests.LanguageDictionaries;
 
@@ -34,6 +36,17 @@ public record LanguageDictionaryBuilder(
     public LanguageDictionarySummaryQueryModel BuildQueryModel()
     {
         return new LanguageDictionarySummaryQueryModel(
+            this.LanguageDictionaryId.Value,
+            this.Url.Value,
+            this.Name.Value,
+            this.FromLanguage.Value,
+            this.ToLanguage.Value
+        );
+    }
+
+    public LanguageDictionarySummaryPresentation BuildSummaryPresentation()
+    {
+        return new LanguageDictionarySummaryPresentation(
             this.LanguageDictionaryId.Value,
             this.Url.Value,
             this.Name.Value,
