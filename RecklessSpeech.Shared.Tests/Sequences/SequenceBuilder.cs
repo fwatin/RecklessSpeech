@@ -72,8 +72,8 @@ public record SequenceBuilder
             new(),
             new(),
             new(),
-            default,
-            default);
+            null,
+            null);
     }
 
     public SequenceEntity BuildEntity()

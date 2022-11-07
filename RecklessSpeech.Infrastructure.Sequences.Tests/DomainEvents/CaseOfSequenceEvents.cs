@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
-using RecklessSpeech.Infrastructure.Databases;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 using RecklessSpeech.Shared.Tests.Sequences;
@@ -9,20 +8,8 @@ using Xunit;
 
 namespace RecklessSpeech.Infrastructure.Sequences.Tests.DomainEvents;
 
-public class CaseOfSequenceEvents
+public class CaseOfSequenceEvents : BaseInfrastructureTests
 {
-    private readonly InMemorySequencesDbContext inMemorySequencesDbContext;
-    private readonly DomainEventsRepository sut;
-
-    public CaseOfSequenceEvents()
-    {
-        this.inMemorySequencesDbContext = new();
-        this.sut = new DomainEventsRepository(new IDomainEventRepository[]
-        {
-            new SequenceDomainEventRepository(this.inMemorySequencesDbContext)
-        });
-    }
-
     [Fact]
     public async Task ShouldSaveNewSequence()
     {
@@ -34,11 +21,11 @@ public class CaseOfSequenceEvents
         SequenceEntity expectedEntity = sequenceBuilder.BuildEntity();
 
         //Act
-        await this.sut.ApplyEvents(new List<DomainEventIdentifier>()
+        await this.Sut.ApplyEvents(new List<DomainEventIdentifier>()
             {new(Guid.Parse("6328FAC7-7AC9-4F3F-8652-9161FF345D4E"), sequenceBuilder.BuildEvent())});
 
         //Assert
-        this.inMemorySequencesDbContext.Sequences.Should().ContainEquivalentOf(expectedEntity);
+        this.InMemorySequencesDbContext.Sequences.Should().ContainEquivalentOf(expectedEntity);
     }
 
     [Fact]
@@ -57,21 +44,15 @@ public class CaseOfSequenceEvents
         {
             LanguageDictionaryId = null
         };
-        this.inMemorySequencesDbContext.Sequences.Add(sequenceBuilderWithoutDictionary.BuildEntity());
+        this.InMemorySequencesDbContext.Sequences.Add(sequenceBuilderWithoutDictionary.BuildEntity());
 
         //Act
         await ApplyEvent(sequenceBuilderWithDictionary.BuildAssignLanguageDictionaryEvent());
 
         //Assert
         SequenceEntity expectedEntity = sequenceBuilderWithDictionary.BuildEntity();
-        this.inMemorySequencesDbContext.Sequences.Should().ContainEquivalentOf(expectedEntity);
+        this.InMemorySequencesDbContext.Sequences.Should().ContainEquivalentOf(expectedEntity);
     }
 
-    protected async Task ApplyEvent(IDomainEvent newEvent)
-    {
-        await this.sut.ApplyEvents(new List<DomainEventIdentifier>()
-        {
-            new(Guid.NewGuid(), newEvent)
-        });
-    }
+    
 }
