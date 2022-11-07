@@ -2,7 +2,7 @@
 using RecklessSpeech.AcceptanceTests.Configuration.Clients;
 using RecklessSpeech.Web.ViewModels.Sequences;
 
-namespace RecklessSpeech.AcceptanceTests;
+namespace RecklessSpeech.AcceptanceTests.Configuration;
 
 public class SequenceRequestsLatest
 {
@@ -36,5 +36,10 @@ public class SequenceRequestsLatest
     public async Task Enrich(Guid sequenceId)
     {
         await this.client.Post<string>($"http://localhost{this.basePath}/Dictionary", new List<Guid>() {sequenceId});
+    }
+    
+    public async Task AssignLanguageDictionary(Guid id, Guid dictionaryId)
+    {
+        await this.client.Put<string>($"http://localhost{this.basePath}/Dictionary/{id}", dictionaryId);
     }
 }

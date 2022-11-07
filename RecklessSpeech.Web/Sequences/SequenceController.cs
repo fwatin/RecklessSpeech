@@ -81,4 +81,15 @@ public class SequenceController : ControllerBase
         await this.dispatcher.Dispatch(new EnrichSequenceCommand(ids.First()));
         return Ok();
     }
+
+    [HttpPut]
+    [Route("Dictionary/{id:guid}")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
+    public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> AssignLanguageDictionary(Guid id,
+        [FromBody] Guid dictionaryId)
+    {
+        await this.dispatcher.Dispatch(new AssignLanguageDictionaryCommand(id, dictionaryId));
+        return Ok();
+    }
 }

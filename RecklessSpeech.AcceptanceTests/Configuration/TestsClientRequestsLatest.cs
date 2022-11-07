@@ -1,6 +1,6 @@
 ﻿using RecklessSpeech.AcceptanceTests.Configuration.Clients;
 
-namespace RecklessSpeech.AcceptanceTests;
+namespace RecklessSpeech.AcceptanceTests.Configuration;
 
 public class TestsClientRequestsLatest
 {

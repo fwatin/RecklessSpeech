@@ -30,7 +30,12 @@ public class SequenceDomainEventRepository : IDomainEventRepository
             case ExplanationAddedEvent addExplanationEvent:
                 await Handle(addExplanationEvent);
                 break;
-            
+                
+                
+            case AssignLanguageDictionaryInASequenceEvent setLanguageDictionaryInASequenceEvent:
+                await Handle(setLanguageDictionaryInASequenceEvent);
+                break;
+
             default: throw new Exception("event type is not known for ApplyEvent");
         }
     }
@@ -48,7 +53,8 @@ public class SequenceDomainEventRepository : IDomainEventRepository
         };
 
         this.dbContext.Sequences.Add(entity);
-        await Task.CompletedTask;
+
+        await SaveChangesAsync();
     }
     
     private async Task Handle(ExplanationAddedEvent addedEvent)
@@ -62,7 +68,8 @@ public class SequenceDomainEventRepository : IDomainEventRepository
         };
         
         this.dbContext.Explanations.Add(entity); //passer en addAsync plus tard quand EF
-        await Task.CompletedTask;
+
+        await SaveChangesAsync();
     }
 
     private async Task Handle(ExplanationAssignedToSequenceEvent @event)
@@ -71,6 +78,20 @@ public class SequenceDomainEventRepository : IDomainEventRepository
 
         sequenceEntity.ExplanationId = @event.ExplanationId.Value;
 
+        await SaveChangesAsync();
+    }
+    
+    private async Task Handle(AssignLanguageDictionaryInASequenceEvent @event)
+    {
+        SequenceEntity sequenceEntity = this.dbContext.Sequences.Single(x => x.Id == @event.SequenceId.Value);
+
+        sequenceEntity.LanguageDictionaryId = @event.LanguageDictionaryId.Value;
+        
+        await SaveChangesAsync();
+    }
+
+    private async Task SaveChangesAsync()
+    {
         await Task.CompletedTask;
     }
 }

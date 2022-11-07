@@ -6,6 +6,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences;
 public sealed class Sequence
 {
     public SequenceId SequenceId { get; private init; }
+    public LanguageDictionaryId LanguageDictionaryId { get; set; }
     public HtmlContent HtmlContent { get; private init; } = default!;
     public Word Word { get; private init; } = default!;
     public TranslatedSentence TranslatedSentence { get; private init; } = default!;
@@ -67,5 +68,14 @@ public sealed class Sequence
             TranslatedSentence = TranslatedSentence.Hydrate(translatedSentence),
             Explanation = explanation
         };
+    }
+    public IEnumerable<IDomainEvent> SetDictionary(Guid languageDictionaryId)
+    {
+        this.LanguageDictionaryId = new(languageDictionaryId);
+        
+        yield return new AssignLanguageDictionaryInASequenceEvent(
+            this.SequenceId,
+            this.LanguageDictionaryId
+        );
     }
 }

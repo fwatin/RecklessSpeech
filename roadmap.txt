@@ -1,2 +1,14 @@
-- front pouvoir choisir le dictionnaire
-- pouvoir stocker dans une base les mots déjà connus
+ongoing:
+- select language dictionary back -> PR a faire
+
+
+
+
+future:
+- select language dictionary back
+- get all dictionaries back
+- select language dictionary front
+- appesettings in front with url of back inside
+- package front in store with production appsettings
+- be able to store known words in memory back
+- be able to allocate words to known front

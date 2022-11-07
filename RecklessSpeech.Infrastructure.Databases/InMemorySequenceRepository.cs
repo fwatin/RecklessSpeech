@@ -15,9 +15,10 @@ public class InMemorySequenceRepository : ISequenceRepository
         this.dbContext = dbContext;
     }
 
-    public async Task<Sequence> GetOne(Guid id)
+    public async Task<Sequence?> GetOne(Guid id)
     {
-        SequenceEntity entity = this.dbContext.Sequences.Single(x => x.Id == id);
+        SequenceEntity? entity = this.dbContext.Sequences.SingleOrDefault(x => x.Id == id);
+        if (entity is null) return null;
 
         Explanation? explanation = default;
         if (entity.ExplanationId is not null)

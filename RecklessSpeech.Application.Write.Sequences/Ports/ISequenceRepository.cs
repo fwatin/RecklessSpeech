@@ -4,5 +4,5 @@ namespace RecklessSpeech.Application.Write.Sequences.Ports;
 
 public interface ISequenceRepository
 {
-    Task<Sequence> GetOne(Guid id);
+    Task<Sequence?> GetOne(Guid id);
 }

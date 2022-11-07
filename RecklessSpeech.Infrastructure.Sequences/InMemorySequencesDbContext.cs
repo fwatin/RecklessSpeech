@@ -8,8 +8,10 @@ public class InMemorySequencesDbContext : ISequencesDbContext
     {
         this.Explanations = new();
         this.Sequences = new();
+        this.LanguageDictionaries = new();
     }
 
     public List<SequenceEntity> Sequences { get; }
     public List<ExplanationEntity> Explanations { get; }
+    public List<LanguageDictionaryEntity> LanguageDictionaries { get; set; }
 }

@@ -18,7 +18,7 @@ public class TestClientBase : IDisposable
         this.Client = client;
     }
 
-    protected virtual void Dispose(bool disposing)
+    private void Dispose(bool disposing)
     {
         if (disposing)
         {
@@ -34,7 +34,22 @@ public class TestClientBase : IDisposable
 
     public async Task<T> Post<T>(string path, object? parameters = null)
     {
-        using HttpResponseMessage? response = await ExecuteRequest(HttpMethod.Post, path, parameters);
+        return await Execute<T>(HttpMethod.Post, path, parameters);
+    }
+
+    public async Task<T> Put<T>(string path, object? parameters = null)
+    {
+        return await Execute<T>(HttpMethod.Put, path, parameters);
+    }
+
+    public async Task<T> Get<T>(string path, object? parameters = null)
+    {
+        return await Execute<T>(HttpMethod.Get, path, parameters);
+    }
+    
+    private async Task<T> Execute<T>(HttpMethod method, string path, object? parameters = null)
+    {
+        using HttpResponseMessage? response = await ExecuteRequest(method, path, parameters);
         if (response!.IsSuccessStatusCode)
         {
             string json = await response.Content.ReadAsStringAsync();
@@ -45,19 +60,6 @@ public class TestClientBase : IDisposable
         return default!;
     }
     
-    public async Task<T> Get<T>(string path, object? parameters = null)
-    {
-        using HttpResponseMessage? response = await ExecuteRequest(HttpMethod.Get, path, parameters);
-        if (response!.IsSuccessStatusCode)
-        {
-            string json = await response.Content.ReadAsStringAsync();
-            T? content = JsonConvert.DeserializeObject<T>(json);
-            return content!;
-        }
-
-        return default!;
-    }
-
     private async Task<HttpResponseMessage?> ExecuteRequest(HttpMethod method, string path, object? parameters = null)
     {
         try
@@ -74,14 +76,14 @@ public class TestClientBase : IDisposable
 
         return new HttpResponseMessage();
     }
-
+    
     private static HttpRequestMessage BuildMessage(HttpMethod method, string path, object? parameters)
     {
         if (parameters != null && parameters.GetType() == typeof(MultipartFormDataContent))
             return BuildMultiPartMessage(method, path, (MultipartFormDataContent) parameters);
         return BuildJsonMessage(method, path, parameters);
     }
-
+    
     private static HttpRequestMessage BuildJsonMessage(HttpMethod method, string path, object? parameters)
     {
         if (method == HttpMethod.Post || method == HttpMethod.Put)
@@ -89,7 +91,8 @@ public class TestClientBase : IDisposable
             HttpRequestMessage request = new(method, new Uri(path, UriKind.RelativeOrAbsolute));
             if (parameters != null)
             {
-                request.Content = new StringContent(JsonConvert.SerializeObject(parameters), Encoding.UTF8,
+                request.Content = new StringContent(JsonConvert.SerializeObject(parameters),
+                    Encoding.UTF8,
                     "application/json");
             }
 
@@ -103,7 +106,7 @@ public class TestClientBase : IDisposable
 
         return new HttpRequestMessage(method, new Uri(path, UriKind.RelativeOrAbsolute));
     }
-
+    
     private static HttpRequestMessage BuildMultiPartMessage(HttpMethod method, string path, MultipartFormDataContent multipartContent)
     {
         HttpRequestMessage request = new(method, new Uri(path, UriKind.RelativeOrAbsolute))
