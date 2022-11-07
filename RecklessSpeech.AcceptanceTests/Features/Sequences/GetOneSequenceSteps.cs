@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using RecklessSpeech.AcceptanceTests.Configuration;
-using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Shared.Tests.Sequences;
 using RecklessSpeech.Web.ViewModels.Sequences;
 using TechTalk.SpecFlow;
@@ -22,7 +21,7 @@ public class GetOneSequenceSteps : StepsBase
     [Given(@"an existing sequence")]
     public void GivenAnExistingSequence()
     {
-        DbContext.Sequences.Add(this.sequenceBuilder.BuildEntity());
+        this.DbContext.Sequences.Add(this.sequenceBuilder.BuildEntity());
     }
 
     [When(@"the user retrieves this sequence")]

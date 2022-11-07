@@ -22,7 +22,7 @@ public class CaseOfNewNotes
         this.spyGateway = new();
         this.dbContext = new InMemorySequencesDbContext();
         this.sequenceRepository = new(this.dbContext);
-        this.sut = new(this.spyGateway, sequenceRepository);
+        this.sut = new(this.spyGateway, this.sequenceRepository);
     }
     
     [Fact]

@@ -20,7 +20,7 @@ public class WebDispatcher
 
     public async Task Dispatch(IEventDrivenCommand command)
     {
-        var domainEvents = await this.dispatcher.Dispatch(new RootTransactionalStrategy(), command);
+        IReadOnlyCollection<DomainEventIdentifier>? domainEvents = await this.dispatcher.Dispatch(new RootTransactionalStrategy(), command);
         await Publish(domainEvents);
     }
 
