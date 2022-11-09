@@ -10,5 +10,5 @@ public class FromLanguageBuilder
         this.Value = value;
     }
     
-    public string Value { get; } = $"English";
+    public string Value { get; } = "English";
 }

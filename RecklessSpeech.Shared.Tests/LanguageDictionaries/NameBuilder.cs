@@ -10,5 +10,5 @@ public class NameBuilder
         this.Value = value;
     }
     
-    public string Value { get; } = $"WordReference";
+    public string Value { get; } = "WordReference";
 }
