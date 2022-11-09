@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
-using RecklessSpeech.Web.ViewModels.Sequences;
 
-namespace RecklessSpeech.Web.Sequences;
+namespace RecklessSpeech.Web.ViewModels.Sequences;
 
 public static class SequenceSummaryQueryModelExtensions
 {

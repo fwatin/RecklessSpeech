@@ -1,12 +1,7 @@
 ﻿using FluentAssertions;
 using RecklessSpeech.AcceptanceTests.Configuration;
-using RecklessSpeech.Application.Write.Sequences.Tests.Notes;
-using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Infrastructure.Entities;
-using RecklessSpeech.Infrastructure.Sequences;
-using RecklessSpeech.Shared.Tests.Explanations;
 using RecklessSpeech.Shared.Tests.LanguageDictionaries;
-using RecklessSpeech.Shared.Tests.Notes;
 using RecklessSpeech.Shared.Tests.Sequences;
 using TechTalk.SpecFlow;
 
@@ -41,13 +36,13 @@ public class SelectALanguageDictionarySteps : StepsBase
     {
         await this.Client.Latest()
             .SequenceRequests()
-            .AssignLanguageDictionary(this.sequenceBuilder!.SequenceId.Value, this.dictionaryBuilder!.Id);
+            .AssignLanguageDictionary(this.sequenceBuilder!.SequenceId.Value, this.dictionaryBuilder!.LanguageDictionaryId.Value);
     }
 
     [Then(@"the dictionary is saved for this sequence")]
     public void ThenTheDictionaryIsSavedForThisSequence()
     {
         SequenceEntity sequenceEntity = this.DbContext.Sequences.Single(x => x.Id == this.sequenceBuilder!.SequenceId.Value);
-        sequenceEntity.LanguageDictionaryId.Should().Be(this.dictionaryBuilder!.Id);
+        sequenceEntity.LanguageDictionaryId.Should().Be(this.dictionaryBuilder!.LanguageDictionaryId.Value);
     }
 }

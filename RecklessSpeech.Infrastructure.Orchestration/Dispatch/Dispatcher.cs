@@ -27,7 +27,7 @@ internal class Dispatcher : IRecklessSpeechDispatcher
     {
         try
         {
-            var events = (await this.mediator.Send(command, CancellationToken.None))
+            List<DomainEventIdentifier>? events = (await this.mediator.Send(command, CancellationToken.None))
                 .Select(domainEvent => new DomainEventIdentifier(this.domainEventIdProvider.NewEventId(), domainEvent))
                 .ToList();
 
@@ -59,7 +59,7 @@ internal class Dispatcher : IRecklessSpeechDispatcher
 
     public async Task Publish(IEnumerable<DomainEventIdentifier> domainEvents)
     {
-        foreach (var @event in domainEvents)
+        foreach (DomainEventIdentifier? @event in domainEvents)
         {
             await this.mediator.Publish(@event);
         }

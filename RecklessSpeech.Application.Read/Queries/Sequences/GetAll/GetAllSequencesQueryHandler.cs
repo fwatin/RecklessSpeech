@@ -3,8 +3,6 @@ using RecklessSpeech.Application.Read.Ports;
 
 namespace RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 
-public record GetAllSequencesQuery() : IQuery<IReadOnlyCollection<SequenceSummaryQueryModel>>;
-
 public class GetAllSequencesQueryHandler : QueryHandler<GetAllSequencesQuery, IReadOnlyCollection<SequenceSummaryQueryModel>>
 {
     private readonly ISequenceQueryRepository sequenceQueryRepository;

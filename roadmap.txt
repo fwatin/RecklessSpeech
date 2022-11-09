@@ -1,11 +1,10 @@
 ongoing:
-- select language dictionary back -> PR a faire
+- get all dictionaries back
 
 
 
 
 future:
-- select language dictionary back
 - get all dictionaries back
 - select language dictionary front
 - appesettings in front with url of back inside

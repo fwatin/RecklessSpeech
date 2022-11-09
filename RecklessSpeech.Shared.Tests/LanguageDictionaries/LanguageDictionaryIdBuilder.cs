@@ -1,12 +1,9 @@
 ﻿using RecklessSpeech.Domain.Sequences.Sequences;
 
-namespace RecklessSpeech.Shared.Tests.Sequences;
+namespace RecklessSpeech.Shared.Tests.LanguageDictionaries;
 
 public class LanguageDictionaryIdBuilder
 {
-    public LanguageDictionaryIdBuilder()
-    {
-    }
     public LanguageDictionaryIdBuilder(Guid value)
     {
         this.Value = value;

@@ -32,22 +32,22 @@ namespace RecklessSpeech.Web.Controllers
             IExceptionHandlerFeature? context = this.HttpContext.Features.Get<IExceptionHandlerFeature>();
 
             if (context == null)
-                return this.StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError);
 
             return context.Error switch
             {
-                SequenceNotFoundReadException exception => this.Handle(exception),
-                { } exception => this.Handle(exception)
+                SequenceNotFoundReadException exception => Handle(exception),
+                { } exception => Handle(exception)
             };
             
             
         }
 
         private IActionResult Handle(SequenceNotFoundReadException exception) =>
-            this.HandleError(StatusCodes.Status404NotFound, ApiErrors.ReadSequenceNotFound, exception);
+            HandleError(StatusCodes.Status404NotFound, ApiErrors.ReadSequenceNotFound, exception);
         
         private IActionResult Handle(Exception exception) =>
-            this.HandleError(StatusCodes.Status500InternalServerError, ApiErrors.GenericInternalServerError, exception);
+            HandleError(StatusCodes.Status500InternalServerError, ApiErrors.GenericInternalServerError, exception);
 
         private IActionResult HandleError(int statusCode, string type, Exception exception)
         {
@@ -57,7 +57,7 @@ namespace RecklessSpeech.Web.Controllers
                 problemDetails.Extensions.Add("exception", RenderException(exception));
             }
 
-            return this.StatusCode(problemDetails.Status!.Value, problemDetails);
+            return StatusCode(problemDetails.Status!.Value, problemDetails);
         }
 
         private static object RenderException(Exception e)

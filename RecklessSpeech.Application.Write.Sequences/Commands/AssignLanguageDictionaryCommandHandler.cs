@@ -1,7 +1,5 @@
 ﻿using RecklessSpeech.Application.Core.Commands;
 using RecklessSpeech.Application.Write.Sequences.Ports;
-using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
-using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 

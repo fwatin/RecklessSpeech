@@ -20,7 +20,7 @@ internal class JsonQueryBinder : IModelBinder
 
     public Task BindModelAsync(ModelBindingContext bindingContext)
     {
-        var value = bindingContext.ValueProvider.GetValue(bindingContext.FieldName).FirstValue;
+        string? value = bindingContext.ValueProvider.GetValue(bindingContext.FieldName).FirstValue;
         if (value == null)
         {
             return Task.CompletedTask;
@@ -28,7 +28,7 @@ internal class JsonQueryBinder : IModelBinder
 
         try
         {
-            var parsed = JsonSerializer.Deserialize(
+            object? parsed = JsonSerializer.Deserialize(
                 value,
                 bindingContext.ModelType,
                 new JsonSerializerOptions(JsonSerializerDefaults.Web));

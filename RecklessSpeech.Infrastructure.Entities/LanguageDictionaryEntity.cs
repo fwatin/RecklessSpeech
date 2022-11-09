@@ -2,7 +2,8 @@
 
 public record LanguageDictionaryEntity : AggregateRootEntity
 {
-    public Guid Id { get; set; }
-
     public string Url { get; set; }
+    public string Name { get; set; }
+    public string FromLanguage { get; set; }
+    public string ToLanguage { get; set; }
 }

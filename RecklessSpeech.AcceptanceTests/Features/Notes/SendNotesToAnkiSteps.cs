@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using RecklessSpeech.AcceptanceTests.Configuration;
 using RecklessSpeech.Application.Write.Sequences.Tests.Notes;
-using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Shared.Tests.Explanations;
 using RecklessSpeech.Shared.Tests.Notes;
@@ -51,7 +50,7 @@ public class SendNotesToAnkiSteps : StepsBase
     [Given(@"some existing explanation for this dutch word")]
     public void GivenSomeExistingExplanationForThisDutchWord()
     {
-        ExplanationBuilder explanationBuilder = ExplanationBuilder.Create(explanationId) with
+        ExplanationBuilder explanationBuilder = ExplanationBuilder.Create(this.explanationId) with
         {
             Target = new("brood"),
             Content = new("pain"),
