@@ -21,12 +21,26 @@ namespace RecklessSpeech.Front.WPF
     {
         // ReSharper disable once MemberCanBePrivate.Global
         public SequencePageViewModel ViewModel => (SequencePageViewModel)this.DataContext;
+        private List<MenuItem> contextMenuItems;
 
         public MainWindow()
         {
             InitializeComponent();
 
             this.DataContext = new SequencePageViewModel(new HttpBackEndGateway(new HttpBackEndGatewayAccess()));
+
+            this.InitializeContextMenu();
+        }
+
+        private void InitializeContextMenu()
+        {
+            contextMenuItems = new List<MenuItem>();
+
+            MenuItem sendToAnki = new MenuItem() { Header = "Send to Anki" };
+            contextMenuItems.Add(sendToAnki);
+
+            MenuItem sendToAnki = new MenuItem() { Header = "Send to Anki" };
+            contextMenuItems.Add(sendToAnki);
         }
 
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -69,6 +83,16 @@ namespace RecklessSpeech.Front.WPF
                 this.ViewModel.SendSequenceToAnkiCommand.Execute(sequence);
                 this.ViewModel.Progress = ++count / total * 100;
             }
+        }
+
+        private void SequenceListView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            ListView lv = sender as ListView;
+            ContextMenu contextMenu = lv.ContextMenu;
+
+            MenuItem newItem = new MenuItem();
+            newItem.Name = "blabla";
+            contextMenu.Items.Add(newItem);
         }
     }
 }

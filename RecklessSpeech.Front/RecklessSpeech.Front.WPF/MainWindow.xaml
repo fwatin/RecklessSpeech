@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:RecklessSpeech.Front.WPF"
         xmlns:converters="clr-namespace:RecklessSpeech.Front.WPF.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow"
+        Height="450"
+        Width="800">
     <Window.Resources>
         <converters:GreenIfNotNullConverter x:Key="GreenIfNotNullConverter" />
     </Window.Resources>
@@ -41,9 +43,12 @@
         <ListView x:Name="SequenceListView"
                   Grid.Row="1"
                   SelectionMode="Multiple"
-                  ItemsSource="{Binding Sequences, Mode=OneWay}">
+                  ItemsSource="{Binding Sequences, Mode=OneWay}"
+                  ContextMenuOpening="SequenceListView_ContextMenuOpening">
             <ListView.ContextMenu>
-                <ContextMenu>
+                <ContextMenu ContextMenuOpening="FrameworkElement_OnContextMenuOpening"
+                             x:Name="ItemContextMenu"
+                             >
                     <MenuItem Header="Enrich with online dictionary"
                               Click="ContextMenu_Enrich_Click" />
 
@@ -55,7 +60,9 @@
                 <GridView>
                     <GridView.Columns>
 
-                        <GridViewColumn x:Name="SequenceColumn" Width="auto" Header="Word">
+                        <GridViewColumn x:Name="SequenceColumn"
+                                        Width="auto"
+                                        Header="Word">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Word}"
