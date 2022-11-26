@@ -1,4 +1,5 @@
 ﻿using Prism.Commands;
+using RecklessSpeech.Front.WPF.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +19,8 @@ namespace RecklessSpeech.Front.WPF.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+        public ObservableCollection<DictionaryDto> Dictionaries { get; private set; }
 
         private ObservableCollection<SequenceDto> sequences;
 
@@ -53,7 +56,7 @@ namespace RecklessSpeech.Front.WPF.ViewModels
         public ICommand AddSequencesCommand { get; }
         public ICommand EnrichSequenceCommand { get; }
         public ICommand SendSequenceToAnkiCommand { get; }
-
+        public ICommand GetDictionariesCommand { get; }
 
         public SequencePageViewModel(HttpBackEndGateway backEndGateway)
         {
@@ -63,9 +66,11 @@ namespace RecklessSpeech.Front.WPF.ViewModels
             this.AddSequencesCommand = new DelegateCommand<string>(async s => await AddSequences(s));
             this.EnrichSequenceCommand = new DelegateCommand<SequenceDto>(async s => await EnrichSequence(s));
             this.SendSequenceToAnkiCommand = new DelegateCommand<SequenceDto>(async s => await SendSequenceToAnki(s));
+            this.GetDictionariesCommand = new DelegateCommand(async () => await GetAllDictionaries());
+            GetDictionariesCommand.Execute(null);
         }
 
-        private async Task AddSequences(string filePath)
+        private async Task AddSequences(string filePath) //todo rename avec get
         {
             await this.backEndGateway.ImportSequencesFromCsvFile(filePath);
 
@@ -76,6 +81,13 @@ namespace RecklessSpeech.Front.WPF.ViewModels
             {
                 this.Sequences.Add(newSequence);
             }
+        }
+
+        private async Task GetAllDictionaries()
+        {
+            var dictionaries = await this.backEndGateway.GetAllDictionaries();
+
+            this.Dictionaries = new(dictionaries);
         }
 
         private async Task EnrichSequence(SequenceDto sequence)

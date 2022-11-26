@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
+using RecklessSpeech.Front.WPF.Dtos;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -80,7 +82,6 @@ namespace RecklessSpeech.Front.WPF.ViewModels
             await this.access.SendAsync(request);
         }
 
-
         public async Task SendSequenceToAnki(Guid id)
         {
             const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences/Anki";
@@ -88,6 +89,18 @@ namespace RecklessSpeech.Front.WPF.ViewModels
             HttpRequestMessage request = BuildJsonMessage(HttpMethod.Post, url, new List<Guid>() { id });
 
             await this.access.SendAsync(request);
+        }
+
+        public async Task<List<DictionaryDto>> GetAllDictionaries()
+        {
+            string url = @$"https://localhost:47973/api/{ApiVersion}/sequences/Dictionary";
+
+            HttpResponseMessage? responseMessage = await this.access.GetAsync(url);
+
+            List<DictionaryDto>? dictionaries = await responseMessage.Content.ReadFromJsonAsync<List<DictionaryDto>>();
+
+            return dictionaries!;
+
         }
 
         private static HttpRequestMessage BuildJsonMessage(HttpMethod method, string path, object? parameters)

@@ -39,8 +39,13 @@ namespace RecklessSpeech.Front.WPF
             MenuItem sendToAnki = new MenuItem() { Header = "Send to Anki" };
             contextMenuItems.Add(sendToAnki);
 
-            MenuItem sendToAnki = new MenuItem() { Header = "Send to Anki" };
-            contextMenuItems.Add(sendToAnki);
+            var dictionaries = ViewModel.Dictionaries;
+
+            foreach (var dictionary in dictionaries)
+            {
+                MenuItem dictionaryItem = new MenuItem() { Header = dictionary.Name };
+                contextMenuItems.Add(dictionaryItem);
+            }
         }
 
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -87,12 +92,6 @@ namespace RecklessSpeech.Front.WPF
 
         private void SequenceListView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            ListView lv = sender as ListView;
-            ContextMenu contextMenu = lv.ContextMenu;
-
-            MenuItem newItem = new MenuItem();
-            newItem.Name = "blabla";
-            contextMenu.Items.Add(newItem);
         }
     }
 }

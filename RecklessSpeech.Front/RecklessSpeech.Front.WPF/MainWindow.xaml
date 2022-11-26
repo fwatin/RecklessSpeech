@@ -46,8 +46,7 @@
                   ItemsSource="{Binding Sequences, Mode=OneWay}"
                   ContextMenuOpening="SequenceListView_ContextMenuOpening">
             <ListView.ContextMenu>
-                <ContextMenu ContextMenuOpening="FrameworkElement_OnContextMenuOpening"
-                             x:Name="ItemContextMenu"
+                <ContextMenu x:Name="ItemContextMenu"
                              >
                     <MenuItem Header="Enrich with online dictionary"
                               Click="ContextMenu_Enrich_Click" />
