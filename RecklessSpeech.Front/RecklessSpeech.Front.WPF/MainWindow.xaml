@@ -46,13 +46,18 @@
                   ItemsSource="{Binding Sequences, Mode=OneWay}"
                   ContextMenuOpening="SequenceListView_ContextMenuOpening">
             <ListView.ContextMenu>
-                <ContextMenu x:Name="ItemContextMenu"
-                             >
-                    <MenuItem Header="Enrich with online dictionary"
-                              Click="ContextMenu_Enrich_Click" />
-
-                    <MenuItem Header="Send to Anki"
-                              Click="ContextMenu_Send_to_Anki_Click" />
+                <ContextMenu ItemsSource="{Binding Dictionaries}">
+                    <ContextMenu.ItemTemplate>
+                        <HierarchicalDataTemplate
+                         ItemsSource="{Binding ChildCollection}">
+                            <TextBlock Text="{Binding Name}"/>
+                            <HierarchicalDataTemplate.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </HierarchicalDataTemplate.ItemTemplate>
+                        </HierarchicalDataTemplate>
+                    </ContextMenu.ItemTemplate>
                 </ContextMenu>
             </ListView.ContextMenu>
             <ListView.View>
