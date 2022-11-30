@@ -48,7 +48,9 @@
                 <ContextMenu ItemsSource="{Binding Dictionaries}">
                     <ContextMenu.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Name}" />
+                            <Button Click="ButtonBase_OnClick">
+                                <TextBlock Text="{Binding Name}" />
+                            </Button>
                         </DataTemplate>
                     </ContextMenu.ItemTemplate>
                 </ContextMenu>

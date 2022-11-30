@@ -45,5 +45,9 @@ namespace RecklessSpeech.Front.WPF
 
             this.ViewModel.AddSequencesCommand.Execute(filePath);
         }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }
