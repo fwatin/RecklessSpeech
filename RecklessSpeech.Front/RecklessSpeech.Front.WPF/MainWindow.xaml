@@ -47,15 +47,9 @@
             <ListView.ContextMenu>
                 <ContextMenu ItemsSource="{Binding Dictionaries}">
                     <ContextMenu.ItemTemplate>
-                        <HierarchicalDataTemplate
-                         ItemsSource="{Binding ChildCollection}">
-                            <TextBlock Text="{Binding Name}"/>
-                            <HierarchicalDataTemplate.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Name}"/>
-                                </DataTemplate>
-                            </HierarchicalDataTemplate.ItemTemplate>
-                        </HierarchicalDataTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
                     </ContextMenu.ItemTemplate>
                 </ContextMenu>
             </ListView.ContextMenu>
