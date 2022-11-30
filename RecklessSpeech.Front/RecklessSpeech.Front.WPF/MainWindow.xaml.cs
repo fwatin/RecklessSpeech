@@ -28,24 +28,6 @@ namespace RecklessSpeech.Front.WPF
             InitializeComponent();
 
             this.DataContext = new SequencePageViewModel(new HttpBackEndGateway(new HttpBackEndGatewayAccess()));
-
-            this.InitializeContextMenu();
-        }
-
-        private void InitializeContextMenu()
-        {
-            contextMenuItems = new List<MenuItem>();
-
-            MenuItem sendToAnki = new MenuItem() { Header = "Send to Anki" };
-            contextMenuItems.Add(sendToAnki);
-
-            var dictionaries = ViewModel.Dictionaries;
-
-            foreach (var dictionary in dictionaries)
-            {
-                MenuItem dictionaryItem = new MenuItem() { Header = dictionary.Name };
-                contextMenuItems.Add(dictionaryItem);
-            }
         }
 
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -62,36 +44,6 @@ namespace RecklessSpeech.Front.WPF
             string filePath = openFileDialog.FileName;
 
             this.ViewModel.AddSequencesCommand.Execute(filePath);
-        }
-
-        private void ContextMenu_Enrich_Click(object sender, RoutedEventArgs e)
-        {
-            int total = SequenceListView.SelectedItems.Count;
-            int count = 0;
-
-            this.ViewModel.Progress = 0;
-            foreach (SequenceDto sequence in this.SequenceListView.SelectedItems)
-            {
-                this.ViewModel.EnrichSequenceCommand.Execute(sequence);
-                this.ViewModel.Progress = ++count / total * 100;
-            }
-        }
-
-        private void ContextMenu_Send_to_Anki_Click(object sender, RoutedEventArgs e)
-        {
-            int total = SequenceListView.SelectedItems.Count;
-            int count = 0;
-
-            this.ViewModel.Progress = 0;
-            foreach (SequenceDto sequence in this.SequenceListView.SelectedItems)
-            {
-                this.ViewModel.SendSequenceToAnkiCommand.Execute(sequence);
-                this.ViewModel.Progress = ++count / total * 100;
-            }
-        }
-
-        private void SequenceListView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
         }
     }
 }

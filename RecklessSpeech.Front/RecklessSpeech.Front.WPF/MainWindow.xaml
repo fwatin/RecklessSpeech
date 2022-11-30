@@ -43,8 +43,7 @@
         <ListView x:Name="SequenceListView"
                   Grid.Row="1"
                   SelectionMode="Multiple"
-                  ItemsSource="{Binding Sequences, Mode=OneWay}"
-                  ContextMenuOpening="SequenceListView_ContextMenuOpening">
+                  ItemsSource="{Binding Sequences, Mode=OneWay}">
             <ListView.ContextMenu>
                 <ContextMenu ItemsSource="{Binding Dictionaries}">
                     <ContextMenu.ItemTemplate>
