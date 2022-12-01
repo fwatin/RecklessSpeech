@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RecklessSpeech.Front.WPF.Dtos;
+using RecklessSpeech.Front.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +10,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RecklessSpeech.Front.WPF.ViewModels
+namespace RecklessSpeech.Front.WPF.Gateway
 {
     public class HttpBackEndGateway
     {
@@ -32,13 +33,13 @@ namespace RecklessSpeech.Front.WPF.ViewModels
 
             const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences"; //todo mettre dans des settings
 
-            await this.access.PostAsync(url, content);
+            await access.PostAsync(url, content);
         }
         public async Task<IReadOnlyCollection<SequenceDto>> GetAllSequences()
         {
             const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences";
 
-            HttpResponseMessage responseMessage = await this.access.GetAsync(url);
+            HttpResponseMessage responseMessage = await access.GetAsync(url);
 
             string contentString = await responseMessage.Content.ReadAsStringAsync();
 
@@ -58,7 +59,7 @@ namespace RecklessSpeech.Front.WPF.ViewModels
         {
             string url = @$"https://localhost:47973/api/{ApiVersion}/sequences/{id}";
 
-            HttpResponseMessage? responseMessage = await this.access.GetAsync(url);
+            HttpResponseMessage? responseMessage = await access.GetAsync(url);
 
             string contentString = await responseMessage.Content.ReadAsStringAsync();
 
@@ -79,7 +80,7 @@ namespace RecklessSpeech.Front.WPF.ViewModels
 
             HttpRequestMessage request = BuildJsonMessage(HttpMethod.Post, url, new List<Guid>() { id });
 
-            await this.access.SendAsync(request);
+            await access.SendAsync(request);
         }
 
         public async Task SendSequenceToAnki(Guid id)
@@ -88,14 +89,14 @@ namespace RecklessSpeech.Front.WPF.ViewModels
 
             HttpRequestMessage request = BuildJsonMessage(HttpMethod.Post, url, new List<Guid>() { id });
 
-            await this.access.SendAsync(request);
+            await access.SendAsync(request);
         }
 
         public async Task<List<DictionaryDto>> GetAllDictionaries()
         {
             string url = @$"https://localhost:47973/api/{ApiVersion}/sequences/Dictionary";
 
-            HttpResponseMessage? responseMessage = await this.access.GetAsync(url);
+            HttpResponseMessage? responseMessage = await access.GetAsync(url);
 
             List<DictionaryDto>? dictionaries = await responseMessage.Content.ReadFromJsonAsync<List<DictionaryDto>>();
 
@@ -115,5 +116,23 @@ namespace RecklessSpeech.Front.WPF.ViewModels
 
             return request;
         }
+
+        public async Task<SequenceDto?> TryEnrichSequence(Guid sequenceDtoId, Guid dtoDictionaryId)
+        {
+            const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences/Dictionary";
+
+            EnrichSequenceParameter parameter = new(sequenceDtoId, dtoDictionaryId);
+            HttpRequestMessage request = BuildJsonMessage(HttpMethod.Post, url, parameter);
+
+            HttpResponseMessage response = await access.SendAsync(request);
+
+            if (response.IsSuccessStatusCode is false) return null;
+
+            SequenceDto? content = await response.Content.ReadFromJsonAsync<SequenceDto>();
+
+            return content;
+        }
     }
+
+    public record EnrichSequenceParameter(Guid SequenceId, Guid DictionaryId);
 }

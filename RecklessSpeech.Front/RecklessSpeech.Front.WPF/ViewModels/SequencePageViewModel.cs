@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using RecklessSpeech.Front.WPF.Dtos;
+using RecklessSpeech.Front.WPF.Gateway;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -76,7 +77,11 @@ namespace RecklessSpeech.Front.WPF.ViewModels
 
         private async Task AssignDictionaryToASequence(AssignDictionaryToASequenceDto dto)
         {
-
+            SequenceDto? enriched = await this.backEndGateway.TryEnrichSequence(dto.SequenceDto.Id, dto.DictionaryId);
+            if (enriched is not null)
+            {
+                dto.SequenceDto.Explanation = enriched.Explanation;
+            }
         }
 
         private async Task AddSequences(string filePath) //todo rename avec get
