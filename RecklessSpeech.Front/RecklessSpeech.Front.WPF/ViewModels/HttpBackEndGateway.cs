@@ -65,7 +65,7 @@ namespace RecklessSpeech.Front.WPF.ViewModels
             SequenceSummaryPresentation result =
                 JsonConvert.DeserializeObject<SequenceSummaryPresentation>(contentString);
 
-            return new SequenceDto()
+            return new()
             {
                 Id = result.Id,
                 Word = result.Word,

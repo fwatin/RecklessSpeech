@@ -17,7 +17,7 @@ namespace RecklessSpeech.Front.WPF.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string? name = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            PropertyChanged?.Invoke(this, new(name));
         }
 
         public ObservableCollection<DictionaryDto> Dictionaries { get; private set; }
@@ -37,7 +37,7 @@ namespace RecklessSpeech.Front.WPF.ViewModels
         private int progress;
         private readonly HttpBackEndGateway backEndGateway;
 
-        public int Progress
+        public int Progress //todo remove
         {
             get
             {
@@ -57,17 +57,26 @@ namespace RecklessSpeech.Front.WPF.ViewModels
         public ICommand EnrichSequenceCommand { get; }
         public ICommand SendSequenceToAnkiCommand { get; }
         public ICommand GetDictionariesCommand { get; }
+        public ICommand AssignDictionaryToASequenceCommand { get; }
 
         public SequencePageViewModel(HttpBackEndGateway backEndGateway)
         {
             this.backEndGateway = backEndGateway;
-            this.Sequences = new ObservableCollection<SequenceDto>();
+            this.Sequences = new();
 
             this.AddSequencesCommand = new DelegateCommand<string>(async s => await AddSequences(s));
             this.EnrichSequenceCommand = new DelegateCommand<SequenceDto>(async s => await EnrichSequence(s));
             this.SendSequenceToAnkiCommand = new DelegateCommand<SequenceDto>(async s => await SendSequenceToAnki(s));
             this.GetDictionariesCommand = new DelegateCommand(async () => await GetAllDictionaries());
+            this.AssignDictionaryToASequenceCommand = new DelegateCommand<AssignDictionaryToASequenceDto>(async dto => await AssignDictionaryToASequence(dto));
+
+
             GetDictionariesCommand.Execute(null);
+        }
+
+        private async Task AssignDictionaryToASequence(AssignDictionaryToASequenceDto dto)
+        {
+
         }
 
         private async Task AddSequences(string filePath) //todo rename avec get

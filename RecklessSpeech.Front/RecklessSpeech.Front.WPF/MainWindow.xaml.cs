@@ -2,6 +2,7 @@
 using RecklessSpeech.Front.WPF.Dtos;
 using RecklessSpeech.Front.WPF.ViewModels;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,7 +29,7 @@ namespace RecklessSpeech.Front.WPF
         {
             InitializeComponent();
 
-            this.DataContext = new SequencePageViewModel(new HttpBackEndGateway(new HttpBackEndGatewayAccess()));
+            this.DataContext = new SequencePageViewModel(new(new HttpBackEndGatewayAccess()));
         }
 
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -49,9 +50,15 @@ namespace RecklessSpeech.Front.WPF
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            var o1 = sender as Button;
-            var dictionaryDto = o1.DataContext as DictionaryDto;
-            var selectedItems = this.SequenceListView.SelectedItems;
+            Button? button = (sender as Button);
+            DictionaryDto? dictionaryDto = button!.DataContext as DictionaryDto;
+            IList selectedItems = this.SequenceListView.SelectedItems;
+
+            foreach (SequenceDto sequenceDto in selectedItems)
+            {
+                AssignDictionaryToASequenceDto parameter = new(sequenceDto, dictionaryDto!.Id);
+                this.ViewModel.AssignDictionaryToASequenceCommand.Execute(parameter);
+            }
         }
     }
 }
