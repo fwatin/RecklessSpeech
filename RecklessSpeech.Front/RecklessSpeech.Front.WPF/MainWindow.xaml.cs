@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using RecklessSpeech.Front.WPF.Dtos;
 using RecklessSpeech.Front.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,9 @@ namespace RecklessSpeech.Front.WPF
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
+            var o1 = sender as Button;
+            var dictionaryDto = o1.DataContext as DictionaryDto;
+            var selectedItems = this.SequenceListView.SelectedItems;
         }
     }
 }
