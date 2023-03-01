@@ -3,11 +3,11 @@ using RecklessSpeech.Domain.Sequences.Explanations;
 
 namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
 
-public class MijnwoordenboekGateway : IDutchTranslatorGateway
+public class WordReferenceGateway : IEnglishTranslatorGateway
 {
-    private readonly IMijnwoordenboekGatewayAccess access;
+    private readonly IWordReferenceGatewayAccess access;
 
-    public MijnwoordenboekGateway(IMijnwoordenboekGatewayAccess access)
+    public WordReferenceGateway(IWordReferenceGatewayAccess access)
     {
         this.access = access;
     }

@@ -2,7 +2,7 @@
 
 namespace RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
 
-public interface IDutchTranslatorGateway
+public interface IEnglishTranslatorGateway
 {
     Explanation GetExplanation(string word);
 }

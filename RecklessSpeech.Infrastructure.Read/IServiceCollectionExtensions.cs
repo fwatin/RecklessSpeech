@@ -5,6 +5,7 @@ using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
 using RecklessSpeech.Infrastructure.Sequences.AnkiGateway;
 using RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
+using RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.WordReference;
 
 namespace RecklessSpeech.Infrastructure.Read;
 
@@ -45,9 +46,11 @@ public static class ServiceCollectionExtensions
     private static IServiceCollection AddTranslatorGateway(this IServiceCollection services)
     {
         services.AddSingleton<IMijnwoordenboekGatewayAccess>(new MijnwoordenboekGatewayOnlineAccess());
-        
-        services.AddSingleton<ITranslatorGateway, MijnwoordenboekGateway>();
-        
+        services.AddSingleton<IDutchTranslatorGateway, MijnwoordenboekGateway>();
+
+        services.AddSingleton<IWordReferenceGatewayAccess>(new WordReferenceGatewayOnlineAccess());
+        services.AddSingleton<IEnglishTranslatorGateway, WordReferenceGateway>();
+
         return services;
     }
 }

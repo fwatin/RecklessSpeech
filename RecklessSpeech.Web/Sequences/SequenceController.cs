@@ -80,7 +80,7 @@ public class SequenceController : ControllerBase
     public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> Enrich(
         IReadOnlyCollection<Guid> ids)
     {
-        await this.dispatcher.Dispatch(new EnrichSequenceCommand(ids.First()));
+        await this.dispatcher.Dispatch(new EnrichDutchSequenceCommand(ids.First()));
         return Ok();
     }
 

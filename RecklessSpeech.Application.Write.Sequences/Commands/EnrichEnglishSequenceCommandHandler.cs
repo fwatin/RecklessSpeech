@@ -7,31 +7,31 @@ using RecklessSpeech.Domain.Shared;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands;
 
-public record EnrichDutchSequenceCommand(Guid SequenceId) : IEventDrivenCommand;
+public record EnrichEnglishSequenceCommand(Guid SequenceId) : IEventDrivenCommand;
 
-public class EnrichDutchSequenceCommandHandler : CommandHandlerBase<EnrichDutchSequenceCommand>
+public class EnrichEnglishSequenceCommandHandler : CommandHandlerBase<EnrichEnglishSequenceCommand>
 {
     private readonly ISequenceRepository sequenceRepository;
     private readonly IExplanationRepository explanationRepository;
-    private readonly IDutchTranslatorGateway dutchTranslatorGateway;
+    private readonly IEnglishTranslatorGateway translatorGateway;
 
-    public EnrichDutchSequenceCommandHandler(
+    public EnrichEnglishSequenceCommandHandler(
         ISequenceRepository sequenceRepository,
         IExplanationRepository explanationRepository,
-        IDutchTranslatorGateway dutchTranslatorGateway)
+        IEnglishTranslatorGateway translatorGateway)
     {
         this.sequenceRepository = sequenceRepository;
         this.explanationRepository = explanationRepository;
-        this.dutchTranslatorGateway = dutchTranslatorGateway;
+        this.translatorGateway = translatorGateway;
     }
 
-    protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(EnrichDutchSequenceCommand command)
+    protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(EnrichEnglishSequenceCommand command)
     {
         Sequence sequence = await this.sequenceRepository.GetOne(command.SequenceId);
 
         Explanation? existingExplanation = this.explanationRepository.TryGetByTarget(sequence.Word.Value);
 
-        Explanation explanation = existingExplanation ?? this.dutchTranslatorGateway.GetExplanation(sequence.Word.Value);
+        Explanation explanation = existingExplanation ?? this.translatorGateway.GetExplanation(sequence.Word.Value);
 
         List<IDomainEvent> events = new()
         {
