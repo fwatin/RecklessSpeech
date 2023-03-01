@@ -44,8 +44,11 @@
                   ItemsSource="{Binding Sequences, Mode=OneWay}">
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Enrich with online dictionary"
-                              Click="ContextMenu_Enrich_Click" />
+                    <MenuItem Header="Enrich in Dutch"
+                              Click="ContextMenu_Enrich_Dutch_Click" />
+
+                    <MenuItem Header="Enrich in English"
+                              Click="ContextMenu_Enrich_English_Click" />
 
                     <MenuItem Header="Send to Anki"
                               Click="ContextMenu_Send_to_Anki_Click" />

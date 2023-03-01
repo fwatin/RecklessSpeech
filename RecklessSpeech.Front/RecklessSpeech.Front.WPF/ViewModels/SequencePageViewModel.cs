@@ -51,7 +51,8 @@ namespace RecklessSpeech.Front.WPF.ViewModels
 
         //commands
         public ICommand AddSequencesCommand { get; }
-        public ICommand EnrichSequenceCommand { get; }
+        public ICommand EnrichDutchSequenceCommand { get; }
+        public ICommand EnrichEnglishSequenceCommand { get; }
         public ICommand SendSequenceToAnkiCommand { get; }
 
 
@@ -61,7 +62,8 @@ namespace RecklessSpeech.Front.WPF.ViewModels
             this.Sequences = new ObservableCollection<SequenceDto>();
 
             this.AddSequencesCommand = new DelegateCommand<string>(async s => await AddSequences(s));
-            this.EnrichSequenceCommand = new DelegateCommand<SequenceDto>(async s => await EnrichSequence(s));
+            this.EnrichDutchSequenceCommand = new DelegateCommand<SequenceDto>(async s => await EnrichSequenceDutch(s));
+            this.EnrichEnglishSequenceCommand = new DelegateCommand<SequenceDto>(async s => await EnrichSequenceEnglish(s));
             this.SendSequenceToAnkiCommand = new DelegateCommand<SequenceDto>(async s => await SendSequenceToAnki(s));
         }
 
@@ -78,9 +80,18 @@ namespace RecklessSpeech.Front.WPF.ViewModels
             }
         }
 
-        private async Task EnrichSequence(SequenceDto sequence)
+        private async Task EnrichSequenceDutch(SequenceDto sequence)
         {
-            await this.backEndGateway.EnrichSequence(sequence.Id);
+            await this.backEndGateway.EnrichSequenceDutch(sequence.Id);
+
+            SequenceDto updatedSequence = await this.backEndGateway.GetOneSequence(sequence.Id);
+
+            sequence.Explanation = updatedSequence.Explanation;
+        }
+
+        private async Task EnrichSequenceEnglish(SequenceDto sequence)
+        {
+            await this.backEndGateway.EnrichSequenceEnglish(sequence.Id);
 
             SequenceDto updatedSequence = await this.backEndGateway.GetOneSequence(sequence.Id);
 
