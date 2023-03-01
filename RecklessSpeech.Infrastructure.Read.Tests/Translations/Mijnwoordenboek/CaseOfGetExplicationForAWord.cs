@@ -14,7 +14,7 @@ public class CaseOfGetExplicationForAWord
         //Arrange
         string word = "brood";
         IMijnwoordenboekGatewayAccess access = new MijnwoordenboekGatewayLocalAccess();
-        ITranslatorGateway gateway = new MijnwoordenboekGateway(access);
+        IDutchTranslatorGateway gateway = new MijnwoordenboekGateway(access);
 
         //Act
         Explanation explanation = gateway.GetExplanation(word);

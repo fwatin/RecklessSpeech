@@ -13,7 +13,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich;
 
 public class CaseOfEnrichSuccessful
 {
-    private readonly EnrichSequenceCommandHandler sut;
+    private readonly EnrichDutchSequenceCommandHandler sut;
     private readonly SequenceBuilder sequenceBuilder;
     private readonly InMemorySequencesDbContext dbContext;
 
@@ -45,7 +45,7 @@ public class CaseOfEnrichSuccessful
     {
         //Arrange
         this.dbContext.Sequences.Add(this.sequenceBuilder.BuildEntity());
-        EnrichSequenceCommand command = this.sequenceBuilder.BuildEnrichCommand();
+        EnrichDutchSequenceCommand command = this.sequenceBuilder.BuildEnrichCommand();
 
         //Act
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
