@@ -44,8 +44,19 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
         HtmlDocument htmlDoc = SetBackgroundToRedForWordNode(html);
 
-        return HtmlContent.Create(htmlDoc.DocumentNode.InnerHtml);
+        HtmlNode node = RemoveBackgroundInStyle(htmlDoc.DocumentNode);
+
+        return HtmlContent.Create(node.InnerHtml);
     }
+
+    private static HtmlNode RemoveBackgroundInStyle(HtmlNode node)
+    {
+        var styles = node.Descendants("style");
+        HtmlNode style = styles.First();
+
+        return node;
+    }
+
     private static string RemoveGap(string html)
     {
 
