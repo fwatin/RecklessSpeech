@@ -73,7 +73,8 @@ public class SendNotesToAnkiSteps : StepsBase
         {
             Question = new(ContentForQuestion),
             After = new AfterBuilder("translated sentence from Netflix: \"er is geen brood.\""),
-            Source = new SourceBuilder("")
+            Source = new SourceBuilder(""),
+            Audio = new("[sound:1658501397855.mp3]")
         };
         this.spyNoteGateway.Notes.Should().ContainEquivalentOf(builder.BuildDto());
     }
