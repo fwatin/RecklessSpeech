@@ -1,4 +1,4 @@
-﻿namespace RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
+﻿namespace RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.English;
 
 public interface IWordReferenceGatewayAccess
 {
