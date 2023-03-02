@@ -36,7 +36,7 @@ public class SequenceRequestsLatest
 
     public async Task Enrich(Guid sequenceId)
     {
-        await this.client.Post<string>($"http://localhost{this.basePath}/Dictionary", new List<Guid>() {sequenceId});
+        await this.client.Post<string>($"http://localhost{this.basePath}/Dictionary/dutch", new List<Guid>() {sequenceId});
     }
 
     public async Task AssignLanguageDictionary(Guid id, Guid dictionaryId)
