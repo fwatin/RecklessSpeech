@@ -2,6 +2,7 @@
 using FluentAssertions;
 using HtmlAgilityPack;
 using RecklessSpeech.Application.Write.Sequences.Commands;
+using RecklessSpeech.Domain.Sequences;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 using RecklessSpeech.Shared.Tests;
@@ -19,7 +20,6 @@ public class CaseOfImportSuccessful
     {
         this.sut = new ImportSequencesCommandHandler();
         this.builder = SequenceBuilder.Create(Guid.Parse("259FD4F4-082E-46CB-BF1A-94F99780D2E2"));
-
     }
 
     [Fact]
@@ -49,8 +49,7 @@ public class CaseOfImportSuccessful
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        AddedSequenceEvent expected = this.builder.BuildEvent();
-        events.Should().ContainEquivalentOf(expected, AssertExtensions.IgnoreId);
+        Fixture.VerifyEquivalence(this.builder.BuildEvent(), (AddedSequenceEvent)events.First());
     }
 
     [Fact]
@@ -73,10 +72,11 @@ public class CaseOfImportSuccessful
         ImportSequencesCommand? importSequencesCommand = this.builder.BuildImportCommand();
 
         //Act
-        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(importSequencesCommand, CancellationToken.None);
+        IReadOnlyCollection<IDomainEvent>
+            events = await this.sut.Handle(importSequencesCommand, CancellationToken.None);
 
         //Assert
-        AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
+        AddedSequenceEvent importEvent = (AddedSequenceEvent)events.First();
         IStyleRule? dcCard = await Fixture.GetStyleRule(importEvent.HtmlContent.Value);
         dcCard.Style.Declarations.Where(property => property.Name == "background-color").Should().BeEmpty();
     }
@@ -91,10 +91,10 @@ public class CaseOfImportSuccessful
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
+        AddedSequenceEvent importEvent = (AddedSequenceEvent)events.First();
         importEvent.Word.Value.Should().Be("gimmicks");
     }
-    
+
     [Fact]
     public async Task Should_get_translated_sentence_in_sequence()
     {
@@ -105,10 +105,10 @@ public class CaseOfImportSuccessful
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
+        AddedSequenceEvent importEvent = (AddedSequenceEvent)events.First();
         importEvent.TranslatedSentence.Value.Should().Be("Et ça n'arrive pas par quelques astuces statistiques.");
     }
-    
+
     [Fact]
     public async Task Should_html_not_contain_any_c1_for_flag()
     {
@@ -119,10 +119,10 @@ public class CaseOfImportSuccessful
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
+        AddedSequenceEvent importEvent = (AddedSequenceEvent)events.First();
         importEvent.HtmlContent.Value.Should().NotContain("c1::");
     }
-    
+
     [Fact]
     public async Task Should_show_word_in_red_background_in_html()
     {
@@ -130,13 +130,14 @@ public class CaseOfImportSuccessful
         ImportSequencesCommand? importSequencesCommand = this.builder.BuildImportCommand();
 
         //Act
-        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(importSequencesCommand, CancellationToken.None);
+        IReadOnlyCollection<IDomainEvent>
+            events = await this.sut.Handle(importSequencesCommand, CancellationToken.None);
 
         //Assert
-        AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
+        AddedSequenceEvent importEvent = (AddedSequenceEvent)events.First();
         Fixture.VerifyWordHasAttributeBackgroundInRed(importEvent.HtmlContent.Value);
     }
-    
+
     [Fact]
     public async Task Should_html_not_contain_the_translated_sentence()
     {
@@ -147,7 +148,7 @@ public class CaseOfImportSuccessful
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        AddedSequenceEvent importEvent = (AddedSequenceEvent) events.First();
+        AddedSequenceEvent importEvent = (AddedSequenceEvent)events.First();
         importEvent.HtmlContent.Value.Should().NotContain(this.builder.TranslatedSentence.Value);
     }
 
@@ -169,15 +170,25 @@ public class CaseOfImportSuccessful
                 rule.SelectorText == ".dc-card");
             return dcCard;
         }
-        
+
+        public static void VerifyEquivalence(AddedSequenceEvent expected, AddedSequenceEvent result)
+        {
+            var exp = expected.HtmlContent.Value.WithoutSpaceAndReturns();
+            var res = result.HtmlContent.Value.WithoutSpaceAndReturns();
+
+            result.Should().Match(s => StringCompare.WithoutSpaceAndReturns(exp) == res);
+
+            expected.Should().BeEquivalentTo(result, AssertExtensions.IgnoreIdAndHtmlContent);
+        }
+
         public static void VerifyWordHasAttributeBackgroundInRed(string htmlContent)
         {
             HtmlDocument htmlDoc = new();
             htmlDoc.LoadHtml(htmlContent);
             HtmlNodeCollection? nodes = htmlDoc.DocumentNode.SelectNodes("//span[@class='" + "dc-gap" + "']");
-            HtmlNode? dcgapNode =  nodes.Single();
+            HtmlNode? dcgapNode = nodes.Single();
             HtmlNode? wordNode = dcgapNode.ChildNodes.Single();
-             wordNode.Attributes.Single(x => x.Name == "style").Value.Should().Be("background-color: rgb(157, 0, 0);");
+            wordNode.Attributes.Single(x => x.Name == "style").Value.Should().Be("background-color: rgb(157, 0, 0);");
         }
     }
 }
