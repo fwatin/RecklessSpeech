@@ -1,3 +1,4 @@
+using ExCSS;
 using HtmlAgilityPack;
 using RecklessSpeech.Application.Core.Commands;
 using RecklessSpeech.Domain.Sequences.Sequences;
@@ -51,6 +52,18 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
     private static HtmlNode RemoveBackgroundInStyle(HtmlNode node)
     {
+        var parser = new StylesheetParser();
+        var stylesheet = parser.Parse(node.InnerHtml);
+
+        var rules = stylesheet.StyleRules.ToList();
+        
+        var toBeRemoved = rules.Where(x => 
+            x.SelectorText == ".card" || 
+            x.SelectorText == ".nightMode .dc-card" ||
+            x.SelectorText == ".nightMode.card");
+        
+        var newRules = rules.Except(toBeRemoved);
+
         var styles = node.Descendants("style");
         HtmlNode style = styles.First();
 

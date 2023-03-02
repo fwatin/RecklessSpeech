@@ -15,6 +15,7 @@
 
 
     <ItemGroup>
+        <PackageReference Include="ExCSS" Version="4.1.4" />
         <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
         <PackageReference Include="HtmlAgilityPack" Version="1.11.43" />
