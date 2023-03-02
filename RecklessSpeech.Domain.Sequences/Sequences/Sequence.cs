@@ -11,7 +11,7 @@ public sealed class Sequence
     public Word Word { get; private init; } = default!;
     public TranslatedSentence TranslatedSentence { get; private init; } = default!;
     
-    private AudioFileNameWithExtension audioFile = default!;
+    public AudioFileNameWithExtension AudioFile = default!;
     
     private Tags tags = default!;
     public Explanation? Explanation { get; init; } = default!;
@@ -26,7 +26,7 @@ public sealed class Sequence
         yield return new AddedSequenceEvent(
             this.SequenceId,
             this.HtmlContent,
-            this.audioFile,
+            this.AudioFile,
             this.tags,
             this.Word,
             this.TranslatedSentence);
@@ -43,7 +43,7 @@ public sealed class Sequence
         return new Sequence(new(id))
         {
             HtmlContent = htmlContent,
-            audioFile = audioFileNameWithExtension,
+            AudioFile = audioFileNameWithExtension,
             tags = tags,
             Word = word,
             TranslatedSentence = translatedSentence
@@ -62,7 +62,7 @@ public sealed class Sequence
         return new Sequence(new(id))
         {
             HtmlContent = HtmlContent.Hydrate(htmlContent),
-            audioFile = AudioFileNameWithExtension.Hydrate(audioFileNameWithExtension),
+            AudioFile = AudioFileNameWithExtension.Hydrate(audioFileNameWithExtension),
             tags = Tags.Hydrate(tags),
             Word = Word.Hydrate(word),
             TranslatedSentence = TranslatedSentence.Hydrate(translatedSentence),

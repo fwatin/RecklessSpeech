@@ -9,34 +9,50 @@ public sealed class Note
     private readonly Question question;
     private readonly After after;
     private readonly Source source;
+    private readonly Audio audio;
 
-    private Note(NoteId id, Question question, After after, Source source)
+    private Note(NoteId id, Question question, After after, Source source, Audio audio)
     {
         this.Id = id;
         this.question = question;
         this.after = after;
         this.source = source;
+        this.audio = audio;
     }
 
-    public static Note Hydrate(NoteId id, Question question, After after, Source source) => new(id, question, after, source);
+    public static Note Hydrate(NoteId id, Question question, After after, Source source, Audio audio) =>
+        new(id, question, after, source, audio);
+
     public static Note CreateFromSequence(Sequence sequence)
     {
         return new Note(
             new(Guid.NewGuid()),
             Question.Create(sequence!.HtmlContent),
             CreateAfter(sequence),
-            CreateSource(sequence)
+            CreateSource(sequence),
+            CreateAudio(sequence)
         );
     }
+
     private static Source CreateSource(Sequence sequence)
     {
         if (sequence.Explanation is null) return Source.Create("");
-        
+
         string url = sequence.Explanation.SourceUrl.Value;
-            
+
         string urlWithHyperlink = $"<a href=\"{url}\">{url}</a>";
-            
+
         return Source.Create(urlWithHyperlink);
+    }
+    
+    private static Audio CreateAudio(Sequence sequence)
+    {
+        if (string.IsNullOrEmpty(sequence.AudioFile.Value))
+        {
+            return new("");
+        }
+        string url = $"[sound:{sequence.AudioFile.Value}]";
+        return Audio.Create(url);
     }
 
     private static After CreateAfter(Sequence sequence)
@@ -55,6 +71,6 @@ public sealed class Note
 
     public NoteDto GetDto()
     {
-        return new NoteDto(this.question, this.after, this.source);
+        return new NoteDto(this.question, this.after, this.source, this.audio);
     }
 }

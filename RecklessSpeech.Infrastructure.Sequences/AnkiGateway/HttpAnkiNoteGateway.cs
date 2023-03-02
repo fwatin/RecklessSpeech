@@ -58,7 +58,8 @@ public class HttpAnkiNoteGateway : INoteGateway
                     {
                         Question = dto.Question.Value,
                         After = dto.After.Value,
-                        Source = dto.Source.Value
+                        Source = dto.Source.Value,
+                        Audio = dto.Audio.Value
                     }
                 }).ToArray()
             }

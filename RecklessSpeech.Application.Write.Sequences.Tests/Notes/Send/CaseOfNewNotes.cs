@@ -43,7 +43,8 @@ public class CaseOfNewNotes
         {
             Question = new(someHtml),
             After = new("translated sentence from Netflix: \"translation\""),
-            Source = new("")
+            Source = new(""),
+            Audio = new("[sound:1658501397855.mp3]")
         };
         SendNotesCommand command = noteBuilder.BuildCommand();
 

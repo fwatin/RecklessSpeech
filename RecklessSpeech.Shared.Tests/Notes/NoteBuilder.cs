@@ -9,12 +9,14 @@ public record NoteBuilder
     public QuestionBuilder Question { get; init; }
     public AfterBuilder After { get; init; }
     public SourceBuilder Source { get; init; }
+    public AudioBuilder Audio { get; init; }
 
-    private NoteBuilder(NoteIdBuilder id, QuestionBuilder question, AfterBuilder after)
+    private NoteBuilder(NoteIdBuilder id, QuestionBuilder question, AfterBuilder after, AudioBuilder audio)
     {
         this.Id = id;
         this.Question = question;
         this.After = after;
+        this.Audio = audio;
     }
 
     public SendNotesCommand BuildCommand()
@@ -27,7 +29,7 @@ public record NoteBuilder
 
     public Note BuildAggregate()
     {
-        return Note.Hydrate(this.Id, this.Question, this.After, this.Source);
+        return Note.Hydrate(this.Id, this.Question, this.After, this.Source, this.Audio);
     }
 
     public static NoteBuilder Create(Guid id)
@@ -35,11 +37,12 @@ public record NoteBuilder
         return new NoteBuilder(
             new(id),
             new(),
+            new(),
             new());
     }
 
     public NoteDto BuildDto()
     {
-        return new NoteDto(this.Question, this.After, this.Source);
+        return new NoteDto(this.Question, this.After, this.Source,this.Audio);
     }
 }
