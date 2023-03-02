@@ -29,6 +29,7 @@ public class Fields
     public string Question { get; set; } = default!;
     public string After { get; set; } = default!;
     public string Source { get; set; } = default!;
+    public string Audio { get; set; } = default!;
 }
 
 public class options
