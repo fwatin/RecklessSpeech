@@ -73,7 +73,12 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
         foreach (IStyleRule newRule in newRules)
         {
-            styleBuilder.AppendLine(newRule.Text);
+            var ruleText = newRule.Text;
+            if (newRule.SelectorText == ".dc-image")
+            {
+                ruleText =ruleText.Replace("{", "{width: calc(50% - 10px);");
+            }
+            styleBuilder.AppendLine(ruleText);
         }
 
         styleBuilder.AppendLine("</style>");
