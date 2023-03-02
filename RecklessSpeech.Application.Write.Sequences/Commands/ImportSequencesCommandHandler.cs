@@ -76,6 +76,8 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
             var ruleText = newRule.Text;
             if (newRule.SelectorText == ".dc-image")
             {
+                //with dégagé par le parseur css probablement du au fait que ca utilise une fonction Js
+                //pas trouvé d'autre moyen que l'ajouter comme ca (newRule.Style.Width = ... marche pas)
                 ruleText =ruleText.Replace("{", "{width: calc(50% - 10px);");
             }
             styleBuilder.AppendLine(ruleText);
