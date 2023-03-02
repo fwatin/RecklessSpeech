@@ -47,6 +47,10 @@ public sealed class Note
     
     private static Audio CreateAudio(Sequence sequence)
     {
+        if (string.IsNullOrEmpty(sequence.AudioFile.Value))
+        {
+            return new("");
+        }
         string url = $"[sound:{sequence.AudioFile.Value}]";
         return Audio.Create(url);
     }
