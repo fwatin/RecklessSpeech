@@ -1,3 +1,4 @@
+using System.Text;
 using ExCSS;
 using HtmlAgilityPack;
 using RecklessSpeech.Application.Core.Commands;
@@ -52,6 +53,8 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
     private static HtmlNode RemoveBackgroundInStyle(HtmlNode node)
     {
+        HtmlNode nodeWithContent = node.Descendants("div").First();
+
         var parser = new StylesheetParser();
         var stylesheet = parser.Parse(node.InnerHtml);
 
@@ -64,10 +67,32 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
         
         var newRules = rules.Except(toBeRemoved);
 
-        var styles = node.Descendants("style");
-        HtmlNode style = styles.First();
+        StringBuilder styleBuilder = new();
+        styleBuilder.AppendLine("<style>");
+        styleBuilder.AppendLine("html, ");
 
-        return node;
+        foreach (IStyleRule newRule in newRules)
+        {
+            styleBuilder.AppendLine(newRule.Text);
+        }
+
+        styleBuilder.AppendLine("</style>");
+
+        var style = styleBuilder.ToString();
+        return CreateNode(style, nodeWithContent);
+    }
+
+    private static HtmlNode CreateNode(string style, HtmlNode content)
+    {
+        HtmlDocument htmlDocument = new();
+        htmlDocument.DocumentNode.AddClass("dc-bg");
+
+        htmlDocument.DocumentNode.AppendChild(HtmlNode.CreateNode(style));
+
+        string div = "<div class=\"dc-bg\"> " + content.InnerHtml + "</div>";
+        htmlDocument.DocumentNode.AppendChild(HtmlNode.CreateNode(div));
+
+        return htmlDocument.DocumentNode;
     }
 
     private static string RemoveGap(string html)
