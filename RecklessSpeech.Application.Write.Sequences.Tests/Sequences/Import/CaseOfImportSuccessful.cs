@@ -65,8 +65,12 @@ public class CaseOfImportSuccessful
         events.Should().HaveCount(2);
     }
 
-    [Fact]
-    public async Task Should_html_not_specify_background_color_for_dc_card()
+    [Theory]
+    [InlineData(".dc-card")]
+    [InlineData(".card")]
+    [InlineData(".nightMode .dc-card")]
+    [InlineData(".nightMode.card")]
+    public async Task Should_html_not_specify_background_styles(string styleName)
     {
         //Arrange
         ImportSequencesCommand? importSequencesCommand = this.builder.BuildImportCommand();
@@ -77,7 +81,7 @@ public class CaseOfImportSuccessful
 
         //Assert
         AddedSequenceEvent importEvent = (AddedSequenceEvent)events.First();
-        IStyleRule? dcCard = await Fixture.GetStyleRule(importEvent.HtmlContent.Value, ".dc-card");
+        IStyleRule? dcCard = await Fixture.GetStyleRule(importEvent.HtmlContent.Value, styleName);
         dcCard.Should().BeNull();
     }
 
