@@ -13,21 +13,31 @@ public class WordReferenceGatewayOnlineAccess : IWordReferenceGatewayAccess
 
         HtmlNode? mainNode = web.Load(url).DocumentNode;
 
-        HtmlNode node = GetNodeByNameAndAttribute(mainNode, "table", "class", "WRD");
+        HtmlNode node = GetNodeByNameAndAttribute(mainNode, "div", "id", "articleWRD");
 
-        var content= CleanFromSyntaxExplanations(node.ParentNode.InnerHtml);
+        var content= CleanFromSyntaxExplanations(node.InnerHtml);
 
         return (content, url);
     }
 
     private HtmlNode GetNodeByNameAndAttribute(HtmlNode htmlNode, string name, string attribute, string value)
     {
-        List<HtmlNode> allWithName = htmlNode.Descendants(name).ToList();
-        List<HtmlNode> l = (from div in allWithName
-            from att in div.Attributes
-            where att.Name == attribute
-            where string.IsNullOrEmpty(value) || value.Equals(att.Value)
-            select div).ToList();
+        var allWithName = htmlNode.Descendants(name).ToList();
+        var l = new List<HtmlNode>();
+
+        foreach (var div in allWithName)
+        {
+            foreach (var att in div.Attributes)
+            {
+                if (att.Name == attribute)
+                {
+                    if (string.IsNullOrEmpty(value) || value.Equals(att.Value))
+                    {
+                        l.Add(div);
+                    }
+                }
+            }
+        }
 
         return l.Last();
     }

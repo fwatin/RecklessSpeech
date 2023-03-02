@@ -1,4 +1,4 @@
-﻿using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
+﻿using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Domain.Sequences.Explanations;
 
 namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
