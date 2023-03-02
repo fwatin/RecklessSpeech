@@ -71,9 +71,18 @@ namespace RecklessSpeech.Front.WPF.ViewModels
             };
         }
 
-        public async Task EnrichSequence(Guid id)
+        public async Task EnrichSequenceDutch(Guid id)
         {
-            const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences/Dictionary";
+            const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences/Dictionary/dutch";
+
+            HttpRequestMessage request = BuildJsonMessage(HttpMethod.Post, url, new List<Guid>() { id });
+
+            await this.access.SendAsync(request);
+        }
+
+        public async Task EnrichSequenceEnglish(Guid id)
+        {
+            const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences/Dictionary/english";
 
             HttpRequestMessage request = BuildJsonMessage(HttpMethod.Post, url, new List<Guid>() { id });
 

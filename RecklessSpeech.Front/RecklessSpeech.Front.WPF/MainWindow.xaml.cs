@@ -45,7 +45,7 @@ namespace RecklessSpeech.Front.WPF
             this.ViewModel.AddSequencesCommand.Execute(filePath);
         }
 
-        private void ContextMenu_Enrich_Click(object sender, RoutedEventArgs e)
+        private void ContextMenu_Enrich_Dutch_Click(object sender, RoutedEventArgs e)
         {
             int total = SequenceListView.SelectedItems.Count;
             int count = 0;
@@ -53,7 +53,20 @@ namespace RecklessSpeech.Front.WPF
             this.ViewModel.Progress = 0;
             foreach (SequenceDto sequence in this.SequenceListView.SelectedItems)
             {
-                this.ViewModel.EnrichSequenceCommand.Execute(sequence);
+                this.ViewModel.EnrichDutchSequenceCommand.Execute(sequence);
+                this.ViewModel.Progress = ++count / total * 100;
+            }
+        }
+
+        private void ContextMenu_Enrich_English_Click(object sender, RoutedEventArgs e)
+        {
+            int total = SequenceListView.SelectedItems.Count;
+            int count = 0;
+
+            this.ViewModel.Progress = 0;
+            foreach (SequenceDto sequence in this.SequenceListView.SelectedItems)
+            {
+                this.ViewModel.EnrichEnglishSequenceCommand.Execute(sequence);
                 this.ViewModel.Progress = ++count / total * 100;
             }
         }

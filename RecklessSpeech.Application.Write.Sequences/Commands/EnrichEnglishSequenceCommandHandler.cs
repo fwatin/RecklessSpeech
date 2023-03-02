@@ -1,31 +1,31 @@
 ﻿using RecklessSpeech.Application.Core.Commands;
 using RecklessSpeech.Application.Write.Sequences.Ports;
-using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
+using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.English;
 using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands;
 
-public record EnrichSequenceCommand(Guid SequenceId) : IEventDrivenCommand;
+public record EnrichEnglishSequenceCommand(Guid SequenceId) : IEventDrivenCommand;
 
-public class EnrichSequenceCommandHandler : CommandHandlerBase<EnrichSequenceCommand>
+public class EnrichEnglishSequenceCommandHandler : CommandHandlerBase<EnrichEnglishSequenceCommand>
 {
     private readonly ISequenceRepository sequenceRepository;
     private readonly IExplanationRepository explanationRepository;
-    private readonly ITranslatorGateway translatorGateway;
+    private readonly IEnglishTranslatorGateway translatorGateway;
 
-    public EnrichSequenceCommandHandler(
+    public EnrichEnglishSequenceCommandHandler(
         ISequenceRepository sequenceRepository,
         IExplanationRepository explanationRepository,
-        ITranslatorGateway translatorGateway)
+        IEnglishTranslatorGateway translatorGateway)
     {
         this.sequenceRepository = sequenceRepository;
         this.explanationRepository = explanationRepository;
         this.translatorGateway = translatorGateway;
     }
 
-    protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(EnrichSequenceCommand command)
+    protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(EnrichEnglishSequenceCommand command)
     {
         Sequence sequence = await this.sequenceRepository.GetOne(command.SequenceId);
 

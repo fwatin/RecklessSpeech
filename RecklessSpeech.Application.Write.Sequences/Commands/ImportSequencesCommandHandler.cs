@@ -1,3 +1,5 @@
+using System.Text;
+using ExCSS;
 using HtmlAgilityPack;
 using RecklessSpeech.Application.Core.Commands;
 using RecklessSpeech.Domain.Sequences.Sequences;
@@ -44,8 +46,63 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
         HtmlDocument htmlDoc = SetBackgroundToRedForWordNode(html);
 
-        return HtmlContent.Create(htmlDoc.DocumentNode.InnerHtml);
+        HtmlNode node = RemoveBackgroundInStyle(htmlDoc.DocumentNode);
+
+        return HtmlContent.Create(node.InnerHtml);
     }
+
+    private static HtmlNode RemoveBackgroundInStyle(HtmlNode node)
+    {
+        HtmlNode? nodeWithContent = node.Descendants("div").FirstOrDefault();
+        if (nodeWithContent is null) return node;
+
+        var parser = new StylesheetParser();
+        var stylesheet = parser.Parse(node.InnerHtml);
+
+        var rules = stylesheet.StyleRules.ToList();
+        
+        var toBeRemoved = rules.Where(x => 
+            x.SelectorText == ".card" || 
+            x.SelectorText == ".nightMode .dc-card" ||
+            x.SelectorText == ".nightMode.card");
+        
+        var newRules = rules.Except(toBeRemoved);
+
+        StringBuilder styleBuilder = new();
+        styleBuilder.AppendLine("<style>");
+        styleBuilder.AppendLine("html, ");
+
+        foreach (IStyleRule newRule in newRules)
+        {
+            var ruleText = newRule.Text;
+            if (newRule.SelectorText == ".dc-image")
+            {
+                //with dégagé par le parseur css probablement du au fait que ca utilise une fonction Js
+                //pas trouvé d'autre moyen que l'ajouter comme ca (newRule.Style.Width = ... marche pas)
+                ruleText =ruleText.Replace("{", "{width: calc(50% - 10px);");
+            }
+            styleBuilder.AppendLine(ruleText);
+        }
+
+        styleBuilder.AppendLine("</style>");
+
+        var style = styleBuilder.ToString();
+        return CreateNode(style, nodeWithContent);
+    }
+
+    private static HtmlNode CreateNode(string style, HtmlNode content)
+    {
+        HtmlDocument htmlDocument = new();
+        htmlDocument.DocumentNode.AddClass("dc-bg");
+
+        htmlDocument.DocumentNode.AppendChild(HtmlNode.CreateNode(style));
+
+        string div = "<div class=\"dc-bg\"> " + content.InnerHtml + "</div>";
+        htmlDocument.DocumentNode.AppendChild(HtmlNode.CreateNode(div));
+
+        return htmlDocument.DocumentNode;
+    }
+
     private static string RemoveGap(string html)
     {
 

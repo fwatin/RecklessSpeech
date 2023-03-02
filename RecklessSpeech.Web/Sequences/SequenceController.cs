@@ -74,13 +74,24 @@ public class SequenceController : ControllerBase
     }
 
     [HttpPost]
-    [Route("Dictionary/")]
+    [Route("Dictionary/dutch")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
-    public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> Enrich(
+    public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> EnrichDutch(
         IReadOnlyCollection<Guid> ids)
     {
-        await this.dispatcher.Dispatch(new EnrichSequenceCommand(ids.First()));
+        await this.dispatcher.Dispatch(new EnrichDutchSequenceCommand(ids.First()));
+        return Ok();
+    }
+
+    [HttpPost]
+    [Route("Dictionary/english")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> EnrichEnglish(
+        IReadOnlyCollection<Guid> ids)
+    {
+        await this.dispatcher.Dispatch(new EnrichEnglishSequenceCommand(ids.First()));
         return Ok();
     }
 

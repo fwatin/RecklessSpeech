@@ -1,5 +1,5 @@
 using HtmlAgilityPack;
-using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
+using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 
 namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
 

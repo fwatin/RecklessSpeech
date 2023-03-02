@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RecklessSpeech.Application.Write.Sequences.Ports;
-using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Mijnwoordenboek;
+using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Application.Write.Sequences.Tests.Notes;
 using RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
 

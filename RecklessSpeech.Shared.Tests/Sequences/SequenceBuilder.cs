@@ -165,8 +165,8 @@ public record SequenceBuilder
         this.Tags.Value +
         " \"\n";
 
-    public EnrichSequenceCommand BuildEnrichCommand()
+    public EnrichDutchSequenceCommand BuildEnrichCommand()
     {
-        return new EnrichSequenceCommand(this.SequenceId.Value);
+        return new EnrichDutchSequenceCommand(this.SequenceId.Value);
     }
 }
