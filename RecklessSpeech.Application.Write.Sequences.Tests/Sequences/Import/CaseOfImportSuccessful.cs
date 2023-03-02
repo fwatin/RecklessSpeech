@@ -49,7 +49,8 @@ public class CaseOfImportSuccessful
         IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        events.Should().ContainEquivalentOf(this.builder.BuildEvent(), AssertExtensions.IgnoreId);
+        AddedSequenceEvent expected = this.builder.BuildEvent();
+        events.Should().ContainEquivalentOf(expected, AssertExtensions.IgnoreId);
     }
 
     [Fact]
