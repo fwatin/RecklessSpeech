@@ -77,8 +77,8 @@ public class CaseOfImportSuccessful
 
         //Assert
         AddedSequenceEvent importEvent = (AddedSequenceEvent)events.First();
-        IStyleRule? dcCard = await Fixture.GetStyleRule(importEvent.HtmlContent.Value);
-        dcCard.Style.Declarations.Where(property => property.Name == "background-color").Should().BeEmpty();
+        IStyleRule? dcCard = await Fixture.GetStyleRule(importEvent.HtmlContent.Value, ".dc-card");
+        dcCard.Should().BeNull();
     }
 
     [Fact]
@@ -159,16 +159,14 @@ public class CaseOfImportSuccessful
             "\"<style>a lot of things in html\"	[sound:1658501397855.mp3]	\"word-naked lang-nl netflix Green pron \"" +
             "\"<style>a lot of other things in html\"	[sound:123456.mp3]	\"some other tags \"";
 
-        public static async Task<IStyleRule> GetStyleRule(string htmlContent)
+        public static async Task<IStyleRule?> GetStyleRule(string htmlContent, string styleName)
         {
             HtmlDocument htmlDoc = new();
             htmlDoc.LoadHtml(htmlContent);
             HtmlNode? styleNode = htmlDoc.DocumentNode.SelectSingleNode("style");
             StylesheetParser? parser = new();
             Stylesheet? stylesheet = await parser.ParseAsync(styleNode.InnerText);
-            IStyleRule? dcCard = stylesheet.StyleRules.First(rule =>
-                rule.SelectorText == ".dc-card");
-            return dcCard;
+            return stylesheet.StyleRules.FirstOrDefault(rule => rule.SelectorText == styleName);
         }
 
         public static void VerifyEquivalence(AddedSequenceEvent expected, AddedSequenceEvent result)

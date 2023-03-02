@@ -53,7 +53,8 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
 
     private static HtmlNode RemoveBackgroundInStyle(HtmlNode node)
     {
-        HtmlNode nodeWithContent = node.Descendants("div").First();
+        HtmlNode? nodeWithContent = node.Descendants("div").FirstOrDefault();
+        if (nodeWithContent is null) return node;
 
         var parser = new StylesheetParser();
         var stylesheet = parser.Parse(node.InnerHtml);
