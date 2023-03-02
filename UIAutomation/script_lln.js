@@ -10,23 +10,20 @@ function ClickOnSubtitleWords() {
 
         if (element.attributes["style"]?.value == "color: #ffbd80;" && !clickedWords.includes(element.attributes["data-word-key"]?.value)) {
 
-            var event1 = new MouseEvent('contextmenu', {
+            var rightClick = new MouseEvent('contextmenu', {
                 bubbles: true,
                 cancelable: true,
                 button: 2 // bouton droit
               });
 
-              element.dispatchEvent(event1);
+              element.dispatchEvent(rightClick);
               clickedWords.push(element.attributes["data-word-key"]?.value);
               console.log('ajout du mot : ' + element.attributes["data-word-key"]?.value);
         }
     }
 }
 
-var i=0;
 var intervalId = window.setInterval(function(){
-  i=i+1;
-  console.log('tour numéro: ' + i);
   console.log('Pour arrêter: clearInterval(' +intervalId +')');
   ClickOnSubtitleWords();
 }, 1000);
