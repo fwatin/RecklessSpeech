@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "RecklessSpeech",
+  "version": "1.0",
+  "description": "Une extension qui exécute un script pour sélectionner les mots sur Language Reactor.",
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["script_lln.js"]
+    }
+  ]
+}

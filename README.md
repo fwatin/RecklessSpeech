@@ -11,5 +11,7 @@
 
 # Click all words while watching
 1 - pause your movie  
-2 - click F12 then console  
-3 - Paste the content of "..\LLNToAnki\UIAutomation\script_lln.js"  
+2 - Go to your chrome parameters/extensions then developer mode
+3 - Add an unpackaged extension with the folder : RecklessSpeech\BrowserExtensions\Chrome
+4 - Restart your movie: the orange words should now be clicked while displayed and underlined
+5 - Coming Soon : official Google Chrome Extension still in review : look for "RecklessSpeech" in the extension store

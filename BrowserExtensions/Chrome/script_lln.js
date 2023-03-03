@@ -1,8 +1,6 @@
 var clickedWords = [];
 
 function ClickOnSubtitleWords() {
-    console.log('start clicking...');
-
     var totalCount = document.querySelectorAll(".lln-word.lln-hover-tooltip.top").length;
 
     for (let i = 0; i < totalCount; i++) {
@@ -23,7 +21,12 @@ function ClickOnSubtitleWords() {
     }
 }
 
-var intervalId = window.setInterval(function(){
-  console.log('Pour arrêter: clearInterval(' +intervalId +')');
-  ClickOnSubtitleWords();
-}, 1000);
+if (window.location.href.startsWith("https://www.netflix.com/watch/")) {
+  var interval = 1000;
+  console.log('start clicking every ' + interval + ' ms...');
+  var intervalId = window.setInterval(function(){
+    console.log('Pour arrêter: clearInterval(' +intervalId +')');
+    ClickOnSubtitleWords();
+  }, 1000);
+}
+
