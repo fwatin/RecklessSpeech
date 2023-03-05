@@ -2,5 +2,5 @@
 
 namespace RecklessSpeech.Domain.Sequences.Sequences
 {
-    public record SetTranslatedWordEvent(SequenceId Id, TranslatedWord TranslatedWord) : IDomainEvent;
+    public record SetTranslatedWordEvent(SequenceId SequenceId, TranslatedWord TranslatedWord) : IDomainEvent;
 }
