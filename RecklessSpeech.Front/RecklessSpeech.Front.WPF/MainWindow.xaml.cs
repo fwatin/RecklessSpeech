@@ -45,6 +45,17 @@ namespace RecklessSpeech.Front.WPF
             this.ViewModel.AddSequencesCommand.Execute(filePath);
         }
 
+        private void Import_json_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new();
+
+            if (openFileDialog.ShowDialog() is false) return;
+
+            string filePath = openFileDialog.FileName;
+
+            this.ViewModel.ImportSequenceDetailsCommand.Execute(filePath);
+        }
+
         private void ContextMenu_Enrich_Dutch_Click(object sender, RoutedEventArgs e)
         {
             int total = SequenceListView.SelectedItems.Count;

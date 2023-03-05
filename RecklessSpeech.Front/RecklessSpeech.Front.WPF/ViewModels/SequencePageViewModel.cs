@@ -51,6 +51,7 @@ namespace RecklessSpeech.Front.WPF.ViewModels
 
         //commands
         public ICommand AddSequencesCommand { get; }
+        public ICommand ImportSequenceDetailsCommand { get; }
         public ICommand EnrichDutchSequenceCommand { get; }
         public ICommand EnrichEnglishSequenceCommand { get; }
         public ICommand SendSequenceToAnkiCommand { get; }
@@ -62,6 +63,7 @@ namespace RecklessSpeech.Front.WPF.ViewModels
             this.Sequences = new ObservableCollection<SequenceDto>();
 
             this.AddSequencesCommand = new DelegateCommand<string>(async s => await AddSequences(s));
+            this.ImportSequenceDetailsCommand = new DelegateCommand<string>(async s => await ImportSequenceDetails(s));
             this.EnrichDutchSequenceCommand = new DelegateCommand<SequenceDto>(async s => await EnrichSequenceDutch(s));
             this.EnrichEnglishSequenceCommand = new DelegateCommand<SequenceDto>(async s => await EnrichSequenceEnglish(s));
             this.SendSequenceToAnkiCommand = new DelegateCommand<SequenceDto>(async s => await SendSequenceToAnki(s));
@@ -79,6 +81,21 @@ namespace RecklessSpeech.Front.WPF.ViewModels
                 this.Sequences.Add(newSequence);
             }
         }
+
+        private async Task ImportSequenceDetails(string filePath)
+        {
+            await this.backEndGateway.ImportSequencesDetailsFromJson(filePath);
+
+            IReadOnlyCollection<SequenceDto> newSequences = await this.backEndGateway.GetAllSequences();
+            this.Sequences.Clear();
+
+            foreach (SequenceDto newSequence in newSequences)
+            {
+                this.Sequences.Add(newSequence);
+            }
+        }
+
+        
 
         private async Task EnrichSequenceDutch(SequenceDto sequence)
         {
