@@ -19,12 +19,16 @@ public class InMemorySequenceRepository : ISequenceRepository
     {
         SequenceEntity? entity = this.dbContext.Sequences.SingleOrDefault(x => x.Id == id);
         if (entity is null) return null;
+        return await CreateSequenceFromEntity(entity);
+    }
 
+    private async Task<Sequence> CreateSequenceFromEntity(SequenceEntity? entity)
+    {
         Explanation? explanation = default;
         if (entity.ExplanationId is not null)
         {
             ExplanationEntity explanationEntity = this.dbContext.Explanations.Single(x => x.Id == entity.ExplanationId);
-            
+
             explanation = Explanation.Hydrate(
                 explanationEntity.Id,
                 explanationEntity.Content,
@@ -39,9 +43,17 @@ public class InMemorySequenceRepository : ISequenceRepository
             entity.Tags,
             entity.Word,
             entity.TranslatedSentence,
-            explanation
+            explanation,
+            entity.TranslatedWord
         );
 
         return await Task.FromResult(sequence);
+    }
+
+    public async Task<Sequence?> GetOneByWord(string word)
+    {
+        SequenceEntity? entity = this.dbContext.Sequences.SingleOrDefault(x => x.Word == word);
+        if (entity is null) return null;
+        return await CreateSequenceFromEntity(entity);
     }
 }

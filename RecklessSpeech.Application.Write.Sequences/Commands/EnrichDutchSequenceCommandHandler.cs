@@ -27,9 +27,9 @@ public class EnrichDutchSequenceCommandHandler : CommandHandlerBase<EnrichDutchS
 
     protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(EnrichDutchSequenceCommand command)
     {
-        Sequence sequence = await this.sequenceRepository.GetOne(command.SequenceId);
+        Sequence? sequence = await this.sequenceRepository.GetOne(command.SequenceId);
 
-        Explanation? existingExplanation = this.explanationRepository.TryGetByTarget(sequence.Word.Value);
+        Explanation? existingExplanation = this.explanationRepository.TryGetByTarget(sequence!.Word.Value);
 
         Explanation explanation = existingExplanation ?? this.dutchTranslatorGateway.GetExplanation(sequence.Word.Value);
 

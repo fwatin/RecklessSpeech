@@ -9,4 +9,5 @@ public record SequenceEntity : AggregateRootEntity
     public Guid? ExplanationId { get; set; }
     public string TranslatedSentence { get; init; } = default!;
     public Guid? LanguageDictionaryId { get; set; } = default!;
+    public string? TranslatedWord { get; set; } = default!; 
 }
