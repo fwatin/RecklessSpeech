@@ -98,12 +98,12 @@ public class CaseOfANewNote
     }
     
     [Fact]
-    public async Task Should_contains_source()
+    public async Task Should_contains_source_from_explanation()
     {
         //Arrange
         SequenceBuilder sequenceBuilder = SequenceBuilder.Create(sequenceId) with
         {
-          Word = new("blabla")
+            Explanation =ExplanationBuilder.Create()with{SourceUrl = new("www.farfelu.com/translation")}
         };
         this.sequenceRepository.Feed(sequenceBuilder);
 
@@ -111,7 +111,7 @@ public class CaseOfANewNote
         await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        this.spyGateway.Notes.First().Source.Value.Should().Be("<a href=\"https://www.mijnwoordenboek.nl/vertaal/NL/FR/blabla\">https://www.mijnwoordenboek.nl/vertaal/NL/FR/blabla</a>");
+        this.spyGateway.Notes.First().Source.Value.Should().Be("<a href=\"www.farfelu.com/translation\">www.farfelu.com/translation</a>");
     }
     
     [Fact]
