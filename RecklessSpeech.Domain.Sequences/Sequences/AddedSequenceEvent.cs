@@ -9,5 +9,6 @@ public record AddedSequenceEvent
     AudioFileNameWithExtension AudioFileNameWithExtension,
     Tags Tags,
     Word Word,
-    TranslatedSentence TranslatedSentence
+    TranslatedSentence TranslatedSentence,
+    TranslatedWord? TranslatedWord
 ) : IDomainEvent;

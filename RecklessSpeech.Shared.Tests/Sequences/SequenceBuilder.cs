@@ -62,7 +62,8 @@ public record SequenceBuilder
             this.AudioFileNameWithExtension,
             this.Tags,
             this.Word,
-            this.TranslatedSentence);
+            this.TranslatedSentence,
+            this.TranslatedWord);
 
     public AssignLanguageDictionaryInASequenceEvent BuildAssignLanguageDictionaryEvent() =>
         new(this.SequenceId, this.LanguageDictionaryId);

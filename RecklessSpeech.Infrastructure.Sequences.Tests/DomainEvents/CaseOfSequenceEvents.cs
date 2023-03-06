@@ -12,11 +12,7 @@ public class CaseOfSequenceEvents : BaseInfrastructureTests
     public async Task ShouldSaveNewSequence()
     {
         //Arrange
-        SequenceBuilder sequenceBuilder = SequenceBuilder.Create(Guid.Parse("0CE0088F-256B-483A-9174-CAA40A558B05")) with
-        {
-            HtmlContent = new("this is a html content"),
-            Explanation = null
-        };
+        SequenceBuilder sequenceBuilder = SequenceBuilder.Create(Guid.Parse("0CE0088F-256B-483A-9174-CAA40A558B05")) with{Explanation = null};
         SequenceEntity expectedEntity = sequenceBuilder.BuildEntity();
 
         //Act

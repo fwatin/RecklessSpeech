@@ -22,7 +22,7 @@ public sealed class Sequence
         this.SequenceId = sequenceId;
     }
 
-    public IEnumerable<IDomainEvent> SetDetails()
+    public IEnumerable<IDomainEvent> SetDetails()//todo clean
     {
         yield return new SetTranslatedWordEvent(this.SequenceId, this.TranslatedWord!);
     }
@@ -35,7 +35,8 @@ public sealed class Sequence
             this.AudioFile,
             this.tags,
             this.Word,
-            this.TranslatedSentence);
+            this.TranslatedSentence,
+            this.TranslatedWord);
     }
 
     public static Sequence Create(
