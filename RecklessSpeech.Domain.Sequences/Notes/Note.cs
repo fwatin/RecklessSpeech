@@ -39,7 +39,7 @@ public sealed class Note
 
     private static Answer? CreateAnswer(Sequence sequence)
     {
-        return sequence.TranslatedWord != null ? Answer.Create(sequence.TranslatedWord!.Value) : null;
+        return sequence.TranslatedWord != null ? Answer.Create(sequence.TranslatedWord!.Value) : Answer.Create("");
     }
 
     private static Source CreateSource(Sequence sequence)
@@ -59,6 +59,7 @@ public sealed class Note
         {
             return new("");
         }
+
         string url = $"[sound:{sequence.AudioFile.Value}]";
         return Audio.Create(url);
     }
@@ -79,6 +80,6 @@ public sealed class Note
 
     public NoteDto GetDto()
     {
-        return new NoteDto(this.question,this.answer, this.after, this.source, this.audio);
+        return new NoteDto(this.question, this.answer, this.after, this.source, this.audio);
     }
 }

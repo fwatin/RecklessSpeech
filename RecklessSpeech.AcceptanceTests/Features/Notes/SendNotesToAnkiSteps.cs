@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using RecklessSpeech.AcceptanceTests.Configuration;
 using RecklessSpeech.Application.Write.Sequences.Tests.Notes;
+using RecklessSpeech.Domain.Sequences.Notes;
 using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Shared.Tests.Explanations;
 using RecklessSpeech.Shared.Tests.Notes;
@@ -72,11 +73,13 @@ public class SendNotesToAnkiSteps : StepsBase
         NoteBuilder? builder = NoteBuilder.Create(this.sequenceId) with
         {
             Question = new(ContentForQuestion),
+            Answer = new(""),
             After = new AfterBuilder("translated sentence from Netflix: \"er is geen brood.\""),
             Source = new SourceBuilder(""),
             Audio = new("[sound:1658501397855.mp3]")
         };
-        this.spyNoteGateway.Notes.Should().ContainEquivalentOf(builder.BuildDto());
+        NoteDto expected = builder.BuildDto();
+        this.spyNoteGateway.Notes.Should().ContainEquivalentOf(expected);
     }
     
     [Then(@"the anki note contains the translation for the word in the after field")]

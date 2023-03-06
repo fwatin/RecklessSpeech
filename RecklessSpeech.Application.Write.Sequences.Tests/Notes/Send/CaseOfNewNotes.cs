@@ -42,6 +42,7 @@ public class CaseOfNewNotes
         NoteBuilder noteBuilder = NoteBuilder.Create(sequenceId) with
         {
             Question = new(someHtml),
+            Answer = new(""),
             After = new("translated sentence from Netflix: \"translation\""),
             Source = new(""),
             Audio = new("[sound:1658501397855.mp3]")
