@@ -32,7 +32,9 @@ public class SendNotesToAnkiSteps : StepsBase
         SequenceBuilder? builder = SequenceBuilder.Create(this.sequenceId) with
         {
             HtmlContent = new(ContentForQuestion),
-            TranslatedSentence = new("er is geen brood.")
+            TranslatedSentence = new("er is geen brood."),
+            Explanation = null,
+            TranslatedWord = new("pain")
         };
         this.dbContext.Sequences.Add(builder.BuildEntity());
     }
@@ -43,7 +45,7 @@ public class SendNotesToAnkiSteps : StepsBase
         SequenceBuilder? builder = SequenceBuilder.Create(this.sequenceId) with
         {
             Word = new ("brood"),
-            Explanation = ExplanationBuilder.Create(this.explanationId)
+            Explanation = ExplanationBuilder.Create(this.explanationId),
         };
         this.dbContext.Sequences.Add(builder.BuildEntity());
     }
@@ -55,7 +57,7 @@ public class SendNotesToAnkiSteps : StepsBase
         {
             Target = new("brood"),
             Content = new("pain"),
-            SourceUrl = new("https://www.mijnwoordenboek.nl/vertaal/NL/FR/brood")
+            SourceUrl = new("https://www.mijnwoordenboek.nl/vertaal/NL/FR/brood"),
         };
         this.dbContext.Explanations.Add(explanationBuilder.BuildEntity());
     }
@@ -73,7 +75,7 @@ public class SendNotesToAnkiSteps : StepsBase
         NoteBuilder? builder = NoteBuilder.Create(this.sequenceId) with
         {
             Question = new(ContentForQuestion),
-            Answer = new(""),
+            Answer = new("pain"),
             After = new AfterBuilder("translated sentence from Netflix: \"er is geen brood.\""),
             Source = new SourceBuilder(""),
             Audio = new("[sound:1658501397855.mp3]")
