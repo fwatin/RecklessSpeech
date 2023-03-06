@@ -16,11 +16,11 @@ public class InMemoryTestSequenceRepository : ISequenceRepository
 
     public async Task<Sequence?> GetOne(Guid id)
     {
-        return await Task.FromResult(sequences.Single(x => x.SequenceId.Value == id));
+        return await Task.FromResult(sequences.SingleOrDefault(x => x.SequenceId.Value == id));
     }
 
     public async Task<Sequence?> GetOneByWord(string word)
     {
-        return await Task.FromResult(sequences.Single(x => x.Word.Value == word));
+        return await Task.FromResult(sequences.SingleOrDefault(x => x.Word.Value == word));
     }
 }

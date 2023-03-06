@@ -23,6 +23,14 @@ public record ExplanationBuilder
         this.SourceUrl = sourceUrl;
     }
 
+    public static ExplanationBuilder Create()
+    {
+        return new ExplanationBuilder(
+            new(Guid.Parse("644320B4-4FAD-4039-86DF-92EAB2987F6E")),
+            new(),
+            new(),
+            new());
+    }
     public static ExplanationBuilder Create(Guid id)
     {
         return new ExplanationBuilder(

@@ -39,7 +39,7 @@ public record SequenceBuilder
         TagsBuilder tags,
         WordBuilder word,
         TranslatedSentenceBuilder translatedSentence,
-        ExplanationBuilder? explanation,
+        ExplanationBuilder explanation,
         LanguageDictionaryIdBuilder? languageDictionaryId,
         TranslatedWordBuilder translatedWord)
     {
@@ -76,7 +76,7 @@ public record SequenceBuilder
             new(),
             new(),
             new(),
-            null,
+            ExplanationBuilder.Create(),
             null,
             new());
     }
