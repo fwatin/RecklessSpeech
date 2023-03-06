@@ -37,7 +37,7 @@ public class CaseOfAlreadyExistingExplanation
     {
         //Arrange
         this.explanationRepository.Feed(this.explanationBuilder);
-        this.sequenceRepository.Feed(this.sequenceBuilder.BuildDomain());
+        this.sequenceRepository.Feed(this.sequenceBuilder.BuildDomain()); //todo ajouter méthod implicit comme explanation
         EnrichDutchSequenceCommand command = this.sequenceBuilder.BuildEnrichCommand();
 
         //Act
