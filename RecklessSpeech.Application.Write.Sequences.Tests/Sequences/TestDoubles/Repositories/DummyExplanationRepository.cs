@@ -4,7 +4,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles
 
 public class DummyExplanationRepository:IExplanationRepository
 {
-    public Explanation? TryGetByTarget(string id)
+    public Explanation? TryGetByTarget(string target)
     {
         throw new NotImplementedException();
     }

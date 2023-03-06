@@ -31,6 +31,7 @@ public record ExplanationBuilder
             new(),
             new());
     }
+
     public static ExplanationBuilder Create(Guid id)
     {
         return new ExplanationBuilder(
@@ -39,6 +40,7 @@ public record ExplanationBuilder
             new(),
             new());
     }
+
     public static implicit operator Explanation(ExplanationBuilder builder) =>
         Explanation.Create(
             builder.ExplanationId.Value,
@@ -55,5 +57,14 @@ public record ExplanationBuilder
             Target = this.Target.Value,
             SourceUrl = this.SourceUrl.Value
         };
+    }
+
+    public Explanation BuildDomain()
+    {
+        return Explanation.Hydrate(
+            this.ExplanationId.Value, 
+            this.Content.Value, 
+            this.Target.Value,
+            this.SourceUrl.Value);
     }
 }
