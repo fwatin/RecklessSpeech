@@ -18,7 +18,7 @@ public record SequenceBuilder
     public TranslatedSentenceBuilder TranslatedSentence { get; init; }
     public ExplanationBuilder? Explanation { get; init; } //todo virer la nullabilité
     public LanguageDictionaryIdBuilder? LanguageDictionaryId { get; init; }
-    public TranslatedWordBuilder TranslatedWord { get; set; }
+    public TranslatedWordBuilder? TranslatedWord { get; set; }
 
     private readonly string? rawCsvContent = default!;
 
@@ -41,7 +41,7 @@ public record SequenceBuilder
         TranslatedSentenceBuilder translatedSentence,
         ExplanationBuilder explanation,
         LanguageDictionaryIdBuilder? languageDictionaryId,
-        TranslatedWordBuilder translatedWord)
+        TranslatedWordBuilder? translatedWord)
     {
         this.SequenceId = sequenceId;
         this.HtmlContent = htmlContent;
@@ -94,7 +94,7 @@ public record SequenceBuilder
             ExplanationId = this.Explanation?.ExplanationId.Value,
             TranslatedSentence = this.TranslatedSentence.Value,
             LanguageDictionaryId = this.LanguageDictionaryId?.Value,
-            TranslatedWord = this.TranslatedWord.Value
+            TranslatedWord = this.TranslatedWord?.Value
         };
     }
 
@@ -187,6 +187,6 @@ public record SequenceBuilder
             this.Word.Value,
             this.TranslatedSentence.Value,
             this.Explanation!,
-            this.TranslatedWord.Value);
+            this.TranslatedWord?.Value);
     }
 }

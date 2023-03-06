@@ -12,5 +12,9 @@ public class TranslatedWordBuilder
     
     public string Value { get; set; } = "astuce";
 
-    public static implicit operator TranslatedWord(TranslatedWordBuilder builder) => new(builder.Value);
+    public static implicit operator TranslatedWord?(TranslatedWordBuilder? builder)
+    {
+        if (builder is null) return null;
+        return new(builder.Value);
+    }
 }
