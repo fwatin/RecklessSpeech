@@ -51,9 +51,9 @@ public class InMemorySequenceQueryRepository : ISequenceQueryRepository
         return await Task.FromResult(result);
     }
     
-    public async Task<SequenceSummaryQueryModel> GetOne(Guid sequenceId)
+    public async Task<SequenceSummaryQueryModel> GetOne(Guid id)
     {
-        return (await TryGetOne(sequenceId)) ?? 
-               throw new SequenceNotFoundReadException(sequenceId);
+        return (await TryGetOne(id)) ?? 
+               throw new SequenceNotFoundReadException(id);
     }
 }
