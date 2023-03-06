@@ -92,7 +92,8 @@ public record SequenceBuilder
             Word = this.Word.Value,
             ExplanationId = this.Explanation?.ExplanationId.Value,
             TranslatedSentence = this.TranslatedSentence.Value,
-            LanguageDictionaryId = this.LanguageDictionaryId?.Value
+            LanguageDictionaryId = this.LanguageDictionaryId?.Value,
+            TranslatedWord = this.TranslatedWord.Value
         };
     }
 
