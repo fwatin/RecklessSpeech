@@ -1,4 +1,5 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles;
+using RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Gateways;
 using RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Repositories;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich;
