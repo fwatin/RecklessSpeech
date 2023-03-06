@@ -63,7 +63,7 @@ public sealed class Sequence
         string tags,
         string word,
         string translatedSentence,
-        Explanation? explanation, //todo devrait pas etre le type
+        Explanation? explanation,
         string? translatedWord)
     {
         return new Sequence(new(id))

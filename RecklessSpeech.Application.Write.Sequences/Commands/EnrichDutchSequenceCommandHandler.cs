@@ -28,6 +28,7 @@ public class EnrichDutchSequenceCommandHandler : CommandHandlerBase<EnrichDutchS
     protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(EnrichDutchSequenceCommand command)
     {
         Sequence? sequence = await this.sequenceRepository.GetOne(command.SequenceId);
+        if (sequence is null) return Array.Empty<IDomainEvent>();
 
         Explanation? existingExplanation = this.explanationRepository.TryGetByTarget(sequence!.Word.Value);
 

@@ -16,8 +16,9 @@ public record SequenceBuilder
     public TagsBuilder Tags { get; init; }
     public WordBuilder Word { get; init; }
     public TranslatedSentenceBuilder TranslatedSentence { get; init; }
-    public ExplanationBuilder? Explanation { get; init; }
+    public ExplanationBuilder? Explanation { get; init; } //todo virer la nullabilité
     public LanguageDictionaryIdBuilder? LanguageDictionaryId { get; init; }
+    public TranslatedWordBuilder TranslatedWord { get; set; }
 
     private readonly string? rawCsvContent = default!;
 
@@ -39,7 +40,8 @@ public record SequenceBuilder
         WordBuilder word,
         TranslatedSentenceBuilder translatedSentence,
         ExplanationBuilder? explanation,
-        LanguageDictionaryIdBuilder? languageDictionaryId)
+        LanguageDictionaryIdBuilder? languageDictionaryId,
+        TranslatedWordBuilder translatedWord)
     {
         this.SequenceId = sequenceId;
         this.HtmlContent = htmlContent;
@@ -50,6 +52,7 @@ public record SequenceBuilder
         this.TranslatedSentence = translatedSentence;
         this.Explanation = explanation;
         this.LanguageDictionaryId = languageDictionaryId;
+        this.TranslatedWord = translatedWord;
     }
 
 
@@ -74,7 +77,8 @@ public record SequenceBuilder
             new(),
             new(),
             null,
-            null);
+            null,
+            new());
     }
 
     public SequenceEntity BuildEntity()
@@ -168,5 +172,17 @@ public record SequenceBuilder
     public EnrichDutchSequenceCommand BuildEnrichCommand()
     {
         return new EnrichDutchSequenceCommand(this.SequenceId.Value);
+    }
+
+    public Sequence BuildDomain()
+    {
+        return Sequence.Hydrate(this.SequenceId.Value,
+            this.HtmlContent.Value,
+            this.AudioFileNameWithExtension.Value,
+            this.Tags.Value,
+            this.Word.Value,
+            this.TranslatedSentence.Value,
+            this.Explanation!,
+            this.TranslatedWord.Value);
     }
 }
