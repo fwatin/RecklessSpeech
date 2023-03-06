@@ -33,26 +33,25 @@ public class CaseOfNewNotes
         SequenceBuilder sequenceBuilder = SequenceBuilder.Create(sequenceId) with
         {
             HtmlContent = new(someHtml),
-            TranslatedSentence = new("translation")
+            TranslatedWord = new(""),
+            TranslatedSentence = new("hey this is the translated sentence from Netflix"),
+            Explanation = ExplanationBuilder.Create() with{Content = new("a lot of explanations")}
         };
         this.sequenceRepository.Feed(sequenceBuilder.BuildDomain());
-
-        NoteBuilder noteBuilder = NoteBuilder.Create(sequenceId) with
-        {
-            Question = new(someHtml),
-            Answer = new(""),
-            After = new("translated sentence from Netflix: \"translation\""),
-            Source = new(""),
-            Audio = new("[sound:1658501397855.mp3]")
-        };
-        SendNotesCommand command = noteBuilder.BuildCommand();
+        SendNotesCommand command = new(new List<Guid>(){sequenceId});
 
         //Act
         await this.sut.Handle(command, CancellationToken.None);
 
         //Assert
-        NoteDto expected = noteBuilder.BuildDto();
-        this.spyGateway.Notes.Should().ContainEquivalentOf(expected);
+        this.spyGateway.Notes.Should().HaveCount(1);
+        
+        NoteDto result = this.spyGateway.Notes.First();
+        result.Question.Value.Should().Be(someHtml);
+        result.Answer.Value.Should().Be("");
+        result.After.Value.Trim().Should().Be($"translated sentence from Netflix: \"hey this is the translated sentence from Netflix\"a lot of explanations");
+        result.Source.Value.Should().Be("<a href=\"https://www.mijnwoordenboek.nl/vertaal/NL/FR/gimmicks\">https://www.mijnwoordenboek.nl/vertaal/NL/FR/gimmicks</a>");
+        result.Audio.Value.Should().Be("[sound:1658501397855.mp3]");
     }
     
     [Fact]
