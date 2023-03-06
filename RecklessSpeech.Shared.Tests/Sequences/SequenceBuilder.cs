@@ -174,6 +174,8 @@ public record SequenceBuilder
         return new EnrichDutchSequenceCommand(this.SequenceId.Value);
     }
 
+    public static implicit operator Sequence(SequenceBuilder builder) => builder.BuildDomain();
+
     public Sequence BuildDomain()
     {
         return Sequence.Hydrate(this.SequenceId.Value,

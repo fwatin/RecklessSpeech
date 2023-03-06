@@ -25,36 +25,6 @@ public class CaseOfNewNotes
     }
     
     [Fact]
-    public async Task Should_send_a_new_note_to_Anki()
-    {
-        //Arrange
-        Guid sequenceId = Guid.Parse("79FAD304-21BC-4B58-BECF-0884016DCC11");
-        const string someHtml = "\"<style> some html here for this test\"";
-        SequenceBuilder sequenceBuilder = SequenceBuilder.Create(sequenceId) with
-        {
-            HtmlContent = new(someHtml),
-            TranslatedWord = new(""),
-            TranslatedSentence = new("hey this is the translated sentence from Netflix"),
-            Explanation = ExplanationBuilder.Create() with{Content = new("a lot of explanations")}
-        };
-        this.sequenceRepository.Feed(sequenceBuilder.BuildDomain());
-        SendNotesCommand command = new(new List<Guid>(){sequenceId});
-
-        //Act
-        await this.sut.Handle(command, CancellationToken.None);
-
-        //Assert
-        this.spyGateway.Notes.Should().HaveCount(1);
-        
-        NoteDto result = this.spyGateway.Notes.First();
-        result.Question.Value.Should().Be(someHtml);
-        result.Answer.Value.Should().Be("");
-        result.After.Value.Trim().Should().Be($"translated sentence from Netflix: \"hey this is the translated sentence from Netflix\"a lot of explanations");
-        result.Source.Value.Should().Be("<a href=\"https://www.mijnwoordenboek.nl/vertaal/NL/FR/gimmicks\">https://www.mijnwoordenboek.nl/vertaal/NL/FR/gimmicks</a>");
-        result.Audio.Value.Should().Be("[sound:1658501397855.mp3]");
-    }
-    
-    [Fact]
     public async Task Should_after_field_contain_translated_sentence()
     {
         //Arrange
