@@ -124,6 +124,7 @@ public class SequenceController : ControllerBase
         return Ok(result.ToPresentation());
     }
 
+    //todo clean to be removed - not used - checked + dégager handler
     [HttpPut]
     [Route("Dictionary/{id:guid}")]
     [MapToApiVersion("1.0")]
