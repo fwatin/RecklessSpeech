@@ -126,16 +126,4 @@ public class SequenceController : ControllerBase
         
         return Ok(result.ToPresentation());
     }
-
-    //todo clean to be removed - not used - checked + dégager handler
-    [HttpPut]
-    [Route("Dictionary/{id:guid}")]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
-    public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> AssignLanguageDictionary(Guid id,
-        [FromBody] Guid dictionaryId)
-    {
-        await this.dispatcher.Dispatch(new AssignLanguageDictionaryCommand(id, dictionaryId));
-        return Ok();
-    }
 }

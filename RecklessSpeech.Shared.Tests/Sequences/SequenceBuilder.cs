@@ -129,11 +129,6 @@ public record SequenceBuilder
         return new ImportSequencesCommand(this.RawCsvContent);
     }
 
-    public AssignLanguageDictionaryCommand BuildAssignDictionaryCommand()
-    {
-        return new AssignLanguageDictionaryCommand(this.SequenceId.Value, this.LanguageDictionaryId.Value);
-    }
-
     private string DefaultExampleFromMoneyBall() =>
         "\"<style>\n\n    html,\n    body {\n        padding: 0;\n        margin: 0;\n    }\n\n    .card {\n        " +
         "background: rgb(255,243,248);\n        background: linear-gradient(76deg, rgba(255,243,248,1) 0%, " +

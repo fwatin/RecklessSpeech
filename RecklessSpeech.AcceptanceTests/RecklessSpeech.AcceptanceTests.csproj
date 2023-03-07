@@ -26,4 +26,14 @@
       <ProjectReference Include="..\RecklessSpeech.Web\RecklessSpeech.Web.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Features\LanguageDictionaries\GetAllLanguageDictionaries.feature" />
+      <UpToDateCheckInput Remove="Features\LanguageDictionaries\SelectALanguageDictionary.feature" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckBuild Remove="Features\LanguageDictionaries\GetAllLanguageDictionaries.feature.cs" />
+      <UpToDateCheckBuild Remove="Features\LanguageDictionaries\SelectALanguageDictionary.feature.cs" />
+    </ItemGroup>
+
 </Project>
