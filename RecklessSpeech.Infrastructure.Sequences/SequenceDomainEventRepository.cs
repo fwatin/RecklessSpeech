@@ -46,7 +46,6 @@ namespace RecklessSpeech.Infrastructure.Sequences
                 @event.Word.Value,
                 null,
                 @event.TranslatedSentence.Value,
-                null,
                 @event.TranslatedWord?.Value
             );
 

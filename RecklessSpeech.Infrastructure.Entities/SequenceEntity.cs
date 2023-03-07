@@ -10,7 +10,6 @@
             string word,
             Guid? explanationId,
             string translatedSentence,
-            Guid? languageDictionaryId,
             string? translatedWord
         )
         {
@@ -21,7 +20,6 @@
             this.Word = word;
             this.ExplanationId = explanationId;
             this.TranslatedSentence = translatedSentence;
-            this.LanguageDictionaryId = languageDictionaryId;
             this.TranslatedWord = translatedWord;
         }
 

@@ -22,7 +22,6 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             WordBuilder word,
             TranslatedSentenceBuilder translatedSentence,
             ExplanationBuilder explanation,
-            LanguageDictionaryIdBuilder? languageDictionaryId,
             TranslatedWordBuilder? translatedWord)
         {
             this.SequenceId = sequenceId;
@@ -33,7 +32,6 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             this.rawCsvContent = null;
             this.TranslatedSentence = translatedSentence;
             this.Explanation = explanation;
-            this.LanguageDictionaryId = languageDictionaryId;
             this.TranslatedWord = translatedWord;
         }
 
@@ -43,8 +41,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
         public TagsBuilder Tags { get; init; }
         public WordBuilder Word { get; init; }
         public TranslatedSentenceBuilder TranslatedSentence { get; init; }
-        public ExplanationBuilder? Explanation { get; init; } //todo virer la nullabilité
-        private LanguageDictionaryIdBuilder? LanguageDictionaryId { get; }
+        public ExplanationBuilder? Explanation { get; init; }
         public TranslatedWordBuilder? TranslatedWord { get; init; }
 
         public string RawCsvContent
@@ -77,7 +74,6 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 new(),
                 new(),
                 ExplanationBuilder.Create(),
-                null,
                 new());
 
         public SequenceEntity BuildEntity() =>
@@ -89,7 +85,6 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.Word.Value,
                 this.Explanation?.ExplanationId.Value,
                 this.TranslatedSentence.Value,
-                this.LanguageDictionaryId?.Value,
                 this.TranslatedWord?.Value
             );
 
