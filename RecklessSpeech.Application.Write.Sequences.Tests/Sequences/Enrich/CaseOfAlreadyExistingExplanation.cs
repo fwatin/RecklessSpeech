@@ -28,7 +28,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
 
             this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("43F23F72-6302-4E8B-BF2A-72A5474AA3C3")) with
             {
-                Word = new("house")
+                Word = new("house"),
+                Explanation = ExplanationBuilder.Create()
             };
         }
 

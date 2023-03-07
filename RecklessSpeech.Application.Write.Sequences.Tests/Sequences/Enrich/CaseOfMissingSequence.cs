@@ -22,7 +22,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
         {
             //Arrange
             SequenceBuilder sequenceBuilder =
-                SequenceBuilder.Create(Guid.Parse("2D40A46C-A850-4A44-8DC5-1300B1318A8C"));
+                SequenceBuilder.Create(Guid.Parse("2D40A46C-A850-4A44-8DC5-1300B1318A8C")) with
+                {
+                    Explanation = ExplanationBuilder.Create()
+                };
             this.sequenceRepository.Feed(sequenceBuilder.BuildDomain());
 
             IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(SequenceBuilder

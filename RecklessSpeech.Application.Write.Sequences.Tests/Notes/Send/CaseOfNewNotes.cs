@@ -21,7 +21,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
         {
             //Arrange
             SequenceBuilder sequenceBuilder =
-                SequenceBuilder.Create(Guid.Parse("B03B23B5-EB9F-4EB8-A762-308A39ADA735"));
+                SequenceBuilder.Create(Guid.Parse("B03B23B5-EB9F-4EB8-A762-308A39ADA735")) with
+                {
+                    Explanation = ExplanationBuilder.Create()
+                };
             this.sequenceRepository.Feed(sequenceBuilder.BuildDomain());
             NoteBuilder noteBuilder = NoteBuilder.Create(sequenceBuilder.SequenceId.Value);
             SendNotesCommand command = noteBuilder.BuildCommand();

@@ -34,7 +34,6 @@ namespace RecklessSpeech.AcceptanceTests.Features.Notes
             {
                 HtmlContent = new(ContentForQuestion),
                 TranslatedSentence = new("er is geen brood."),
-                Explanation = null,
                 TranslatedWord = new("pain")
             };
             this.dbContext.Sequences.Add(builder.BuildEntity());

@@ -21,7 +21,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             TagsBuilder tags,
             WordBuilder word,
             TranslatedSentenceBuilder translatedSentence,
-            ExplanationBuilder explanation,
+            ExplanationBuilder? explanation,
             TranslatedWordBuilder? translatedWord)
         {
             this.SequenceId = sequenceId;
@@ -38,7 +38,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
         public SequenceIdBuilder SequenceId { get; init; }
         public HtmlContentBuilder HtmlContent { get; init; }
         public AudioFileNameWithExtensionBuilder AudioFileNameWithExtension { get; init; }
-        public TagsBuilder Tags { get; init; }
+        public TagsBuilder Tags { get; init; } //todo virer tags
         public WordBuilder Word { get; init; }
         public TranslatedSentenceBuilder TranslatedSentence { get; init; }
         public ExplanationBuilder? Explanation { get; init; }
@@ -73,8 +73,8 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 new(),
                 new(),
                 new(),
-                ExplanationBuilder.Create(),
-                new());
+                null,
+                null);
 
         public SequenceEntity BuildEntity() =>
             new(

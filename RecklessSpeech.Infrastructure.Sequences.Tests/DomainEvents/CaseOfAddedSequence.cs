@@ -13,7 +13,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests.DomainEvents
         {
             //Arrange
             SequenceBuilder sequenceBuilder =
-                SequenceBuilder.Create(Guid.Parse("0CE0088F-256B-483A-9174-CAA40A558B05")) with { Explanation = null };
+                SequenceBuilder.Create(Guid.Parse("0CE0088F-256B-483A-9174-CAA40A558B05"));
             SequenceEntity expectedEntity = sequenceBuilder.BuildEntity();
 
             //Act

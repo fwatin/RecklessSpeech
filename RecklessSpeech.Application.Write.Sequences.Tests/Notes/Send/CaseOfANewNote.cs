@@ -25,7 +25,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
         public async Task Should_contain_only_one()
         {
             //Arrange
-            SequenceBuilder sequenceBuilder = SequenceBuilder.Create(this.sequenceId);
+            SequenceBuilder sequenceBuilder = SequenceBuilder.Create(this.sequenceId) with
+            {
+                Explanation = ExplanationBuilder.Create()
+            };
             this.sequenceRepository.Feed(sequenceBuilder);
 
             //Act
@@ -41,7 +44,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             //Arrange
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create(this.sequenceId) with
             {
-                HtmlContent = new("\"<style> some html here for this test\"")
+                HtmlContent = new("\"<style> some html here for this test\""),
+                Explanation = ExplanationBuilder.Create()
             };
             this.sequenceRepository.Feed(sequenceBuilder);
 
@@ -58,7 +62,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             //Arrange
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create(this.sequenceId) with
             {
-                TranslatedWord = new("pain")
+                TranslatedWord = new("pain"), Explanation = ExplanationBuilder.Create()
             };
             this.sequenceRepository.Feed(sequenceBuilder);
 

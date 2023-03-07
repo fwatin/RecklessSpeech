@@ -16,10 +16,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
 
         public GetAllSequencesSteps(ScenarioContext context) : base(context)
         {
-            this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("4AAB1D8C-93A4-4B27-B801-95F4F10F8393")) with
-            {
-                Explanation = null
-            }; //todo virer ce default null de merde;
+            this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("4AAB1D8C-93A4-4B27-B801-95F4F10F8393"));
             this.dbContext = this.GetService<IDataContext>();
         }
 

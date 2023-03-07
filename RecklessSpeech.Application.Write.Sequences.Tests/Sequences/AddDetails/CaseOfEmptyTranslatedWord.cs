@@ -17,7 +17,10 @@
         public async Task Should_set_translated_word(string word, string translation)
         {
             //Arrange
-            SequenceBuilder sequenceBuilder = SequenceBuilder.Create() with { Word = new(word), TranslatedWord = null };
+            SequenceBuilder sequenceBuilder = SequenceBuilder.Create() with
+            {
+                Word = new(word), TranslatedWord = null, Explanation = ExplanationBuilder.Create()
+            };
             this.sequenceRepository.Feed(sequenceBuilder);
             Class1[] dtos =
             {
