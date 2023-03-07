@@ -66,9 +66,6 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.TranslatedSentence,
                 this.TranslatedWord);
 
-        public AssignLanguageDictionaryInASequenceEvent BuildAssignLanguageDictionaryEvent() =>
-            new(this.SequenceId, this.LanguageDictionaryId);
-
         public static SequenceBuilder Create() => Create(Guid.NewGuid());
 
         public static SequenceBuilder Create(Guid id) =>

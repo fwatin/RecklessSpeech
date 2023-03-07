@@ -4,11 +4,17 @@ namespace RecklessSpeech.Shared.Tests.Explanations
 {
     public class ExplanationIdBuilder
     {
-        public ExplanationIdBuilder() { }
+        public ExplanationIdBuilder(Guid value)
+        {
+            this.Value = value;
+        }
+        
+        public ExplanationIdBuilder()
+        {
+            this.Value = Guid.NewGuid();
+        }
 
-        public ExplanationIdBuilder(Guid value) => this.Value = value;
-
-        public Guid Value { get; init; } = Guid.Parse("6BE302CE-A115-428B-BE0C-F37132F82E9B");
+        public Guid Value { get; }
 
         public static implicit operator ExplanationId(ExplanationIdBuilder builder) => new(builder.Value);
     }

@@ -4,7 +4,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
 {
     public class WordBuilder
     {
-        public WordBuilder() { } //todo mettre privé et remplacer par Create
+        public WordBuilder() { }
 
         public WordBuilder(string value) => this.Value = value;
 

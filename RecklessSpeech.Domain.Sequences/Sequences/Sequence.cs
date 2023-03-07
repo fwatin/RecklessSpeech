@@ -71,15 +71,5 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
                 Explanation = explanation,
                 TranslatedWord = TranslatedWord.Hydrate(translatedWord)
             };
-
-        public IEnumerable<IDomainEvent> SetDictionary(Guid languageDictionaryId)
-        {
-            this.LanguageDictionaryId = new(languageDictionaryId);
-
-            yield return new AssignLanguageDictionaryInASequenceEvent(
-                this.SequenceId,
-                this.LanguageDictionaryId
-            );
-        }
     }
 }

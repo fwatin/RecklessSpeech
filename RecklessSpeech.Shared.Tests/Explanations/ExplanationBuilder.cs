@@ -25,7 +25,7 @@ namespace RecklessSpeech.Shared.Tests.Explanations
 
         public static ExplanationBuilder Create() =>
             new(
-                new(Guid.Parse("644320B4-4FAD-4039-86DF-92EAB2987F6E")),
+                new(),
                 new(),
                 new(),
                 new());

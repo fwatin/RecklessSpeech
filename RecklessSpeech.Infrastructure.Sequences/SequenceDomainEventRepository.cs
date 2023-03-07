@@ -32,11 +32,6 @@ namespace RecklessSpeech.Infrastructure.Sequences
                     await this.Handle(translatedWordEvent);
                     break;
 
-
-                case AssignLanguageDictionaryInASequenceEvent setLanguageDictionaryInASequenceEvent:
-                    await this.Handle(setLanguageDictionaryInASequenceEvent);
-                    break;
-
                 default: throw new("event type is not known for ApplyEvent");
             }
         }
@@ -89,15 +84,6 @@ namespace RecklessSpeech.Infrastructure.Sequences
             SequenceEntity sequenceEntity = this.dbContext.Sequences.Single(x => x.Id == @event.SequenceId.Value);
 
             sequenceEntity.ExplanationId = @event.ExplanationId.Value;
-
-            await this.SaveChangesAsync();
-        }
-
-        private async Task Handle(AssignLanguageDictionaryInASequenceEvent @event)
-        {
-            SequenceEntity sequenceEntity = this.dbContext.Sequences.Single(x => x.Id == @event.SequenceId.Value);
-
-            sequenceEntity.LanguageDictionaryId = @event.LanguageDictionaryId.Value;
 
             await this.SaveChangesAsync();
         }
