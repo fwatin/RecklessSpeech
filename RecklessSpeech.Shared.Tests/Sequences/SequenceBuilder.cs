@@ -38,7 +38,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
         public SequenceIdBuilder SequenceId { get; init; }
         public HtmlContentBuilder HtmlContent { get; init; }
         public AudioFileNameWithExtensionBuilder AudioFileNameWithExtension { get; init; }
-        public TagsBuilder Tags { get; init; } //todo virer tags
+        public TagsBuilder Tags { get; init; }
         public WordBuilder Word { get; init; }
         public TranslatedSentenceBuilder TranslatedSentence { get; init; }
         public ExplanationBuilder? Explanation { get; init; }
