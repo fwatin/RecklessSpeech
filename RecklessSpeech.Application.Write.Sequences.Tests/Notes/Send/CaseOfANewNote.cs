@@ -116,7 +116,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             //Arrange
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create(this.sequenceId) with
             {
-                AudioFileNameWithExtension = new("368468486.mp3")
+                AudioFileNameWithExtension = new("368468486.mp3"),
+                Explanation = ExplanationBuilder.Create()
             };
             this.sequenceRepository.Feed(sequenceBuilder);
 
