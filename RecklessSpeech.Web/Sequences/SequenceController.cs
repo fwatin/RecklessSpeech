@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using RecklessSpeech.Application.Read.Queries.LanguageDictionaries.GetAll;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
 using RecklessSpeech.Application.Write.Sequences.Commands;
+using RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send;
+using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails;
+using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
+using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
 using RecklessSpeech.Web.Configuration;
 using RecklessSpeech.Web.Configuration.Swagger;
 using RecklessSpeech.Web.ViewModels.LanguageDictionaries;
@@ -40,6 +46,20 @@ public class SequenceController : ControllerBase
 
         await this.dispatcher.Dispatch(command);
 
+        return Ok();
+    }
+
+    [HttpPost]
+    [Route("import-details/")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<string>> ImportDetails(IFormFile file)
+    {
+        using StreamReader? reader = new(file.OpenReadStream());
+        string? data = await reader.ReadToEndAsync();
+        Class1[]? sequenceDetailsDto = JsonConvert.DeserializeObject<Class1[]>(data);
+        AddDetailsToSequencesCommand command = new(sequenceDetailsDto!);
+        await this.dispatcher.Dispatch(command);
         return Ok();
     }
 
@@ -107,6 +127,7 @@ public class SequenceController : ControllerBase
         return Ok(result.ToPresentation());
     }
 
+    //todo clean to be removed - not used - checked + dégager handler
     [HttpPut]
     [Route("Dictionary/{id:guid}")]
     [MapToApiVersion("1.0")]

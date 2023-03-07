@@ -4,7 +4,7 @@ using RecklessSpeech.Domain.Sequences.Notes;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 
-namespace RecklessSpeech.Application.Write.Sequences.Commands;
+namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send;
 
 public record SendNotesCommand(IReadOnlyCollection<Guid> ids) : IEventDrivenCommand;
 

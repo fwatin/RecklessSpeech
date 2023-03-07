@@ -27,7 +27,7 @@ public class SelectALanguageDictionarySteps : StepsBase
     [Given(@"an existing sequence")]
     public void GivenAnExistingSequence()
     {
-        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("4C9B7529-F503-4825-B1AC-0875AB9C54E8"));
+        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("4C9B7529-F503-4825-B1AC-0875AB9C54E8")) with{Explanation = null};//todo virer ce default null de merde
         this.DbContext.Sequences.Add(this.sequenceBuilder.BuildEntity());
     }
 

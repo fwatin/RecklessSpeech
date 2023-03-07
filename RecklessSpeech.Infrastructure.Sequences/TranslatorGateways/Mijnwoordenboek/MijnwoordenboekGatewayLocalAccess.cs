@@ -2,6 +2,7 @@
 
 namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
 
+//todo à bouger dans les tests
 public class MijnwoordenboekGatewayLocalAccess : IMijnwoordenboekGatewayAccess
 {
     public (string, string) GetTranslationsAndSourceForAWord(string word)

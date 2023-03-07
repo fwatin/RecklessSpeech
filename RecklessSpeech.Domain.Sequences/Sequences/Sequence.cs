@@ -10,15 +10,21 @@ public sealed class Sequence
     public HtmlContent HtmlContent { get; private init; } = default!;
     public Word Word { get; private init; } = default!;
     public TranslatedSentence TranslatedSentence { get; private init; } = default!;
-    
+
     public AudioFileNameWithExtension AudioFile = default!;
-    
+
     private Tags tags = default!;
     public Explanation? Explanation { get; init; } = default!;
+    public TranslatedWord? TranslatedWord { get; init; } = default!;
 
     private Sequence(SequenceId sequenceId)
     {
         this.SequenceId = sequenceId;
+    }
+
+    public IEnumerable<IDomainEvent> SetDetails()//todo clean
+    {
+        yield return new SetTranslatedWordEvent(this.SequenceId, this.TranslatedWord!);
     }
 
     public IEnumerable<IDomainEvent> Import()
@@ -29,7 +35,8 @@ public sealed class Sequence
             this.AudioFile,
             this.tags,
             this.Word,
-            this.TranslatedSentence);
+            this.TranslatedSentence,
+            this.TranslatedWord);
     }
 
     public static Sequence Create(
@@ -57,7 +64,8 @@ public sealed class Sequence
         string tags,
         string word,
         string translatedSentence,
-        Explanation? explanation)
+        Explanation? explanation,
+        string? translatedWord)
     {
         return new Sequence(new(id))
         {
@@ -66,13 +74,14 @@ public sealed class Sequence
             tags = Tags.Hydrate(tags),
             Word = Word.Hydrate(word),
             TranslatedSentence = TranslatedSentence.Hydrate(translatedSentence),
-            Explanation = explanation
+            Explanation = explanation,
+            TranslatedWord = TranslatedWord.Hydrate(translatedWord)
         };
     }
     public IEnumerable<IDomainEvent> SetDictionary(Guid languageDictionaryId)
     {
         this.LanguageDictionaryId = new(languageDictionaryId);
-        
+
         yield return new AssignLanguageDictionaryInASequenceEvent(
             this.SequenceId,
             this.LanguageDictionaryId

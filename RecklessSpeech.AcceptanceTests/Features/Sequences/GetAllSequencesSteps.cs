@@ -17,7 +17,7 @@ public class GetAllSequencesSteps : StepsBase
 
     public GetAllSequencesSteps(ScenarioContext context) : base(context)
     {
-        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("4AAB1D8C-93A4-4B27-B801-95F4F10F8393"));
+        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("4AAB1D8C-93A4-4B27-B801-95F4F10F8393")) with{Explanation = null};//todo virer ce default null de merde;
         this.dbContext = GetService<ISequencesDbContext>();
     }
 
@@ -37,6 +37,7 @@ public class GetAllSequencesSteps : StepsBase
     [Then(@"the existing sequence is returned")]
     public void ThenTheExistingSequenceIsReturned()
     {
-        this.SequenceListResponse.Should().ContainEquivalentOf(this.sequenceBuilder.BuildSummaryPresentation());
+        SequenceSummaryPresentation expected = this.sequenceBuilder.BuildSummaryPresentation();
+        this.SequenceListResponse.Should().ContainEquivalentOf(expected);
     }
 }

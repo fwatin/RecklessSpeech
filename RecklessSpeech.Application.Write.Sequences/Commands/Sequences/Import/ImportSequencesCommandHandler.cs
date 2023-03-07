@@ -5,7 +5,7 @@ using RecklessSpeech.Application.Core.Commands;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 
-namespace RecklessSpeech.Application.Write.Sequences.Commands;
+namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
 
 public record ImportSequencesCommand(string FileContent) : IEventDrivenCommand;
 

@@ -1,14 +1,7 @@
-﻿using FluentAssertions;
-using RecklessSpeech.Application.Write.Sequences.Commands;
-using RecklessSpeech.Domain.Sequences.Explanations;
-using RecklessSpeech.Domain.Shared;
-using RecklessSpeech.Infrastructure.Databases;
-using RecklessSpeech.Infrastructure.Entities;
-using RecklessSpeech.Infrastructure.Sequences;
-using RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
-using RecklessSpeech.Shared.Tests.Explanations;
-using RecklessSpeech.Shared.Tests.Sequences;
-using Xunit;
+﻿using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
+using RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles;
+using RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Gateways;
+using RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Repositories;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich;
 
@@ -16,21 +9,19 @@ public class CaseOfAlreadyExistingExplanation
 {
     private readonly EnrichDutchSequenceCommandHandler sut;
     private readonly SequenceBuilder sequenceBuilder;
-    private readonly InMemorySequenceRepository sequenceRepository;
-    private readonly InMemorySequencesDbContext dbContext;
+    private readonly InMemoryTestSequenceRepository sequenceRepository;
     private readonly ExplanationBuilder explanationBuilder;
-    private readonly InMemoryExplanationRepository explanationRepository;
+    private readonly InMemoryTestExplanationRepository explanationRepository;
 
     public CaseOfAlreadyExistingExplanation()
     {
-        this.dbContext = new();
-        this.sequenceRepository = new InMemorySequenceRepository(this.dbContext);
-        this.explanationRepository = new InMemoryExplanationRepository(this.dbContext);
+        this.sequenceRepository = new();
+        this.explanationRepository = new();
 
         this.sut = new(
             this.sequenceRepository,
             this.explanationRepository,
-            new MijnwoordenboekGateway(new MijnwoordenboekGatewayLocalAccess()));
+            new StubDictionaryGateway());
 
         this.explanationBuilder = ExplanationBuilder.Create(Guid.Parse("AE97DE7B-CDDC-47DA-822F-D832C85D150B")) with
         {
@@ -47,9 +38,8 @@ public class CaseOfAlreadyExistingExplanation
     public async Task Should_Not_Add_Explanation_If_Already_exists()
     {
         //Arrange
-        ExplanationEntity entity = this.explanationBuilder.BuildEntity();
-        this.dbContext.Explanations.Add(entity);
-        this.dbContext.Sequences.Add(this.sequenceBuilder.BuildEntity());
+        this.explanationRepository.Feed(this.explanationBuilder);
+        this.sequenceRepository.Feed(this.sequenceBuilder.BuildDomain()); //todo ajouter méthod implicit comme explanation
         EnrichDutchSequenceCommand command = this.sequenceBuilder.BuildEnrichCommand();
 
         //Act

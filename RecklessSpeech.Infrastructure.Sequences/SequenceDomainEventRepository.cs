@@ -30,8 +30,12 @@ public class SequenceDomainEventRepository : IDomainEventRepository
             case ExplanationAddedEvent addExplanationEvent:
                 await Handle(addExplanationEvent);
                 break;
-                
-                
+
+            case SetTranslatedWordEvent translatedWordEvent:
+                await Handle(translatedWordEvent);
+                break;
+
+
             case AssignLanguageDictionaryInASequenceEvent setLanguageDictionaryInASequenceEvent:
                 await Handle(setLanguageDictionaryInASequenceEvent);
                 break;
@@ -49,7 +53,8 @@ public class SequenceDomainEventRepository : IDomainEventRepository
             AudioFileNameWithExtension = @event.AudioFileNameWithExtension.Value,
             Tags = @event.Tags.Value,
             Word = @event.Word.Value,
-            TranslatedSentence = @event.TranslatedSentence.Value
+            TranslatedSentence = @event.TranslatedSentence.Value,
+            TranslatedWord = @event.TranslatedWord?.Value
         };
 
         this.dbContext.Sequences.Add(entity);
@@ -68,6 +73,15 @@ public class SequenceDomainEventRepository : IDomainEventRepository
         };
         
         this.dbContext.Explanations.Add(entity); //passer en addAsync plus tard quand EF
+
+        await SaveChangesAsync();
+    }
+
+    private async Task Handle(SetTranslatedWordEvent setTranslatedWordEvent)
+    {
+        SequenceEntity sequenceEntity = this.dbContext.Sequences.Single(x => x.Id == setTranslatedWordEvent.SequenceId.Value);
+
+        sequenceEntity.TranslatedWord = setTranslatedWordEvent.TranslatedWord.Value;
 
         await SaveChangesAsync();
     }

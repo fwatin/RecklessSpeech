@@ -1,4 +1,5 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Commands;
+using RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send;
 using RecklessSpeech.Domain.Sequences.Notes;
 
 namespace RecklessSpeech.Shared.Tests.Notes;
@@ -7,11 +8,12 @@ public record NoteBuilder
 {
     public NoteIdBuilder Id { get; init; }
     public QuestionBuilder Question { get; init; }
+    public AnswerBuilder Answer { get; init; }
     public AfterBuilder After { get; init; }
     public SourceBuilder Source { get; init; }
     public AudioBuilder Audio { get; init; }
 
-    private NoteBuilder(NoteIdBuilder id, QuestionBuilder question, AfterBuilder after, AudioBuilder audio)
+    private NoteBuilder(NoteIdBuilder id, QuestionBuilder question, AnswerBuilder answer, AfterBuilder after, AudioBuilder audio)
     {
         this.Id = id;
         this.Question = question;
@@ -29,7 +31,7 @@ public record NoteBuilder
 
     public Note BuildAggregate()
     {
-        return Note.Hydrate(this.Id, this.Question, this.After, this.Source, this.Audio);
+        return Note.Hydrate(this.Id, this.Question,this.Answer, this.After, this.Source, this.Audio);
     }
 
     public static NoteBuilder Create(Guid id)
@@ -38,11 +40,12 @@ public record NoteBuilder
             new(id),
             new(),
             new(),
+            new(),
             new());
     }
 
     public NoteDto BuildDto()
     {
-        return new NoteDto(this.Question, this.After, this.Source,this.Audio);
+        return new NoteDto(this.Question,this.Answer, this.After, this.Source,this.Audio);
     }
 }

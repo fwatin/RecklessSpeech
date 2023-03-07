@@ -2,6 +2,7 @@
 using FluentAssertions;
 using HtmlAgilityPack;
 using RecklessSpeech.Application.Write.Sequences.Commands;
+using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
 using RecklessSpeech.Domain.Sequences;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
@@ -19,7 +20,10 @@ public class CaseOfImportSuccessful
     public CaseOfImportSuccessful()
     {
         this.sut = new ImportSequencesCommandHandler();
-        this.builder = SequenceBuilder.Create(Guid.Parse("259FD4F4-082E-46CB-BF1A-94F99780D2E2"));
+        this.builder = SequenceBuilder.Create(Guid.Parse("259FD4F4-082E-46CB-BF1A-94F99780D2E2")) with
+        {
+            TranslatedWord = null
+        };
     }
 
     [Fact]

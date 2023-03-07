@@ -1,5 +1,7 @@
 ﻿using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Write.Sequences.Commands;
+using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
+using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Shared.Tests.Explanations;
@@ -16,8 +18,9 @@ public record SequenceBuilder
     public TagsBuilder Tags { get; init; }
     public WordBuilder Word { get; init; }
     public TranslatedSentenceBuilder TranslatedSentence { get; init; }
-    public ExplanationBuilder? Explanation { get; init; }
+    public ExplanationBuilder? Explanation { get; init; } //todo virer la nullabilité
     public LanguageDictionaryIdBuilder? LanguageDictionaryId { get; init; }
+    public TranslatedWordBuilder? TranslatedWord { get; set; }
 
     private readonly string? rawCsvContent = default!;
 
@@ -38,8 +41,9 @@ public record SequenceBuilder
         TagsBuilder tags,
         WordBuilder word,
         TranslatedSentenceBuilder translatedSentence,
-        ExplanationBuilder? explanation,
-        LanguageDictionaryIdBuilder? languageDictionaryId)
+        ExplanationBuilder explanation,
+        LanguageDictionaryIdBuilder? languageDictionaryId,
+        TranslatedWordBuilder? translatedWord)
     {
         this.SequenceId = sequenceId;
         this.HtmlContent = htmlContent;
@@ -50,6 +54,7 @@ public record SequenceBuilder
         this.TranslatedSentence = translatedSentence;
         this.Explanation = explanation;
         this.LanguageDictionaryId = languageDictionaryId;
+        this.TranslatedWord = translatedWord;
     }
 
 
@@ -59,10 +64,16 @@ public record SequenceBuilder
             this.AudioFileNameWithExtension,
             this.Tags,
             this.Word,
-            this.TranslatedSentence);
+            this.TranslatedSentence,
+            this.TranslatedWord);
 
     public AssignLanguageDictionaryInASequenceEvent BuildAssignLanguageDictionaryEvent() =>
         new(this.SequenceId, this.LanguageDictionaryId);
+
+    public static SequenceBuilder Create()
+    {
+        return Create(Guid.NewGuid());
+    }
 
     public static SequenceBuilder Create(Guid id)
     {
@@ -73,8 +84,9 @@ public record SequenceBuilder
             new(),
             new(),
             new(),
+            ExplanationBuilder.Create(),
             null,
-            null);
+            new());
     }
 
     public SequenceEntity BuildEntity()
@@ -88,7 +100,8 @@ public record SequenceBuilder
             Word = this.Word.Value,
             ExplanationId = this.Explanation?.ExplanationId.Value,
             TranslatedSentence = this.TranslatedSentence.Value,
-            LanguageDictionaryId = this.LanguageDictionaryId?.Value
+            LanguageDictionaryId = this.LanguageDictionaryId?.Value,
+            TranslatedWord = this.TranslatedWord?.Value
         };
     }
 
@@ -168,5 +181,19 @@ public record SequenceBuilder
     public EnrichDutchSequenceCommand BuildEnrichCommand()
     {
         return new EnrichDutchSequenceCommand(this.SequenceId.Value);
+    }
+
+    public static implicit operator Sequence(SequenceBuilder builder) => builder.BuildDomain();
+
+    public Sequence BuildDomain()
+    {
+        return Sequence.Hydrate(this.SequenceId.Value,
+            this.HtmlContent.Value,
+            this.AudioFileNameWithExtension.Value,
+            this.Tags.Value,
+            this.Word.Value,
+            this.TranslatedSentence.Value,
+            this.Explanation!,
+            this.TranslatedWord?.Value);
     }
 }

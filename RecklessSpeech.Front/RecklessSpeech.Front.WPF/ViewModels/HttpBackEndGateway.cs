@@ -32,6 +32,20 @@ namespace RecklessSpeech.Front.WPF.ViewModels
 
             await this.access.PostAsync(url, content);
         }
+
+        public async Task ImportSequencesDetailsFromJson(string filePath)
+        {
+            using MultipartFormDataContent content = new();
+
+            FileStream fileStream = new(filePath, FileMode.Open, FileAccess.Read);
+
+            content.Add(new StreamContent(fileStream), "file", Path.GetFileName(filePath));
+
+            const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences/import-details";
+
+            await this.access.PostAsync(url, content);
+        }
+        
         public async Task<IReadOnlyCollection<SequenceDto>> GetAllSequences()
         {
             const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences";

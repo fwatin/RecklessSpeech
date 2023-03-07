@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using HtmlAgilityPack;
 using Newtonsoft.Json;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Notes;
@@ -54,18 +55,35 @@ public class HttpAnkiNoteGateway : INoteGateway
                             checkChildren = false,
                         }
                     },
-                    fields = new Fields()
-                    {
-                        Question = dto.Question.Value,
-                        After = dto.After.Value,
-                        Source = dto.Source.Value,
-                        Audio = dto.Audio.Value
-                    }
+                    fields = CreateFields(dto)
                 }).ToArray()
             }
         };
 
 
         return pack;
+    }
+
+    private static Fields CreateFields(NoteDto dto)
+    {
+        if(dto.Answer is not null)
+        {
+            return new Fields()
+            {
+                Question = dto.Question.Value,
+                Answer = dto.Answer.Value,
+                After = dto.After.Value,
+                Source = dto.Source.Value,
+                Audio = dto.Audio.Value
+            };
+        }
+        return new Fields()
+        {
+            Question = dto.Question.Value,
+            Answer = "",
+            After = dto.After.Value,
+            Source = dto.Source.Value,
+            Audio = dto.Audio.Value
+        };
     }
 }

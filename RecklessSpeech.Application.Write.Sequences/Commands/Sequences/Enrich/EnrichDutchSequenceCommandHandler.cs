@@ -5,7 +5,7 @@ using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 
-namespace RecklessSpeech.Application.Write.Sequences.Commands;
+namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
 
 public record EnrichDutchSequenceCommand(Guid SequenceId) : IEventDrivenCommand;
 
@@ -27,9 +27,10 @@ public class EnrichDutchSequenceCommandHandler : CommandHandlerBase<EnrichDutchS
 
     protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(EnrichDutchSequenceCommand command)
     {
-        Sequence sequence = await this.sequenceRepository.GetOne(command.SequenceId);
+        Sequence? sequence = await this.sequenceRepository.GetOne(command.SequenceId);
+        if (sequence is null) return Array.Empty<IDomainEvent>();
 
-        Explanation? existingExplanation = this.explanationRepository.TryGetByTarget(sequence.Word.Value);
+        Explanation? existingExplanation = this.explanationRepository.TryGetByTarget(sequence!.Word.Value);
 
         Explanation explanation = existingExplanation ?? this.dutchTranslatorGateway.GetExplanation(sequence.Word.Value);
 
