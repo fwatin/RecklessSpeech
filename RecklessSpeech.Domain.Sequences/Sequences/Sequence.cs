@@ -12,17 +12,11 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
         private Sequence(SequenceId sequenceId) => this.SequenceId = sequenceId;
 
         public SequenceId SequenceId { get; }
-        public LanguageDictionaryId LanguageDictionaryId { get; set; }
         public HtmlContent HtmlContent { get; private init; } = default!;
         public Word Word { get; private init; } = default!;
         public TranslatedSentence TranslatedSentence { get; private init; } = default!;
         public Explanation? Explanation { get; private init; }
         public TranslatedWord? TranslatedWord { get; private init; }
-
-        public IEnumerable<IDomainEvent> SetDetails() //todo clean
-        {
-            yield return new SetTranslatedWordEvent(this.SequenceId, this.TranslatedWord!);
-        }
 
         public IEnumerable<IDomainEvent> Import()
         {

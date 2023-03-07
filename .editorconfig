@@ -225,3 +225,6 @@ dotnet_naming_style.begins_with_i.capitalization = pascal_case
 
 # Manually added
 dotnet_diagnostic.CA1823.severity = warning
+dotnet_diagnostic.RSRP105.severity = warning
+dotnet_diagnostic.RSRP110.severity = warning
+
