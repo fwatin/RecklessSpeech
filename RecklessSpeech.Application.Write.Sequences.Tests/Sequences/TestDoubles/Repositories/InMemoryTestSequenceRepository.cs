@@ -1,27 +1,21 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Ports;
-using RecklessSpeech.Domain.Sequences.Sequences;
 
-namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Repositories;
-
-public class InMemoryTestSequenceRepository : ISequenceRepository
+namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Repositories
 {
-    private readonly List<Sequence> sequences;
-    public IReadOnlyCollection<Sequence> All => sequences;
-
-    public InMemoryTestSequenceRepository()
+    public class InMemoryTestSequenceRepository : ISequenceRepository
     {
-        this.sequences = new();
-    }
+        private readonly List<Sequence> sequences;
 
-    public void Feed(Sequence sequence) => this.sequences.Add(sequence);
+        public InMemoryTestSequenceRepository() => this.sequences = new();
 
-    public async Task<Sequence?> GetOne(Guid id)
-    {
-        return await Task.FromResult(sequences.SingleOrDefault(x => x.SequenceId.Value == id));
-    }
+        public IReadOnlyCollection<Sequence> All => this.sequences;
 
-    public async Task<Sequence?> GetOneByWord(string word)
-    {
-        return await Task.FromResult(sequences.SingleOrDefault(x => x.Word.Value == word));
+        public async Task<Sequence?> GetOne(Guid id) =>
+            await Task.FromResult(this.sequences.SingleOrDefault(x => x.SequenceId.Value == id));
+
+        public async Task<Sequence?> GetOneByWord(string word) =>
+            await Task.FromResult(this.sequences.SingleOrDefault(x => x.Word.Value == word));
+
+        public void Feed(Sequence sequence) => this.sequences.Add(sequence);
     }
 }

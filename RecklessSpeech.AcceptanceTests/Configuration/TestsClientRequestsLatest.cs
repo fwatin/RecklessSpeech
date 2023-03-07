@@ -1,17 +1,18 @@
 ﻿using RecklessSpeech.AcceptanceTests.Configuration.Clients;
 
-namespace RecklessSpeech.AcceptanceTests.Configuration;
-
-public class TestsClientRequestsLatest
+namespace RecklessSpeech.AcceptanceTests.Configuration
 {
-    private readonly ITestsClient client;
-    private readonly string apiVersion;
-
-    public TestsClientRequestsLatest(ITestsClient client, string apiVersion)
+    public class TestsClientRequestsLatest
     {
-        this.client = client;
-        this.apiVersion = apiVersion;
-    }
+        private readonly string apiVersion;
+        private readonly ITestsClient client;
 
-    public SequenceRequestsLatest SequenceRequests() => new(this.client, this.apiVersion);
+        public TestsClientRequestsLatest(ITestsClient client, string apiVersion)
+        {
+            this.client = client;
+            this.apiVersion = apiVersion;
+        }
+
+        public SequenceRequestsLatest SequenceRequests() => new(this.client, this.apiVersion);
+    }
 }

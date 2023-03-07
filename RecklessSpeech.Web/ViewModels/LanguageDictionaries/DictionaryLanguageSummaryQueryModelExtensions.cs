@@ -1,26 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using RecklessSpeech.Application.Read.Queries.LanguageDictionaries.GetAll;
+using System.Collections.Generic;
 using System.Linq;
-using RecklessSpeech.Application.Read.Queries.LanguageDictionaries.GetAll;
 
-namespace RecklessSpeech.Web.ViewModels.LanguageDictionaries;
-
-public static class DictionaryLanguageSummaryQueryModelExtensions
+namespace RecklessSpeech.Web.ViewModels.LanguageDictionaries
 {
-    internal static IReadOnlyCollection<LanguageDictionarySummaryPresentation> ToPresentation(
-        this IReadOnlyCollection<LanguageDictionarySummaryQueryModel> queryModels)
+    public static class DictionaryLanguageSummaryQueryModelExtensions
     {
-        return queryModels.Select(x => x.ToPresentation()).ToList();
-    }
+        internal static IReadOnlyCollection<LanguageDictionarySummaryPresentation> ToPresentation(
+            this IReadOnlyCollection<LanguageDictionarySummaryQueryModel> queryModels) =>
+            queryModels.Select(x => x.ToPresentation()).ToList();
 
-    private static LanguageDictionarySummaryPresentation ToPresentation(
-        this LanguageDictionarySummaryQueryModel queryModel)
-    {
-        return new(
-            queryModel.Id,
-            queryModel.Url,
-            queryModel.Name,
-            queryModel.FromLanguage,
-            queryModel.ToLanguage
+        private static LanguageDictionarySummaryPresentation ToPresentation(
+            this LanguageDictionarySummaryQueryModel queryModel) =>
+            new(
+                queryModel.Id,
+                queryModel.Url,
+                queryModel.Name,
+                queryModel.FromLanguage,
+                queryModel.ToLanguage
             );
     }
 }

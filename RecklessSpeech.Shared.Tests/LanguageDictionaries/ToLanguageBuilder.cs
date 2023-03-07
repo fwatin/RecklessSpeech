@@ -1,14 +1,13 @@
-﻿namespace RecklessSpeech.Shared.Tests.LanguageDictionaries;
-
-public class ToLanguageBuilder
+﻿namespace RecklessSpeech.Shared.Tests.LanguageDictionaries
 {
-    public ToLanguageBuilder()
+    public class ToLanguageBuilder
     {
+        public ToLanguageBuilder()
+        {
+        }
+
+        public ToLanguageBuilder(string value) => this.Value = value;
+
+        public string Value { get; } = "French";
     }
-    public ToLanguageBuilder(string value)
-    {
-        this.Value = value;
-    }
-    
-    public string Value { get; } = "French";
 }

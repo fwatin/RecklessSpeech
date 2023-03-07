@@ -1,11 +1,9 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Ports;
 
-namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Repositories;
-
-public class DummyExplanationRepository:IExplanationRepository
+namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Repositories
 {
-    public Explanation? TryGetByTarget(string target)
+    public class DummyExplanationRepository : IExplanationRepository
     {
-        throw new NotImplementedException();
+        public Explanation? TryGetByTarget(string target) => throw new NotImplementedException();
     }
 }

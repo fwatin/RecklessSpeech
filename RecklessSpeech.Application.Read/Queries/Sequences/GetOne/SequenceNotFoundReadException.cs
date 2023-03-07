@@ -1,10 +1,9 @@
-namespace RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
-
-public sealed class SequenceNotFoundReadException : Exception
+namespace RecklessSpeech.Application.Read.Queries.Sequences.GetOne
 {
-    public SequenceNotFoundReadException(Guid sequenceId) 
-        : base($"Sequence with id = {sequenceId} was not found")
+    public sealed class SequenceNotFoundReadException : Exception
     {
-        this.Data["sequenceId"] = sequenceId;
+        public SequenceNotFoundReadException(Guid sequenceId)
+            : base($"Sequence with id = {sequenceId} was not found") =>
+            this.Data["sequenceId"] = sequenceId;
     }
 }

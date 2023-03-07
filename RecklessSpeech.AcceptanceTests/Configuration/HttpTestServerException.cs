@@ -1,5 +1,5 @@
-using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace RecklessSpeech.AcceptanceTests.Configuration
 {
@@ -11,6 +11,7 @@ namespace RecklessSpeech.AcceptanceTests.Configuration
             this.StatusCode = statusCode;
             this.Details = details;
         }
+
         public HttpStatusCode StatusCode { get; }
         public ProblemDetails Details { get; }
     }

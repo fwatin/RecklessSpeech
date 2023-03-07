@@ -1,8 +1,9 @@
 ﻿using RecklessSpeech.Application.Read.Queries.LanguageDictionaries.GetAll;
 
-namespace RecklessSpeech.Application.Read.Ports;
-
-public interface ILanguageDictionaryQueryRepository
+namespace RecklessSpeech.Application.Read.Ports
 {
-    Task<IReadOnlyCollection<LanguageDictionarySummaryQueryModel>> GetAll();
+    public interface ILanguageDictionaryQueryRepository
+    {
+        Task<IReadOnlyCollection<LanguageDictionarySummaryQueryModel>> GetAll();
+    }
 }

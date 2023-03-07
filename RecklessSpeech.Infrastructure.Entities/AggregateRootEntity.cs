@@ -1,6 +1,7 @@
-﻿namespace RecklessSpeech.Infrastructure.Entities;
-
-public abstract record AggregateRootEntity
+﻿namespace RecklessSpeech.Infrastructure.Entities
 {
-    public Guid Id { get; set; }
+    public abstract record AggregateRootEntity
+    {
+        public Guid Id { get; set; }
+    }
 }

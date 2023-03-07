@@ -1,57 +1,51 @@
 ﻿using RecklessSpeech.Application.Read.Queries.LanguageDictionaries.GetAll;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Web.ViewModels.LanguageDictionaries;
-using RecklessSpeech.Web.ViewModels.Sequences;
 
-namespace RecklessSpeech.Shared.Tests.LanguageDictionaries;
-
-public record LanguageDictionaryBuilder(
-    LanguageDictionaryIdBuilder LanguageDictionaryId,
-    UrlBuilder Url,
-    NameBuilder Name,
-    FromLanguageBuilder FromLanguage,
-    ToLanguageBuilder ToLanguage)
+namespace RecklessSpeech.Shared.Tests.LanguageDictionaries
 {
-    public static LanguageDictionaryBuilder Create(Guid id)
+    public record LanguageDictionaryBuilder(
+        LanguageDictionaryIdBuilder LanguageDictionaryId,
+        UrlBuilder Url,
+        NameBuilder Name,
+        FromLanguageBuilder FromLanguage,
+        ToLanguageBuilder ToLanguage)
     {
-        return new(
-            new(id),
-            new(),
-            new(),
-            new(),
-            new()
-        );
-    }
-    public LanguageDictionaryEntity BuildEntity()
-    {
-        return new()
-        {
-            Id = this.LanguageDictionaryId.Value,
-            Url = this.Url.Value,
-            Name = this.Name.Value,
-            FromLanguage = this.FromLanguage.Value,
-            ToLanguage = this.ToLanguage.Value,
-        };
-    }
-    public LanguageDictionarySummaryQueryModel BuildQueryModel()
-    {
-        return new(
-            this.LanguageDictionaryId.Value,
-            this.Url.Value,
-            this.Name.Value,
-            this.FromLanguage.Value,
-            this.ToLanguage.Value
-        );
-    }
+        public static LanguageDictionaryBuilder Create(Guid id) =>
+            new(
+                new(id),
+                new(),
+                new(),
+                new(),
+                new()
+            );
 
-    public LanguageDictionarySummaryPresentation BuildSummaryPresentation()
-    {
-        return new(
-            this.LanguageDictionaryId.Value,
-            this.Url.Value,
-            this.Name.Value,
-            this.FromLanguage.Value,
-            this.ToLanguage.Value
-        );
+        public LanguageDictionaryEntity BuildEntity() =>
+            new()
+            {
+                Id = this.LanguageDictionaryId.Value,
+                Url = this.Url.Value,
+                Name = this.Name.Value,
+                FromLanguage = this.FromLanguage.Value,
+                ToLanguage = this.ToLanguage.Value
+            };
+
+        public LanguageDictionarySummaryQueryModel BuildQueryModel() =>
+            new(
+                this.LanguageDictionaryId.Value,
+                this.Url.Value,
+                this.Name.Value,
+                this.FromLanguage.Value,
+                this.ToLanguage.Value
+            );
+
+        public LanguageDictionarySummaryPresentation BuildSummaryPresentation() =>
+            new(
+                this.LanguageDictionaryId.Value,
+                this.Url.Value,
+                this.Name.Value,
+                this.FromLanguage.Value,
+                this.ToLanguage.Value
+            );
     }
 }

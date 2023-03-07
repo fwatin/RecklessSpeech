@@ -2,14 +2,15 @@
 using RecklessSpeech.Application.Core.Queries;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch.Transactions;
 
-namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch;
-
-public interface IRecklessSpeechDispatcher
+namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
 {
-    Task<IReadOnlyCollection<DomainEventIdentifier>> Dispatch(ITransactionalStrategy transactionalStrategy,
-        IEventDrivenCommand command);
+    public interface IRecklessSpeechDispatcher
+    {
+        Task<IReadOnlyCollection<DomainEventIdentifier>> Dispatch(ITransactionalStrategy transactionalStrategy,
+            IEventDrivenCommand command);
 
-    Task<TResponse> Dispatch<TResponse>(IQuery<TResponse> query);
+        Task<TResponse> Dispatch<TResponse>(IQuery<TResponse> query);
 
-    Task Publish(IEnumerable<DomainEventIdentifier> domainEvents);
+        Task Publish(IEnumerable<DomainEventIdentifier> domainEvents);
+    }
 }

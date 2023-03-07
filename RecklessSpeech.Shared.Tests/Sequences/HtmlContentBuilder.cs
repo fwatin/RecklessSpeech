@@ -1,21 +1,20 @@
 using RecklessSpeech.Domain.Sequences.Sequences;
 
-namespace RecklessSpeech.Shared.Tests.Sequences;
-
-public class HtmlContentBuilder
+namespace RecklessSpeech.Shared.Tests.Sequences
 {
-    public HtmlContentBuilder()
+    public class HtmlContentBuilder
     {
-        var path = Path.Join(AppContext.BaseDirectory,"Sequences","MoneyballHtmlContent.html");
-        var someRealCaseHtmlContentForGimmicksInMoneyBall = File.ReadAllText(path);
-        Value = someRealCaseHtmlContentForGimmicksInMoneyBall;
-    }
-    public HtmlContentBuilder(string value)
-    {
-        this.Value = value;
-    }
-    
-    public string Value { get; set; }
+        public HtmlContentBuilder()
+        {
+            string path = Path.Join(AppContext.BaseDirectory, "Sequences", "MoneyballHtmlContent.html");
+            string someRealCaseHtmlContentForGimmicksInMoneyBall = File.ReadAllText(path);
+            this.Value = someRealCaseHtmlContentForGimmicksInMoneyBall;
+        }
 
-    public static implicit operator HtmlContent(HtmlContentBuilder builder) => new(builder.Value);
+        public HtmlContentBuilder(string value) => this.Value = value;
+
+        public string Value { get; set; }
+
+        public static implicit operator HtmlContent(HtmlContentBuilder builder) => new(builder.Value);
+    }
 }

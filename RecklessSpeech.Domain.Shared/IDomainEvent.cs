@@ -1,5 +1,6 @@
-﻿namespace RecklessSpeech.Domain.Shared;
-
-public interface IDomainEvent
+﻿namespace RecklessSpeech.Domain.Shared
 {
+    public interface IDomainEvent
+    {
+    }
 }

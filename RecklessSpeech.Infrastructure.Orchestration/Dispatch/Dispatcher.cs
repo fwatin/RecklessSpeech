@@ -3,65 +3,68 @@ using RecklessSpeech.Application.Core.Commands;
 using RecklessSpeech.Application.Core.Queries;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch.Transactions;
 
-namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch;
-
-internal class Dispatcher : IRecklessSpeechDispatcher
+namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
 {
-    private readonly IMediator mediator;
-    private readonly IDomainEventsRepository domainEventsRepository;
-    private readonly IDomainEventIdProvider domainEventIdProvider;
-
-    public Dispatcher(
-        IMediator mediator,
-        IDomainEventsRepository domainEventsRepository,
-        IDomainEventIdProvider domainEventIdProvider
-    )
+    internal class Dispatcher : IRecklessSpeechDispatcher
     {
-        this.mediator = mediator;
-        this.domainEventsRepository = domainEventsRepository;
-        this.domainEventIdProvider = domainEventIdProvider;
-    }
+        private readonly IDomainEventIdProvider domainEventIdProvider;
+        private readonly IDomainEventsRepository domainEventsRepository;
+        private readonly IMediator mediator;
 
-    public async Task<IReadOnlyCollection<DomainEventIdentifier>> Dispatch(ITransactionalStrategy transactionalStrategy,
-        IEventDrivenCommand command)
-    {
-        try
+        public Dispatcher(
+            IMediator mediator,
+            IDomainEventsRepository domainEventsRepository,
+            IDomainEventIdProvider domainEventIdProvider
+        )
         {
-            List<DomainEventIdentifier>? events = (await this.mediator.Send(command, CancellationToken.None))
-                .Select(domainEvent => new DomainEventIdentifier(this.domainEventIdProvider.NewEventId(), domainEvent))
-                .ToList();
+            this.mediator = mediator;
+            this.domainEventsRepository = domainEventsRepository;
+            this.domainEventIdProvider = domainEventIdProvider;
+        }
 
-            await transactionalStrategy.ExecuteTransactional(async () =>
+        public async Task<IReadOnlyCollection<DomainEventIdentifier>> Dispatch(
+            ITransactionalStrategy transactionalStrategy,
+            IEventDrivenCommand command)
+        {
+            try
             {
-                await this.domainEventsRepository.ApplyEvents(events);
-            });
-            return events;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
+                List<DomainEventIdentifier>? events = (await this.mediator.Send(command, CancellationToken.None))
+                    .Select(domainEvent =>
+                        new DomainEventIdentifier(this.domainEventIdProvider.NewEventId(), domainEvent))
+                    .ToList();
 
-    public Task<TResponse> Dispatch<TResponse>(IQuery<TResponse> query)
-    {
-        try
-        {
-            return this.mediator.Send(query);
+                await transactionalStrategy.ExecuteTransactional(async () =>
+                {
+                    await this.domainEventsRepository.ApplyEvents(events);
+                });
+                return events;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
 
-    public async Task Publish(IEnumerable<DomainEventIdentifier> domainEvents)
-    {
-        foreach (DomainEventIdentifier? @event in domainEvents)
+        public Task<TResponse> Dispatch<TResponse>(IQuery<TResponse> query)
         {
-            await this.mediator.Publish(@event);
+            try
+            {
+                return this.mediator.Send(query);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task Publish(IEnumerable<DomainEventIdentifier> domainEvents)
+        {
+            foreach (DomainEventIdentifier? @event in domainEvents)
+            {
+                await this.mediator.Publish(@event);
+            }
         }
     }
 }

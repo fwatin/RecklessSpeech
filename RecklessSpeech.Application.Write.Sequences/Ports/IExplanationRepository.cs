@@ -1,8 +1,9 @@
 using RecklessSpeech.Domain.Sequences.Explanations;
 
-namespace RecklessSpeech.Application.Write.Sequences.Ports;
-
-public interface IExplanationRepository
+namespace RecklessSpeech.Application.Write.Sequences.Ports
 {
-    Explanation? TryGetByTarget(string target);
+    public interface IExplanationRepository
+    {
+        Explanation? TryGetByTarget(string target);
+    }
 }

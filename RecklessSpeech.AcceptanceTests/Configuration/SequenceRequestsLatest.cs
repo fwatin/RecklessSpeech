@@ -1,51 +1,46 @@
-﻿using System.Text;
-using RecklessSpeech.AcceptanceTests.Configuration.Clients;
+﻿using RecklessSpeech.AcceptanceTests.Configuration.Clients;
 using RecklessSpeech.Web.ViewModels.LanguageDictionaries;
 using RecklessSpeech.Web.ViewModels.Sequences;
+using System.Text;
 
-namespace RecklessSpeech.AcceptanceTests.Configuration;
-
-public class SequenceRequestsLatest
+namespace RecklessSpeech.AcceptanceTests.Configuration
 {
-    private readonly ITestsClient client;
-    private readonly string basePath;
-
-    public SequenceRequestsLatest(ITestsClient client, string apiVersion)
+    public class SequenceRequestsLatest
     {
-        this.client = client;
-        this.basePath = $"/api/{apiVersion}/sequences";
-    }
+        private readonly string basePath;
+        private readonly ITestsClient client;
 
-    public async Task ImportSequences(string fileContent, string fileName)
-    {
-        using MultipartFormDataContent? content = new();
-        content.Add(new StreamContent(new MemoryStream(Encoding.UTF8.GetBytes(fileContent))), "file", fileName);
-        await this.client.Post<string>($"http://localhost{this.basePath}", content);
-    }
+        public SequenceRequestsLatest(ITestsClient client, string apiVersion)
+        {
+            this.client = client;
+            this.basePath = $"/api/{apiVersion}/sequences";
+        }
 
-    public Task<IReadOnlyCollection<SequenceSummaryPresentation>> GetAll()
-        => this.client.Get<IReadOnlyCollection<SequenceSummaryPresentation>>($"http://localhost{this.basePath}");
+        public async Task ImportSequences(string fileContent, string fileName)
+        {
+            using MultipartFormDataContent? content = new();
+            content.Add(new StreamContent(new MemoryStream(Encoding.UTF8.GetBytes(fileContent))), "file", fileName);
+            await this.client.Post<string>($"http://localhost{this.basePath}", content);
+        }
 
-    public Task<SequenceSummaryPresentation> GetOne(Guid sequenceId)
-        => this.client.Get<SequenceSummaryPresentation>($"http://localhost{this.basePath}/{sequenceId}");
+        public Task<IReadOnlyCollection<SequenceSummaryPresentation>> GetAll()
+            => this.client.Get<IReadOnlyCollection<SequenceSummaryPresentation>>($"http://localhost{this.basePath}");
 
-    public async Task SendToAnki(List<Guid> ids)
-    {
-        await this.client.Post<string>($"http://localhost{this.basePath}/Anki", ids);
-    }
+        public Task<SequenceSummaryPresentation> GetOne(Guid sequenceId)
+            => this.client.Get<SequenceSummaryPresentation>($"http://localhost{this.basePath}/{sequenceId}");
 
-    public async Task Enrich(Guid sequenceId)
-    {
-        await this.client.Post<string>($"http://localhost{this.basePath}/Dictionary/dutch", new List<Guid>() {sequenceId});
-    }
+        public async Task SendToAnki(List<Guid> ids) =>
+            await this.client.Post<string>($"http://localhost{this.basePath}/Anki", ids);
 
-    public async Task AssignLanguageDictionary(Guid id, Guid dictionaryId)
-    {
-        await this.client.Put<string>($"http://localhost{this.basePath}/Dictionary/{id}", dictionaryId);
-    }
-    public async Task<IReadOnlyCollection<LanguageDictionarySummaryPresentation>?> GetAllLanguageDictionaries()
-    {
-        return await this.client.Get<IReadOnlyCollection<LanguageDictionarySummaryPresentation>?>(
-            $"http://localhost{this.basePath}/Dictionary");
+        public async Task Enrich(Guid sequenceId) =>
+            await this.client.Post<string>($"http://localhost{this.basePath}/Dictionary/dutch",
+                new List<Guid> { sequenceId });
+
+        public async Task AssignLanguageDictionary(Guid id, Guid dictionaryId) =>
+            await this.client.Put<string>($"http://localhost{this.basePath}/Dictionary/{id}", dictionaryId);
+
+        public async Task<IReadOnlyCollection<LanguageDictionarySummaryPresentation>?> GetAllLanguageDictionaries() =>
+            await this.client.Get<IReadOnlyCollection<LanguageDictionarySummaryPresentation>?>(
+                $"http://localhost{this.basePath}/Dictionary");
     }
 }

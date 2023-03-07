@@ -4,7 +4,11 @@
     {
         public static TranslatedWord? Hydrate(string? value)
         {
-            if (value is null) return null;
+            if (value is null)
+            {
+                return null;
+            }
+
             return new(value);
         }
 

@@ -1,9 +1,7 @@
-﻿namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch;
-
-public class DomainEventIdProvider : IDomainEventIdProvider
+﻿namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
 {
-    public Guid NewEventId()
+    public class DomainEventIdProvider : IDomainEventIdProvider
     {
-        return Guid.NewGuid();
+        public Guid NewEventId() => Guid.NewGuid();
     }
 }

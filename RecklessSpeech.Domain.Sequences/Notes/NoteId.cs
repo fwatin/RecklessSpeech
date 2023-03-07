@@ -1,3 +1,4 @@
-namespace RecklessSpeech.Domain.Sequences.Notes;
-
-public record NoteId(Guid Id);
+namespace RecklessSpeech.Domain.Sequences.Notes
+{
+    public record NoteId(Guid Id);
+}

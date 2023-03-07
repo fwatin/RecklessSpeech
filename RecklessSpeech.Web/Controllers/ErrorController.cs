@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Hosting;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
 using RecklessSpeech.Web.Configuration;
+using System;
 
 namespace RecklessSpeech.Web.Controllers
 {
@@ -14,8 +14,8 @@ namespace RecklessSpeech.Web.Controllers
     [ApiController]
     public class ErrorController : ControllerBase
     {
-        private readonly ProblemDetailsFactory problemDetailsFactory;
         private readonly IHostEnvironment hostEnvironment;
+        private readonly ProblemDetailsFactory problemDetailsFactory;
 
         public ErrorController(
             ProblemDetailsFactory problemDetailsFactory,
@@ -26,43 +26,45 @@ namespace RecklessSpeech.Web.Controllers
         }
 
         [MapToApiVersion("1.0")]
-        [Route("/error"), ApiExplorerSettings(IgnoreApi = true), AllowAnonymous]
+        [Route("/error")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [AllowAnonymous]
         public IActionResult Error()
         {
             IExceptionHandlerFeature? context = this.HttpContext.Features.Get<IExceptionHandlerFeature>();
 
             if (context == null)
-                return StatusCode(StatusCodes.Status500InternalServerError);
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
             return context.Error switch
             {
-                SequenceNotFoundReadException exception => Handle(exception),
-                { } exception => Handle(exception)
+                SequenceNotFoundReadException exception => this.Handle(exception),
+                { } exception => this.Handle(exception)
             };
-            
-            
         }
 
         private IActionResult Handle(SequenceNotFoundReadException exception) =>
-            HandleError(StatusCodes.Status404NotFound, ApiErrors.ReadSequenceNotFound, exception);
-        
-        private IActionResult Handle(Exception exception) =>
-            HandleError(StatusCodes.Status500InternalServerError, ApiErrors.GenericInternalServerError, exception);
+            this.HandleError(StatusCodes.Status404NotFound, ApiErrors.ReadSequenceNotFound, exception);
+
+        private IActionResult Handle(Exception exception) => this.HandleError(StatusCodes.Status500InternalServerError,
+            ApiErrors.GenericInternalServerError, exception);
 
         private IActionResult HandleError(int statusCode, string type, Exception exception)
         {
-            ProblemDetails problemDetails = this.problemDetailsFactory.CreateProblemDetails(this.HttpContext, statusCode, exception.Message, type);
+            ProblemDetails problemDetails =
+                this.problemDetailsFactory.CreateProblemDetails(this.HttpContext, statusCode, exception.Message, type);
             if (this.hostEnvironment.IsDevelopment())
             {
                 problemDetails.Extensions.Add("exception", RenderException(exception));
             }
 
-            return StatusCode(problemDetails.Status!.Value, problemDetails);
+            return this.StatusCode(problemDetails.Status!.Value, problemDetails);
         }
 
-        private static object RenderException(Exception e)
-        {
-            return new
+        private static object RenderException(Exception e) =>
+            new
             {
                 e.Message,
                 e.Data,
@@ -72,6 +74,5 @@ namespace RecklessSpeech.Web.Controllers
                 e.Source,
                 TargetSite = e.TargetSite?.ToString()
             };
-        }
     }
 }

@@ -1,5 +1,6 @@
-namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway;
-
-public class AnkiSendFailedException : Exception
+namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway
 {
+    public class AnkiSendFailedException : Exception
+    {
+    }
 }

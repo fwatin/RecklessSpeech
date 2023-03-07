@@ -1,36 +1,34 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
 using RecklessSpeech.Web.Configuration.JsonQuery;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Mime;
 
-namespace RecklessSpeech.Web.Configuration.Swagger;
-
-internal class JsonQueryOperationFilter : IOperationFilter
+namespace RecklessSpeech.Web.Configuration.Swagger
 {
-    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    internal class JsonQueryOperationFilter : IOperationFilter
     {
-        List<string>? jsonQueryParams = context.ApiDescription.ActionDescriptor.Parameters
-            .Where(ad => ad.BindingInfo?.BinderType == typeof(JsonQueryBinder))
-            .Select(ad => ad.Name)
-            .ToList();
-
-        if (!jsonQueryParams.Any())
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            return;
-        }
+            List<string>? jsonQueryParams = context.ApiDescription.ActionDescriptor.Parameters
+                .Where(ad => ad.BindingInfo?.BinderType == typeof(JsonQueryBinder))
+                .Select(ad => ad.Name)
+                .ToList();
 
-        foreach (OpenApiParameter? p in operation.Parameters.Where(p => jsonQueryParams.Contains(p.Name)))
-        {
-            p.Content = new Dictionary<string, OpenApiMediaType>
+            if (!jsonQueryParams.Any())
             {
-                [MediaTypeNames.Application.Json] = new()
+                return;
+            }
+
+            foreach (OpenApiParameter? p in operation.Parameters.Where(p => jsonQueryParams.Contains(p.Name)))
+            {
+                p.Content = new Dictionary<string, OpenApiMediaType>
                 {
-                    Schema = p.Schema
-                }
-            };
-            p.Schema = null;
+                    [MediaTypeNames.Application.Json] = new() { Schema = p.Schema }
+                };
+                p.Schema = null;
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
-﻿namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch;
-
-public interface IDomainEventsRepository
+﻿namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
 {
-    Task ApplyEvents(IEnumerable<DomainEventIdentifier> domainEvents);
+    public interface IDomainEventsRepository
+    {
+        Task ApplyEvents(IEnumerable<DomainEventIdentifier> domainEvents);
+    }
 }

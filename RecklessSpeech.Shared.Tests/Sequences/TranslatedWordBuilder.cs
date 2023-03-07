@@ -1,20 +1,23 @@
 using RecklessSpeech.Domain.Sequences.Sequences;
 
-namespace RecklessSpeech.Shared.Tests.Sequences;
-
-public class TranslatedWordBuilder
+namespace RecklessSpeech.Shared.Tests.Sequences
 {
-    public TranslatedWordBuilder() { }
-    public TranslatedWordBuilder(string value)
+    public class TranslatedWordBuilder
     {
-        this.Value = value;
-    }
-    
-    public string Value { get; set; } = "astuce";
+        public TranslatedWordBuilder() { }
 
-    public static implicit operator TranslatedWord?(TranslatedWordBuilder? builder)
-    {
-        if (builder is null) return null;
-        return new(builder.Value);
+        public TranslatedWordBuilder(string value) => this.Value = value;
+
+        public string Value { get; set; } = "astuce";
+
+        public static implicit operator TranslatedWord?(TranslatedWordBuilder? builder)
+        {
+            if (builder is null)
+            {
+                return null;
+            }
+
+            return new(builder.Value);
+        }
     }
 }

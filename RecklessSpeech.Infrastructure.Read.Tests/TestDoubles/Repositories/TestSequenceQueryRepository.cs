@@ -1,27 +1,20 @@
 ﻿using RecklessSpeech.Application.Read.Ports;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
-using RecklessSpeech.Domain.Sequences.Sequences;
 
-namespace RecklessSpeech.Infrastructure.Read.Tests.TestDoubles.Repositories;
-
-public class InMemoryTestSequenceQueryRepository : ISequenceQueryRepository
+namespace RecklessSpeech.Infrastructure.Read.Tests.TestDoubles.Repositories
 {
-    private readonly List<SequenceSummaryQueryModel> sequences;
-
-    public InMemoryTestSequenceQueryRepository()
+    public class InMemoryTestSequenceQueryRepository : ISequenceQueryRepository
     {
-        this.sequences = new();
-    }
+        private readonly List<SequenceSummaryQueryModel> sequences;
 
-    public void Feed(SequenceSummaryQueryModel sequence) => this.sequences.Add(sequence);
+        public InMemoryTestSequenceQueryRepository() => this.sequences = new();
 
-    public async Task<IReadOnlyCollection<SequenceSummaryQueryModel>> GetAll()
-    {
-        return await Task.FromResult(sequences);
-    }
+        public async Task<IReadOnlyCollection<SequenceSummaryQueryModel>> GetAll() =>
+            await Task.FromResult(this.sequences);
 
-    public async Task<SequenceSummaryQueryModel> GetOne(Guid id)
-    {
-        return await Task.FromResult(sequences.First(x => x.Id == id));
+        public async Task<SequenceSummaryQueryModel> GetOne(Guid id) =>
+            await Task.FromResult(this.sequences.First(x => x.Id == id));
+
+        public void Feed(SequenceSummaryQueryModel sequence) => this.sequences.Add(sequence);
     }
 }

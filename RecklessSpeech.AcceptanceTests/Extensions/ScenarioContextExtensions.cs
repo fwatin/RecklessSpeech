@@ -7,19 +7,12 @@ namespace RecklessSpeech.AcceptanceTests.Extensions
     {
         private const string HttpError = "HttpError";
 
-        public static void SetError(this ScenarioContext context, HttpTestServerException exception)
-        {
+        public static void SetError(this ScenarioContext context, HttpTestServerException exception) =>
             context.Set(exception, HttpError);
-        }
 
-        public static bool TryGetError(this ScenarioContext context, out HttpTestServerException error)
-        {
-            return context.TryGetValue(HttpError, out error);
-        }
+        public static bool TryGetError(this ScenarioContext context, out HttpTestServerException error) =>
+            context.TryGetValue(HttpError, out error);
 
-        public static void RemoveError(this ScenarioContext context)
-        {
-            context.Remove(HttpError);
-        }
+        public static void RemoveError(this ScenarioContext context) => context.Remove(HttpError);
     }
 }

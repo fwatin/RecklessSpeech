@@ -1,52 +1,52 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
-using RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles;
 using RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Gateways;
-using RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Repositories;
 
-namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich;
-
-public class CaseOfAlreadyExistingExplanation
+namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
 {
-    private readonly EnrichDutchSequenceCommandHandler sut;
-    private readonly SequenceBuilder sequenceBuilder;
-    private readonly InMemoryTestSequenceRepository sequenceRepository;
-    private readonly ExplanationBuilder explanationBuilder;
-    private readonly InMemoryTestExplanationRepository explanationRepository;
-
-    public CaseOfAlreadyExistingExplanation()
+    public class CaseOfAlreadyExistingExplanation
     {
-        this.sequenceRepository = new();
-        this.explanationRepository = new();
+        private readonly ExplanationBuilder explanationBuilder;
+        private readonly InMemoryTestExplanationRepository explanationRepository;
+        private readonly SequenceBuilder sequenceBuilder;
+        private readonly InMemoryTestSequenceRepository sequenceRepository;
+        private readonly EnrichDutchSequenceCommandHandler sut;
 
-        this.sut = new(
-            this.sequenceRepository,
-            this.explanationRepository,
-            new StubDictionaryGateway());
-
-        this.explanationBuilder = ExplanationBuilder.Create(Guid.Parse("AE97DE7B-CDDC-47DA-822F-D832C85D150B")) with
+        public CaseOfAlreadyExistingExplanation()
         {
-            Target = new("house")
-        };
+            this.sequenceRepository = new();
+            this.explanationRepository = new();
 
-        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("43F23F72-6302-4E8B-BF2A-72A5474AA3C3")) with
+            this.sut = new(
+                this.sequenceRepository,
+                this.explanationRepository,
+                new StubDictionaryGateway());
+
+            this.explanationBuilder = ExplanationBuilder.Create(Guid.Parse("AE97DE7B-CDDC-47DA-822F-D832C85D150B")) with
+            {
+                Target = new("house")
+            };
+
+            this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("43F23F72-6302-4E8B-BF2A-72A5474AA3C3")) with
+            {
+                Word = new("house")
+            };
+        }
+
+        [Fact]
+        public async Task Should_Not_Add_Explanation_If_Already_exists()
         {
-            Word = new("house")
-        };
-    }
+            //Arrange
+            this.explanationRepository.Feed(this.explanationBuilder);
+            this.sequenceRepository.Feed(this.sequenceBuilder
+                .BuildDomain()); //todo ajouter méthod implicit comme explanation
+            EnrichDutchSequenceCommand command = this.sequenceBuilder.BuildEnrichCommand();
 
-    [Fact]
-    public async Task Should_Not_Add_Explanation_If_Already_exists()
-    {
-        //Arrange
-        this.explanationRepository.Feed(this.explanationBuilder);
-        this.sequenceRepository.Feed(this.sequenceBuilder.BuildDomain()); //todo ajouter méthod implicit comme explanation
-        EnrichDutchSequenceCommand command = this.sequenceBuilder.BuildEnrichCommand();
+            //Act
+            IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
-        //Act
-        IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
-
-        //Assert
-        events.Count.Should().Be(1);
-        events.First().Should().BeOfType<ExplanationAssignedToSequenceEvent>();
+            //Assert
+            events.Count.Should().Be(1);
+            events.First().Should().BeOfType<ExplanationAssignedToSequenceEvent>();
+        }
     }
 }

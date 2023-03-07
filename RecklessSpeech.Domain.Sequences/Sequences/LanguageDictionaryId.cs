@@ -1,3 +1,4 @@
-namespace RecklessSpeech.Domain.Sequences.Sequences;
-
-public record LanguageDictionaryId(Guid Value);
+namespace RecklessSpeech.Domain.Sequences.Sequences
+{
+    public record LanguageDictionaryId(Guid Value);
+}

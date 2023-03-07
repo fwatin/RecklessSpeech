@@ -1,23 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
+using System.Collections.Generic;
 using System.Linq;
-using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 
-namespace RecklessSpeech.Web.ViewModels.Sequences;
-
-public static class SequenceSummaryQueryModelExtensions
+namespace RecklessSpeech.Web.ViewModels.Sequences
 {
-    internal static IReadOnlyCollection<SequenceSummaryPresentation> ToPresentation(
-        this IReadOnlyCollection<SequenceSummaryQueryModel> queryModels)
+    public static class SequenceSummaryQueryModelExtensions
     {
-        return queryModels.Select(x => x.ToPresentation()).ToList();
-    }
+        internal static IReadOnlyCollection<SequenceSummaryPresentation> ToPresentation(
+            this IReadOnlyCollection<SequenceSummaryQueryModel> queryModels) =>
+            queryModels.Select(x => x.ToPresentation()).ToList();
 
-    internal static SequenceSummaryPresentation ToPresentation(
-        this SequenceSummaryQueryModel queryModel)
-    {
-        return new(
-            queryModel.Id,
-            queryModel.Word,
-            queryModel.Explanation);
+        internal static SequenceSummaryPresentation ToPresentation(
+            this SequenceSummaryQueryModel queryModel) =>
+            new(
+                queryModel.Id,
+                queryModel.Word,
+                queryModel.Explanation);
     }
 }

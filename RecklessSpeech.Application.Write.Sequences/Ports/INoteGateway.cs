@@ -1,8 +1,9 @@
 ﻿using RecklessSpeech.Domain.Sequences.Notes;
 
-namespace RecklessSpeech.Application.Write.Sequences.Ports;
-
-public interface INoteGateway
+namespace RecklessSpeech.Application.Write.Sequences.Ports
 {
-    Task Send(IReadOnlyCollection<NoteDto> notes);
+    public interface INoteGateway
+    {
+        Task Send(IReadOnlyCollection<NoteDto> notes);
+    }
 }

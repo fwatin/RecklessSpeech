@@ -1,6 +1,7 @@
-﻿namespace RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.English;
-
-public interface IWordReferenceGatewayAccess
+﻿namespace RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.English
 {
-    (string, string) GetTranslationsAndSourceForAWord(string word);
+    public interface IWordReferenceGatewayAccess
+    {
+        (string, string) GetTranslationsAndSourceForAWord(string word);
+    }
 }

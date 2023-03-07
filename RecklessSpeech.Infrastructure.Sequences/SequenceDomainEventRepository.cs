@@ -4,108 +4,104 @@ using RecklessSpeech.Domain.Shared;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 
-namespace RecklessSpeech.Infrastructure.Sequences;
-
-public class SequenceDomainEventRepository : IDomainEventRepository
+namespace RecklessSpeech.Infrastructure.Sequences
 {
-    private readonly ISequencesDbContext dbContext;
-
-    public SequenceDomainEventRepository(ISequencesDbContext dbContext)
+    public class SequenceDomainEventRepository : IDomainEventRepository
     {
-        this.dbContext = dbContext;
-    }
+        private readonly ISequencesDbContext dbContext;
 
-    public async Task ApplyEvent(IDomainEvent @event)
-    {
-        switch (@event)
+        public SequenceDomainEventRepository(ISequencesDbContext dbContext) => this.dbContext = dbContext;
+
+        public async Task ApplyEvent(IDomainEvent @event)
         {
-            case AddedSequenceEvent requestedEvent:
-                await Handle(requestedEvent);
-                break;
-            
-            case ExplanationAssignedToSequenceEvent enrichSequenceEvent:
-                await Handle(enrichSequenceEvent);
-                break;
-            
-            case ExplanationAddedEvent addExplanationEvent:
-                await Handle(addExplanationEvent);
-                break;
+            switch (@event)
+            {
+                case AddedSequenceEvent requestedEvent:
+                    await this.Handle(requestedEvent);
+                    break;
 
-            case SetTranslatedWordEvent translatedWordEvent:
-                await Handle(translatedWordEvent);
-                break;
+                case ExplanationAssignedToSequenceEvent enrichSequenceEvent:
+                    await this.Handle(enrichSequenceEvent);
+                    break;
+
+                case ExplanationAddedEvent addExplanationEvent:
+                    await this.Handle(addExplanationEvent);
+                    break;
+
+                case SetTranslatedWordEvent translatedWordEvent:
+                    await this.Handle(translatedWordEvent);
+                    break;
 
 
-            case AssignLanguageDictionaryInASequenceEvent setLanguageDictionaryInASequenceEvent:
-                await Handle(setLanguageDictionaryInASequenceEvent);
-                break;
+                case AssignLanguageDictionaryInASequenceEvent setLanguageDictionaryInASequenceEvent:
+                    await this.Handle(setLanguageDictionaryInASequenceEvent);
+                    break;
 
-            default: throw new("event type is not known for ApplyEvent");
+                default: throw new("event type is not known for ApplyEvent");
+            }
         }
-    }
 
-    private async Task Handle(AddedSequenceEvent @event)
-    {
-        SequenceEntity entity = new()
+        private async Task Handle(AddedSequenceEvent @event)
         {
-            Id = @event.Id.Value,
-            HtmlContent = @event.HtmlContent.Value,
-            AudioFileNameWithExtension = @event.AudioFileNameWithExtension.Value,
-            Tags = @event.Tags.Value,
-            Word = @event.Word.Value,
-            TranslatedSentence = @event.TranslatedSentence.Value,
-            TranslatedWord = @event.TranslatedWord?.Value
-        };
+            SequenceEntity entity = new()
+            {
+                Id = @event.Id.Value,
+                HtmlContent = @event.HtmlContent.Value,
+                AudioFileNameWithExtension = @event.AudioFileNameWithExtension.Value,
+                Tags = @event.Tags.Value,
+                Word = @event.Word.Value,
+                TranslatedSentence = @event.TranslatedSentence.Value,
+                TranslatedWord = @event.TranslatedWord?.Value
+            };
 
-        this.dbContext.Sequences.Add(entity);
+            this.dbContext.Sequences.Add(entity);
 
-        await SaveChangesAsync();
-    }
-    
-    private async Task Handle(ExplanationAddedEvent addedEvent)
-    {
-        ExplanationEntity entity = new()
+            await this.SaveChangesAsync();
+        }
+
+        private async Task Handle(ExplanationAddedEvent addedEvent)
         {
-            Id = addedEvent.Explanation.ExplanationId.Value,
-            Content = addedEvent.Explanation.Content.Value,
-            Target = addedEvent.Explanation.Target.Value,
-            SourceUrl = addedEvent.Explanation.SourceUrl.Value
-        };
-        
-        this.dbContext.Explanations.Add(entity); //passer en addAsync plus tard quand EF
+            ExplanationEntity entity = new()
+            {
+                Id = addedEvent.Explanation.ExplanationId.Value,
+                Content = addedEvent.Explanation.Content.Value,
+                Target = addedEvent.Explanation.Target.Value,
+                SourceUrl = addedEvent.Explanation.SourceUrl.Value
+            };
 
-        await SaveChangesAsync();
-    }
+            this.dbContext.Explanations.Add(entity); //passer en addAsync plus tard quand EF
 
-    private async Task Handle(SetTranslatedWordEvent setTranslatedWordEvent)
-    {
-        SequenceEntity sequenceEntity = this.dbContext.Sequences.Single(x => x.Id == setTranslatedWordEvent.SequenceId.Value);
+            await this.SaveChangesAsync();
+        }
 
-        sequenceEntity.TranslatedWord = setTranslatedWordEvent.TranslatedWord.Value;
+        private async Task Handle(SetTranslatedWordEvent setTranslatedWordEvent)
+        {
+            SequenceEntity sequenceEntity =
+                this.dbContext.Sequences.Single(x => x.Id == setTranslatedWordEvent.SequenceId.Value);
 
-        await SaveChangesAsync();
-    }
+            sequenceEntity.TranslatedWord = setTranslatedWordEvent.TranslatedWord.Value;
 
-    private async Task Handle(ExplanationAssignedToSequenceEvent @event)
-    {
-        SequenceEntity sequenceEntity = this.dbContext.Sequences.Single(x => x.Id == @event.SequenceId.Value);
+            await this.SaveChangesAsync();
+        }
 
-        sequenceEntity.ExplanationId = @event.ExplanationId.Value;
+        private async Task Handle(ExplanationAssignedToSequenceEvent @event)
+        {
+            SequenceEntity sequenceEntity = this.dbContext.Sequences.Single(x => x.Id == @event.SequenceId.Value);
 
-        await SaveChangesAsync();
-    }
-    
-    private async Task Handle(AssignLanguageDictionaryInASequenceEvent @event)
-    {
-        SequenceEntity sequenceEntity = this.dbContext.Sequences.Single(x => x.Id == @event.SequenceId.Value);
+            sequenceEntity.ExplanationId = @event.ExplanationId.Value;
 
-        sequenceEntity.LanguageDictionaryId = @event.LanguageDictionaryId.Value;
-        
-        await SaveChangesAsync();
-    }
+            await this.SaveChangesAsync();
+        }
 
-    private async Task SaveChangesAsync()
-    {
-        await Task.CompletedTask;
+        private async Task Handle(AssignLanguageDictionaryInASequenceEvent @event)
+        {
+            SequenceEntity sequenceEntity = this.dbContext.Sequences.Single(x => x.Id == @event.SequenceId.Value);
+
+            sequenceEntity.LanguageDictionaryId = @event.LanguageDictionaryId.Value;
+
+            await this.SaveChangesAsync();
+        }
+
+        private async Task SaveChangesAsync() => await Task.CompletedTask;
     }
 }

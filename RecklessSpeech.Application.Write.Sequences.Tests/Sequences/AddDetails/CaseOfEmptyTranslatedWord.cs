@@ -1,32 +1,36 @@
-﻿namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails;
-
-public class CaseOfEmptyTranslatedWord
+﻿namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
 {
-    private readonly AddDetailsToSequencesCommandHandler sut;
-    private readonly InMemoryTestSequenceRepository sequenceRepository;
-
-    public CaseOfEmptyTranslatedWord()
+    public class CaseOfEmptyTranslatedWord
     {
-        sequenceRepository = new();
-        this.sut = new(sequenceRepository);
-    }
+        private readonly InMemoryTestSequenceRepository sequenceRepository;
+        private readonly AddDetailsToSequencesCommandHandler sut;
 
-    [Theory]
-    [InlineData("brood","pain")]
-    [InlineData("ham","jambon")]
-    public async Task Should_set_translated_word(string word, string translation)
-    {
-        //Arrange
-        SequenceBuilder sequenceBuilder = SequenceBuilder.Create() with { Word = new(word), TranslatedWord = null };
-        this.sequenceRepository.Feed(sequenceBuilder);
-        Class1[] dtos = { new() { word = new() { text = word }, wordTranslationsArr = new string[1] { translation } } };
-        AddDetailsToSequencesCommand command = new(dtos);
+        public CaseOfEmptyTranslatedWord()
+        {
+            this.sequenceRepository = new();
+            this.sut = new(this.sequenceRepository);
+        }
 
-        //Act
-        var ev=await this.sut.Handle(command, CancellationToken.None);
+        [Theory]
+        [InlineData("brood", "pain")]
+        [InlineData("ham", "jambon")]
+        public async Task Should_set_translated_word(string word, string translation)
+        {
+            //Arrange
+            SequenceBuilder sequenceBuilder = SequenceBuilder.Create() with { Word = new(word), TranslatedWord = null };
+            this.sequenceRepository.Feed(sequenceBuilder);
+            Class1[] dtos =
+            {
+                new() { word = new() { text = word }, wordTranslationsArr = new string[1] { translation } }
+            };
+            AddDetailsToSequencesCommand command = new(dtos);
 
-        //Arrange
-        SetTranslatedWordEvent expected = new(new(sequenceBuilder.SequenceId.Value), new(translation));
-        ev.Single().Should().BeEquivalentTo(expected);
+            //Act
+            IReadOnlyCollection<IDomainEvent> ev = await this.sut.Handle(command, CancellationToken.None);
+
+            //Arrange
+            SetTranslatedWordEvent expected = new(new(sequenceBuilder.SequenceId.Value), new(translation));
+            ev.Single().Should().BeEquivalentTo(expected);
+        }
     }
 }

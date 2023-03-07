@@ -1,9 +1,7 @@
-namespace RecklessSpeech.Domain.Sequences.Notes;
-
-public record Audio(string Value)
+namespace RecklessSpeech.Domain.Sequences.Notes
 {
-    public static Audio Create(string value)
+    public record Audio(string Value)
     {
-        return new(value);
+        public static Audio Create(string value) => new(value);
     }
 }

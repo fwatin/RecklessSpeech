@@ -5,39 +5,39 @@ using RecklessSpeech.Shared.Tests.Sequences;
 using RecklessSpeech.Web.ViewModels.Sequences;
 using TechTalk.SpecFlow;
 
-namespace RecklessSpeech.AcceptanceTests.Features.Sequences;
-
-[Binding, Scope(Feature = "Get all sequences")]
-
-public class GetAllSequencesSteps : StepsBase
+namespace RecklessSpeech.AcceptanceTests.Features.Sequences
 {
-    private readonly SequenceBuilder sequenceBuilder;
-    private readonly ISequencesDbContext dbContext;
-    public IReadOnlyCollection<SequenceSummaryPresentation> SequenceListResponse { get; set; } = default!;
-
-    public GetAllSequencesSteps(ScenarioContext context) : base(context)
+    [Binding]
+    [Scope(Feature = "Get all sequences")]
+    public class GetAllSequencesSteps : StepsBase
     {
-        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("4AAB1D8C-93A4-4B27-B801-95F4F10F8393")) with{Explanation = null};//todo virer ce default null de merde;
-        this.dbContext = GetService<ISequencesDbContext>();
-    }
+        private readonly ISequencesDbContext dbContext;
+        private readonly SequenceBuilder sequenceBuilder;
 
-    [Given(@"an existing sequence")]
-    public void GivenAnExistingSequence()
-    {
-        this.dbContext.Sequences.Add(this.sequenceBuilder.BuildEntity());
-    }
+        public GetAllSequencesSteps(ScenarioContext context) : base(context)
+        {
+            this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("4AAB1D8C-93A4-4B27-B801-95F4F10F8393")) with
+            {
+                Explanation = null
+            }; //todo virer ce default null de merde;
+            this.dbContext = this.GetService<ISequencesDbContext>();
+        }
 
-    [When(@"the user retrieves sequences")]
-    public async Task WhenTheUserRetrievesSequences()
-    {            
-        this.SequenceListResponse = (await this.Client.Latest().SequenceRequests().GetAll());
-    }
+        public IReadOnlyCollection<SequenceSummaryPresentation> SequenceListResponse { get; set; } = default!;
+
+        [Given(@"an existing sequence")]
+        public void GivenAnExistingSequence() => this.dbContext.Sequences.Add(this.sequenceBuilder.BuildEntity());
+
+        [When(@"the user retrieves sequences")]
+        public async Task WhenTheUserRetrievesSequences() =>
+            this.SequenceListResponse = await this.Client.Latest().SequenceRequests().GetAll();
 
 
-    [Then(@"the existing sequence is returned")]
-    public void ThenTheExistingSequenceIsReturned()
-    {
-        SequenceSummaryPresentation expected = this.sequenceBuilder.BuildSummaryPresentation();
-        this.SequenceListResponse.Should().ContainEquivalentOf(expected);
+        [Then(@"the existing sequence is returned")]
+        public void ThenTheExistingSequenceIsReturned()
+        {
+            SequenceSummaryPresentation expected = this.sequenceBuilder.BuildSummaryPresentation();
+            this.SequenceListResponse.Should().ContainEquivalentOf(expected);
+        }
     }
 }

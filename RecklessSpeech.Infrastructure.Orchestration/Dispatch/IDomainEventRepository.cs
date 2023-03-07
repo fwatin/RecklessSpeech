@@ -1,8 +1,9 @@
 ﻿using RecklessSpeech.Domain.Shared;
 
-namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch;
-
-public interface IDomainEventRepository
+namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
 {
-    Task ApplyEvent(IDomainEvent domainEvent);
+    public interface IDomainEventRepository
+    {
+        Task ApplyEvent(IDomainEvent domainEvent);
+    }
 }

@@ -220,5 +220,4 @@
         public long dateCreated { get; set; }
         public string outputFormat { get; set; }
     }
-
 }
