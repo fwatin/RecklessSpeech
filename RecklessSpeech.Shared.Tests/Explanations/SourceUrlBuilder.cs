@@ -8,7 +8,7 @@ namespace RecklessSpeech.Shared.Tests.Explanations
 
         public SourceUrlBuilder(string value) => this.Value = value;
 
-        public string Value { get; set; } = "https://www.mijnwoordenboek.nl/vertaal/NL/FR/gimmicks";
+        public string Value { get; init; } = "https://www.mijnwoordenboek.nl/vertaal/NL/FR/gimmicks";
 
         public static implicit operator Source(SourceUrlBuilder urlBuilder) => new(urlBuilder.Value);
     }

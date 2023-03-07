@@ -8,7 +8,7 @@ namespace RecklessSpeech.Shared.Tests.Notes
 
         public AfterBuilder(string value) => this.Value = value;
 
-        public string Value { get; set; } =
+        public string Value { get; init; } =
             "translated sentence from Netflix: \"Et ça n'arrive pas par quelques astuces statistiques.\"" +
             "and many explanations from any dictionary";
 

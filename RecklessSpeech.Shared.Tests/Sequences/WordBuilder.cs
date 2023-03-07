@@ -8,7 +8,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
 
         public WordBuilder(string value) => this.Value = value;
 
-        public string Value { get; set; } = "gimmicks";
+        public string Value { get; init; } = "gimmicks";
 
         public static implicit operator Word(WordBuilder builder) => new(builder.Value);
     }

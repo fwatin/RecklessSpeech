@@ -45,7 +45,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
         public TranslatedSentenceBuilder TranslatedSentence { get; init; }
         public ExplanationBuilder? Explanation { get; init; } //todo virer la nullabilité
         public LanguageDictionaryIdBuilder? LanguageDictionaryId { get; init; }
-        public TranslatedWordBuilder? TranslatedWord { get; set; }
+        public TranslatedWordBuilder? TranslatedWord { get; init; }
 
         public string RawCsvContent
         {

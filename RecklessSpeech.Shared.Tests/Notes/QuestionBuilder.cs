@@ -8,7 +8,7 @@ namespace RecklessSpeech.Shared.Tests.Notes
 
         public QuestionBuilder(string value) => this.Value = value;
 
-        public string Value { get; set; } = "default value for question";
+        public string Value { get; init; } = "default value for question";
 
         public static implicit operator Question(QuestionBuilder builder) => new(builder.Value);
     }

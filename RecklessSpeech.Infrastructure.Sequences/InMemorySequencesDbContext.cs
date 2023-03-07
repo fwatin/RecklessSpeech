@@ -15,7 +15,7 @@ namespace RecklessSpeech.Infrastructure.Sequences
 
         public List<SequenceEntity> Sequences { get; }
         public List<ExplanationEntity> Explanations { get; }
-        public List<LanguageDictionaryEntity> LanguageDictionaries { get; set; }
+        public List<LanguageDictionaryEntity> LanguageDictionaries { get; init; }
 
         private void Initialise() =>
             this.LanguageDictionaries.Add(new()

@@ -8,7 +8,7 @@ namespace RecklessSpeech.Shared.Tests.Explanations
 
         public ExplanationIdBuilder(Guid value) => this.Value = value;
 
-        public Guid Value { get; set; } = Guid.Parse("6BE302CE-A115-428B-BE0C-F37132F82E9B");
+        public Guid Value { get; init; } = Guid.Parse("6BE302CE-A115-428B-BE0C-F37132F82E9B");
 
         public static implicit operator ExplanationId(ExplanationIdBuilder builder) => new(builder.Value);
     }

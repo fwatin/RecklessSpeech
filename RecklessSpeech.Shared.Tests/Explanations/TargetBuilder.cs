@@ -8,7 +8,7 @@ namespace RecklessSpeech.Shared.Tests.Explanations
 
         public TargetBuilder(string value) => this.Value = value;
 
-        public string Value { get; set; } = "gimmicks";
+        public string Value { get; init; } = "gimmicks";
 
         public static implicit operator Target(TargetBuilder builder) => new(builder.Value);
     }

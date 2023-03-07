@@ -8,7 +8,7 @@ namespace RecklessSpeech.Shared.Tests.Explanations
 
         public ContentBuilder(string value) => this.Value = value;
 
-        public string Value { get; set; } = "veut dire genre trucs, astuces";
+        public string Value { get; init; } = "veut dire genre trucs, astuces";
 
         public static implicit operator Content(ContentBuilder builder) => new(builder.Value);
     }

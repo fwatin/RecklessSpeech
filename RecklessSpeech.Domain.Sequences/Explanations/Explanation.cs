@@ -10,10 +10,10 @@
             this.SourceUrl = sourceUrl;
         }
 
-        public Content Content { get; set; }
-        public Target Target { get; set; }
+        public Content Content { get; init; }
+        public Target Target { get; init; }
         public ExplanationId ExplanationId { get; init; }
-        public SourceUrl SourceUrl { get; set; }
+        public SourceUrl SourceUrl { get; init; }
 
         public static Explanation Create(Guid id, string content, string target, string sourceUrl) =>
             new(

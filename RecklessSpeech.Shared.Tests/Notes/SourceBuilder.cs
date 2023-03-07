@@ -8,7 +8,7 @@ namespace RecklessSpeech.Shared.Tests.Notes
 
         public SourceBuilder(string value) => this.Value = value;
 
-        public string Value { get; set; } = "https://www.mijnwoordenboek.nl/vertaal/NL/FR/gimmicks";
+        public string Value { get; init; } = "https://www.mijnwoordenboek.nl/vertaal/NL/FR/gimmicks";
 
 
         public static implicit operator Source(SourceBuilder builder) => new(builder.Value);
@@ -20,7 +20,7 @@ namespace RecklessSpeech.Shared.Tests.Notes
 
         public AudioBuilder(string value) => this.Value = value;
 
-        public string Value { get; set; } = "[sound:1653366482748.mp3]";
+        public string Value { get; init; } = "[sound:1653366482748.mp3]";
 
 
         public static implicit operator Audio(AudioBuilder builder) => new(builder.Value);

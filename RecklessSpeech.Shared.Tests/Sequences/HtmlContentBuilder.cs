@@ -13,7 +13,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
 
         public HtmlContentBuilder(string value) => this.Value = value;
 
-        public string Value { get; set; }
+        public string Value { get; init; }
 
         public static implicit operator HtmlContent(HtmlContentBuilder builder) => new(builder.Value);
     }
