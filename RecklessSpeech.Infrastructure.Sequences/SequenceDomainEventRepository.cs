@@ -8,9 +8,9 @@ namespace RecklessSpeech.Infrastructure.Sequences
 {
     public class SequenceDomainEventRepository : IDomainEventRepository
     {
-        private readonly ISequencesDbContext dbContext;
+        private readonly IDataContext dbContext;
 
-        public SequenceDomainEventRepository(ISequencesDbContext dbContext) => this.dbContext = dbContext;
+        public SequenceDomainEventRepository(IDataContext dbContext) => this.dbContext = dbContext;
 
         public async Task ApplyEvent(IDomainEvent @event)
         {

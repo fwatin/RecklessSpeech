@@ -6,9 +6,9 @@ namespace RecklessSpeech.Infrastructure.Read
 {
     public class InMemoryLanguageDictionaryQueryRepository : ILanguageDictionaryQueryRepository
     {
-        private readonly ISequencesDbContext dbContext;
+        private readonly IDataContext dbContext;
 
-        public InMemoryLanguageDictionaryQueryRepository(ISequencesDbContext dbContext) => this.dbContext = dbContext;
+        public InMemoryLanguageDictionaryQueryRepository(IDataContext dbContext) => this.dbContext = dbContext;
 
         public async Task<IReadOnlyCollection<LanguageDictionarySummaryQueryModel>> GetAll()
         {

@@ -13,16 +13,16 @@ namespace RecklessSpeech.AcceptanceTests.Configuration
         {
             this.Context = context;
             this.Client = this.TestServer.ServiceProvider.GetRequiredService<ITestsClient>();
-            this.DbContext = this.GetService<ISequencesDbContext>();
+            this.DbContext = this.GetService<IDataContext>();
         }
 
-        protected ISequencesDbContext DbContext { get; }
+        protected IDataContext DbContext { get; }
         protected ITestsClient Client { get; }
         protected TestsServer TestServer => this.Context.Get<TestsServer>();
         private IServiceProvider ServiceProvider => this.TestServer.ServiceProvider;
 
         protected T GetService<T>() where T : notnull => this.ServiceProvider.GetRequiredService<T>();
 
-        protected ISequencesDbContext GetDbContext() => this.ServiceProvider.GetRequiredService<ISequencesDbContext>();
+        protected IDataContext GetDbContext() => this.ServiceProvider.GetRequiredService<IDataContext>();
     }
 }

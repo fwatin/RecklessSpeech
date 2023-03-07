@@ -23,7 +23,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests.DomainEvents
             });
 
             //Assert
-            SequenceEntity result = this.InMemorySequencesDbContext.Sequences.First();
+            SequenceEntity result = this.InMemoryDataContext.Sequences.First();
             result.Should().BeEquivalentTo(expectedEntity);
         }
     }

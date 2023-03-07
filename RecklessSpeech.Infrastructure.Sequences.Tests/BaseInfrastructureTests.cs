@@ -8,14 +8,14 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests
     {
         protected BaseInfrastructureTests()
         {
-            this.InMemorySequencesDbContext = new();
+            this.InMemoryDataContext = new();
             this.Sut = new(new IDomainEventRepository[]
             {
-                new SequenceDomainEventRepository(this.InMemorySequencesDbContext)
+                new SequenceDomainEventRepository(this.InMemoryDataContext)
             });
         }
 
-        protected InMemorySequencesDbContext InMemorySequencesDbContext { get; }
+        protected InMemoryDataContext InMemoryDataContext { get; }
         protected DomainEventsRepository Sut { get; }
 
         protected async Task ApplyEvent(IDomainEvent newEvent) =>

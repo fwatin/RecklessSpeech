@@ -7,9 +7,9 @@ namespace RecklessSpeech.Infrastructure.Databases
 {
     public class InMemoryExplanationRepository : IExplanationRepository
     {
-        private readonly ISequencesDbContext dbContext;
+        private readonly IDataContext dbContext;
 
-        public InMemoryExplanationRepository(ISequencesDbContext dbContext) => this.dbContext = dbContext;
+        public InMemoryExplanationRepository(IDataContext dbContext) => this.dbContext = dbContext;
 
 
         public Explanation? TryGetByTarget(string target)

@@ -8,13 +8,13 @@ namespace RecklessSpeech.Infrastructure.Read.Tests.LanguageDictionaries
 {
     public class CaseOfGetAll
     {
-        private readonly InMemorySequencesDbContext memorySequencesDbContext;
+        private readonly InMemoryDataContext memoryDataContext;
         private readonly InMemoryLanguageDictionaryQueryRepository sut;
 
         public CaseOfGetAll()
         {
-            this.memorySequencesDbContext = new();
-            this.sut = new(this.memorySequencesDbContext);
+            this.memoryDataContext = new();
+            this.sut = new(this.memoryDataContext);
         }
 
         [Fact]
@@ -23,7 +23,7 @@ namespace RecklessSpeech.Infrastructure.Read.Tests.LanguageDictionaries
             //Arrange
             LanguageDictionaryBuilder builder =
                 LanguageDictionaryBuilder.Create(Guid.Parse("D5DE38E6-2E3A-4ECC-98AC-0728C64AA621"));
-            this.memorySequencesDbContext.LanguageDictionaries.Add(builder.BuildEntity());
+            this.memoryDataContext.LanguageDictionaries.Add(builder.BuildEntity());
 
             //Act
             IReadOnlyCollection<LanguageDictionarySummaryQueryModel> result = await this.sut.GetAll();

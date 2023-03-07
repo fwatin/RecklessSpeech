@@ -30,7 +30,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
         [Then(@"some sequences are saved")]
         public void ThenSomeSequencesAreSaved()
         {
-            ISequencesDbContext? sequencesContext = this.GetService<ISequencesDbContext>();
+            IDataContext? sequencesContext = this.GetService<IDataContext>();
             sequencesContext.Sequences.Should().HaveCount(1);
             sequencesContext.Sequences.Single().Word.Should().BeEquivalentTo(this.sequenceBuilder.BuildEntity().Word);
         }
@@ -38,7 +38,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
         [Then(@"the html in HTML Content is valid")]
         public void ThenTheHtmlInHtmlContentIsValid()
         {
-            ISequencesDbContext? sequencesContext = this.GetService<ISequencesDbContext>();
+            IDataContext? sequencesContext = this.GetService<IDataContext>();
             SequenceEntity? sequence = sequencesContext.Sequences.First();
             HtmlDocument doc = new();
             doc.LoadHtml(sequence.HtmlContent);
@@ -48,7 +48,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
         [Then(@"the HTML contains some nodes for title and images")]
         public void ThenTheHtmlContainsSomeNodesForTitleAndImages()
         {
-            ISequencesDbContext? sequencesContext = this.GetService<ISequencesDbContext>();
+            IDataContext? sequencesContext = this.GetService<IDataContext>();
             SequenceEntity? sequence = sequencesContext.Sequences.First();
             HtmlDocument htmlDoc = new();
             htmlDoc.LoadHtml(sequence.HtmlContent);

@@ -8,9 +8,9 @@ namespace RecklessSpeech.Infrastructure.Databases
 {
     public class InMemorySequenceRepository : ISequenceRepository
     {
-        private readonly ISequencesDbContext dbContext;
+        private readonly IDataContext dbContext;
 
-        public InMemorySequenceRepository(ISequencesDbContext dbContext) => this.dbContext = dbContext;
+        public InMemorySequenceRepository(IDataContext dbContext) => this.dbContext = dbContext;
 
         public async Task<Sequence?> GetOne(Guid id)
         {

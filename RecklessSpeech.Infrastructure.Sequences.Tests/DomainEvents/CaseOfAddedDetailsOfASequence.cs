@@ -14,7 +14,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests.DomainEvents
         {
             //Arrange
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create()with { TranslatedWord = null };
-            this.InMemorySequencesDbContext.Sequences.Add(sequenceBuilder.BuildEntity());
+            this.InMemoryDataContext.Sequences.Add(sequenceBuilder.BuildEntity());
             SetTranslatedWordEvent ev = new(new(sequenceBuilder.SequenceId.Value), new("bread"));
 
             //Act
@@ -24,7 +24,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests.DomainEvents
             });
 
             //Assert
-            SequenceEntity result = this.InMemorySequencesDbContext.Sequences.First();
+            SequenceEntity result = this.InMemoryDataContext.Sequences.First();
             result.TranslatedWord.Should().NotBeNull();
         }
     }

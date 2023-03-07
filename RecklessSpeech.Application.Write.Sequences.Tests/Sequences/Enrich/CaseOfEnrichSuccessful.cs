@@ -4,7 +4,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
 {
     public class CaseOfEnrichSuccessful
     {
-        private readonly InMemorySequencesDbContext dbContext;
+        private readonly InMemoryDataContext dbContext;
         private readonly SequenceBuilder sequenceBuilder;
         private readonly EnrichDutchSequenceCommandHandler sut;
 

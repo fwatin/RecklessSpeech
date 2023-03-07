@@ -15,7 +15,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Notes
     public class SendNotesToAnkiSteps : StepsBase
     {
         private const string ContentForQuestion = "<style>some html here to be found in sequence and note";
-        private readonly InMemorySequencesDbContext dbContext;
+        private readonly InMemoryDataContext dbContext;
         private readonly Guid explanationId = Guid.Parse("E138CB07-4EEF-4E60-8F66-3DE8108EFDE7");
         private readonly Guid sequenceId;
         private readonly SpyNoteGateway spyNoteGateway;
@@ -23,7 +23,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Notes
         public SendNotesToAnkiSteps(ScenarioContext context) : base(context)
         {
             this.sequenceId = Guid.Parse("977343D4-0432-4BDF-BE78-5731C45CE00A");
-            this.dbContext = this.GetService<InMemorySequencesDbContext>();
+            this.dbContext = this.GetService<InMemoryDataContext>();
             this.spyNoteGateway = this.GetService<SpyNoteGateway>();
         }
 

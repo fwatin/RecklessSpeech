@@ -11,12 +11,12 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
     [Scope(Feature = "Enrich A Sequence")]
     public class EnrichASequenceSteps : StepsBase
     {
-        private readonly ISequencesDbContext inMemorySequencesDbContext;
+        private readonly IDataContext inMemoryDataContext;
         private readonly SequenceBuilder sequenceBuilder;
 
         public EnrichASequenceSteps(ScenarioContext context) : base(context)
         {
-            this.inMemorySequencesDbContext = this.GetDbContext();
+            this.inMemoryDataContext = this.GetDbContext();
             this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("825B8D27-301A-4974-8024-7DE798C17765")) with
             {
                 Word = new("brood"), Explanation = null
@@ -27,7 +27,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
 
         [Given(@"a sequence to be enriched")]
         public void GivenASequenceToBeEnriched() =>
-            this.inMemorySequencesDbContext.Sequences.Add(this.sequenceBuilder.BuildEntity());
+            this.inMemoryDataContext.Sequences.Add(this.sequenceBuilder.BuildEntity());
 
         [When(@"the user enriches this sequence")]
         public async Task WhenTheUserEnrichesThisSequence() => await this.Client.Latest().SequenceRequests()

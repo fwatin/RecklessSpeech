@@ -28,11 +28,11 @@ namespace RecklessSpeech.Infrastructure.Databases
 
         private static IServiceCollection AddInMemoryDbContext(this IServiceCollection services)
         {
-            InMemorySequencesDbContext inMemorySequencesDbContext = new();
+            InMemoryDataContext inMemoryDataContext = new();
 
             return services
-                .AddSingleton<ISequencesDbContext>(inMemorySequencesDbContext)
-                .AddSingleton(inMemorySequencesDbContext);
+                .AddSingleton<IDataContext>(inMemoryDataContext)
+                .AddSingleton(inMemoryDataContext);
         }
     }
 }

@@ -23,14 +23,14 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests.DomainEvents
             {
                 LanguageDictionaryId = null
             };
-            this.InMemorySequencesDbContext.Sequences.Add(sequenceBuilderWithoutDictionary.BuildEntity());
+            this.InMemoryDataContext.Sequences.Add(sequenceBuilderWithoutDictionary.BuildEntity());
 
             //Act
             await this.ApplyEvent(sequenceBuilderWithDictionary.BuildAssignLanguageDictionaryEvent());
 
             //Assert
             SequenceEntity expectedEntity = sequenceBuilderWithDictionary.BuildEntity();
-            this.InMemorySequencesDbContext.Sequences.Should().ContainEquivalentOf(expectedEntity);
+            this.InMemoryDataContext.Sequences.Should().ContainEquivalentOf(expectedEntity);
         }
     }
 }

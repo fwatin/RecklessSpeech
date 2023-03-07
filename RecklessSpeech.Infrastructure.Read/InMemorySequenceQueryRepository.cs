@@ -8,9 +8,9 @@ namespace RecklessSpeech.Infrastructure.Read
 {
     public class InMemorySequenceQueryRepository : ISequenceQueryRepository
     {
-        private readonly ISequencesDbContext dbContext;
+        private readonly IDataContext dbContext;
 
-        public InMemorySequenceQueryRepository(ISequencesDbContext dbContext) => this.dbContext = dbContext;
+        public InMemorySequenceQueryRepository(IDataContext dbContext) => this.dbContext = dbContext;
 
         public async Task<IReadOnlyCollection<SequenceSummaryQueryModel>> GetAll()
         {

@@ -2,9 +2,9 @@
 
 namespace RecklessSpeech.Infrastructure.Sequences
 {
-    public class InMemorySequencesDbContext : ISequencesDbContext
+    public class InMemoryDataContext : IDataContext
     {
-        public InMemorySequencesDbContext()
+        public InMemoryDataContext()
         {
             this.Explanations = new();
             this.Sequences = new();

@@ -11,7 +11,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
     [Scope(Feature = "Get all sequences")]
     public class GetAllSequencesSteps : StepsBase
     {
-        private readonly ISequencesDbContext dbContext;
+        private readonly IDataContext dbContext;
         private readonly SequenceBuilder sequenceBuilder;
 
         public GetAllSequencesSteps(ScenarioContext context) : base(context)
@@ -20,7 +20,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
             {
                 Explanation = null
             }; //todo virer ce default null de merde;
-            this.dbContext = this.GetService<ISequencesDbContext>();
+            this.dbContext = this.GetService<IDataContext>();
         }
 
         public IReadOnlyCollection<SequenceSummaryPresentation> SequenceListResponse { get; set; } = default!;
