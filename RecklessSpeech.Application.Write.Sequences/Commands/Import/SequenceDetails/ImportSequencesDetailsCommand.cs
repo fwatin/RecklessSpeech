@@ -5,17 +5,17 @@ using RecklessSpeech.Domain.Shared;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Import.SequenceDetails
 {
-    public record ImportSequenceDetailsCommand(SequenceDetailsDto dto) : IEventDrivenCommand;
+    public record ImportSequencesDetailsCommand(SequenceDetailsDto dto) : IEventDrivenCommand;
 
-    public class ImportSequenceDetailsCommandHandler : CommandHandlerBase<ImportSequenceDetailsCommand>
+    public class ImportSequencesDetailsCommandHandler : CommandHandlerBase<ImportSequencesDetailsCommand>
     {
         private readonly ISequenceRepository sequenceRepository;
 
-        public ImportSequenceDetailsCommandHandler(ISequenceRepository sequenceRepository)
+        public ImportSequencesDetailsCommandHandler(ISequenceRepository sequenceRepository)
         {
             this.sequenceRepository = sequenceRepository;
         }
-        protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(ImportSequenceDetailsCommand command)
+        protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(ImportSequencesDetailsCommand command)
         {
             List<IDomainEvent> events = new();
 

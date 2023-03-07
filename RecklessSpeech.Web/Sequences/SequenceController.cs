@@ -55,7 +55,7 @@ public class SequenceController : ControllerBase
         using StreamReader? reader = new(file.OpenReadStream());
         string? data = await reader.ReadToEndAsync();
         var sequenceDetailsDto = JsonConvert.DeserializeObject<Class1[]>(data);
-        ImportSequenceDetailsCommand? command = new(new() { Property1 = sequenceDetailsDto});
+        ImportSequencesDetailsCommand? command = new(new() { Property1 = sequenceDetailsDto});
         await this.dispatcher.Dispatch(command);
         return Ok();
     }
