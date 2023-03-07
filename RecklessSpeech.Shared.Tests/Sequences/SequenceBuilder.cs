@@ -70,6 +70,11 @@ public record SequenceBuilder
     public AssignLanguageDictionaryInASequenceEvent BuildAssignLanguageDictionaryEvent() =>
         new(this.SequenceId, this.LanguageDictionaryId);
 
+    public static SequenceBuilder Create()
+    {
+        return Create(Guid.NewGuid());
+    }
+
     public static SequenceBuilder Create(Guid id)
     {
         return new SequenceBuilder(

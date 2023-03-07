@@ -18,7 +18,7 @@ public class AddDetailsToSequencesCommandHandler : CommandHandlerBase<AddDetails
         List<IDomainEvent> events = new();
 
         //parcourir les details
-        foreach (Class1 item in command.dto.Property1)
+        foreach (Class1 item in command.Dtos)
         {
             Sequence? sequence = await this.sequenceRepository.GetOneByWord(item.word.text);
             if (sequence is null) continue;

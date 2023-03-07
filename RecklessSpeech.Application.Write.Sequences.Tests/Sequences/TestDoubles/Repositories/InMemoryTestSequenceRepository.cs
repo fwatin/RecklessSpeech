@@ -6,6 +6,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles
 public class InMemoryTestSequenceRepository : ISequenceRepository
 {
     private readonly List<Sequence> sequences;
+    public IReadOnlyCollection<Sequence> All => sequences;
 
     public InMemoryTestSequenceRepository()
     {
