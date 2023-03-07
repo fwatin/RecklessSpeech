@@ -5,7 +5,7 @@ using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 
-namespace RecklessSpeech.Application.Write.Sequences.Commands;
+namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
 
 public record EnrichDutchSequenceCommand(Guid SequenceId) : IEventDrivenCommand;
 

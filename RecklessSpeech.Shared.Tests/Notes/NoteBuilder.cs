@@ -1,4 +1,5 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Commands;
+using RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send;
 using RecklessSpeech.Domain.Sequences.Notes;
 
 namespace RecklessSpeech.Shared.Tests.Notes;
