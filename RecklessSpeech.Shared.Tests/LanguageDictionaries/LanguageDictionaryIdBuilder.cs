@@ -4,9 +4,17 @@ namespace RecklessSpeech.Shared.Tests.LanguageDictionaries
 {
     public class LanguageDictionaryIdBuilder
     {
-        public LanguageDictionaryIdBuilder(Guid value) => this.Value = value;
+        public LanguageDictionaryIdBuilder(Guid value)
+        {
+            this.Value = value;
+        }
+        
+        public LanguageDictionaryIdBuilder()
+        {
+            this.Value = Guid.NewGuid();
+        }
 
-        public Guid Value { get; } = Guid.Parse("176D9A71-7507-4997-B429-A9B148AF64E2");
+        public Guid Value { get; }
 
         public static implicit operator LanguageDictionaryId?(LanguageDictionaryIdBuilder? builder)
         {
