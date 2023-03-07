@@ -57,13 +57,13 @@ namespace RecklessSpeech.Infrastructure.Sequences
 
         private async Task Handle(ExplanationAddedEvent addedEvent)
         {
-            ExplanationEntity entity = new()
-            {
-                Id = addedEvent.Explanation.ExplanationId.Value,
-                Content = addedEvent.Explanation.Content.Value,
-                Target = addedEvent.Explanation.Target.Value,
-                SourceUrl = addedEvent.Explanation.SourceUrl.Value
-            };
+            ExplanationEntity entity = new(
+            
+                addedEvent.Explanation.ExplanationId.Value,
+                addedEvent.Explanation.Content.Value,
+                addedEvent.Explanation.Target.Value,
+                addedEvent.Explanation.SourceUrl.Value
+            );
 
             this.dbContext.Explanations.Add(entity); //passer en addAsync plus tard quand EF
 

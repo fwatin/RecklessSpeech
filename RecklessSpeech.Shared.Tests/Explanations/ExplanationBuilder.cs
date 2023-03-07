@@ -45,13 +45,13 @@ namespace RecklessSpeech.Shared.Tests.Explanations
                 builder.SourceUrl.Value);
 
         public ExplanationEntity BuildEntity() =>
-            new()
-            {
-                Id = this.ExplanationId.Value,
-                Content = this.Content.Value,
-                Target = this.Target.Value,
-                SourceUrl = this.SourceUrl.Value
-            };
+            new(
+            
+                this.ExplanationId.Value,
+                this.Target.Value,
+                this.Content.Value,
+                this.SourceUrl.Value
+            );
 
         public Explanation BuildDomain() =>
             Explanation.Hydrate(

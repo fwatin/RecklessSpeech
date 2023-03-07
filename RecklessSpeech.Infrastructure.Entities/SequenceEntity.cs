@@ -31,7 +31,7 @@
         public string Word { get; } = default!;
         public Guid? ExplanationId { get; set; }
         public string TranslatedSentence { get; } = default!;
-        public Guid? LanguageDictionaryId { get; set; } = default!;
+        public Guid? LanguageDictionaryId { get; } = default!;
         public string? TranslatedWord { get; set; } = default!;
     }
 }

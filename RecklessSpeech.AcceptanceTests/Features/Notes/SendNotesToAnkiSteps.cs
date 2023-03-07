@@ -40,7 +40,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Notes
             this.dbContext.Sequences.Add(builder.BuildEntity());
         }
 
-        [Given(@"some note for a dutch sequence")]
+        [Given(@"a dutch sequence")]
         public void GivenSomeNoteForADutchSequence()
         {
             SequenceBuilder? builder = SequenceBuilder.Create(this.sequenceId) with
