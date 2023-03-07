@@ -1,8 +1,4 @@
-﻿using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails;
-using RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Repositories;
-using RecklessSpeech.Domain.Sequences.Sequences;
-
-namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails;
+﻿namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails;
 
 public class CaseOfEmptyTranslatedWord
 {
