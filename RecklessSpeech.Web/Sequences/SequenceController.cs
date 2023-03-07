@@ -12,7 +12,7 @@ using RecklessSpeech.Application.Read.Queries.LanguageDictionaries.GetAll;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
 using RecklessSpeech.Application.Write.Sequences.Commands;
-using RecklessSpeech.Application.Write.Sequences.Commands.Import.SequenceDetails;
+using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails;
 using RecklessSpeech.Web.Configuration;
 using RecklessSpeech.Web.Configuration.Swagger;
 using RecklessSpeech.Web.ViewModels.LanguageDictionaries;
@@ -55,7 +55,7 @@ public class SequenceController : ControllerBase
         using StreamReader? reader = new(file.OpenReadStream());
         string? data = await reader.ReadToEndAsync();
         var sequenceDetailsDto = JsonConvert.DeserializeObject<Class1[]>(data);
-        ImportSequencesDetailsCommand? command = new(new() { Property1 = sequenceDetailsDto});
+        AddDetailsToSequencesCommand? command = new(new() { Property1 = sequenceDetailsDto});
         await this.dispatcher.Dispatch(command);
         return Ok();
     }

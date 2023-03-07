@@ -1,4 +1,4 @@
-﻿namespace RecklessSpeech.Application.Write.Sequences.Commands.Import.SequenceDetails
+﻿namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails
 {
     public class SequenceDetailsDto
     {

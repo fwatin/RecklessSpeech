@@ -3,19 +3,19 @@ using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 
-namespace RecklessSpeech.Application.Write.Sequences.Commands.Import.SequenceDetails
+namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails
 {
-    public record ImportSequencesDetailsCommand(SequenceDetailsDto dto) : IEventDrivenCommand;
+    public record AddDetailsToSequencesCommand(SequenceDetailsDto dto) : IEventDrivenCommand;
 
-    public class ImportSequencesDetailsCommandHandler : CommandHandlerBase<ImportSequencesDetailsCommand>
+    public class AddDetailsToSequencesCommandHandler : CommandHandlerBase<AddDetailsToSequencesCommand>
     {
         private readonly ISequenceRepository sequenceRepository;
 
-        public ImportSequencesDetailsCommandHandler(ISequenceRepository sequenceRepository)
+        public AddDetailsToSequencesCommandHandler(ISequenceRepository sequenceRepository)
         {
             this.sequenceRepository = sequenceRepository;
         }
-        protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(ImportSequencesDetailsCommand command)
+        protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(AddDetailsToSequencesCommand command)
         {
             List<IDomainEvent> events = new();
 
