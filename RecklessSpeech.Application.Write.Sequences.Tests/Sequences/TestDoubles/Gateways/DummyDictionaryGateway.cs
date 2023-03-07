@@ -6,6 +6,6 @@ public class DummyDictionaryGateway : IDutchTranslatorGateway
 {
     public Explanation GetExplanation(string word)
     {
-        throw new NotImplementedException();
+        throw new();
     }
 }
