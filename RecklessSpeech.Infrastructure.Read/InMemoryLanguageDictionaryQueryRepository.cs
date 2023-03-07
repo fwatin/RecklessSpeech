@@ -2,7 +2,7 @@
 using RecklessSpeech.Application.Read.Queries.LanguageDictionaries.GetAll;
 using RecklessSpeech.Infrastructure.Sequences;
 
-namespace RecklessSpeech.Infrastructure.Read
+namespace RecklessSpeech.Infrastructure.Read //todo projet a mettre dans le dossier queries
 {
     public class InMemoryLanguageDictionaryQueryRepository : ILanguageDictionaryQueryRepository
     {
