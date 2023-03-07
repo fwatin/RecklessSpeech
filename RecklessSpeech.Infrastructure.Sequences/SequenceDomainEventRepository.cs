@@ -16,7 +16,7 @@ namespace RecklessSpeech.Infrastructure.Sequences
         {
             switch (@event)
             {
-                case AddedSequenceEvent requestedEvent:
+                case ImportedSequenceEvent requestedEvent:
                     await this.Handle(requestedEvent);
                     break;
 
@@ -41,7 +41,7 @@ namespace RecklessSpeech.Infrastructure.Sequences
             }
         }
 
-        private async Task Handle(AddedSequenceEvent @event)
+        private async Task Handle(ImportedSequenceEvent @event)
         {
             SequenceEntity entity = new()
             {

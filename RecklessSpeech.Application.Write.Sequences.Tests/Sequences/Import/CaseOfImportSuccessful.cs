@@ -31,10 +31,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
 
             //Assert
             events.Should().HaveCount(1);
-            (events.First() as AddedSequenceEvent)!.HtmlContent.Value.Should().NotBeNullOrEmpty();
-            (events.First() as AddedSequenceEvent)!.AudioFileNameWithExtension.Value.Should()
+            (events.First() as ImportedSequenceEvent)!.HtmlContent.Value.Should().NotBeNullOrEmpty();
+            (events.First() as ImportedSequenceEvent)!.AudioFileNameWithExtension.Value.Should()
                 .NotBeNullOrEmpty();
-            (events.First() as AddedSequenceEvent)!.Tags.Value.Should().NotBeNullOrEmpty();
+            (events.First() as ImportedSequenceEvent)!.Tags.Value.Should().NotBeNullOrEmpty();
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
             IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            Fixture.VerifyEquivalence(this.builder.BuildEvent(), (AddedSequenceEvent)events.First());
+            Fixture.VerifyEquivalence(this.builder.BuildEvent(), (ImportedSequenceEvent)events.First());
         }
 
         [Fact]
@@ -78,7 +78,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
                 events = await this.sut.Handle(importSequencesCommand, CancellationToken.None);
 
             //Assert
-            AddedSequenceEvent importEvent = (AddedSequenceEvent)events.First();
+            ImportedSequenceEvent importEvent = (ImportedSequenceEvent)events.First();
             IStyleRule? dcCard = await Fixture.GetStyleRule(importEvent.HtmlContent.Value, styleName);
             dcCard.Should().BeNull();
         }
@@ -93,7 +93,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
             IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            AddedSequenceEvent importEvent = (AddedSequenceEvent)events.First();
+            ImportedSequenceEvent importEvent = (ImportedSequenceEvent)events.First();
             importEvent.Word.Value.Should().Be("gimmicks");
         }
 
@@ -107,7 +107,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
             IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            AddedSequenceEvent importEvent = (AddedSequenceEvent)events.First();
+            ImportedSequenceEvent importEvent = (ImportedSequenceEvent)events.First();
             importEvent.TranslatedSentence.Value.Should().Be("Et ça n'arrive pas par quelques astuces statistiques.");
         }
 
@@ -121,7 +121,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
             IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            AddedSequenceEvent importEvent = (AddedSequenceEvent)events.First();
+            ImportedSequenceEvent importEvent = (ImportedSequenceEvent)events.First();
             importEvent.HtmlContent.Value.Should().NotContain("c1::");
         }
 
@@ -136,7 +136,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
                 events = await this.sut.Handle(importSequencesCommand, CancellationToken.None);
 
             //Assert
-            AddedSequenceEvent importEvent = (AddedSequenceEvent)events.First();
+            ImportedSequenceEvent importEvent = (ImportedSequenceEvent)events.First();
             Fixture.VerifyWordHasAttributeBackgroundInRed(importEvent.HtmlContent.Value);
         }
 
@@ -150,7 +150,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
             IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            AddedSequenceEvent importEvent = (AddedSequenceEvent)events.First();
+            ImportedSequenceEvent importEvent = (ImportedSequenceEvent)events.First();
             importEvent.HtmlContent.Value.Should().NotContain(this.builder.TranslatedSentence.Value);
         }
 
@@ -171,7 +171,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
                 return stylesheet.StyleRules.FirstOrDefault(rule => rule.SelectorText == styleName);
             }
 
-            public static void VerifyEquivalence(AddedSequenceEvent expected, AddedSequenceEvent result)
+            public static void VerifyEquivalence(ImportedSequenceEvent expected, ImportedSequenceEvent result)
             {
                 string exp = expected.HtmlContent.Value.WithoutSpaceAndReturns();
                 string res = result.HtmlContent.Value.WithoutSpaceAndReturns();

@@ -26,7 +26,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
 
         public IEnumerable<IDomainEvent> Import()
         {
-            yield return new AddedSequenceEvent(
+            yield return new ImportedSequenceEvent(
                 this.SequenceId,
                 this.HtmlContent,
                 this.AudioFile,

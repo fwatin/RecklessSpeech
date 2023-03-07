@@ -57,7 +57,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
         }
 
 
-        public AddedSequenceEvent BuildEvent() =>
+        public ImportedSequenceEvent BuildEvent() =>
             new(this.SequenceId,
                 this.HtmlContent,
                 this.AudioFileNameWithExtension,
