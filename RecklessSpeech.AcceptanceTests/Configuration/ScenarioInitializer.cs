@@ -18,7 +18,7 @@ public class ScenarioInitializer : IDisposable
     [BeforeScenario]
     public async Task Init()
     {
-        this.server = new TestsServer(this.context);
+        this.server = new(this.context);
         this.context.Set(this.server);
         ITestsClient client = this.server.ServiceProvider.GetRequiredService<ITestsClient>();
         await client.Initialize();

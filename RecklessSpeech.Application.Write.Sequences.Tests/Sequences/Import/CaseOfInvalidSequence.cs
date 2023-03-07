@@ -13,7 +13,7 @@ public class CaseOfInvalidSequence
 
     public CaseOfInvalidSequence()
     {
-        this.sut = new ImportSequencesCommandHandler();
+        this.sut = new();
     }
 
     [Fact]

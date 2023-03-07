@@ -27,7 +27,7 @@ public sealed class Note
 
     public static Note CreateFromSequence(Sequence sequence)
     {
-        return new Note(
+        return new(
             new(Guid.NewGuid()),
             Question.Create(sequence!.HtmlContent),
             CreateAnswer(sequence),
@@ -80,6 +80,6 @@ public sealed class Note
 
     public NoteDto GetDto()
     {
-        return new NoteDto(this.question, this.answer, this.after, this.source, this.audio);
+        return new(this.question, this.answer, this.after, this.source, this.audio);
     }
 }

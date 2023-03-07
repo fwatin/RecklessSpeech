@@ -14,8 +14,8 @@ public record LanguageDictionaryBuilder(
 {
     public static LanguageDictionaryBuilder Create(Guid id)
     {
-        return new LanguageDictionaryBuilder(
-            new LanguageDictionaryIdBuilder(id),
+        return new(
+            new(id),
             new(),
             new(),
             new(),
@@ -24,7 +24,7 @@ public record LanguageDictionaryBuilder(
     }
     public LanguageDictionaryEntity BuildEntity()
     {
-        return new LanguageDictionaryEntity()
+        return new()
         {
             Id = this.LanguageDictionaryId.Value,
             Url = this.Url.Value,
@@ -35,7 +35,7 @@ public record LanguageDictionaryBuilder(
     }
     public LanguageDictionarySummaryQueryModel BuildQueryModel()
     {
-        return new LanguageDictionarySummaryQueryModel(
+        return new(
             this.LanguageDictionaryId.Value,
             this.Url.Value,
             this.Name.Value,
@@ -46,7 +46,7 @@ public record LanguageDictionaryBuilder(
 
     public LanguageDictionarySummaryPresentation BuildSummaryPresentation()
     {
-        return new LanguageDictionarySummaryPresentation(
+        return new(
             this.LanguageDictionaryId.Value,
             this.Url.Value,
             this.Name.Value,

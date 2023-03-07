@@ -65,7 +65,7 @@ public class SendNotesToAnkiSteps : StepsBase
     [When(@"the user sends the sequence to Anki")]
     public async Task WhenTheUserSendsTheSequenceToAnki()
     {
-        await this.Client.Latest().SequenceRequests().SendToAnki(new List<Guid>() {
+        await this.Client.Latest().SequenceRequests().SendToAnki(new() {
             this.sequenceId});
     }
 
@@ -76,8 +76,8 @@ public class SendNotesToAnkiSteps : StepsBase
         {
             Question = new(ContentForQuestion),
             Answer = new("pain"),
-            After = new AfterBuilder("translated sentence from Netflix: \"er is geen brood.\""),
-            Source = new SourceBuilder(""),
+            After = new("translated sentence from Netflix: \"er is geen brood.\""),
+            Source = new(""),
             Audio = new("[sound:1658501397855.mp3]")
         };
         NoteDto expected = builder.BuildDto();

@@ -23,7 +23,7 @@ public record NoteBuilder
 
     public SendNotesCommand BuildCommand()
     {
-        return new SendNotesCommand(new Guid[]
+        return new(new Guid[]
         {
             this.Id
         });
@@ -36,7 +36,7 @@ public record NoteBuilder
 
     public static NoteBuilder Create(Guid id)
     {
-        return new NoteBuilder(
+        return new(
             new(id),
             new(),
             new(),
@@ -46,6 +46,6 @@ public record NoteBuilder
 
     public NoteDto BuildDto()
     {
-        return new NoteDto(this.Question,this.Answer, this.After, this.Source,this.Audio);
+        return new(this.Question,this.Answer, this.After, this.Source,this.Audio);
     }
 }

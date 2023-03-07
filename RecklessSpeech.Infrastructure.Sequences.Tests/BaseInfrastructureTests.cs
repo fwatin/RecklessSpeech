@@ -11,7 +11,7 @@ public class BaseInfrastructureTests
     protected BaseInfrastructureTests()
     {
         this.InMemorySequencesDbContext = new();
-        this.Sut = new DomainEventsRepository(new IDomainEventRepository[]
+        this.Sut = new(new IDomainEventRepository[]
         {
             new SequenceDomainEventRepository(this.InMemorySequencesDbContext)
         });

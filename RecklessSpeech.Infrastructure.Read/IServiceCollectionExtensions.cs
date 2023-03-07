@@ -38,7 +38,7 @@ public static class ServiceCollectionExtensions
             (provider, client) =>
             {
                 HttpAnkiNoteGatewayOptions? options = provider.GetRequiredService<IOptions<HttpAnkiNoteGatewayOptions>>().Value;
-                client.BaseAddress = new Uri(options.Path);
+                client.BaseAddress = new(options.Path);
             });
 
         return services;

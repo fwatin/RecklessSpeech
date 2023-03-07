@@ -6,6 +6,6 @@ public record Question(string Value)
 {
     public static Question Create(HtmlContent htmlContent)
     {
-        return new Question(htmlContent.Value);
+        return new(htmlContent.Value);
     }
 }

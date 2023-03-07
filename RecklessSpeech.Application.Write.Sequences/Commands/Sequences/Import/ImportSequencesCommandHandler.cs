@@ -77,8 +77,8 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
             var ruleText = newRule.Text;
             if (newRule.SelectorText == ".dc-image")
             {
-                //with dégagé par le parseur css probablement du au fait que ca utilise une fonction Js
-                //pas trouvé d'autre moyen que l'ajouter comme ca (newRule.Style.Width = ... marche pas)
+                //with d?gag? par le parseur css probablement du au fait que ca utilise une fonction Js
+                //pas trouv? d'autre moyen que l'ajouter comme ca (newRule.Style.Width = ... marche pas)
                 ruleText =ruleText.Replace("{", "{width: calc(50% - 10px);");
             }
             styleBuilder.AppendLine(ruleText);
@@ -183,7 +183,7 @@ public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesC
             string reconstitutedLine = delimiter + lines[i];
             string[] elements = reconstitutedLine.Split("	");
             dtos.Add(
-                new ImportSequenceDto(
+                new(
                     ParseHtmlContent(elements[0]),
                     ParseAudioFileName(elements[1]),
                     elements[2])

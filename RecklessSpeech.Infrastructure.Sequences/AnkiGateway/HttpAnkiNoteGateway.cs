@@ -39,17 +39,17 @@ public class HttpAnkiNoteGateway : INoteGateway
         {
             action = "addNotes",
             version = 6,
-            @params = new Params
+            @params = new()
             {
                 notes = dtos.Select(dto => new Note()
                 {
                     deckName = "All::Langues",
                     modelName = "Full_Recto_verso_before_after_Audio",
-                    options = new options()
+                    options = new()
                     {
                         allowDuplicate = true,
                         duplicateScope = "deck",
-                        duplicateScopeOptions = new duplicateScopeOptions()
+                        duplicateScopeOptions = new()
                         {
                             deckName = "All",
                             checkChildren = false,
@@ -68,7 +68,7 @@ public class HttpAnkiNoteGateway : INoteGateway
     {
         if(dto.Answer is not null)
         {
-            return new Fields()
+            return new()
             {
                 Question = dto.Question.Value,
                 Answer = dto.Answer.Value,
@@ -77,7 +77,7 @@ public class HttpAnkiNoteGateway : INoteGateway
                 Audio = dto.Audio.Value
             };
         }
-        return new Fields()
+        return new()
         {
             Question = dto.Question.Value,
             Answer = "",

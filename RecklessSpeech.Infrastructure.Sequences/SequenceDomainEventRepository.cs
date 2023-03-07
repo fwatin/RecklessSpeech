@@ -40,7 +40,7 @@ public class SequenceDomainEventRepository : IDomainEventRepository
                 await Handle(setLanguageDictionaryInASequenceEvent);
                 break;
 
-            default: throw new Exception("event type is not known for ApplyEvent");
+            default: throw new("event type is not known for ApplyEvent");
         }
     }
 

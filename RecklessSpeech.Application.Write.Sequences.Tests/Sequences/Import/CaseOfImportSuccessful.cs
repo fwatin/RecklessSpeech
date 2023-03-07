@@ -19,7 +19,7 @@ public class CaseOfImportSuccessful
 
     public CaseOfImportSuccessful()
     {
-        this.sut = new ImportSequencesCommandHandler();
+        this.sut = new();
         this.builder = SequenceBuilder.Create(Guid.Parse("259FD4F4-082E-46CB-BF1A-94F99780D2E2")) with
         {
             TranslatedWord = null

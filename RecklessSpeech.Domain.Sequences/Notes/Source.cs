@@ -4,6 +4,6 @@ public record Source(string Value)
 {
     public static Source Create(string value)
     {
-        return new Source(value);
+        return new(value);
     }
 }

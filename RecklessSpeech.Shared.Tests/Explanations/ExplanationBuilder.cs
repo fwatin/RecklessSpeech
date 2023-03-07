@@ -25,7 +25,7 @@ public record ExplanationBuilder
 
     public static ExplanationBuilder Create()
     {
-        return new ExplanationBuilder(
+        return new(
             new(Guid.Parse("644320B4-4FAD-4039-86DF-92EAB2987F6E")),
             new(),
             new(),
@@ -34,7 +34,7 @@ public record ExplanationBuilder
 
     public static ExplanationBuilder Create(Guid id)
     {
-        return new ExplanationBuilder(
+        return new(
             new(id),
             new(),
             new(),
@@ -50,7 +50,7 @@ public record ExplanationBuilder
 
     public ExplanationEntity BuildEntity()
     {
-        return new ExplanationEntity()
+        return new()
         {
             Id = this.ExplanationId.Value,
             Content = this.Content.Value,

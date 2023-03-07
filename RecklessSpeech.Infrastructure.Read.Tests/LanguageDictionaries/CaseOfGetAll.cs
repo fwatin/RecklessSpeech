@@ -14,7 +14,7 @@ public class CaseOfGetAll
     public CaseOfGetAll()
     {
         this.memorySequencesDbContext = new();
-        this.sut = new InMemoryLanguageDictionaryQueryRepository(this.memorySequencesDbContext);
+        this.sut = new(this.memorySequencesDbContext);
     }
     
     [Fact]

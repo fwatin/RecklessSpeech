@@ -4,6 +4,6 @@ public record Audio(string Value)
 {
     public static Audio Create(string value)
     {
-        return new Audio(value);
+        return new(value);
     }
 }

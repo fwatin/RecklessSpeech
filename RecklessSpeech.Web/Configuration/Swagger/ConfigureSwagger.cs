@@ -25,7 +25,7 @@ namespace RecklessSpeech.Web.Configuration.Swagger
             this.provider.ApiVersionDescriptions.ToList().ForEach(description =>
                 options.SwaggerDoc(
                     description.GroupName,
-                    new OpenApiInfo
+                    new()
                     {
                         Title = "RecklessSpeech Api " + description.GroupName.ToUpperInvariant(),
                         Version = description.ApiVersion.ToString()

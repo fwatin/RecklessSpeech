@@ -15,7 +15,7 @@ public static class SequenceSummaryQueryModelExtensions
     internal static SequenceSummaryPresentation ToPresentation(
         this SequenceSummaryQueryModel queryModel)
     {
-        return new SequenceSummaryPresentation(
+        return new(
             queryModel.Id,
             queryModel.Word,
             queryModel.Explanation);

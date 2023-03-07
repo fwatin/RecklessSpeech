@@ -16,7 +16,7 @@ namespace RecklessSpeech.Infrastructure.Read.Tests.Sequences
         {
             this.repository = new();
             this.sut = new(repository);
-            this.command = new GetAllSequencesQuery();
+            this.command = new();
         }
 
         [Fact]

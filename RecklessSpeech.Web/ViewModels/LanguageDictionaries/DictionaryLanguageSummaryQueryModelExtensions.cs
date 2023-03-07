@@ -15,8 +15,7 @@ public static class DictionaryLanguageSummaryQueryModelExtensions
     private static LanguageDictionarySummaryPresentation ToPresentation(
         this LanguageDictionarySummaryQueryModel queryModel)
     {
-        return new LanguageDictionarySummaryPresentation
-        (
+        return new(
             queryModel.Id,
             queryModel.Url,
             queryModel.Name,

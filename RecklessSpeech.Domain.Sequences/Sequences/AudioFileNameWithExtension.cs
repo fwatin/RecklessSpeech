@@ -7,7 +7,7 @@ public record AudioFileNameWithExtension(string Value)
         if (value.EndsWith(".mp3") is false)
             throw new InvalidAudioFileFormatException();
 
-        else return new AudioFileNameWithExtension(value);
+        else return new(value);
     }
 
     public static AudioFileNameWithExtension Hydrate(string value) => new(value);

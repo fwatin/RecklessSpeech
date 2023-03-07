@@ -19,7 +19,7 @@ public class EnrichASequenceSteps : StepsBase
         this.inMemorySequencesDbContext = GetDbContext();
         this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("825B8D27-301A-4974-8024-7DE798C17765")) with
         {
-            Word = new WordBuilder("brood"),
+            Word = new("brood"),
             Explanation = null
         };
     }

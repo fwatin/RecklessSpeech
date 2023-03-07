@@ -47,7 +47,7 @@ public sealed class Sequence
         Word word,
         TranslatedSentence translatedSentence)
     {
-        return new Sequence(new(id))
+        return new(new(id))
         {
             HtmlContent = htmlContent,
             AudioFile = audioFileNameWithExtension,
@@ -67,7 +67,7 @@ public sealed class Sequence
         Explanation? explanation,
         string? translatedWord)
     {
-        return new Sequence(new(id))
+        return new(new(id))
         {
             HtmlContent = HtmlContent.Hydrate(htmlContent),
             AudioFile = AudioFileNameWithExtension.Hydrate(audioFileNameWithExtension),

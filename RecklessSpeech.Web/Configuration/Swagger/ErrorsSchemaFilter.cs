@@ -12,7 +12,7 @@ namespace RecklessSpeech.Web.Configuration.Swagger
             if (context.Type != typeof(ApiErrors))
                 return;
 
-            schema.Properties["type"] = new OpenApiSchema
+            schema.Properties["type"] = new()
             {
                 Type = "string",
                 Enum = ApiErrors.Errors()

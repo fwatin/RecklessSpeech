@@ -74,7 +74,7 @@ public class TestClientBase : IDisposable
             Console.WriteLine(e);
         }
 
-        return new HttpResponseMessage();
+        return new();
     }
     
     private static HttpRequestMessage BuildMessage(HttpMethod method, string path, object? parameters)
@@ -104,7 +104,7 @@ public class TestClientBase : IDisposable
             path = path.SetQueryParams(parameters);
         }
 
-        return new HttpRequestMessage(method, new Uri(path, UriKind.RelativeOrAbsolute));
+        return new(method, new Uri(path, UriKind.RelativeOrAbsolute));
     }
     
     private static HttpRequestMessage BuildMultiPartMessage(HttpMethod method, string path, MultipartFormDataContent multipartContent)
@@ -126,7 +126,7 @@ public class TestClientBase : IDisposable
         {
             string content = await response.Content.ReadAsStringAsync();
             ProblemDetails details = JsonConvert.DeserializeObject<ProblemDetails>(content)!;
-            this.context.SetError(new HttpTestServerException(response.StatusCode, details));
+            this.context.SetError(new(response.StatusCode, details));
         }
     }
 }

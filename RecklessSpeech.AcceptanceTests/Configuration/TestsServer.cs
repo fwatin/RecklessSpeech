@@ -38,7 +38,7 @@ public class TestsServer : IDisposable
                 .SubstituteMijnwoordenboekGatewayAccess())
             ;
 
-        return new TestServer(builder);
+        return new(builder);
     }
 
     public void Dispose()

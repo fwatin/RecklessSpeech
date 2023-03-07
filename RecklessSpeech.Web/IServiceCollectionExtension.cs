@@ -62,7 +62,7 @@ public static class IServiceCollectionExtension
             .AddApiVersioning(
                 setup =>
                 {
-                    setup.DefaultApiVersion = new ApiVersion(1, 0);
+                    setup.DefaultApiVersion = new(1, 0);
                     setup.AssumeDefaultVersionWhenUnspecified = true;
                     setup.ReportApiVersions = true;
                     setup.ApiVersionReader = new UrlSegmentApiVersionReader();

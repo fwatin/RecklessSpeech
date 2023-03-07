@@ -17,7 +17,7 @@ public sealed class Explanation
     }
     public static Explanation Create(Guid id, string content, string target, string sourceUrl)
     {
-        return new Explanation(
+        return new(
             new(id),
             new(content),
             new(target),
@@ -26,7 +26,7 @@ public sealed class Explanation
 
     public static Explanation Hydrate(Guid id, string content, string target, string sourceUrl)
     {
-        return new Explanation(
+        return new(
             new(id),
             new(content),
             new(target),

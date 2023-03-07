@@ -4,6 +4,6 @@ public record Answer(string Value)
 {
     public static Answer Create(string value)
     {
-        return new Answer(value);
+        return new(value);
     }
 }

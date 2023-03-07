@@ -77,7 +77,7 @@ public record SequenceBuilder
 
     public static SequenceBuilder Create(Guid id)
     {
-        return new SequenceBuilder(
+        return new(
             new(id),
             new(),
             new(),
@@ -107,7 +107,7 @@ public record SequenceBuilder
 
     public SequenceSummaryQueryModel BuildQueryModel()
     {
-        return new SequenceSummaryQueryModel(
+        return new(
             this.SequenceId.Value,
             this.HtmlContent.Value,
             this.AudioFileNameWithExtension.Value,
@@ -118,7 +118,7 @@ public record SequenceBuilder
 
     public SequenceSummaryPresentation BuildSummaryPresentation()
     {
-        return new SequenceSummaryPresentation(
+        return new(
             this.SequenceId.Value,
             this.Word.Value,
             this.Explanation?.Content.Value);
@@ -126,7 +126,7 @@ public record SequenceBuilder
 
     public ImportSequencesCommand BuildImportCommand()
     {
-        return new ImportSequencesCommand(this.RawCsvContent);
+        return new(this.RawCsvContent);
     }
 
     private string DefaultExampleFromMoneyBall() =>
@@ -175,7 +175,7 @@ public record SequenceBuilder
 
     public EnrichDutchSequenceCommand BuildEnrichCommand()
     {
-        return new EnrichDutchSequenceCommand(this.SequenceId.Value);
+        return new(this.SequenceId.Value);
     }
 
     public static implicit operator Sequence(SequenceBuilder builder) => builder.BuildDomain();

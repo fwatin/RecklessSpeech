@@ -26,7 +26,7 @@ public class CaseOfEnrichSuccessful
         
         this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("5CFF7781-7892-4172-9656-8EF0E6A76D2C"))with
         {
-            Word = new WordBuilder("brood"),
+            Word = new("brood"),
             Explanation = explanationBuilder
         };
     }
