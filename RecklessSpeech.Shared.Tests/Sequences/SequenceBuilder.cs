@@ -44,7 +44,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
         public WordBuilder Word { get; init; }
         public TranslatedSentenceBuilder TranslatedSentence { get; init; }
         public ExplanationBuilder? Explanation { get; init; } //todo virer la nullabilité
-        public LanguageDictionaryIdBuilder? LanguageDictionaryId { get; }
+        private LanguageDictionaryIdBuilder? LanguageDictionaryId { get; }
         public TranslatedWordBuilder? TranslatedWord { get; init; }
 
         public string RawCsvContent
@@ -81,18 +81,17 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 new());
 
         public SequenceEntity BuildEntity() =>
-            new()
-            {
-                Id = this.SequenceId.Value,
-                AudioFileNameWithExtension = this.AudioFileNameWithExtension.Value,
-                Tags = this.Tags.Value,
-                HtmlContent = this.HtmlContent.Value,
-                Word = this.Word.Value,
-                ExplanationId = this.Explanation?.ExplanationId.Value,
-                TranslatedSentence = this.TranslatedSentence.Value,
-                LanguageDictionaryId = this.LanguageDictionaryId?.Value,
-                TranslatedWord = this.TranslatedWord?.Value
-            };
+            new(
+                this.SequenceId.Value,
+                this.HtmlContent.Value,
+                this.AudioFileNameWithExtension.Value,
+                this.Tags.Value,
+                this.Word.Value,
+                this.Explanation?.ExplanationId.Value,
+                this.TranslatedSentence.Value,
+                this.LanguageDictionaryId?.Value,
+                this.TranslatedWord?.Value
+            );
 
         public SequenceSummaryQueryModel BuildQueryModel() =>
             new(

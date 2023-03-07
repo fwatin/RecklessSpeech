@@ -2,12 +2,35 @@
 {
     public record SequenceEntity : AggregateRootEntity
     {
-        public string HtmlContent { get; init; } = default!;
-        public string AudioFileNameWithExtension { get; init; } = default!;
-        public string Tags { get; init; } = default!;
-        public string Word { get; init; } = default!;
+        public SequenceEntity(
+            Guid id,
+            string htmlContent,
+            string audioFileNameWithExtension,
+            string tags,
+            string word,
+            Guid? explanationId,
+            string translatedSentence,
+            Guid? languageDictionaryId,
+            string? translatedWord
+        )
+        {
+            this.Id = id;
+            this.HtmlContent = htmlContent;
+            this.AudioFileNameWithExtension = audioFileNameWithExtension;
+            this.Tags = tags;
+            this.Word = word;
+            this.ExplanationId = explanationId;
+            this.TranslatedSentence = translatedSentence;
+            this.LanguageDictionaryId = languageDictionaryId;
+            this.TranslatedWord = translatedWord;
+        }
+
+        public string HtmlContent { get; } = default!;
+        public string AudioFileNameWithExtension { get; } = default!;
+        public string Tags { get; } = default!;
+        public string Word { get; } = default!;
         public Guid? ExplanationId { get; set; }
-        public string TranslatedSentence { get; init; } = default!;
+        public string TranslatedSentence { get; } = default!;
         public Guid? LanguageDictionaryId { get; set; } = default!;
         public string? TranslatedWord { get; set; } = default!;
     }

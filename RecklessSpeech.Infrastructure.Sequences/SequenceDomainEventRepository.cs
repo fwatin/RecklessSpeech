@@ -38,16 +38,17 @@ namespace RecklessSpeech.Infrastructure.Sequences
 
         private async Task Handle(ImportedSequenceEvent @event)
         {
-            SequenceEntity entity = new()
-            {
-                Id = @event.Id.Value,
-                HtmlContent = @event.HtmlContent.Value,
-                AudioFileNameWithExtension = @event.AudioFileNameWithExtension.Value,
-                Tags = @event.Tags.Value,
-                Word = @event.Word.Value,
-                TranslatedSentence = @event.TranslatedSentence.Value,
-                TranslatedWord = @event.TranslatedWord?.Value
-            };
+            SequenceEntity entity = new(
+                @event.Id.Value,
+                @event.HtmlContent.Value,
+                @event.AudioFileNameWithExtension.Value,
+                @event.Tags.Value,
+                @event.Word.Value,
+                null,
+                @event.TranslatedSentence.Value,
+                null,
+                @event.TranslatedWord?.Value
+            );
 
             this.dbContext.Sequences.Add(entity);
 
