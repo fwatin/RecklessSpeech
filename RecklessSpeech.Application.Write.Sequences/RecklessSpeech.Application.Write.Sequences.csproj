@@ -7,18 +7,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\RecklessSpeech.Application.Core\RecklessSpeech.Application.Core.csproj"/>
-        <ProjectReference Include="..\RecklessSpeech.Application.Read\RecklessSpeech.Application.Read.csproj"/>
-        <ProjectReference Include="..\RecklessSpeech.Domain.Sequences\RecklessSpeech.Domain.Sequences.csproj"/>
-        <ProjectReference Include="..\RecklessSpeech.Domain.Shared\RecklessSpeech.Domain.Shared.csproj"/>
+        <ProjectReference Include="..\RecklessSpeech.Application.Core\RecklessSpeech.Application.Core.csproj" />
+        <ProjectReference Include="..\RecklessSpeech.Application.Read\RecklessSpeech.Application.Read.csproj" />
+        <ProjectReference Include="..\RecklessSpeech.Domain.Sequences\RecklessSpeech.Domain.Sequences.csproj" />
+        <ProjectReference Include="..\RecklessSpeech.Domain.Shared\RecklessSpeech.Domain.Shared.csproj" />
     </ItemGroup>
 
 
     <ItemGroup>
-        <PackageReference Include="ExCSS" Version="4.1.4"/>
-        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0"/>
-        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1"/>
-        <PackageReference Include="HtmlAgilityPack" Version="1.11.43"/>
+        <PackageReference Include="ExCSS" Version="4.1.4" />
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+        <PackageReference Include="HtmlAgilityPack" Version="1.11.43" />
     </ItemGroup>
 
 </Project>

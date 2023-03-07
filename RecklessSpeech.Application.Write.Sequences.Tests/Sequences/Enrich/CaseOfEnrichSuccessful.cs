@@ -18,7 +18,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
             this.sut = new(
                 sequenceRepository,
                 explanationRepository,
-                new MijnwoordenboekGateway(new MijnwoordenboekGatewayLocalAccess()));
+                new MijnwoordenboekLocalGateway());
 
 
             ExplanationBuilder explanationBuilder =

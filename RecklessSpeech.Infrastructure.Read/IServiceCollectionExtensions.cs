@@ -42,8 +42,7 @@ namespace RecklessSpeech.Infrastructure.Read
 
         private static IServiceCollection AddTranslatorGateway(this IServiceCollection services)
         {
-            services.AddSingleton<IMijnwoordenboekGatewayAccess>(new MijnwoordenboekGatewayOnlineAccess());
-            services.AddSingleton<IDutchTranslatorGateway, MijnwoordenboekGateway>();
+            services.AddSingleton<IDutchTranslatorGateway, MijnwoordenboekOnlineGateway>();
 
             services.AddSingleton<IWordReferenceGatewayAccess>(new WordReferenceGatewayOnlineAccess());
             services.AddSingleton<IEnglishTranslatorGateway, WordReferenceGateway>();

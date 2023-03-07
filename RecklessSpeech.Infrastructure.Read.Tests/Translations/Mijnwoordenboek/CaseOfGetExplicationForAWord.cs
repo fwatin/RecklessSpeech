@@ -13,8 +13,7 @@ namespace RecklessSpeech.Infrastructure.Read.Tests.Translations.Mijnwoordenboek
         {
             //Arrange
             string word = "brood";
-            IMijnwoordenboekGatewayAccess access = new MijnwoordenboekGatewayLocalAccess();
-            IDutchTranslatorGateway gateway = new MijnwoordenboekGateway(access);
+            IDutchTranslatorGateway gateway = new MijnwoordenboekLocalGateway();
 
             //Act
             Explanation explanation = gateway.GetExplanation(word);

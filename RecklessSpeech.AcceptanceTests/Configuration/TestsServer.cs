@@ -42,7 +42,7 @@ namespace RecklessSpeech.AcceptanceTests.Configuration
                     )
                     .ConfigureTestServices(services => services
                         .SubstituteNoteGateway()
-                        .SubstituteMijnwoordenboekGatewayAccess())
+                        .SubstituteMijnwoordenboekGateway())
                 ;
 
             return new(builder);

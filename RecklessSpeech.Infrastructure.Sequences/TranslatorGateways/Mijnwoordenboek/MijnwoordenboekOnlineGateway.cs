@@ -1,11 +1,21 @@
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
+using RecklessSpeech.Domain.Sequences.Explanations;
 
 namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek
 {
-    public class MijnwoordenboekGatewayOnlineAccess : IMijnwoordenboekGatewayAccess
+    public class MijnwoordenboekOnlineGateway : IDutchTranslatorGateway
     {
-        public (string, string) GetTranslationsAndSourceForAWord(string word)
+        public Explanation GetExplanation(string word)
+        {
+            (string translations, string sourceUrl) = this.GetTranslationsAndSourceForAWord(word);
+
+            Explanation explanation = Explanation.Create(Guid.NewGuid(), translations, word, sourceUrl);
+
+            return explanation;
+        }
+        
+        private (string, string) GetTranslationsAndSourceForAWord(string word)
         {
             string url = $"https://www.mijnwoordenboek.nl/vertaal/NL/FR/{word}"; //todo config dans appsettings
 
@@ -19,7 +29,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoorden
 
             return (endNode.ParentNode.InnerHtml, url);
         }
-
+        
         private HtmlNode GetNodeByNameAndAttribute(HtmlNode htmlNode, string name, string attribute, string value)
         {
             List<HtmlNode> allWithName = htmlNode.Descendants(name).ToList();

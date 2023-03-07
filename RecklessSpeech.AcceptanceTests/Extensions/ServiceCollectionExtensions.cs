@@ -17,13 +17,13 @@ namespace RecklessSpeech.AcceptanceTests.Extensions
                 .AddSingleton<INoteGateway>(spyNoteGateway);
         }
 
-        public static IServiceCollection SubstituteMijnwoordenboekGatewayAccess(this IServiceCollection services)
+        public static IServiceCollection SubstituteMijnwoordenboekGateway(this IServiceCollection services)
         {
-            MijnwoordenboekGatewayLocalAccess access = new();
+            MijnwoordenboekLocalGateway access = new();
 
             return services
                 .AddSingleton(access)
-                .AddSingleton<IMijnwoordenboekGatewayAccess>(access);
+                .AddSingleton<IDutchTranslatorGateway>(access);
         }
     }
 }
