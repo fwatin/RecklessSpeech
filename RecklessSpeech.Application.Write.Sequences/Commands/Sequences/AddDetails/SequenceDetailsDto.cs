@@ -1,4 +1,6 @@
-﻿namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails
+﻿// ReSharper disable All
+#pragma warning disable CS8618
+namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails
 {
     public class SequenceDetailsDto
     {
