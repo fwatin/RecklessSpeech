@@ -2,11 +2,6 @@
 #pragma warning disable CS8618
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails
 {
-    public class SequenceDetailsDto
-    {
-        public Class1[] Property1 { get; init; }
-    }
-
     public class Class1
     {
         public string itemType { get; init; }
