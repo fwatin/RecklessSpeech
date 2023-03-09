@@ -1,7 +1,7 @@
 using HtmlAgilityPack;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.English;
 
-namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.WordReference
+namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.WordReference
 {
     public class WordReferenceGatewayOnlineAccess : IWordReferenceGatewayAccess
     {

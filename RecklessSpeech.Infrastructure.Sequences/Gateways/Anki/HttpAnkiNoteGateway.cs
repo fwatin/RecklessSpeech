@@ -3,7 +3,7 @@ using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Notes;
 using System.Text;
 
-namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway
+namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Anki
 {
     public class HttpAnkiNoteGateway : INoteGateway
     {

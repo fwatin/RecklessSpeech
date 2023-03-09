@@ -4,9 +4,9 @@ using RecklessSpeech.Application.Read.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.English;
-using RecklessSpeech.Infrastructure.Sequences.AnkiGateway;
-using RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
-using RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.WordReference;
+using RecklessSpeech.Infrastructure.Sequences.Gateways.Anki;
+using RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.Mijnwoordenboek;
+using RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.WordReference;
 
 namespace RecklessSpeech.Infrastructure.Read
 {

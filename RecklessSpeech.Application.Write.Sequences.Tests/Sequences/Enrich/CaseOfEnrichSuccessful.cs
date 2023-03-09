@@ -1,5 +1,6 @@
 ﻿using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
+using RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.Mijnwoordenboek;
 using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich

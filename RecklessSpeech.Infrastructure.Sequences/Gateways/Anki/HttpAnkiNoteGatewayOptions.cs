@@ -1,4 +1,4 @@
-﻿namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway
+﻿namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Anki
 {
     public class HttpAnkiNoteGatewayOptions
     {

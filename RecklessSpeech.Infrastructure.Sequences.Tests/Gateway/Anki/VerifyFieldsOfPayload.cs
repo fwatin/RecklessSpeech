@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using RecklessSpeech.Domain.Sequences.Notes;
-using RecklessSpeech.Infrastructure.Sequences.AnkiGateway;
+using RecklessSpeech.Infrastructure.Sequences.Gateways.Anki;
 using Xunit;
 
 namespace RecklessSpeech.Infrastructure.Sequences.Tests.Gateway.Anki

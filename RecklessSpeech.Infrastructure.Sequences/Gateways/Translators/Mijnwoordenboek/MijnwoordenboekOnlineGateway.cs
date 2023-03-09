@@ -2,7 +2,7 @@
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Domain.Sequences.Explanations;
 
-namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek
+namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.Mijnwoordenboek
 {
     public class MijnwoordenboekOnlineGateway : IDutchTranslatorGateway
     {
