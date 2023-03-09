@@ -43,11 +43,9 @@ namespace RecklessSpeech.Web
             return services;
         }
 
-        private static void AddDispatcher(this IServiceCollection services)
-        {
+        private static void AddDispatcher(this IServiceCollection services) =>
             services.AddMediatR(Assembly.GetCallingAssembly())
                 .AddScoped<WebDispatcher>();
-        }
 
         public static IServiceCollection AddSwaggerServices(this IServiceCollection services) =>
             services

@@ -379,7 +379,8 @@
                                     <td colspan=2
                                         style='padding-left:20px;margin-left:20px;margin-top:10px;padding-top:10px'><a
                                             onClick="shoh('xi111');"><img alt="uitdrukking"
-                                                                          border="0" name="imgxi111" src="https://www.mijnwoordenboek.nl/img/u.gif"></a>
+                                                                          border="0" name="imgxi111"
+                                                                          src="https://www.mijnwoordenboek.nl/img/u.gif"></a>
                                         <font style=color:#222;font-size:10pt><b>je brood verdienen</b></font>
                                         <div id="xi111" style="display: none;"><br><font style=color:darkgreen>(=inkomen
                                             hebben)</font> - <font style=color:navy>gagner sa vie</font></div>
@@ -460,12 +461,14 @@
                             <b style=color:navy>FR:</b> <font style=color:navy><i>gagner sa vie à </i></font>
                             <br>
                             <br>
-                            <a href="https://play.google.com/store/apps/details?id=nl.dirkslot.mwbnl" style="text-decoration:none;line-height: 2.5em" target=_blank
+                            <a href="https://play.google.com/store/apps/details?id=nl.dirkslot.mwbnl"
+                               style="text-decoration:none;line-height: 2.5em" target=_blank
                                title='Android Vertaal app'><i
                                     class='icon-android icon-2x' style='color:#689f38'></i>
                                 Download de Android App</a>
                             <br>
-                            <a href="https://itunes.apple.com/nl/app/mijnwoordenboek-nl/id1064461500?mt=8" style="text-decoration:none;line-height: 2.5em"
+                            <a href="https://itunes.apple.com/nl/app/mijnwoordenboek-nl/id1064461500?mt=8"
+                               style="text-decoration:none;line-height: 2.5em"
                                target=_blank
                                title='iPhone/iPad Vertaal app'><i
                                     class='icon-apple icon-2x' style='color:#555'></i>
@@ -624,10 +627,13 @@
                                 | <a href="/sitemap.php" title="Privacy">Sitemap</a>
                                 | <a href="/aanmelden.php" title="Aanmelden of inloggen">Aanmelden / inloggen</a> |
                                 <nobr>
-                                    TaalApp <a href="https://itunes.apple.com/nl/app/taalapp/id1460091268?mt=8&ign-mpt=uo%3D4" style=text-decoration:none
-                                               title='De TaalApp - Apple'><i
+                                    TaalApp <a
+                                        href="https://itunes.apple.com/nl/app/taalapp/id1460091268?mt=8&ign-mpt=uo%3D4"
+                                        style=text-decoration:none
+                                        title='De TaalApp - Apple'><i
                                         class='icon-apple'></i></a>
-                                    <a href="https://play.google.com/store/apps/details?id=app.gold.webview.codecanyon.com.taalapp" style=text-decoration:none
+                                    <a href="https://play.google.com/store/apps/details?id=app.gold.webview.codecanyon.com.taalapp"
+                                       style=text-decoration:none
                                        title='De TaalApp - Android'><i
                                             class='icon-android'></i></a>
                                 </nobr>
@@ -687,8 +693,10 @@ function ReverseDisplay(d) {
     $("#woord").on('keydown', function () {
         var wl2 = document.getElementById('woord').value.length;
         if (wl2 < 3)
-        else if (wl2 > 8)
-        else {
+        else
+        if (wl2 > 8)
+        else
+        {
             var e = document.getElementById("src");
             var src_val = e.options[e.selectedIndex].text;
             var f = document.getElementById("des");

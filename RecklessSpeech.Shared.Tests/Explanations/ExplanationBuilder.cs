@@ -46,7 +46,6 @@ namespace RecklessSpeech.Shared.Tests.Explanations
 
         public ExplanationDao BuildEntity() =>
             new(
-            
                 this.ExplanationId.Value,
                 this.Target.Value,
                 this.Content.Value,

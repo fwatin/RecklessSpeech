@@ -57,7 +57,6 @@ namespace RecklessSpeech.Infrastructure.Sequences
         private async Task Handle(ExplanationAddedEvent addedEvent)
         {
             ExplanationDao dao = new(
-            
                 addedEvent.Explanation.ExplanationId.Value,
                 addedEvent.Explanation.Content.Value,
                 addedEvent.Explanation.Target.Value,

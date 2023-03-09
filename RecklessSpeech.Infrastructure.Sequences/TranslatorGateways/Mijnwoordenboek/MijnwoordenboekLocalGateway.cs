@@ -13,6 +13,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoorden
 
             return explanation;
         }
+
         private (string, string) GetTranslationsAndSourceForAWord(string word)
         {
             string currentDirectory = Directory.GetCurrentDirectory();

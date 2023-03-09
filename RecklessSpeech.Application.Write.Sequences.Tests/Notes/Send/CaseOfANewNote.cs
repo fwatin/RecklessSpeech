@@ -4,11 +4,11 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
 {
     public class CaseOfANewNote
     {
+        private readonly SendNotesCommand command;
         private readonly Guid sequenceId;
         private readonly InMemoryTestSequenceRepository sequenceRepository;
         private readonly SpyNoteGateway spyGateway;
         private readonly SendNotesCommandHandler sut;
-        private readonly SendNotesCommand command;
 
         public CaseOfANewNote()
         {
@@ -115,8 +115,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             //Arrange
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create(this.sequenceId) with
             {
-                AudioFileNameWithExtension = new("368468486.mp3"),
-                Explanation = ExplanationBuilder.Create()
+                AudioFileNameWithExtension = new("368468486.mp3"), Explanation = ExplanationBuilder.Create()
             };
             this.sequenceRepository.Feed(sequenceBuilder);
 

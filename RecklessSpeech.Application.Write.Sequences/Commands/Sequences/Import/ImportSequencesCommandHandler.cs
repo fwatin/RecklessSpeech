@@ -61,7 +61,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
                 return node;
             }
 
-            StylesheetParser parser = new StylesheetParser();
+            StylesheetParser parser = new();
             Stylesheet? stylesheet = parser.Parse(node.InnerHtml);
 
             List<IStyleRule> rules = stylesheet.StyleRules.ToList();

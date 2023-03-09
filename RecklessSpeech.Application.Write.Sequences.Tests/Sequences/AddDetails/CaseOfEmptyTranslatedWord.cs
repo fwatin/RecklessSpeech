@@ -22,10 +22,7 @@
                 Word = new(word), TranslatedWord = null, Explanation = ExplanationBuilder.Create()
             };
             this.sequenceRepository.Feed(sequenceBuilder);
-            Class1[] dtos =
-            {
-                new() { word = new() { text = word }, wordTranslationsArr = new[] { translation } }
-            };
+            Class1[] dtos = { new() { word = new() { text = word }, wordTranslationsArr = new[] { translation } } };
             AddDetailsToSequencesCommand command = new(dtos);
 
             //Act

@@ -4,15 +4,9 @@ namespace RecklessSpeech.Shared.Tests.Explanations
 {
     public class ExplanationIdBuilder
     {
-        public ExplanationIdBuilder(Guid value)
-        {
-            this.Value = value;
-        }
-        
-        public ExplanationIdBuilder()
-        {
-            this.Value = Guid.NewGuid();
-        }
+        public ExplanationIdBuilder(Guid value) => this.Value = value;
+
+        public ExplanationIdBuilder() => this.Value = Guid.NewGuid();
 
         public Guid Value { get; }
 

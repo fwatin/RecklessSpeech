@@ -11,7 +11,8 @@ namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway
 
         public HttpAnkiNoteGateway(HttpClient client) => this.client = client;
 
-        public async Task Send(IReadOnlyCollection<NoteDto> notes) //todo clean passer sur un seul send à la fois et throw exception si ca foire
+        public async Task
+            Send(IReadOnlyCollection<NoteDto> notes) //todo clean passer sur un seul send à la fois et throw exception si ca foire
         {
             AnkiConnectAddNotesPayload pack = BuildPack(notes);
 
@@ -59,9 +60,8 @@ namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway
             return pack;
         }
 
-        private static Fields CreateFields(NoteDto dto)
-        {
-            return new()
+        private static Fields CreateFields(NoteDto dto) =>
+            new()
             {
                 Question = dto.Question.Value,
                 Answer = dto.Answer.Value,
@@ -69,6 +69,5 @@ namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway
                 Source = dto.Source.Value,
                 Audio = dto.Audio.Value
             };
-        }
     }
 }

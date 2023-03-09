@@ -9,9 +9,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentAssertions" Version="6.7.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
-        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="FluentAssertions" Version="6.7.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0"/>
+        <PackageReference Include="xunit" Version="2.4.1"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -23,14 +23,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\RecklessSpeech.Infrastructure.Read\RecklessSpeech.Infrastructure.Read.csproj" />
-        <ProjectReference Include="..\RecklessSpeech.Infrastructure.Sequences\RecklessSpeech.Infrastructure.Sequences.csproj" />
-        <ProjectReference Include="..\RecklessSpeech.Shared.Tests\RecklessSpeech.Shared.Tests.csproj" />
+        <ProjectReference Include="..\RecklessSpeech.Infrastructure.Read\RecklessSpeech.Infrastructure.Read.csproj"/>
+        <ProjectReference Include="..\RecklessSpeech.Infrastructure.Sequences\RecklessSpeech.Infrastructure.Sequences.csproj"/>
+        <ProjectReference Include="..\RecklessSpeech.Shared.Tests\RecklessSpeech.Shared.Tests.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="Translations\Mijnwoordenboek\Data\mijnwoordenboek_translations_for_brood.htm" />
-        <None Remove="Translations\Mijnwoordenboek\Data\mijnwoordenboek_translations_for_rapport.htm" />
+        <None Remove="Translations\Mijnwoordenboek\Data\mijnwoordenboek_translations_for_brood.htm"/>
+        <None Remove="Translations\Mijnwoordenboek\Data\mijnwoordenboek_translations_for_rapport.htm"/>
     </ItemGroup>
 
     <ItemGroup>

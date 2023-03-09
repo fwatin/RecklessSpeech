@@ -7,8 +7,8 @@ namespace RecklessSpeech.Shared.Tests.Notes
     {
         private NoteBuilder(
             NoteIdBuilder id,
-            QuestionBuilder question, 
-            AnswerBuilder answer, 
+            QuestionBuilder question,
+            AnswerBuilder answer,
             AfterBuilder after,
             SourceBuilder source,
             AudioBuilder audio)

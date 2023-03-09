@@ -23,7 +23,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.WordReferen
         private HtmlNode GetNodeByNameAndAttribute(HtmlNode htmlNode, string name, string attribute, string value)
         {
             List<HtmlNode> allWithName = htmlNode.Descendants(name).ToList();
-            List<HtmlNode> l = new List<HtmlNode>();
+            List<HtmlNode> l = new();
 
             foreach (HtmlNode? div in allWithName)
             {
@@ -44,7 +44,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.WordReferen
 
         private string CleanFromSyntaxExplanations(string content)
         {
-            List<string> toRemove = new List<string>();
+            List<string> toRemove = new();
 
             toRemove.Add(": Refers to person, place, thing, quality, etc.");
             toRemove.Add(
