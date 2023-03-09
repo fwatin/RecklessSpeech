@@ -8,6 +8,7 @@ using RecklessSpeech.Infrastructure.Databases;
 using RecklessSpeech.Infrastructure.Orchestration;
 using RecklessSpeech.Infrastructure.Read;
 using RecklessSpeech.Infrastructure.Sequences;
+using RecklessSpeech.Infrastructure.Sequences.Executors;
 
 namespace RecklessSpeech.Web
 {
@@ -25,7 +26,7 @@ namespace RecklessSpeech.Web
         public void ConfigureServices(IServiceCollection services) =>
             services
                 .AddWebDependencies(this.configuration, this.environment)
-                .AddSequencePorts()
+                .AddEventsExecutors()
                 .AddSequencesCommands()
                 .AddInfrastructure()
                 .AddReadPorts()

@@ -1,5 +1,6 @@
 ﻿using RecklessSpeech.Infrastructure.Databases;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
+using RecklessSpeech.Infrastructure.Sequences.Executors;
 using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
 namespace RecklessSpeech.Infrastructure.Sequences.Tests
@@ -11,7 +12,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests
             this.InMemoryDataContext = new();
             this.Sut = new(new IDomainEventExecutor[]
             {
-                new SequenceDomainEventRepository(this.InMemoryDataContext)
+                new RepositoryExecutor(this.InMemoryDataContext)
             });
         }
 

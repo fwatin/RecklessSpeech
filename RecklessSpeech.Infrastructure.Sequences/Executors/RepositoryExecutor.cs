@@ -5,13 +5,13 @@ using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
-namespace RecklessSpeech.Infrastructure.Sequences
+namespace RecklessSpeech.Infrastructure.Sequences.Executors
 {
-    public class SequenceDomainEventRepository : IDomainEventExecutor
+    public class RepositoryExecutor : IDomainEventExecutor
     {
         private readonly IDataContext dbContext;
 
-        public SequenceDomainEventRepository(IDataContext dbContext) => this.dbContext = dbContext;
+        public RepositoryExecutor(IDataContext dbContext) => this.dbContext = dbContext;
 
         public async Task ApplyEvent(IDomainEvent @event)
         {
