@@ -1,5 +1,4 @@
-﻿using RecklessSpeech.Infrastructure.Databases;
-using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
+﻿using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Infrastructure.Sequences.Executors;
 using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
@@ -17,6 +16,6 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests
         }
 
         protected InMemoryDataContext InMemoryDataContext { get; }
-        protected DomainEventsExecutor Sut { get; }
+        protected DomainEventsExecutorManager Sut { get; }
     }
 }

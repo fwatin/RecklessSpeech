@@ -1,13 +1,10 @@
-﻿using RecklessSpeech.Application.Core.Events;
-using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
-
-namespace RecklessSpeech.Infrastructure.Databases
+﻿namespace RecklessSpeech.Application.Core.Events
 {
-    public class DomainEventsExecutor : IDomainEventsExecutor
+    public class DomainEventsExecutorManager : IDomainEventsExecutorManager
     {
         private readonly IEnumerable<IDomainEventExecutor> repositories;
 
-        public DomainEventsExecutor(IEnumerable<IDomainEventExecutor> repositories) =>
+        public DomainEventsExecutorManager(IEnumerable<IDomainEventExecutor> repositories) =>
             this.repositories = repositories;
 
         public async Task ApplyEvents(IEnumerable<IDomainEvent> domainEvents)

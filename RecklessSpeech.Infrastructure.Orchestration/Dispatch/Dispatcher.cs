@@ -8,10 +8,10 @@ namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
 {
     internal class Dispatcher : IRecklessSpeechDispatcher
     {
-        private readonly IDomainEventsExecutor domainEventsExecutor;
+        private readonly IDomainEventsExecutorManager domainEventsExecutor;
         private readonly IMediator mediator;
 
-        public Dispatcher(IMediator mediator, IDomainEventsExecutor domainEventsExecutor)
+        public Dispatcher(IMediator mediator, IDomainEventsExecutorManager domainEventsExecutor)
         {
             this.mediator = mediator;
             this.domainEventsExecutor = domainEventsExecutor;

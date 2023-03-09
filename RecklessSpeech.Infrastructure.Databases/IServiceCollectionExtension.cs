@@ -12,9 +12,17 @@ namespace RecklessSpeech.Infrastructure.Databases
                 .AddInMemoryDbContext()
                 .AddRepositories();
 
+        private static IServiceCollection AddInMemoryDbContext(this IServiceCollection services)
+        {
+            InMemoryDataContext inMemoryDataContext = new();
+
+            return services
+                .AddSingleton<IDataContext>(inMemoryDataContext)
+                .AddSingleton(inMemoryDataContext);
+        }
         private static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IDomainEventsExecutor, DomainEventsExecutor>();
+            services.AddScoped<IDomainEventsExecutorManager, DomainEventsExecutorManager>();
 
             services.AddScoped<ISequenceRepository, InMemorySequenceRepository>();
             services.AddScoped<InMemorySequenceRepository>();
@@ -25,14 +33,13 @@ namespace RecklessSpeech.Infrastructure.Databases
 
             return services;
         }
-
-        private static IServiceCollection AddInMemoryDbContext(this IServiceCollection services)
+        
+        private static IServiceCollection AddEventsExecutor(this IServiceCollection services)
         {
-            InMemoryDataContext inMemoryDataContext = new();
-
-            return services
-                .AddSingleton<IDataContext>(inMemoryDataContext)
-                .AddSingleton(inMemoryDataContext);
+            services.AddScoped<IDomainEventsExecutorManager, DomainEventsExecutorManager>();
+            return services;
         }
+
+       
     }
 }

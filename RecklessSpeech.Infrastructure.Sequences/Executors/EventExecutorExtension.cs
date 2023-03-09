@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
+using RecklessSpeech.Application.Core.Events;
 
 namespace RecklessSpeech.Infrastructure.Sequences.Executors
 {
