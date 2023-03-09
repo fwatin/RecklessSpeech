@@ -1,6 +1,8 @@
-﻿namespace RecklessSpeech.Application.Core.Events
+﻿using MediatR;
+
+namespace RecklessSpeech.Application.Core.Events
 {
-    public interface IDomainEvent
+    public interface IDomainEvent : INotification
     {
     }
 }
