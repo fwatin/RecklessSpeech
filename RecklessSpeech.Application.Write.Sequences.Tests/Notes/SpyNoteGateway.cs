@@ -5,13 +5,11 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes
 {
     public class SpyNoteGateway : INoteGateway
     {
-        public SpyNoteGateway() => this.Notes = new();
+        public NoteDto? Note { get; private set; }
 
-        public List<NoteDto> Notes { get; }
-
-        public async Task Send(IReadOnlyCollection<NoteDto> notes)
+        public async Task Send(NoteDto note)
         {
-            this.Notes.AddRange(notes);
+            this.Note = note;
             await Task.CompletedTask;
         }
     }

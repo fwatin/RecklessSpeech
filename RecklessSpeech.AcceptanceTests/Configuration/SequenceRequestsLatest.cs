@@ -29,8 +29,8 @@ namespace RecklessSpeech.AcceptanceTests.Configuration
         public Task<SequenceSummaryPresentation> GetOne(Guid sequenceId)
             => this.client.Get<SequenceSummaryPresentation>($"http://localhost{this.basePath}/{sequenceId}");
 
-        public async Task SendToAnki(List<Guid> ids) =>
-            await this.client.Post<string>($"http://localhost{this.basePath}/Anki", ids);
+        public async Task SendToAnki(Guid id) =>
+            await this.client.Post<string>($"http://localhost{this.basePath}/send-to-anki?id={id}");
 
         public async Task Enrich(Guid sequenceId) =>
             await this.client.Post<string>($"http://localhost{this.basePath}/Dictionary/dutch",

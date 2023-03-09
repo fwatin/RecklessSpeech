@@ -17,7 +17,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             this.sut = new(this.spyGateway, this.sequenceRepository);
 
             this.sequenceId = Guid.Parse("79FAD304-21BC-4B58-BECF-0884016DCC11");
-            this.command = new(new List<Guid> { this.sequenceId });
+            this.command = new(this.sequenceId);
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             await this.sut.Handle(this.command, CancellationToken.None);
 
             //Assert
-            this.spyGateway.Notes.Should().HaveCount(1);
+            this.spyGateway.Note.Should().NotBeNull();
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             await this.sut.Handle(this.command, CancellationToken.None);
 
             //Assert
-            this.spyGateway.Notes.First().Question.Value.Should().Be(sequenceBuilder.HtmlContent.Value);
+            this.spyGateway.Note!.Question.Value.Should().Be(sequenceBuilder.HtmlContent.Value);
         }
 
         [Fact]
@@ -69,7 +69,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             await this.sut.Handle(this.command, CancellationToken.None);
 
             //Assert
-            this.spyGateway.Notes.First().Answer.Value.Should().Be("pain");
+            this.spyGateway.Note!.Answer.Value.Should().Be("pain");
         }
 
         [Fact]
@@ -87,7 +87,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             await this.sut.Handle(this.command, CancellationToken.None);
 
             //Assert
-            this.spyGateway.Notes.First().After.Value.Trim().Should().Be(
+            this.spyGateway.Note!.After.Value.Trim().Should().Be(
                 "translated sentence from Netflix: \"hey this is the translated sentence from Netflix\"a lot of explanations");
         }
 
@@ -105,7 +105,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             await this.sut.Handle(this.command, CancellationToken.None);
 
             //Assert
-            this.spyGateway.Notes.First().Source.Value.Should()
+            this.spyGateway.Note!.Source.Value.Should()
                 .Be("<a href=\"www.farfelu.com/translation\">www.farfelu.com/translation</a>");
         }
 
@@ -123,7 +123,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             await this.sut.Handle(this.command, CancellationToken.None);
 
             //Assert
-            this.spyGateway.Notes.First().Audio.Value.Should().Be("[sound:368468486.mp3]");
+            this.spyGateway.Note!.Audio.Value.Should().Be("[sound:368468486.mp3]");
         }
     }
 }

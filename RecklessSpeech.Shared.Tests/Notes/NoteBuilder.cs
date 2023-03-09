@@ -29,7 +29,7 @@ namespace RecklessSpeech.Shared.Tests.Notes
         public AudioBuilder Audio { get; init; }
 
         public SendNotesCommand BuildCommand() =>
-            new(new Guid[] { this.Id });
+            new(this.Id);
 
         public Note BuildAggregate() =>
             Note.Hydrate(this.Id, this.Question, this.Answer, this.After, this.Source, this.Audio);

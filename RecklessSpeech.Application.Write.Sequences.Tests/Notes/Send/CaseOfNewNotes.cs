@@ -33,7 +33,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            this.spyGateway.Notes.Single().After.Value.Should().Contain(sequenceBuilder.TranslatedSentence.Value);
+            this.spyGateway.Note!.After.Value.Should().Contain(sequenceBuilder.TranslatedSentence.Value);
         }
 
         [Fact]
@@ -57,7 +57,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
 
             //Assert
             const string expectedUrl = "https://www.mijnwoordenboek.nl/vertaal/NL/FR/gimmicks";
-            this.spyGateway.Notes.Single().Source.Value.Should().Be($"<a href=\"{expectedUrl}\">{expectedUrl}</a>");
+            this.spyGateway.Note!.Source.Value.Should().Be($"<a href=\"{expectedUrl}\">{expectedUrl}</a>");
         }
     }
 }

@@ -6,7 +6,7 @@ using RecklessSpeech.Domain.Shared;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send
 {
-    public record SendNotesCommand(IReadOnlyCollection<Guid> ids) : IEventDrivenCommand;
+    public record SendNotesCommand(Guid Id) : IEventDrivenCommand; //todo rename
 
     public class SendNotesCommandHandler : CommandHandlerBase<SendNotesCommand>
     {
@@ -21,22 +21,12 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send
 
         protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(SendNotesCommand command)
         {
-            List<NoteDto> notes = new();
+            Sequence? sequence = await this.sequenceRepository.GetOne(command.Id);
+            if (sequence is null) return ArraySegment<IDomainEvent>.Empty;
 
-            foreach (Guid id in command.ids)
-            {
-                Sequence? sequence = await this.sequenceRepository.GetOne(id);
-                if (sequence is null)
-                {
-                    continue;
-                }
+            Note note = Note.CreateFromSequence(sequence);
 
-                Note note = Note.CreateFromSequence(sequence);
-
-                notes.Add(note.GetDto());
-            }
-
-            await this.noteGateway.Send(notes);
+            await this.noteGateway.Send(note.GetDto());
 
             return await Task.FromResult(Array.Empty<IDomainEvent>());
         }

@@ -77,13 +77,12 @@ namespace RecklessSpeech.Web.Sequences
         }
 
         [HttpPost]
-        [Route("Anki/")]
+        [Route("send-to-anki/")]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> SendToAnki(
-            IReadOnlyCollection<Guid> ids)
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> SendToAnki([FromQuery] Guid id)
         {
-            await this.dispatcher.Dispatch(new SendNotesCommand(ids));
+            await this.dispatcher.Dispatch(new SendNotesCommand(id));
             return this.Ok();
         }
 
