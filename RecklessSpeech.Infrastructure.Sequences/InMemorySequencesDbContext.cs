@@ -10,7 +10,7 @@ namespace RecklessSpeech.Infrastructure.Sequences
             this.Sequences = new();
         }
 
-        public List<SequenceEntity> Sequences { get; }
-        public List<ExplanationEntity> Explanations { get; }
+        public List<SequenceDao> Sequences { get; }
+        public List<ExplanationDao> Explanations { get; }
     }
 }

@@ -39,7 +39,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
         public void ThenTheHtmlInHtmlContentIsValid()
         {
             IDataContext sequencesContext = this.GetService<IDataContext>();
-            SequenceEntity sequence = sequencesContext.Sequences.First();
+            SequenceDao sequence = sequencesContext.Sequences.First();
             HtmlDocument doc = new();
             doc.LoadHtml(sequence.HtmlContent);
             doc.ParseErrors.Should().BeEmpty();
@@ -49,7 +49,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
         public void ThenTheHtmlContainsSomeNodesForTitleAndImages()
         {
             IDataContext sequencesContext = this.GetService<IDataContext>();
-            SequenceEntity sequence = sequencesContext.Sequences.First();
+            SequenceDao sequence = sequencesContext.Sequences.First();
             HtmlDocument htmlDoc = new();
             htmlDoc.LoadHtml(sequence.HtmlContent);
 

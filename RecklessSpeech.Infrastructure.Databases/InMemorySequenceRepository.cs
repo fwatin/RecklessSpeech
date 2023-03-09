@@ -14,7 +14,7 @@ namespace RecklessSpeech.Infrastructure.Databases
 
         public async Task<Sequence?> GetOne(Guid id)
         {
-            SequenceEntity? entity = this.dbContext.Sequences.SingleOrDefault(x => x.Id == id);
+            SequenceDao? entity = this.dbContext.Sequences.SingleOrDefault(x => x.Id == id);
             if (entity is null)
             {
                 return null;
@@ -25,7 +25,7 @@ namespace RecklessSpeech.Infrastructure.Databases
 
         public async Task<Sequence?> GetOneByWord(string word)
         {
-            SequenceEntity? entity = this.dbContext.Sequences.SingleOrDefault(x => x.Word == word);
+            SequenceDao? entity = this.dbContext.Sequences.SingleOrDefault(x => x.Word == word);
             if (entity is null)
             {
                 return null;
@@ -34,30 +34,30 @@ namespace RecklessSpeech.Infrastructure.Databases
             return await this.CreateSequenceFromEntity(entity);
         }
 
-        private async Task<Sequence> CreateSequenceFromEntity(SequenceEntity entity)
+        private async Task<Sequence> CreateSequenceFromEntity(SequenceDao dao)
         {
             Explanation? explanation = default;
-            if (entity.ExplanationId is not null)
+            if (dao.ExplanationId is not null)
             {
-                ExplanationEntity explanationEntity =
-                    this.dbContext.Explanations.Single(x => x.Id == entity.ExplanationId);
+                ExplanationDao explanationDao =
+                    this.dbContext.Explanations.Single(x => x.Id == dao.ExplanationId);
 
                 explanation = Explanation.Hydrate(
-                    explanationEntity.Id,
-                    explanationEntity.Content,
-                    explanationEntity.Target,
-                    explanationEntity.SourceUrl);
+                    explanationDao.Id,
+                    explanationDao.Content,
+                    explanationDao.Target,
+                    explanationDao.SourceUrl);
             }
 
             Sequence sequence = Sequence.Hydrate(
-                entity.Id,
-                entity.HtmlContent,
-                entity.AudioFileNameWithExtension,
-                entity.Tags,
-                entity.Word,
-                entity.TranslatedSentence,
+                dao.Id,
+                dao.HtmlContent,
+                dao.AudioFileNameWithExtension,
+                dao.Tags,
+                dao.Word,
+                dao.TranslatedSentence,
                 explanation,
-                entity.TranslatedWord
+                dao.TranslatedWord
             );
 
             return await Task.FromResult(sequence);

@@ -32,13 +32,13 @@ namespace RecklessSpeech.Infrastructure.Read
 
         private async Task<SequenceSummaryQueryModel?> TryGetOne(Guid id)
         {
-            SequenceEntity? entity = this.dbContext.Sequences.FirstOrDefault(x => x.Id == id);
+            SequenceDao? entity = this.dbContext.Sequences.FirstOrDefault(x => x.Id == id);
             if (entity is null)
             {
                 return null;
             }
 
-            ExplanationEntity? explanation = null;
+            ExplanationDao? explanation = null;
             if (entity.ExplanationId is not null)
             {
                 explanation = this.dbContext.Explanations.Single(x => x.Id == entity.ExplanationId);

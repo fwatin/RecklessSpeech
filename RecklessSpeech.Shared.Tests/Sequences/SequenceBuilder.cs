@@ -75,7 +75,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 null,
                 null);
 
-        public SequenceEntity BuildEntity() =>
+        public SequenceDao BuildEntity() =>
             new(
                 this.SequenceId.Value,
                 this.HtmlContent.Value,

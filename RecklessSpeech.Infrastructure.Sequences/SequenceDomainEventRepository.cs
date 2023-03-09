@@ -38,7 +38,7 @@ namespace RecklessSpeech.Infrastructure.Sequences
 
         private async Task Handle(ImportedSequenceEvent @event)
         {
-            SequenceEntity entity = new(
+            SequenceDao dao = new(
                 @event.Id.Value,
                 @event.HtmlContent.Value,
                 @event.AudioFileNameWithExtension.Value,
@@ -49,14 +49,14 @@ namespace RecklessSpeech.Infrastructure.Sequences
                 @event.TranslatedWord?.Value
             );
 
-            this.dbContext.Sequences.Add(entity);
+            this.dbContext.Sequences.Add(dao);
 
             await this.SaveChangesAsync();
         }
 
         private async Task Handle(ExplanationAddedEvent addedEvent)
         {
-            ExplanationEntity entity = new(
+            ExplanationDao dao = new(
             
                 addedEvent.Explanation.ExplanationId.Value,
                 addedEvent.Explanation.Content.Value,
@@ -64,26 +64,26 @@ namespace RecklessSpeech.Infrastructure.Sequences
                 addedEvent.Explanation.SourceUrl.Value
             );
 
-            this.dbContext.Explanations.Add(entity); //passer en addAsync plus tard quand EF
+            this.dbContext.Explanations.Add(dao); //passer en addAsync plus tard quand EF
 
             await this.SaveChangesAsync();
         }
 
         private async Task Handle(SetTranslatedWordEvent setTranslatedWordEvent)
         {
-            SequenceEntity sequenceEntity =
+            SequenceDao sequenceDao =
                 this.dbContext.Sequences.Single(x => x.Id == setTranslatedWordEvent.SequenceId.Value);
 
-            sequenceEntity.TranslatedWord = setTranslatedWordEvent.TranslatedWord.Value;
+            sequenceDao.TranslatedWord = setTranslatedWordEvent.TranslatedWord.Value;
 
             await this.SaveChangesAsync();
         }
 
         private async Task Handle(ExplanationAssignedToSequenceEvent @event)
         {
-            SequenceEntity sequenceEntity = this.dbContext.Sequences.Single(x => x.Id == @event.SequenceId.Value);
+            SequenceDao sequenceDao = this.dbContext.Sequences.Single(x => x.Id == @event.SequenceId.Value);
 
-            sequenceEntity.ExplanationId = @event.ExplanationId.Value;
+            sequenceDao.ExplanationId = @event.ExplanationId.Value;
 
             await this.SaveChangesAsync();
         }

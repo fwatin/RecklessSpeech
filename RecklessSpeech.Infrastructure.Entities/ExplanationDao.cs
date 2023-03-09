@@ -1,8 +1,8 @@
 namespace RecklessSpeech.Infrastructure.Entities
 {
-    public record ExplanationEntity : AggregateRootEntity
+    public record ExplanationDao : RootDao
     {
-        public ExplanationEntity(
+        public ExplanationDao(
             Guid id,
             string target,
             string content,

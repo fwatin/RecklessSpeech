@@ -14,7 +14,7 @@ namespace RecklessSpeech.Infrastructure.Databases
 
         public Explanation? TryGetByTarget(string target)
         {
-            ExplanationEntity? entity = this.dbContext.Explanations.SingleOrDefault(x => x.Target == target);
+            ExplanationDao? entity = this.dbContext.Explanations.SingleOrDefault(x => x.Target == target);
 
             return entity is null
                 ? null

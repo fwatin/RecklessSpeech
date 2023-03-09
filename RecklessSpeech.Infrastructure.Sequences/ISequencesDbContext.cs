@@ -4,7 +4,7 @@ namespace RecklessSpeech.Infrastructure.Sequences
 {
     public interface IDataContext
     {
-        List<SequenceEntity> Sequences { get; }
-        List<ExplanationEntity> Explanations { get; }
+        List<SequenceDao> Sequences { get; }
+        List<ExplanationDao> Explanations { get; }
     }
 }

@@ -14,7 +14,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests.DomainEvents
             //Arrange
             SequenceBuilder sequenceBuilder =
                 SequenceBuilder.Create(Guid.Parse("0CE0088F-256B-483A-9174-CAA40A558B05"));
-            SequenceEntity expectedEntity = sequenceBuilder.BuildEntity();
+            SequenceDao expectedDao = sequenceBuilder.BuildEntity();
 
             //Act
             await this.Sut.ApplyEvents(new List<DomainEventIdentifier>
@@ -23,8 +23,8 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests.DomainEvents
             });
 
             //Assert
-            SequenceEntity result = this.InMemoryDataContext.Sequences.First();
-            result.Should().BeEquivalentTo(expectedEntity);
+            SequenceDao result = this.InMemoryDataContext.Sequences.First();
+            result.Should().BeEquivalentTo(expectedDao);
         }
     }
 }

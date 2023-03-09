@@ -24,7 +24,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests.DomainEvents
             });
 
             //Assert
-            SequenceEntity result = this.InMemoryDataContext.Sequences.First();
+            SequenceDao result = this.InMemoryDataContext.Sequences.First();
             result.TranslatedWord.Should().NotBeNull();
         }
     }

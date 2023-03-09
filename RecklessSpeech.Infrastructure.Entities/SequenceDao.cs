@@ -1,8 +1,8 @@
 ﻿namespace RecklessSpeech.Infrastructure.Entities
 {
-    public record SequenceEntity : AggregateRootEntity
+    public record SequenceDao : RootDao
     {
-        public SequenceEntity(
+        public SequenceDao(
             Guid id,
             string htmlContent,
             string audioFileNameWithExtension,
