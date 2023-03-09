@@ -82,7 +82,15 @@ namespace RecklessSpeech.Web.Sequences
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> SendToAnki([FromQuery] Guid id)
         {
-            await this.dispatcher.Dispatch(new SendNotesCommand(id));
+            try
+            {
+                await this.dispatcher.Dispatch(new SendNotesCommand(id));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return this.BadRequest(e.Message);
+            }
             return this.Ok();
         }
 

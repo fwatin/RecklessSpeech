@@ -96,8 +96,6 @@ namespace RecklessSpeech.Front.WPF
 
                 this.ViewModel.Progress = (int)progress;
             }
-
-            this.ViewModel.Progress = 0;
         }
     }
 }
