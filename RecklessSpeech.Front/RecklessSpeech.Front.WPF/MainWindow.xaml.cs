@@ -91,8 +91,13 @@ namespace RecklessSpeech.Front.WPF
             foreach (SequenceDto sequence in this.SequenceListView.SelectedItems)
             {
                 this.ViewModel.SendSequenceToAnkiCommand.Execute(sequence);
-                this.ViewModel.Progress = ++count / total * 100;
+                count++;
+                decimal progress = Math.Round((decimal)(count / total * 100), 0);
+
+                this.ViewModel.Progress = (int)progress;
             }
+
+            this.ViewModel.Progress = 0;
         }
     }
 }
