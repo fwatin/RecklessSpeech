@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Infrastructu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Shared.Tests", "RecklessSpeech.Shared.Tests\RecklessSpeech.Shared.Tests.csproj", "{EEBA26D3-3EB1-440D-BE79-3EE791FF557B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Infrastructure.Entities", "RecklessSpeech.Infrastructure.Entities\RecklessSpeech.Infrastructure.Entities.csproj", "{277067B2-CCC0-4910-AC00-7638C249AF4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Infrastructure.Daos", "RecklessSpeech.Infrastructure.Daos\RecklessSpeech.Infrastructure.Daos.csproj", "{277067B2-CCC0-4910-AC00-7638C249AF4B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecklessSpeech.Infrastructure.Orchestration", "RecklessSpeech.Infrastructure.Orchestration\RecklessSpeech.Infrastructure.Orchestration.csproj", "{EF99C468-0B6D-4671-8A40-2B0BE4E77451}"
 EndProject
@@ -351,9 +351,9 @@ Global
 		{89928C6E-766D-4F90-8E9B-E7B26050D36C} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
 		{32075678-4BB6-4087-8649-F5F837C891C8} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
 		{9986F135-F19E-4120-9586-4C82950F2159} = {63D80F20-7E9A-45A1-BED1-52C56CD4EBB7}
-		{4C6975CD-4593-47CA-B3DB-443B83A994B1} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
 		{EE9F83AB-A3A9-478F-B533-009AE6632744} = {847819C5-1039-4C49-ABA1-4764D9838C19}
 		{847819C5-1039-4C49-ABA1-4764D9838C19} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
+		{4C6975CD-4593-47CA-B3DB-443B83A994B1} = {847819C5-1039-4C49-ABA1-4764D9838C19}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6DDC6F2-CD4F-4DFD-B477-D143345078EF}
