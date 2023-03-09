@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using RecklessSpeech.Application.Read.Queries.LanguageDictionaries.GetAll;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
 using RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send;
@@ -10,7 +9,6 @@ using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
 using RecklessSpeech.Web.Configuration;
 using RecklessSpeech.Web.Configuration.Swagger;
-using RecklessSpeech.Web.ViewModels.LanguageDictionaries;
 using RecklessSpeech.Web.ViewModels.Sequences;
 using System;
 using System.Collections.Generic;
@@ -35,9 +33,9 @@ namespace RecklessSpeech.Web.Sequences
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<string>> ImportSequences(IFormFile file)
         {
-            using StreamReader? reader = new(file.OpenReadStream());
-            string? data = await reader.ReadToEndAsync();
-            ImportSequencesCommand? command = new(data);
+            using StreamReader reader = new(file.OpenReadStream());
+            string data = await reader.ReadToEndAsync();
+            ImportSequencesCommand command = new(data);
 
             await this.dispatcher.Dispatch(command);
 
@@ -50,8 +48,8 @@ namespace RecklessSpeech.Web.Sequences
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<string>> ImportDetails(IFormFile file)
         {
-            using StreamReader? reader = new(file.OpenReadStream());
-            string? data = await reader.ReadToEndAsync();
+            using StreamReader reader = new(file.OpenReadStream());
+            string data = await reader.ReadToEndAsync();
             Class1[]? sequenceDetailsDto = JsonConvert.DeserializeObject<Class1[]>(data);
             AddDetailsToSequencesCommand command = new(sequenceDetailsDto!);
             await this.dispatcher.Dispatch(command);
@@ -63,7 +61,7 @@ namespace RecklessSpeech.Web.Sequences
         [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryPresentation>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> Get()
         {
-            IReadOnlyCollection<SequenceSummaryQueryModel>? result =
+            IReadOnlyCollection<SequenceSummaryQueryModel> result =
                 await this.dispatcher.Dispatch(new GetAllSequencesQuery());
             return this.Ok(result.ToPresentation());
         }

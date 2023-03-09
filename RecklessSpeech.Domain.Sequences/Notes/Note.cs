@@ -30,14 +30,14 @@ namespace RecklessSpeech.Domain.Sequences.Notes
         public static Note CreateFromSequence(Sequence sequence) =>
             new(
                 new(Guid.NewGuid()),
-                Question.Create(sequence!.HtmlContent),
+                Question.Create(sequence.HtmlContent),
                 CreateAnswer(sequence),
                 CreateAfter(sequence),
                 CreateSource(sequence),
                 CreateAudio(sequence)
             );
 
-        private static Answer? CreateAnswer(Sequence sequence) => sequence.TranslatedWord != null
+        private static Answer CreateAnswer(Sequence sequence) => sequence.TranslatedWord != null
             ? Answer.Create(sequence.TranslatedWord!.Value)
             : Answer.Create("");
 
@@ -80,6 +80,6 @@ namespace RecklessSpeech.Domain.Sequences.Notes
             return After.Create(stringBuilder.ToString());
         }
 
-        public NoteDto GetDto() => new(this.question, this.answer, this.after, this.source, this.audio);
+        public NoteDto GetDto() => new(this.question, this.answer ?? new(""), this.after, this.source, this.audio);
     }
 }

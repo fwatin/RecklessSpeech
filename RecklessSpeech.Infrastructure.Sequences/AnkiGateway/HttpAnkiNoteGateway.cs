@@ -11,13 +11,13 @@ namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway
 
         public HttpAnkiNoteGateway(HttpClient client) => this.client = client;
 
-        public async Task Send(IReadOnlyCollection<NoteDto> notes)
+        public async Task Send(IReadOnlyCollection<NoteDto> notes) //todo clean passer sur un seul send à la fois et throw exception si ca foire
         {
             AnkiConnectAddNotesPayload pack = BuildPack(notes);
 
             string? json = JsonConvert.SerializeObject(pack);
 
-            StringContent? stringContent = new(json, Encoding.UTF8, "application/json");
+            StringContent stringContent = new(json, Encoding.UTF8, "application/json");
 
             HttpResponseMessage responseMessage = await this.client.PostAsync("", stringContent);
 
@@ -26,7 +26,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway
                 throw new AnkiSendFailedException();
             }
 
-            string? response = await responseMessage.Content.ReadAsStringAsync();
+            string response = await responseMessage.Content.ReadAsStringAsync();
 
             AnkiConnectAddNotesResponse? ankiConnectResponse =
                 JsonConvert.DeserializeObject<AnkiConnectAddNotesResponse>(response);
@@ -34,7 +34,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway
 
         private static AnkiConnectAddNotesPayload BuildPack(IEnumerable<NoteDto> dtos)
         {
-            AnkiConnectAddNotesPayload? pack = new()
+            AnkiConnectAddNotesPayload pack = new()
             {
                 action = "addNotes",
                 version = 6,
@@ -61,22 +61,10 @@ namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway
 
         private static Fields CreateFields(NoteDto dto)
         {
-            if (dto.Answer is not null)
-            {
-                return new()
-                {
-                    Question = dto.Question.Value,
-                    Answer = dto.Answer.Value,
-                    After = dto.After.Value,
-                    Source = dto.Source.Value,
-                    Audio = dto.Audio.Value
-                };
-            }
-
             return new()
             {
                 Question = dto.Question.Value,
-                Answer = "",
+                Answer = dto.Answer.Value,
                 After = dto.After.Value,
                 Source = dto.Source.Value,
                 Audio = dto.Audio.Value

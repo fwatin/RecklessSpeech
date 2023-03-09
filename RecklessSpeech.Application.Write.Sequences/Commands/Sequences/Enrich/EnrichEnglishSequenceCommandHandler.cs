@@ -27,7 +27,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
 
         protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(EnrichEnglishSequenceCommand command)
         {
-            Sequence sequence = await this.sequenceRepository.GetOne(command.SequenceId);
+            Sequence? sequence = await this.sequenceRepository.GetOne(command.SequenceId);
+            if (sequence is null) return ArraySegment<IDomainEvent>.Empty;
 
             Explanation? existingExplanation = this.explanationRepository.TryGetByTarget(sequence.Word.Value);
 

@@ -33,7 +33,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
                 return Array.Empty<IDomainEvent>();
             }
 
-            Explanation? existingExplanation = this.explanationRepository.TryGetByTarget(sequence!.Word.Value);
+            Explanation? existingExplanation = this.explanationRepository.TryGetByTarget(sequence.Word.Value);
 
             Explanation explanation =
                 existingExplanation ?? this.dutchTranslatorGateway.GetExplanation(sequence.Word.Value);

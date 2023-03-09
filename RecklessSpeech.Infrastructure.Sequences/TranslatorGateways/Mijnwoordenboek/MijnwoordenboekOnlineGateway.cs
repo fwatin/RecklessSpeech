@@ -25,7 +25,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoorden
 
             HtmlNode node = this.GetNodeByNameAndAttribute(mainNode, "div", "class", "slider-wrap");
 
-            HtmlNode endNode = Remove(node, "script");
+            HtmlNode endNode = Remove(node);
 
             return (endNode.ParentNode.InnerHtml, url);
         }
@@ -42,7 +42,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoorden
             return l.Last();
         }
 
-        private static HtmlNode Remove(HtmlNode doc, string name)
+        private static HtmlNode Remove(HtmlNode doc)
         {
             List<string> paths = doc.Descendants("script").Select(n => n.XPath).ToList();
 

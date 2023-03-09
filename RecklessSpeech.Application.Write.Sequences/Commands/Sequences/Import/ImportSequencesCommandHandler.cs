@@ -25,7 +25,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
             {
                 (Word? word, TranslatedSentence? translatedSentence) = GetDataFromHtml(rawHtml);
 
-                HtmlContent? htmlContent = GetHtmlContent(rawHtml, translatedSentence);
+                HtmlContent htmlContent = GetHtmlContent(rawHtml, translatedSentence);
 
                 Sequence? sequence = Sequence.Create(Guid.NewGuid(),
                     htmlContent,

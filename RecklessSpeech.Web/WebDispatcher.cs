@@ -17,7 +17,7 @@ namespace RecklessSpeech.Web
 
         public async Task Dispatch(IEventDrivenCommand command)
         {
-            IReadOnlyCollection<DomainEventIdentifier>? domainEvents =
+            IReadOnlyCollection<DomainEventIdentifier> domainEvents =
                 await this.dispatcher.Dispatch(new RootTransactionalStrategy(), command);
             await this.Publish(domainEvents);
         }

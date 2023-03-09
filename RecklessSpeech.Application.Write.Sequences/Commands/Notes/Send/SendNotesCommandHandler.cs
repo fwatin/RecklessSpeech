@@ -25,7 +25,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send
 
             foreach (Guid id in command.ids)
             {
-                Sequence sequence = await this.sequenceRepository.GetOne(id);
+                Sequence? sequence = await this.sequenceRepository.GetOne(id);
+                if (sequence is null) continue;
 
                 Note note = Note.CreateFromSequence(sequence);
 
