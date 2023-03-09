@@ -25,7 +25,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\RecklessSpeech.Infrastructure.Daos\RecklessSpeech.Infrastructure.Daos.csproj" />
-        <ProjectReference Include="..\RecklessSpeech.Infrastructure.Orchestration\RecklessSpeech.Infrastructure.Orchestration.csproj" />
         <ProjectReference Include="..\RecklessSpeech.Infrastructure.Sequences\RecklessSpeech.Infrastructure.Sequences.csproj" />
         <ProjectReference Include="..\RecklessSpeech.Shared.Tests\RecklessSpeech.Shared.Tests.csproj" />
     </ItemGroup>
