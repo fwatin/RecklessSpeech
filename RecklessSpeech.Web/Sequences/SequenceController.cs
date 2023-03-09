@@ -110,18 +110,5 @@ namespace RecklessSpeech.Web.Sequences
             await this.dispatcher.Dispatch(new EnrichEnglishSequenceCommand(ids.First()));
             return this.Ok();
         }
-
-        [HttpGet]
-        [Route("Dictionary/")]
-        [MapToApiVersion("1.0")]
-        [ProducesResponseType(typeof(IReadOnlyCollection<LanguageDictionarySummaryPresentation>),
-            (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IReadOnlyCollection<LanguageDictionarySummaryPresentation>>> GetAll()
-        {
-            IReadOnlyCollection<LanguageDictionarySummaryQueryModel>? result =
-                await this.dispatcher.Dispatch(new GetAllLanguageDictionariesQuery());
-
-            return this.Ok(result.ToPresentation());
-        }
     }
 }

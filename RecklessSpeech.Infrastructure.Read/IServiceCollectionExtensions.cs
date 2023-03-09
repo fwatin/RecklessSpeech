@@ -20,8 +20,7 @@ namespace RecklessSpeech.Infrastructure.Read
 
         private static IServiceCollection AddQueryRepositories(this IServiceCollection services) =>
             services
-                .AddScoped<ISequenceQueryRepository, InMemorySequenceQueryRepository>()
-                .AddScoped<ILanguageDictionaryQueryRepository, InMemoryLanguageDictionaryQueryRepository>();
+                .AddScoped<ISequenceQueryRepository, InMemorySequenceQueryRepository>();
 
         private static IServiceCollection AddNoteGateway(this IServiceCollection services)
         {

@@ -6,6 +6,5 @@ namespace RecklessSpeech.Infrastructure.Sequences
     {
         List<SequenceEntity> Sequences { get; }
         List<ExplanationEntity> Explanations { get; }
-        List<LanguageDictionaryEntity> LanguageDictionaries { get; }
     }
 }

@@ -34,7 +34,7 @@ namespace RecklessSpeech.Infrastructure.Databases
             return await this.CreateSequenceFromEntity(entity);
         }
 
-        private async Task<Sequence> CreateSequenceFromEntity(SequenceEntity? entity)
+        private async Task<Sequence> CreateSequenceFromEntity(SequenceEntity entity)
         {
             Explanation? explanation = default;
             if (entity.ExplanationId is not null)
