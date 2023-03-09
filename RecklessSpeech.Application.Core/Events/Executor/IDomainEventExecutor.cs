@@ -1,4 +1,4 @@
-﻿namespace RecklessSpeech.Application.Core.Events
+﻿namespace RecklessSpeech.Application.Core.Events.Executor
 {
     public interface IDomainEventExecutor
     {

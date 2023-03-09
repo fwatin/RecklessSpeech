@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using RecklessSpeech.Application.Core.Commands;
 using RecklessSpeech.Application.Core.Events;
+using RecklessSpeech.Application.Core.Events.Executor;
 using RecklessSpeech.Application.Core.Queries;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch.Transactions;
 

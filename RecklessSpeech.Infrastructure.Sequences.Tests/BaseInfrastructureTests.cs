@@ -1,4 +1,4 @@
-﻿using RecklessSpeech.Application.Core.Events;
+﻿using RecklessSpeech.Application.Core.Events.Executor;
 using RecklessSpeech.Infrastructure.Sequences.Executors;
 using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
