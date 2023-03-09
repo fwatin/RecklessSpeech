@@ -5,7 +5,7 @@ using RecklessSpeech.Infrastructure.Orchestration.Dispatch.Transactions;
 
 namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
 {
-    public interface IRecklessSpeechDispatcher
+    public interface IDispatcher
     {
         Task<IReadOnlyCollection<IDomainEvent>> Dispatch(ITransactionalStrategy transactionalStrategy,
             IEventDrivenCommand command);

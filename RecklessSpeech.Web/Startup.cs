@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 using RecklessSpeech.Application.Core.Events.Executor;
 using RecklessSpeech.Application.Read;
 using RecklessSpeech.Application.Write.Sequences;
-using RecklessSpeech.Infrastructure.Orchestration;
+using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 using RecklessSpeech.Infrastructure.Read;
 using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Infrastructure.Sequences.Executors;

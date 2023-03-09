@@ -10,9 +10,9 @@ namespace RecklessSpeech.Web
 {
     public class WebDispatcher
     {
-        private readonly IRecklessSpeechDispatcher dispatcher;
+        private readonly IDispatcher dispatcher;
 
-        public WebDispatcher(IRecklessSpeechDispatcher dispatcher) => this.dispatcher = dispatcher;
+        public WebDispatcher(IDispatcher dispatcher) => this.dispatcher = dispatcher;
 
         public Task<TResponse> Dispatch<TResponse>(IQuery<TResponse> query) => this.dispatcher.Dispatch(query);
 

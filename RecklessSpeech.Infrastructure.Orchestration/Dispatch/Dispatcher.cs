@@ -7,15 +7,15 @@ using RecklessSpeech.Infrastructure.Orchestration.Dispatch.Transactions;
 
 namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
 {
-    internal class Dispatcher : IRecklessSpeechDispatcher
+    internal class Dispatcher : IDispatcher
     {
-        private readonly IDomainEventsExecutorManager domainEventsExecutor;
+        private readonly IDomainEventsExecutorManager executorManager;
         private readonly IMediator mediator;
 
-        public Dispatcher(IMediator mediator, IDomainEventsExecutorManager domainEventsExecutor)
+        public Dispatcher(IMediator mediator, IDomainEventsExecutorManager executorManager)
         {
             this.mediator = mediator;
-            this.domainEventsExecutor = domainEventsExecutor;
+            this.executorManager = executorManager;
         }
 
         public async Task<IReadOnlyCollection<IDomainEvent>> Dispatch(
@@ -24,12 +24,11 @@ namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
         {
             try
             {
-                List<IDomainEvent> events = (await this.mediator.Send(command, CancellationToken.None))
-                    .ToList();
+                IReadOnlyCollection<IDomainEvent> events = (await this.mediator.Send(command, CancellationToken.None));
 
                 await transactionalStrategy.ExecuteTransactional(async () =>
                 {
-                    await this.domainEventsExecutor.ApplyEvents(events);
+                    await this.executorManager.ApplyEvents(events);
                 });
                 return events;
             }

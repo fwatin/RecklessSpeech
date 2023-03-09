@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 
-namespace RecklessSpeech.Infrastructure.Orchestration
+namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
 {
-    public static class ServiceCollectionExtensions
+    public static class DispatcherExtensions
     {
         public static void AddInfrastructureOrchestration(this IServiceCollection services)
         {
@@ -13,7 +12,7 @@ namespace RecklessSpeech.Infrastructure.Orchestration
 
         private static void AddDispatcher(this IServiceCollection services)
         {
-            services.AddTransient<IRecklessSpeechDispatcher, Dispatcher>()
+            services.AddTransient<IDispatcher, Dispatcher>()
                 .AddTransient<Dispatcher>();
         }
     }
