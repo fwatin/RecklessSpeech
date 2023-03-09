@@ -2,6 +2,7 @@
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 using RecklessSpeech.Infrastructure.Sequences;
+using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
 namespace RecklessSpeech.Infrastructure.Databases
 {

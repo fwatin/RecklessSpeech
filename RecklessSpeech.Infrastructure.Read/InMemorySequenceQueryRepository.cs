@@ -3,6 +3,7 @@ using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Sequences;
+using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
 namespace RecklessSpeech.Infrastructure.Read
 {

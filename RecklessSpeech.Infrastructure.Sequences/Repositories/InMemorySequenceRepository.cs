@@ -2,9 +2,8 @@
 using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Infrastructure.Entities;
-using RecklessSpeech.Infrastructure.Sequences;
 
-namespace RecklessSpeech.Infrastructure.Databases
+namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 {
     public class InMemorySequenceRepository : ISequenceRepository
     {

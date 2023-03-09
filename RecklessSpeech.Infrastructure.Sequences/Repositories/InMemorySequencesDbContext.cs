@@ -1,6 +1,6 @@
 ﻿using RecklessSpeech.Infrastructure.Entities;
 
-namespace RecklessSpeech.Infrastructure.Sequences
+namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 {
     public class InMemoryDataContext : IDataContext
     {

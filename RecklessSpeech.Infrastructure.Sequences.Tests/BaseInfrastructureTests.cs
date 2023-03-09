@@ -1,5 +1,6 @@
 ﻿using RecklessSpeech.Infrastructure.Databases;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
+using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
 namespace RecklessSpeech.Infrastructure.Sequences.Tests
 {

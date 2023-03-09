@@ -1,9 +1,8 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Infrastructure.Entities;
-using RecklessSpeech.Infrastructure.Sequences;
 
-namespace RecklessSpeech.Infrastructure.Databases
+namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 {
     public class InMemoryExplanationRepository : IExplanationRepository
     {

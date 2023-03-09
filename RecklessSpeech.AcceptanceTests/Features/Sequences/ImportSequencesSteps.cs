@@ -3,6 +3,7 @@ using HtmlAgilityPack;
 using RecklessSpeech.AcceptanceTests.Configuration;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Sequences;
+using RecklessSpeech.Infrastructure.Sequences.Repositories;
 using RecklessSpeech.Shared.Tests.Sequences;
 using TechTalk.SpecFlow;
 
