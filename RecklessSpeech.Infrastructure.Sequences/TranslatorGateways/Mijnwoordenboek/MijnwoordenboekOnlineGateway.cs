@@ -17,7 +17,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoorden
         
         private (string, string) GetTranslationsAndSourceForAWord(string word)
         {
-            string url = $"https://www.mijnwoordenboek.nl/vertaal/NL/FR/{word}"; //todo config dans appsettings
+            string url = $"https://www.mijnwoordenboek.nl/vertaal/NL/FR/{word}";
 
             HtmlWeb web = new();
 

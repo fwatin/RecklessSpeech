@@ -7,7 +7,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.WordReferen
     {
         public (string, string) GetTranslationsAndSourceForAWord(string word)
         {
-            string url = $"https://www.wordreference.com/enfr/{word}"; //todo config dans appsettings
+            string url = $"https://www.wordreference.com/enfr/{word}";
 
             HtmlWeb web = new();
 
