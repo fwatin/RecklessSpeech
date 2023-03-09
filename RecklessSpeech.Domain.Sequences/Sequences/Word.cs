@@ -1,11 +1,9 @@
-namespace RecklessSpeech.Domain.Sequences.Sequences;
-
-public record Word(string Value)
+namespace RecklessSpeech.Domain.Sequences.Sequences
 {
-    public static Word Hydrate(string value) => new(value);
-
-    public static Word Create(string value)
+    public record Word(string Value)
     {
-        return new(value);
+        public static Word Hydrate(string value) => new(value);
+
+        public static Word Create(string value) => new(value);
     }
 }

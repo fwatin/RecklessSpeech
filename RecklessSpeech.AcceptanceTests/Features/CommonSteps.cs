@@ -1,7 +1,7 @@
-using System.Net;
 using FluentAssertions;
 using RecklessSpeech.AcceptanceTests.Configuration;
 using RecklessSpeech.AcceptanceTests.Extensions;
+using System.Net;
 using TechTalk.SpecFlow;
 
 namespace RecklessSpeech.AcceptanceTests.Features

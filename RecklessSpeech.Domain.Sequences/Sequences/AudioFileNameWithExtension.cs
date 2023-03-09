@@ -1,14 +1,17 @@
-namespace RecklessSpeech.Domain.Sequences.Sequences;
-
-public record AudioFileNameWithExtension(string Value)
+namespace RecklessSpeech.Domain.Sequences.Sequences
 {
-    public static AudioFileNameWithExtension Create(string value)
+    public record AudioFileNameWithExtension(string Value)
     {
-        if (value.EndsWith(".mp3") is false)
-            throw new InvalidAudioFileFormatException();
+        public static AudioFileNameWithExtension Create(string value)
+        {
+            if (value.EndsWith(".mp3") is false)
+            {
+                throw new InvalidAudioFileFormatException();
+            }
 
-        else return new AudioFileNameWithExtension(value);
+            return new(value);
+        }
+
+        public static AudioFileNameWithExtension Hydrate(string value) => new(value);
     }
-
-    public static AudioFileNameWithExtension Hydrate(string value) => new(value);
 }

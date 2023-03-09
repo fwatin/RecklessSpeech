@@ -1,132 +1,133 @@
-﻿using System.Text;
-using Flurl;
+﻿using Flurl;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RecklessSpeech.AcceptanceTests.Extensions;
+using System.Text;
 using TechTalk.SpecFlow;
 
-namespace RecklessSpeech.AcceptanceTests.Configuration.Clients;
-
-public class TestClientBase : IDisposable
+namespace RecklessSpeech.AcceptanceTests.Configuration.Clients
 {
-    private readonly ScenarioContext context;
-    public HttpClient Client { get; }
-
-    protected TestClientBase(ScenarioContext context, HttpClient client)
+    public class TestClientBase : IDisposable
     {
-        this.context = context;
-        this.Client = client;
-    }
+        private readonly ScenarioContext context;
 
-    private void Dispose(bool disposing)
-    {
-        if (disposing)
+        protected TestClientBase(ScenarioContext context, HttpClient client)
         {
-            this.Client.Dispose();
-        }
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    public async Task<T> Post<T>(string path, object? parameters = null)
-    {
-        return await Execute<T>(HttpMethod.Post, path, parameters);
-    }
-
-    public async Task<T> Put<T>(string path, object? parameters = null)
-    {
-        return await Execute<T>(HttpMethod.Put, path, parameters);
-    }
-
-    public async Task<T> Get<T>(string path, object? parameters = null)
-    {
-        return await Execute<T>(HttpMethod.Get, path, parameters);
-    }
-    
-    private async Task<T> Execute<T>(HttpMethod method, string path, object? parameters = null)
-    {
-        using HttpResponseMessage? response = await ExecuteRequest(method, path, parameters);
-        if (response!.IsSuccessStatusCode)
-        {
-            string json = await response.Content.ReadAsStringAsync();
-            T? content = JsonConvert.DeserializeObject<T>(json);
-            return content!;
+            this.context = context;
+            this.Client = client;
         }
 
-        return default!;
-    }
-    
-    private async Task<HttpResponseMessage?> ExecuteRequest(HttpMethod method, string path, object? parameters = null)
-    {
-        try
+        public HttpClient Client { get; }
+
+        public void Dispose()
         {
-            using HttpRequestMessage request = BuildMessage(method, path, parameters);
-            HttpResponseMessage response = await this.Client.SendAsync(request);
-            await RecordErrorIfAny(response);
-            return response;
-        }
-        catch (HttpRequestException e)
-        {
-            Console.WriteLine(e);
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
-        return new HttpResponseMessage();
-    }
-    
-    private static HttpRequestMessage BuildMessage(HttpMethod method, string path, object? parameters)
-    {
-        if (parameters != null && parameters.GetType() == typeof(MultipartFormDataContent))
-            return BuildMultiPartMessage(method, path, (MultipartFormDataContent) parameters);
-        return BuildJsonMessage(method, path, parameters);
-    }
-    
-    private static HttpRequestMessage BuildJsonMessage(HttpMethod method, string path, object? parameters)
-    {
-        if (method == HttpMethod.Post || method == HttpMethod.Put)
+        private void Dispose(bool disposing)
         {
-            HttpRequestMessage request = new(method, new Uri(path, UriKind.RelativeOrAbsolute));
-            if (parameters != null)
+            if (disposing)
             {
-                request.Content = new StringContent(JsonConvert.SerializeObject(parameters),
-                    Encoding.UTF8,
-                    "application/json");
+                this.Client.Dispose();
+            }
+        }
+
+        public async Task<T> Post<T>(string path, object? parameters = null) =>
+            await this.Execute<T>(HttpMethod.Post, path, parameters);
+
+        public async Task<T> Put<T>(string path, object? parameters = null) =>
+            await this.Execute<T>(HttpMethod.Put, path, parameters);
+
+        public async Task<T> Get<T>(string path, object? parameters = null) =>
+            await this.Execute<T>(HttpMethod.Get, path, parameters);
+
+        private async Task<T> Execute<T>(HttpMethod method, string path, object? parameters = null)
+        {
+            using HttpResponseMessage? response = await this.ExecuteRequest(method, path, parameters);
+            if (response!.IsSuccessStatusCode)
+            {
+                string json = await response.Content.ReadAsStringAsync();
+                T? content = JsonConvert.DeserializeObject<T>(json);
+                return content!;
             }
 
+            return default!;
+        }
+
+        private async Task<HttpResponseMessage?> ExecuteRequest(HttpMethod method, string path,
+            object? parameters = null)
+        {
+            try
+            {
+                using HttpRequestMessage request = BuildMessage(method, path, parameters);
+                HttpResponseMessage response = await this.Client.SendAsync(request);
+                await this.RecordErrorIfAny(response);
+                return response;
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine(e);
+            }
+
+            return new();
+        }
+
+        private static HttpRequestMessage BuildMessage(HttpMethod method, string path, object? parameters)
+        {
+            if (parameters != null && parameters.GetType() == typeof(MultipartFormDataContent))
+            {
+                return BuildMultiPartMessage(method, path, (MultipartFormDataContent)parameters);
+            }
+
+            return BuildJsonMessage(method, path, parameters);
+        }
+
+        private static HttpRequestMessage BuildJsonMessage(HttpMethod method, string path, object? parameters)
+        {
+            if (method == HttpMethod.Post || method == HttpMethod.Put)
+            {
+                HttpRequestMessage request = new(method, new Uri(path, UriKind.RelativeOrAbsolute));
+                if (parameters != null)
+                {
+                    request.Content = new StringContent(JsonConvert.SerializeObject(parameters),
+                        Encoding.UTF8,
+                        "application/json");
+                }
+
+                return request;
+            }
+
+            if (parameters != null)
+            {
+                path = path.SetQueryParams(parameters);
+            }
+
+            return new(method, new Uri(path, UriKind.RelativeOrAbsolute));
+        }
+
+        private static HttpRequestMessage BuildMultiPartMessage(HttpMethod method, string path,
+            MultipartFormDataContent multipartContent)
+        {
+            HttpRequestMessage request = new(method, new Uri(path, UriKind.RelativeOrAbsolute))
+            {
+                Content = multipartContent
+            };
             return request;
         }
 
-        if (parameters != null)
+        private async Task RecordErrorIfAny(HttpResponseMessage response)
         {
-            path = path.SetQueryParams(parameters);
-        }
-
-        return new HttpRequestMessage(method, new Uri(path, UriKind.RelativeOrAbsolute));
-    }
-    
-    private static HttpRequestMessage BuildMultiPartMessage(HttpMethod method, string path, MultipartFormDataContent multipartContent)
-    {
-        HttpRequestMessage request = new(method, new Uri(path, UriKind.RelativeOrAbsolute))
-        {
-            Content = multipartContent
-        };
-        return request;
-    }
-    
-    private async Task RecordErrorIfAny(HttpResponseMessage response)
-    {
-        try
-        {
-            response.EnsureSuccessStatusCode();
-        }
-        catch (HttpRequestException)
-        {
-            string content = await response.Content.ReadAsStringAsync();
-            ProblemDetails details = JsonConvert.DeserializeObject<ProblemDetails>(content)!;
-            this.context.SetError(new HttpTestServerException(response.StatusCode, details));
+            try
+            {
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                ProblemDetails details = JsonConvert.DeserializeObject<ProblemDetails>(content)!;
+                this.context.SetError(new(response.StatusCode, details));
+            }
         }
     }
 }

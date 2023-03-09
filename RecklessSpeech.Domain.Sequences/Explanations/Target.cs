@@ -1,3 +1,4 @@
-namespace RecklessSpeech.Domain.Sequences.Explanations;
-
-public record Target(string Value);
+namespace RecklessSpeech.Domain.Sequences.Explanations
+{
+    public record Target(string Value);
+}

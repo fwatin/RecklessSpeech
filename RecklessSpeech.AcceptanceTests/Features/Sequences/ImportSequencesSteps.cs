@@ -3,66 +3,60 @@ using HtmlAgilityPack;
 using RecklessSpeech.AcceptanceTests.Configuration;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Sequences;
-using RecklessSpeech.Shared.Tests;
 using RecklessSpeech.Shared.Tests.Sequences;
 using TechTalk.SpecFlow;
 
-namespace RecklessSpeech.AcceptanceTests.Features.Sequences;
-
-[Binding, Scope(Feature = "Import new sequences")]
-public class ImportSequencesSteps : StepsBase
+namespace RecklessSpeech.AcceptanceTests.Features.Sequences
 {
-    private string importFileContent = string.Empty;
-    private readonly string importFileName = "import.csv";
-    private readonly SequenceBuilder sequenceBuilder;
-
-    public ImportSequencesSteps(ScenarioContext context) : base(context)
+    [Binding]
+    [Scope(Feature = "Import new sequences")]
+    public class ImportSequencesSteps : StepsBase
     {
-        this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("E673F36C-9FBC-421D-9AF8-4B134E49B5C1"));
-    }
+        private readonly string importFileName = "import.csv";
+        private readonly SequenceBuilder sequenceBuilder;
+        private string importFileContent = string.Empty;
 
-    [Given(@"a file containing some sequences")]
-    public void GivenAFileContainingSomeSequences()
-    {
-        this.importFileContent = this.sequenceBuilder.RawCsvContent;
-    }
+        public ImportSequencesSteps(ScenarioContext context) : base(context) => this.sequenceBuilder =
+            SequenceBuilder.Create(Guid.Parse("E673F36C-9FBC-421D-9AF8-4B134E49B5C1"));
 
-    [When(@"the user imports this file")]
-    public async Task WhenTheUserImportsThisFile()
-    {
-        await this.Client.Latest().SequenceRequests()
-            .ImportSequences(this.importFileContent, this.importFileName);
-    }
+        [Given(@"a file containing some sequences")]
+        public void GivenAFileContainingSomeSequences() => this.importFileContent = this.sequenceBuilder.RawCsvContent;
 
-    [Then(@"some sequences are saved")]
-    public void ThenSomeSequencesAreSaved()
-    {
-        ISequencesDbContext? sequencesContext = GetService<ISequencesDbContext>();
-        sequencesContext.Sequences.Should().HaveCount(1);
-        sequencesContext.Sequences.Single().Word.Should().BeEquivalentTo(this.sequenceBuilder.BuildEntity().Word);
-    }
+        [When(@"the user imports this file")]
+        public async Task WhenTheUserImportsThisFile() =>
+            await this.Client.Latest().SequenceRequests()
+                .ImportSequences(this.importFileContent, this.importFileName);
 
-    [Then(@"the html in HTML Content is valid")]
-    public void ThenTheHtmlInHtmlContentIsValid()
-    {
-        ISequencesDbContext? sequencesContext = GetService<ISequencesDbContext>();
-        SequenceEntity? sequence = sequencesContext.Sequences.First();
-        HtmlDocument doc = new();
-        doc.LoadHtml(sequence.HtmlContent);
-        doc.ParseErrors.Should().BeEmpty();
-    }
+        [Then(@"some sequences are saved")]
+        public void ThenSomeSequencesAreSaved()
+        {
+            IDataContext sequencesContext = this.GetService<IDataContext>();
+            sequencesContext.Sequences.Should().HaveCount(1);
+            sequencesContext.Sequences.Single().Word.Should().BeEquivalentTo(this.sequenceBuilder.BuildEntity().Word);
+        }
 
-    [Then(@"the HTML contains some nodes for title and images")]
-    public void ThenTheHtmlContainsSomeNodesForTitleAndImages()
-    {
-        ISequencesDbContext? sequencesContext = GetService<ISequencesDbContext>();
-        SequenceEntity? sequence = sequencesContext.Sequences.First();
-        HtmlDocument htmlDoc = new();
-        htmlDoc.LoadHtml(sequence.HtmlContent);
+        [Then(@"the html in HTML Content is valid")]
+        public void ThenTheHtmlInHtmlContentIsValid()
+        {
+            IDataContext sequencesContext = this.GetService<IDataContext>();
+            SequenceDao sequence = sequencesContext.Sequences.First();
+            HtmlDocument doc = new();
+            doc.LoadHtml(sequence.HtmlContent);
+            doc.ParseErrors.Should().BeEmpty();
+        }
 
-        HtmlNode node = htmlDoc.DocumentNode.Descendants().First(n => n.HasClass("dc-title"));
-        node.InnerText.Should().Be("Moneyball");
+        [Then(@"the HTML contains some nodes for title and images")]
+        public void ThenTheHtmlContainsSomeNodesForTitleAndImages()
+        {
+            IDataContext sequencesContext = this.GetService<IDataContext>();
+            SequenceDao sequence = sequencesContext.Sequences.First();
+            HtmlDocument htmlDoc = new();
+            htmlDoc.LoadHtml(sequence.HtmlContent);
 
-        htmlDoc.DocumentNode.Descendants().Where(n => n.HasClass("dc-images")).Should().NotBeNullOrEmpty();
+            HtmlNode node = htmlDoc.DocumentNode.Descendants().First(n => n.HasClass("dc-title"));
+            node.InnerText.Should().Be("Moneyball");
+
+            htmlDoc.DocumentNode.Descendants().Where(n => n.HasClass("dc-images")).Should().NotBeNullOrEmpty();
+        }
     }
 }

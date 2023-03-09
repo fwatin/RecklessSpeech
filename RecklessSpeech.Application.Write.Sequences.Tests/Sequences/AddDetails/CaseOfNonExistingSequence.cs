@@ -1,27 +1,25 @@
-﻿namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails;
-
-public class CaseOfNonExistingSequence
+﻿namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
 {
-    private readonly AddDetailsToSequencesCommandHandler sut;
-
-    public CaseOfNonExistingSequence()
+    public class CaseOfNonExistingSequence
     {
-        this.sut = new(new InMemoryTestSequenceRepository());
-    }
+        private readonly AddDetailsToSequencesCommandHandler sut;
 
-    [Theory]
-    [InlineData("brood","pain")]
-    [InlineData("ham","jambon")]
-    public async Task Should_do_nothing_if_not_found(string word, string translation)
-    {
-        //Arrange
-        Class1[] dtos = { new() { word = new() { text = word }, wordTranslationsArr = new string[1] { translation } } };
-        AddDetailsToSequencesCommand command = new(dtos);
+        public CaseOfNonExistingSequence() => this.sut = new(new InMemoryTestSequenceRepository());
 
-        //Act
-        var ev=await this.sut.Handle(command, CancellationToken.None);
+        [Theory]
+        [InlineData("brood", "pain")]
+        [InlineData("ham", "jambon")]
+        public async Task Should_do_nothing_if_not_found(string word, string translation)
+        {
+            //Arrange
+            Class1[] dtos = { new() { word = new() { text = word }, wordTranslationsArr = new[] { translation } } };
+            AddDetailsToSequencesCommand command = new(dtos);
 
-        //Assert
-        ev.Should().BeEmpty();
+            //Act
+            IReadOnlyCollection<IDomainEvent> ev = await this.sut.Handle(command, CancellationToken.None);
+
+            //Assert
+            ev.Should().BeEmpty();
+        }
     }
 }

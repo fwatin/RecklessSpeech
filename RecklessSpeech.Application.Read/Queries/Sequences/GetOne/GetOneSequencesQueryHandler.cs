@@ -3,22 +3,19 @@ using RecklessSpeech.Application.Read.Ports;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Domain.Sequences.Sequences;
 
-namespace RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
-
-// ReSharper disable once ClassNeverInstantiated.Global
-public record GetOneSequenceQuery(SequenceId SequenceId) : IQuery<SequenceSummaryQueryModel>;
-
-public class GetOneSequencesQueryHandler : QueryHandler<GetOneSequenceQuery, SequenceSummaryQueryModel>
+namespace RecklessSpeech.Application.Read.Queries.Sequences.GetOne
 {
-    private readonly ISequenceQueryRepository sequenceQueryRepository;
+    // ReSharper disable once ClassNeverInstantiated.Global
+    public record GetOneSequenceQuery(SequenceId SequenceId) : IQuery<SequenceSummaryQueryModel>;
 
-    public GetOneSequencesQueryHandler(ISequenceQueryRepository sequenceQueryRepository)
+    public class GetOneSequencesQueryHandler : QueryHandler<GetOneSequenceQuery, SequenceSummaryQueryModel>
     {
-        this.sequenceQueryRepository = sequenceQueryRepository;
-    }
+        private readonly ISequenceQueryRepository sequenceQueryRepository;
 
-    protected override async Task<SequenceSummaryQueryModel> Handle(GetOneSequenceQuery query)
-    {
-        return await this.sequenceQueryRepository.GetOne(query.SequenceId.Value);
+        public GetOneSequencesQueryHandler(ISequenceQueryRepository sequenceQueryRepository) =>
+            this.sequenceQueryRepository = sequenceQueryRepository;
+
+        protected override async Task<SequenceSummaryQueryModel> Handle(GetOneSequenceQuery query) =>
+            await this.sequenceQueryRepository.GetOne(query.SequenceId.Value);
     }
 }

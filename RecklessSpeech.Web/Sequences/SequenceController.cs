@@ -1,141 +1,112 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using RecklessSpeech.Application.Read.Queries.LanguageDictionaries.GetAll;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
-using RecklessSpeech.Application.Write.Sequences.Commands;
 using RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
 using RecklessSpeech.Web.Configuration;
 using RecklessSpeech.Web.Configuration.Swagger;
-using RecklessSpeech.Web.ViewModels.LanguageDictionaries;
 using RecklessSpeech.Web.ViewModels.Sequences;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 
-namespace RecklessSpeech.Web.Sequences;
-
-[ApiVersion("1.0")]
-[Route("api/v{version:apiVersion}/sequences")]
-[ApiController]
-public class SequenceController : ControllerBase
+namespace RecklessSpeech.Web.Sequences
 {
-    private readonly WebDispatcher dispatcher;
-
-    public SequenceController(WebDispatcher dispatcher)
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/sequences")]
+    [ApiController]
+    public class SequenceController : ControllerBase
     {
-        this.dispatcher = dispatcher;
-    }
+        private readonly WebDispatcher dispatcher;
 
-    [HttpPost]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
-    public async Task<ActionResult<string>> ImportSequences(IFormFile file)
-    {
-        using StreamReader? reader = new(file.OpenReadStream());
-        string? data = await reader.ReadToEndAsync();
-        ImportSequencesCommand? command = new(data);
+        public SequenceController(WebDispatcher dispatcher) => this.dispatcher = dispatcher;
 
-        await this.dispatcher.Dispatch(command);
+        [HttpPost]
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<string>> ImportSequences(IFormFile file)
+        {
+            using StreamReader reader = new(file.OpenReadStream());
+            string data = await reader.ReadToEndAsync();
+            ImportSequencesCommand command = new(data);
 
-        return Ok();
-    }
+            await this.dispatcher.Dispatch(command);
 
-    [HttpPost]
-    [Route("import-details/")]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<string>> ImportDetails(IFormFile file)
-    {
-        using StreamReader? reader = new(file.OpenReadStream());
-        string? data = await reader.ReadToEndAsync();
-        Class1[]? sequenceDetailsDto = JsonConvert.DeserializeObject<Class1[]>(data);
-        AddDetailsToSequencesCommand command = new(sequenceDetailsDto!);
-        await this.dispatcher.Dispatch(command);
-        return Ok();
-    }
+            return this.Ok();
+        }
 
-    [HttpGet]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryPresentation>), (int) HttpStatusCode.OK)]
-    public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> Get()
-    {
-        IReadOnlyCollection<SequenceSummaryQueryModel>? result = await this.dispatcher.Dispatch(new GetAllSequencesQuery());
-        return Ok(result.ToPresentation());
-    }
+        [HttpPost]
+        [Route("import-details/")]
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<string>> ImportDetails(IFormFile file)
+        {
+            using StreamReader reader = new(file.OpenReadStream());
+            string data = await reader.ReadToEndAsync();
+            Class1[]? sequenceDetailsDto = JsonConvert.DeserializeObject<Class1[]>(data);
+            AddDetailsToSequencesCommand command = new(sequenceDetailsDto!);
+            await this.dispatcher.Dispatch(command);
+            return this.Ok();
+        }
 
-    [HttpGet("{sequenceId:guid}")]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(SequenceSummaryPresentation), (int) HttpStatusCode.OK)]
-    [SwaggerResponseErrors((int) HttpStatusCode.NotFound, ApiErrors.ReadSequenceNotFound)]
-    public async Task<ActionResult<SequenceSummaryPresentation>> GetOne(Guid sequenceId)
-    {
-        SequenceSummaryQueryModel result = await this.dispatcher.Dispatch(new GetOneSequenceQuery(new(sequenceId)));
-        return Ok(result.ToPresentation());
-    }
+        [HttpGet]
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryPresentation>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> Get()
+        {
+            IReadOnlyCollection<SequenceSummaryQueryModel> result =
+                await this.dispatcher.Dispatch(new GetAllSequencesQuery());
+            return this.Ok(result.ToPresentation());
+        }
 
-    [HttpPost]
-    [Route("Anki/")]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
-    public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> SendToAnki(
-        IReadOnlyCollection<Guid> ids)
-    {
-        await this.dispatcher.Dispatch(new SendNotesCommand(ids));
-        return Ok();
-    }
+        [HttpGet("{sequenceId:guid}")]
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(typeof(SequenceSummaryPresentation), (int)HttpStatusCode.OK)]
+        [SwaggerResponseErrors((int)HttpStatusCode.NotFound, ApiErrors.ReadSequenceNotFound)]
+        public async Task<ActionResult<SequenceSummaryPresentation>> GetOne(Guid sequenceId)
+        {
+            SequenceSummaryQueryModel result = await this.dispatcher.Dispatch(new GetOneSequenceQuery(new(sequenceId)));
+            return this.Ok(result.ToPresentation());
+        }
 
-    [HttpPost]
-    [Route("Dictionary/dutch")]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
-    public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> EnrichDutch(
-        IReadOnlyCollection<Guid> ids)
-    {
-        await this.dispatcher.Dispatch(new EnrichDutchSequenceCommand(ids.First()));
-        return Ok();
-    }
+        [HttpPost]
+        [Route("Anki/")]
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> SendToAnki(
+            IReadOnlyCollection<Guid> ids)
+        {
+            await this.dispatcher.Dispatch(new SendNotesCommand(ids));
+            return this.Ok();
+        }
 
-    [HttpPost]
-    [Route("Dictionary/english")]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> EnrichEnglish(
-        IReadOnlyCollection<Guid> ids)
-    {
-        await this.dispatcher.Dispatch(new EnrichEnglishSequenceCommand(ids.First()));
-        return Ok();
-    }
+        [HttpPost]
+        [Route("Dictionary/dutch")]
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> EnrichDutch(
+            IReadOnlyCollection<Guid> ids)
+        {
+            await this.dispatcher.Dispatch(new EnrichDutchSequenceCommand(ids.First()));
+            return this.Ok();
+        }
 
-    [HttpGet]
-    [Route("Dictionary/")]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(IReadOnlyCollection<LanguageDictionarySummaryPresentation>), (int) HttpStatusCode.OK)]
-    public async Task<ActionResult<IReadOnlyCollection<LanguageDictionarySummaryPresentation>>> GetAll()
-    {
-        IReadOnlyCollection<LanguageDictionarySummaryQueryModel>? result =
-            await this.dispatcher.Dispatch(new GetAllLanguageDictionariesQuery());
-        
-        return Ok(result.ToPresentation());
-    }
-
-    //todo clean to be removed - not used - checked + dégager handler
-    [HttpPut]
-    [Route("Dictionary/{id:guid}")]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
-    public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> AssignLanguageDictionary(Guid id,
-        [FromBody] Guid dictionaryId)
-    {
-        await this.dispatcher.Dispatch(new AssignLanguageDictionaryCommand(id, dictionaryId));
-        return Ok();
+        [HttpPost]
+        [Route("Dictionary/english")]
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> EnrichEnglish(
+            IReadOnlyCollection<Guid> ids)
+        {
+            await this.dispatcher.Dispatch(new EnrichEnglishSequenceCommand(ids.First()));
+            return this.Ok();
+        }
     }
 }

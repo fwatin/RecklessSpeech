@@ -1,11 +1,9 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 
-namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Gateways;
-
-public class DummyDictionaryGateway : IDutchTranslatorGateway
+namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Gateways
 {
-    public Explanation GetExplanation(string word)
+    public class DummyDictionaryGateway : IDutchTranslatorGateway
     {
-        throw new NotImplementedException();
+        public Explanation GetExplanation(string word) => throw new();
     }
 }

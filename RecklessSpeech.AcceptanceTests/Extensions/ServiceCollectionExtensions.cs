@@ -4,25 +4,26 @@ using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Application.Write.Sequences.Tests.Notes;
 using RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
 
-namespace RecklessSpeech.AcceptanceTests.Extensions;
-
-public static class ServiceCollectionExtensions
+namespace RecklessSpeech.AcceptanceTests.Extensions
 {
-    public static IServiceCollection SubstituteNoteGateway(this IServiceCollection services)
+    public static class ServiceCollectionExtensions
     {
-        SpyNoteGateway spyNoteGateway = new();
+        public static IServiceCollection SubstituteNoteGateway(this IServiceCollection services)
+        {
+            SpyNoteGateway spyNoteGateway = new();
 
-        return services
-            .AddSingleton(spyNoteGateway)
-            .AddSingleton<INoteGateway>(spyNoteGateway);
-    }
-    
-    public static IServiceCollection SubstituteMijnwoordenboekGatewayAccess(this IServiceCollection services)
-    {
-        MijnwoordenboekGatewayLocalAccess access = new();
+            return services
+                .AddSingleton(spyNoteGateway)
+                .AddSingleton<INoteGateway>(spyNoteGateway);
+        }
 
-        return services
-            .AddSingleton(access)
-            .AddSingleton<IMijnwoordenboekGatewayAccess>(access);
+        public static IServiceCollection SubstituteMijnwoordenboekGateway(this IServiceCollection services)
+        {
+            MijnwoordenboekLocalGateway access = new();
+
+            return services
+                .AddSingleton(access)
+                .AddSingleton<IDutchTranslatorGateway>(access);
+        }
     }
 }

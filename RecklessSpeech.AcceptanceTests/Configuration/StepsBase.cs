@@ -3,31 +3,26 @@ using RecklessSpeech.AcceptanceTests.Configuration.Clients;
 using RecklessSpeech.Infrastructure.Sequences;
 using TechTalk.SpecFlow;
 
-namespace RecklessSpeech.AcceptanceTests.Configuration;
-
-public class StepsBase
+namespace RecklessSpeech.AcceptanceTests.Configuration
 {
-    protected readonly ScenarioContext Context;
-    protected ISequencesDbContext DbContext { get; }
-    protected ITestsClient Client { get; }
-    protected TestsServer TestServer => this.Context.Get<TestsServer>();
-    private IServiceProvider ServiceProvider => this.TestServer.ServiceProvider;
-
-    public StepsBase(ScenarioContext context)
+    public class StepsBase
     {
-        this.Context = context;
-        this.Client = this.TestServer.ServiceProvider.GetRequiredService<ITestsClient>();
-        this.DbContext = GetService<ISequencesDbContext>();
+        protected readonly ScenarioContext Context;
 
-    }
+        public StepsBase(ScenarioContext context)
+        {
+            this.Context = context;
+            this.Client = this.TestServer.ServiceProvider.GetRequiredService<ITestsClient>();
+            this.DbContext = this.GetService<IDataContext>();
+        }
 
-    protected T GetService<T>() where T : notnull
-    {
-        return this.ServiceProvider.GetRequiredService<T>();
-    }
-    
-    protected ISequencesDbContext GetDbContext()
-    {
-        return this.ServiceProvider.GetRequiredService<ISequencesDbContext>();
+        protected IDataContext DbContext { get; }
+        protected ITestsClient Client { get; }
+        protected TestsServer TestServer => this.Context.Get<TestsServer>();
+        private IServiceProvider ServiceProvider => this.TestServer.ServiceProvider;
+
+        protected T GetService<T>() where T : notnull => this.ServiceProvider.GetRequiredService<T>();
+
+        protected IDataContext GetDbContext() => this.ServiceProvider.GetRequiredService<IDataContext>();
     }
 }

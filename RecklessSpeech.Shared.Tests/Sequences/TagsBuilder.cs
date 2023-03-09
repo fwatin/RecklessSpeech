@@ -1,16 +1,15 @@
 using RecklessSpeech.Domain.Sequences.Sequences;
 
-namespace RecklessSpeech.Shared.Tests.Sequences;
-
-public class TagsBuilder
+namespace RecklessSpeech.Shared.Tests.Sequences
 {
-    public TagsBuilder() { }
-    public TagsBuilder(string value)
+    public class TagsBuilder
     {
-        this.Value = value;
-    }
-    
-    public string Value { get; set; } = "word-naked lang-en netflix Green noun";
+        public TagsBuilder() { }
 
-    public static implicit operator Tags(TagsBuilder builder) => new(builder.Value);
+        public TagsBuilder(string value) => this.Value = value;
+
+        public string Value { get; init; } = "word-naked lang-en netflix Green noun";
+
+        public static implicit operator Tags(TagsBuilder builder) => new(builder.Value);
+    }
 }

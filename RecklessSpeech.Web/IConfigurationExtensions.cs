@@ -1,13 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace RecklessSpeech.Web;
-
-public static class IConfigurationExtensions
+namespace RecklessSpeech.Web
 {
-    private const string ShouldUseSwaggerKey = "SWAGGER_IS_ACTIVE";
-
-    public static bool IsSwaggerActive(this IConfiguration configuration)
+    public static class IConfigurationExtensions
     {
-        return configuration.GetSection(ShouldUseSwaggerKey).Value == "true";
+        private const string ShouldUseSwaggerKey = "SWAGGER_IS_ACTIVE";
+
+        public static bool IsSwaggerActive(this IConfiguration configuration) =>
+            configuration.GetSection(ShouldUseSwaggerKey).Value == "true";
     }
 }

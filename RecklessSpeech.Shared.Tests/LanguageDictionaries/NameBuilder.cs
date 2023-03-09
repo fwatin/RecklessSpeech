@@ -1,14 +1,13 @@
-﻿namespace RecklessSpeech.Shared.Tests.LanguageDictionaries;
-
-public class NameBuilder
+﻿namespace RecklessSpeech.Shared.Tests.LanguageDictionaries
 {
-    public NameBuilder()
+    public class NameBuilder
     {
+        public NameBuilder()
+        {
+        }
+
+        public NameBuilder(string value) => this.Value = value;
+
+        public string Value { get; } = "WordReference";
     }
-    public NameBuilder(string value)
-    {
-        this.Value = value;
-    }
-    
-    public string Value { get; } = "WordReference";
 }

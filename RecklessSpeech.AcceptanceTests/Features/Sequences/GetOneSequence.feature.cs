@@ -89,7 +89,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Happy Path - Retrieve one sequence", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 3
- this.ScenarioInitialize(scenarioInfo);
+    this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
@@ -99,13 +99,13 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
             {
                 this.ScenarioStart();
 #line 4
-  testRunner.Given("an existing sequence", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+        testRunner.Given("an existing sequence", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 5
-  testRunner.When("the user retrieves this sequence", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+        testRunner.When("the user retrieves this sequence", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 6
-  testRunner.Then("the existing sequence is returned", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+        testRunner.Then("the existing sequence is returned", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -122,7 +122,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get an unknown sequence", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 9
- this.ScenarioInitialize(scenarioInfo);
+    this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
@@ -132,10 +132,10 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
             {
                 this.ScenarioStart();
 #line 10
-  testRunner.When("the user tries to get an unknown sequence", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+        testRunner.When("the user tries to get an unknown sequence", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 11
-  testRunner.Then("an error is thrown with an HTTP status 404 and error type \"Read_Sequence_NotFound" +
+        testRunner.Then("an error is thrown with an HTTP status 404 and error type \"Read_Sequence_NotFound" +
                         "\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

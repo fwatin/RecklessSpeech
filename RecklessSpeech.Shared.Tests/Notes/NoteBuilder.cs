@@ -1,51 +1,48 @@
-﻿using RecklessSpeech.Application.Write.Sequences.Commands;
-using RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send;
+﻿using RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send;
 using RecklessSpeech.Domain.Sequences.Notes;
 
-namespace RecklessSpeech.Shared.Tests.Notes;
-
-public record NoteBuilder
+namespace RecklessSpeech.Shared.Tests.Notes
 {
-    public NoteIdBuilder Id { get; init; }
-    public QuestionBuilder Question { get; init; }
-    public AnswerBuilder Answer { get; init; }
-    public AfterBuilder After { get; init; }
-    public SourceBuilder Source { get; init; }
-    public AudioBuilder Audio { get; init; }
-
-    private NoteBuilder(NoteIdBuilder id, QuestionBuilder question, AnswerBuilder answer, AfterBuilder after, AudioBuilder audio)
+    public record NoteBuilder
     {
-        this.Id = id;
-        this.Question = question;
-        this.After = after;
-        this.Audio = audio;
-    }
-
-    public SendNotesCommand BuildCommand()
-    {
-        return new SendNotesCommand(new Guid[]
+        private NoteBuilder(
+            NoteIdBuilder id,
+            QuestionBuilder question,
+            AnswerBuilder answer,
+            AfterBuilder after,
+            SourceBuilder source,
+            AudioBuilder audio)
         {
-            this.Id
-        });
-    }
+            this.Id = id;
+            this.Question = question;
+            this.Answer = answer;
+            this.After = after;
+            this.Source = source;
+            this.Audio = audio;
+        }
 
-    public Note BuildAggregate()
-    {
-        return Note.Hydrate(this.Id, this.Question,this.Answer, this.After, this.Source, this.Audio);
-    }
+        private NoteIdBuilder Id { get; }
+        public QuestionBuilder Question { get; init; }
+        public AnswerBuilder Answer { get; init; }
+        public AfterBuilder After { get; init; }
+        public SourceBuilder Source { get; init; }
+        public AudioBuilder Audio { get; init; }
 
-    public static NoteBuilder Create(Guid id)
-    {
-        return new NoteBuilder(
-            new(id),
-            new(),
-            new(),
-            new(),
-            new());
-    }
+        public SendNotesCommand BuildCommand() =>
+            new(new Guid[] { this.Id });
 
-    public NoteDto BuildDto()
-    {
-        return new NoteDto(this.Question,this.Answer, this.After, this.Source,this.Audio);
+        public Note BuildAggregate() =>
+            Note.Hydrate(this.Id, this.Question, this.Answer, this.After, this.Source, this.Audio);
+
+        public static NoteBuilder Create(Guid id) =>
+            new(
+                new(id),
+                new(),
+                new(),
+                new(),
+                new(),
+                new());
+
+        public NoteDto BuildDto() => new(this.Question, this.Answer, this.After, this.Source, this.Audio);
     }
 }

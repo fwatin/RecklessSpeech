@@ -1,13 +1,12 @@
-﻿using System.Reflection;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
-namespace RecklessSpeech.Application.Write.Sequences;
-
-public static class IServiceCollectionExtensions
+namespace RecklessSpeech.Application.Write.Sequences
 {
-    public static IServiceCollection AddSequencesCommands(this IServiceCollection services)
+    public static class IServiceCollectionExtensions
     {
-        return services.AddMediatR(Assembly.GetExecutingAssembly());
+        public static IServiceCollection AddSequencesCommands(this IServiceCollection services) =>
+            services.AddMediatR(Assembly.GetExecutingAssembly());
     }
 }

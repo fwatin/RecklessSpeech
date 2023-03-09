@@ -9,41 +9,40 @@ using RecklessSpeech.Infrastructure.Orchestration;
 using RecklessSpeech.Infrastructure.Read;
 using RecklessSpeech.Infrastructure.Sequences;
 
-namespace RecklessSpeech.Web;
-
-public class Startup
+namespace RecklessSpeech.Web
 {
-    private readonly IConfiguration configuration;
-    private readonly IHostEnvironment environment;
-
-    public Startup(IConfiguration configuration,IHostEnvironment environment)
+    public class Startup
     {
-        this.configuration = configuration;
-        this.environment = environment;
-    }
+        private readonly IConfiguration configuration;
+        private readonly IHostEnvironment environment;
 
-    public void ConfigureServices(IServiceCollection services)
-    {
-        services
-            .AddWebDependencies(this.configuration,this.environment)
-            .AddSequencePorts()
-            .AddSequencesCommands()
-            .AddInfrastructure()
-            .AddReadPorts()
-            .AddReadQueries()
-            .AddInfrastructureOrchestration();
-    }
-
-    public void Configure(IApplicationBuilder app, IConfiguration config)
-    {
-        app.UseExceptionHandler("/error");
-        app.UseRouting();
-        if (this.configuration.IsSwaggerActive())
+        public Startup(IConfiguration configuration, IHostEnvironment environment)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            this.configuration = configuration;
+            this.environment = environment;
         }
 
-        app.UseEndpoints(endpoints => endpoints.MapControllers());
+        public void ConfigureServices(IServiceCollection services) =>
+            services
+                .AddWebDependencies(this.configuration, this.environment)
+                .AddSequencePorts()
+                .AddSequencesCommands()
+                .AddInfrastructure()
+                .AddReadPorts()
+                .AddReadQueries()
+                .AddInfrastructureOrchestration();
+
+        public void Configure(IApplicationBuilder app, IConfiguration config)
+        {
+            app.UseExceptionHandler("/error");
+            app.UseRouting();
+            if (this.configuration.IsSwaggerActive())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
+        }
     }
 }

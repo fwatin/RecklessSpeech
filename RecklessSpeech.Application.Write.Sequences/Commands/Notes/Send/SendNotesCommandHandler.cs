@@ -4,36 +4,41 @@ using RecklessSpeech.Domain.Sequences.Notes;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 
-namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send;
-
-public record SendNotesCommand(IReadOnlyCollection<Guid> ids) : IEventDrivenCommand;
-
-public class SendNotesCommandHandler : CommandHandlerBase<SendNotesCommand>
+namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send
 {
-    private readonly INoteGateway noteGateway;
-    private readonly ISequenceRepository sequenceRepository;
+    public record SendNotesCommand(IReadOnlyCollection<Guid> ids) : IEventDrivenCommand;
 
-    public SendNotesCommandHandler(INoteGateway noteGateway, ISequenceRepository sequenceRepository)
+    public class SendNotesCommandHandler : CommandHandlerBase<SendNotesCommand>
     {
-        this.noteGateway = noteGateway;
-        this.sequenceRepository = sequenceRepository;
-    }
+        private readonly INoteGateway noteGateway;
+        private readonly ISequenceRepository sequenceRepository;
 
-    protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(SendNotesCommand command)
-    {
-        List<NoteDto> notes = new();
-
-        foreach (Guid id in command.ids)
+        public SendNotesCommandHandler(INoteGateway noteGateway, ISequenceRepository sequenceRepository)
         {
-            Sequence sequence = await this.sequenceRepository.GetOne(id);
-
-            Note note = Note.CreateFromSequence(sequence);
-
-            notes.Add(note.GetDto());
+            this.noteGateway = noteGateway;
+            this.sequenceRepository = sequenceRepository;
         }
 
-        await this.noteGateway.Send(notes);
+        protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(SendNotesCommand command)
+        {
+            List<NoteDto> notes = new();
 
-        return await Task.FromResult(Array.Empty<IDomainEvent>());
+            foreach (Guid id in command.ids)
+            {
+                Sequence? sequence = await this.sequenceRepository.GetOne(id);
+                if (sequence is null)
+                {
+                    continue;
+                }
+
+                Note note = Note.CreateFromSequence(sequence);
+
+                notes.Add(note.GetDto());
+            }
+
+            await this.noteGateway.Send(notes);
+
+            return await Task.FromResult(Array.Empty<IDomainEvent>());
+        }
     }
 }

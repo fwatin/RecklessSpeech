@@ -1,9 +1,10 @@
 ﻿using RecklessSpeech.Domain.Sequences.Sequences;
 
-namespace RecklessSpeech.Application.Write.Sequences.Ports;
-
-public interface ISequenceRepository
+namespace RecklessSpeech.Application.Write.Sequences.Ports
 {
-    Task<Sequence?> GetOne(Guid id);
-    Task<Sequence?> GetOneByWord(string word);
+    public interface ISequenceRepository
+    {
+        Task<Sequence?> GetOne(Guid id);
+        Task<Sequence?> GetOneByWord(string word);
+    }
 }

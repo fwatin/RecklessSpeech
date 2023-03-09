@@ -1,15 +1,14 @@
 ﻿using MediatR;
 using RecklessSpeech.Domain.Shared;
 
-namespace RecklessSpeech.Application.Core.Commands;
-
-public abstract class CommandHandlerBase<TCommand> : IRequestHandler<TCommand, IReadOnlyCollection<IDomainEvent>>
-    where TCommand : IEventDrivenCommand
+namespace RecklessSpeech.Application.Core.Commands
 {
-    public async Task<IReadOnlyCollection<IDomainEvent>> Handle(TCommand request, CancellationToken cancellationToken)
+    public abstract class CommandHandlerBase<TCommand> : IRequestHandler<TCommand, IReadOnlyCollection<IDomainEvent>>
+        where TCommand : IEventDrivenCommand
     {
-        return await Handle(request);
-    }
+        public async Task<IReadOnlyCollection<IDomainEvent>> Handle(TCommand request,
+            CancellationToken cancellationToken) => await this.Handle(request);
 
-    protected abstract Task<IReadOnlyCollection<IDomainEvent>> Handle(TCommand command);
+        protected abstract Task<IReadOnlyCollection<IDomainEvent>> Handle(TCommand command);
+    }
 }

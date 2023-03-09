@@ -8,15 +8,15 @@ namespace RecklessSpeech.Infrastructure.Read.Tests.Sequences
 {
     public class CaseOfGetAll
     {
+        private readonly GetAllSequencesQuery command;
         private readonly InMemoryTestSequenceQueryRepository repository;
         private readonly GetAllSequencesQueryHandler sut;
-        private readonly GetAllSequencesQuery command;
 
         public CaseOfGetAll()
         {
             this.repository = new();
-            this.sut = new(repository);
-            this.command = new GetAllSequencesQuery();
+            this.sut = new(this.repository);
+            this.command = new();
         }
 
         [Fact]

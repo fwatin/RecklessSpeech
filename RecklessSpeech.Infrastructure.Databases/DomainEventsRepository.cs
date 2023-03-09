@@ -1,23 +1,22 @@
 ﻿using RecklessSpeech.Domain.Shared;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 
-namespace RecklessSpeech.Infrastructure.Databases;
-
-public class DomainEventsRepository : IDomainEventsRepository
+namespace RecklessSpeech.Infrastructure.Databases
 {
-    private readonly IEnumerable<IDomainEventRepository> repositories;
-
-    public DomainEventsRepository(IEnumerable<IDomainEventRepository> repositories)
+    public class DomainEventsRepository : IDomainEventsRepository
     {
-        this.repositories = repositories;
-    }
+        private readonly IEnumerable<IDomainEventRepository> repositories;
 
-    public async Task ApplyEvents(IEnumerable<DomainEventIdentifier> domainEvents)
-    {
-        foreach (IDomainEvent? domainEvent in domainEvents.Select(x => x.DomainEvent))
+        public DomainEventsRepository(IEnumerable<IDomainEventRepository> repositories) =>
+            this.repositories = repositories;
+
+        public async Task ApplyEvents(IEnumerable<DomainEventIdentifier> domainEvents)
         {
-            await Task.WhenAll(
-                this.repositories.Select(repo => repo.ApplyEvent(domainEvent)));
+            foreach (IDomainEvent? domainEvent in domainEvents.Select(x => x.DomainEvent))
+            {
+                await Task.WhenAll(
+                    this.repositories.Select(repo => repo.ApplyEvent(domainEvent)));
+            }
         }
     }
 }

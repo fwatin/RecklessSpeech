@@ -130,7 +130,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Notes
             {
                 this.ScenarioStart();
 #line 9
-        testRunner.Given("some note for a dutch sequence", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+        testRunner.Given("a dutch sequence", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 10
         testRunner.Given("some existing explanation for this dutch word", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
@@ -164,7 +164,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Notes
             {
                 this.ScenarioStart();
 #line 15
-        testRunner.Given("some note for a dutch sequence", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+        testRunner.Given("a dutch sequence", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 16
         testRunner.Given("some existing explanation for this dutch word", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");

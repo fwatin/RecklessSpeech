@@ -1,11 +1,9 @@
 using RecklessSpeech.Domain.Sequences.Sequences;
 
-namespace RecklessSpeech.Domain.Sequences.Notes;
-
-public record Question(string Value)
+namespace RecklessSpeech.Domain.Sequences.Notes
 {
-    public static Question Create(HtmlContent htmlContent)
+    public record Question(string Value)
     {
-        return new Question(htmlContent.Value);
+        public static Question Create(HtmlContent htmlContent) => new(htmlContent.Value);
     }
 }

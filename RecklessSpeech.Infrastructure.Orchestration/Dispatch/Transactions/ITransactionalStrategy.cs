@@ -1,6 +1,7 @@
-﻿namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch.Transactions;
-
-public interface ITransactionalStrategy
+﻿namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch.Transactions
 {
-    Task ExecuteTransactional(Func<Task> function);
+    public interface ITransactionalStrategy
+    {
+        Task ExecuteTransactional(Func<Task> function);
+    }
 }

@@ -1,3 +1,6 @@
-namespace RecklessSpeech.Domain.Sequences.Sequences;
-
-public class InvalidAudioFileFormatException : Exception { }
+namespace RecklessSpeech.Domain.Sequences.Sequences
+{
+    public class InvalidAudioFileFormatException : Exception
+    {
+    }
+}

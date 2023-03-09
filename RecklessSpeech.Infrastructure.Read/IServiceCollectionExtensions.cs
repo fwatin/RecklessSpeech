@@ -8,50 +8,45 @@ using RecklessSpeech.Infrastructure.Sequences.AnkiGateway;
 using RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
 using RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.WordReference;
 
-namespace RecklessSpeech.Infrastructure.Read;
-
-public static class ServiceCollectionExtensions
+namespace RecklessSpeech.Infrastructure.Read
 {
-    public static IServiceCollection AddReadPorts(this IServiceCollection services)
+    public static class ServiceCollectionExtensions
     {
-        return services
+        public static IServiceCollection AddReadPorts(this IServiceCollection services) =>
+            services
                 .AddQueryRepositories()
                 .AddNoteGateway()
-                .AddTranslatorGateway()
-            ;
-    }
+                .AddTranslatorGateway();
 
-    private static IServiceCollection AddQueryRepositories(this IServiceCollection services)
-    {
-        return services
-            .AddScoped<ISequenceQueryRepository, InMemorySequenceQueryRepository>()
-            .AddScoped<ILanguageDictionaryQueryRepository, InMemoryLanguageDictionaryQueryRepository>();
-    }
+        private static IServiceCollection AddQueryRepositories(this IServiceCollection services) =>
+            services
+                .AddScoped<ISequenceQueryRepository, InMemorySequenceQueryRepository>();
 
-    private static IServiceCollection AddNoteGateway(this IServiceCollection services)
-    {
-        services.AddOptions<HttpAnkiNoteGatewayOptions>()
-            .BindConfiguration("AnkiNoteGateway")
-            .ValidateDataAnnotations();
+        private static IServiceCollection AddNoteGateway(this IServiceCollection services)
+        {
+            services.AddOptions<HttpAnkiNoteGatewayOptions>()
+                .BindConfiguration("AnkiNoteGateway")
+                .ValidateDataAnnotations();
 
-        services.AddHttpClient<INoteGateway, HttpAnkiNoteGateway>(
-            (provider, client) =>
-            {
-                HttpAnkiNoteGatewayOptions? options = provider.GetRequiredService<IOptions<HttpAnkiNoteGatewayOptions>>().Value;
-                client.BaseAddress = new Uri(options.Path);
-            });
+            services.AddHttpClient<INoteGateway, HttpAnkiNoteGateway>(
+                (provider, client) =>
+                {
+                    HttpAnkiNoteGatewayOptions? options =
+                        provider.GetRequiredService<IOptions<HttpAnkiNoteGatewayOptions>>().Value;
+                    client.BaseAddress = new(options.Path);
+                });
 
-        return services;
-    }
+            return services;
+        }
 
-    private static IServiceCollection AddTranslatorGateway(this IServiceCollection services)
-    {
-        services.AddSingleton<IMijnwoordenboekGatewayAccess>(new MijnwoordenboekGatewayOnlineAccess());
-        services.AddSingleton<IDutchTranslatorGateway, MijnwoordenboekGateway>();
+        private static IServiceCollection AddTranslatorGateway(this IServiceCollection services)
+        {
+            services.AddSingleton<IDutchTranslatorGateway, MijnwoordenboekOnlineGateway>();
 
-        services.AddSingleton<IWordReferenceGatewayAccess>(new WordReferenceGatewayOnlineAccess());
-        services.AddSingleton<IEnglishTranslatorGateway, WordReferenceGateway>();
+            services.AddSingleton<IWordReferenceGatewayAccess>(new WordReferenceGatewayOnlineAccess());
+            services.AddSingleton<IEnglishTranslatorGateway, WordReferenceGateway>();
 
-        return services;
+            return services;
+        }
     }
 }

@@ -1,16 +1,15 @@
 using RecklessSpeech.Domain.Sequences.Explanations;
 
-namespace RecklessSpeech.Shared.Tests.Explanations;
-
-public class ExplanationIdBuilder
+namespace RecklessSpeech.Shared.Tests.Explanations
 {
-    public ExplanationIdBuilder() { }
-    public ExplanationIdBuilder(Guid value)
+    public class ExplanationIdBuilder
     {
-        this.Value = value;
-    }
-    
-    public Guid Value { get; set; } = Guid.Parse("6BE302CE-A115-428B-BE0C-F37132F82E9B");
+        public ExplanationIdBuilder(Guid value) => this.Value = value;
 
-    public static implicit operator ExplanationId(ExplanationIdBuilder builder) => new(builder.Value);
+        public ExplanationIdBuilder() => this.Value = Guid.NewGuid();
+
+        public Guid Value { get; }
+
+        public static implicit operator ExplanationId(ExplanationIdBuilder builder) => new(builder.Value);
+    }
 }

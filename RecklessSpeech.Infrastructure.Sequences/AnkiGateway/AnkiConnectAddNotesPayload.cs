@@ -1,71 +1,72 @@
 ﻿#pragma warning disable CS8618
-namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway;
-
-public class AnkiConnectAddNotesPayload
+namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway
 {
-    public string action { get; set; }
-    public int version { get; set; }
-    public Params @params { get; set; }
-}
+    public class AnkiConnectAddNotesPayload
+    {
+        public string action { get; init; }
+        public int version { get; init; }
+        public Params @params { get; init; }
+    }
 
-public class Params
-{
-    public Note[] notes { get; set; }
-}
+    public class Params
+    {
+        public Note[] notes { get; init; }
+    }
 
-public class Note
-{
-    public string deckName { get; set; }
-    public string modelName { get; set; }
-    public Fields fields { get; set; }
+    public class Note
+    {
+        public string deckName { get; init; }
+        public string modelName { get; init; }
+        public Fields fields { get; init; }
 
-    public options options { get; set; }
+        public options options { get; init; }
 
-    public Picture[] picture { get; set; }
-}
+        public Picture[] picture { get; init; }
+    }
 
-public class Fields
-{
-    public string Question { get; set; } = default!;
-    public string Answer { get; set; } = default!;
-    public string After { get; set; } = default!;
-    public string Source { get; set; } = default!;
-    public string Audio { get; set; } = default!;
-}
+    public class Fields
+    {
+        public string Question { get; init; } = default!;
+        public string Answer { get; init; } = default!;
+        public string After { get; init; } = default!;
+        public string Source { get; init; } = default!;
+        public string Audio { get; init; } = default!;
+    }
 
-public class options
-{
-    public bool allowDuplicate { get; set; }
-    public string duplicateScope { get; set; }
-    public duplicateScopeOptions duplicateScopeOptions { get; set; }
-}
+    public class options
+    {
+        public bool allowDuplicate { get; init; }
+        public string duplicateScope { get; init; }
+        public duplicateScopeOptions duplicateScopeOptions { get; init; }
+    }
 
-public class duplicateScopeOptions
-{
-    public string deckName { get; set; }
-    public bool checkChildren { get; set; }
-}
+    public class duplicateScopeOptions
+    {
+        public string deckName { get; init; }
+        public bool checkChildren { get; init; }
+    }
 
-public class Audio
-{
-    public string url { get; set; }
-    public string filename { get; set; }
-    public string skipHash { get; set; }
-    public string[] fields { get; set; }
-}
+    public class Audio
+    {
+        public string url { get; init; }
+        public string filename { get; init; }
+        public string skipHash { get; init; }
+        public string[] fields { get; init; }
+    }
 
-public class Video
-{
-    public string url { get; set; }
-    public string filename { get; set; }
-    public string skipHash { get; set; }
-    public string[] fields { get; set; }
-}
+    public class Video
+    {
+        public string url { get; init; }
+        public string filename { get; init; }
+        public string skipHash { get; init; }
+        public string[] fields { get; init; }
+    }
 
-public class Picture
-{
-    public string url { get; set; }
-    public string filename { get; set; }
-    public string skipHash { get; set; }
-    public string[] fields { get; set; }
+    public class Picture
+    {
+        public string url { get; init; }
+        public string filename { get; init; }
+        public string skipHash { get; init; }
+        public string[] fields { get; init; }
+    }
 }

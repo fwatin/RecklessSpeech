@@ -1,6 +1,7 @@
-﻿namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway;
-
-public class HttpAnkiNoteGatewayOptions
+﻿namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway
 {
-    public string Path { get; set; } = default!;
+    public class HttpAnkiNoteGatewayOptions
+    {
+        public string Path { get; init; } = default!;
+    }
 }

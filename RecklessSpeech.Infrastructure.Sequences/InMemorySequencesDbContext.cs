@@ -1,30 +1,16 @@
 ﻿using RecklessSpeech.Infrastructure.Entities;
 
-namespace RecklessSpeech.Infrastructure.Sequences;
-
-public class InMemorySequencesDbContext : ISequencesDbContext
+namespace RecklessSpeech.Infrastructure.Sequences
 {
-    public InMemorySequencesDbContext()
+    public class InMemoryDataContext : IDataContext
     {
-        this.Explanations = new();
-        this.Sequences = new();
-        this.LanguageDictionaries = new();
-
-        Initialise();
-    }
-    private void Initialise()
-    {
-        this.LanguageDictionaries.Add(new()
+        public InMemoryDataContext()
         {
-            Id = Guid.Parse("1224B241-1368-4AF6-B88B-DFA65E8CD232"),
-            Url = $"https://www.wordreference.com/enfr/{1}",
-            Name = "WordReference",
-            FromLanguage = "English",
-            ToLanguage = "French"
-        });
-    }
+            this.Explanations = new();
+            this.Sequences = new();
+        }
 
-    public List<SequenceEntity> Sequences { get; }
-    public List<ExplanationEntity> Explanations { get; }
-    public List<LanguageDictionaryEntity> LanguageDictionaries { get; set; }
+        public List<SequenceDao> Sequences { get; }
+        public List<ExplanationDao> Explanations { get; }
+    }
 }

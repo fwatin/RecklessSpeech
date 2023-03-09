@@ -5,9 +5,6 @@ namespace RecklessSpeech.Web.Configuration
 {
     public class ConfigureKestrelOptions : IConfigureOptions<KestrelServerOptions>
     {
-        public void Configure(KestrelServerOptions options)
-        {
-            options.AddServerHeader = false;
-        }
+        public void Configure(KestrelServerOptions options) => options.AddServerHeader = false;
     }
 }

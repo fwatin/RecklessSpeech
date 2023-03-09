@@ -1,17 +1,16 @@
 ﻿using RecklessSpeech.Domain.Sequences.Notes;
 
-namespace RecklessSpeech.Shared.Tests.Notes;
-
-public class AnswerBuilder
+namespace RecklessSpeech.Shared.Tests.Notes
 {
-    public AnswerBuilder() { }
-    public AnswerBuilder(string value)
+    public class AnswerBuilder
     {
-        this.Value = value;
+        public AnswerBuilder() { }
+
+        public AnswerBuilder(string value) => this.Value = value;
+
+        public string Value { get; init; } = "astuces";
+
+
+        public static implicit operator Answer(AnswerBuilder builder) => new(builder.Value);
     }
-
-    public string Value { get; set; } = "astuces";
-
-
-    public static implicit operator Answer(AnswerBuilder builder) => new(builder.Value);
 }

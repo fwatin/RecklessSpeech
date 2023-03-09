@@ -1,13 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 
-namespace RecklessSpeech.Infrastructure.Sequences;
-
-public static class IServiceCollectionExtensions
+namespace RecklessSpeech.Infrastructure.Sequences
 {
-    public static IServiceCollection AddSequencePorts(this IServiceCollection services)
+    public static class IServiceCollectionExtensions
     {
-        return services
-            .AddScoped<IDomainEventRepository, SequenceDomainEventRepository>();
+        public static IServiceCollection AddSequencePorts(this IServiceCollection services) =>
+            services
+                .AddScoped<IDomainEventRepository, SequenceDomainEventRepository>();
     }
 }

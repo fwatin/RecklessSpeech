@@ -1,16 +1,14 @@
 using RecklessSpeech.Domain.Sequences.Notes;
 
-namespace RecklessSpeech.Shared.Tests.Notes;
-
-public class NoteIdBuilder
+namespace RecklessSpeech.Shared.Tests.Notes
 {
-    private readonly Guid id;
-
-    public NoteIdBuilder(Guid Id)
+    public class NoteIdBuilder
     {
-        this.id = Id;
+        private readonly Guid id;
+
+        public NoteIdBuilder(Guid Id) => this.id = Id;
+
+        public static implicit operator Guid(NoteIdBuilder builder) => builder.id;
+        public static implicit operator NoteId(NoteIdBuilder builder) => new(builder.id);
     }
-    
-    public static implicit operator Guid(NoteIdBuilder builder) => builder.id;
-    public static implicit operator NoteId(NoteIdBuilder builder) => new(builder.id);
 }

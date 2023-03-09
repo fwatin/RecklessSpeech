@@ -1,7 +1,7 @@
-using System.Linq;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Linq;
 
 namespace RecklessSpeech.Web.Configuration.Swagger
 {
@@ -10,9 +10,11 @@ namespace RecklessSpeech.Web.Configuration.Swagger
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {
             if (context.Type != typeof(ApiErrors))
+            {
                 return;
+            }
 
-            schema.Properties["type"] = new OpenApiSchema
+            schema.Properties["type"] = new()
             {
                 Type = "string",
                 Enum = ApiErrors.Errors()

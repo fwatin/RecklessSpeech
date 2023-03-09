@@ -1,23 +1,21 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.English;
 using RecklessSpeech.Domain.Sequences.Explanations;
 
-namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
-
-public class WordReferenceGateway : IEnglishTranslatorGateway
+namespace RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek
 {
-    private readonly IWordReferenceGatewayAccess access;
-
-    public WordReferenceGateway(IWordReferenceGatewayAccess access)
+    public class WordReferenceGateway : IEnglishTranslatorGateway
     {
-        this.access = access;
-    }
+        private readonly IWordReferenceGatewayAccess access;
 
-    public Explanation GetExplanation(string word)
-    {
-        (string translations, string sourceUrl) = this.access.GetTranslationsAndSourceForAWord(word);
+        public WordReferenceGateway(IWordReferenceGatewayAccess access) => this.access = access;
 
-        Explanation explanation = Explanation.Create(Guid.NewGuid(), translations, word, sourceUrl);
+        public Explanation GetExplanation(string word)
+        {
+            (string translations, string sourceUrl) = this.access.GetTranslationsAndSourceForAWord(word);
 
-        return explanation;
+            Explanation explanation = Explanation.Create(Guid.NewGuid(), translations, word, sourceUrl);
+
+            return explanation;
+        }
     }
 }
