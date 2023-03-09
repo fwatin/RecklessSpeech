@@ -80,7 +80,8 @@ namespace RecklessSpeech.Web.Sequences
         [Route("send-to-anki/")]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> SendToAnki([FromQuery] Guid id)
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> SendToAnki(
+            [FromQuery] Guid id)
         {
             try
             {
@@ -91,6 +92,7 @@ namespace RecklessSpeech.Web.Sequences
                 Console.WriteLine(e);
                 return this.BadRequest(e.Message);
             }
+
             return this.Ok();
         }
 

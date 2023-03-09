@@ -19,6 +19,7 @@ namespace RecklessSpeech.Infrastructure.Sequences
                 .AddSingleton<IDataContext>(inMemoryDataContext)
                 .AddSingleton(inMemoryDataContext);
         }
+
         private static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<ISequenceRepository, InMemorySequenceRepository>();

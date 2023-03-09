@@ -9,10 +9,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests
         protected BaseInfrastructureTests()
         {
             this.InMemoryDataContext = new();
-            this.Sut = new(new IDomainEventExecutor[]
-            {
-                new RepositoryExecutor(this.InMemoryDataContext)
-            });
+            this.Sut = new(new IDomainEventExecutor[] { new RepositoryExecutor(this.InMemoryDataContext) });
         }
 
         protected InMemoryDataContext InMemoryDataContext { get; }

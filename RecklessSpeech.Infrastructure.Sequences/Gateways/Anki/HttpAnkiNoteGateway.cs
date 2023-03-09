@@ -32,12 +32,14 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Anki
                 JsonConvert.DeserializeObject<AnkiConnectAddNotesResponse>(response);
 
             if (string.IsNullOrEmpty(ankiConnectResponse.error) is false)
+            {
                 throw new($"Anki error: {ankiConnectResponse.error}");
+            }
         }
 
         private static AnkiConnectAddNotesPayload BuildPack(NoteDto dto)
         {
-            var note = new Note
+            Note note = new Note
             {
                 deckName = "All::Langues",
                 modelName = "Full_Recto_verso_before_after_Audio",

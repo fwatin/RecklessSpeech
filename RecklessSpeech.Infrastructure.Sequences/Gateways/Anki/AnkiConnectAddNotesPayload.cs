@@ -1,4 +1,5 @@
 ﻿// ReSharper disable All
+
 #pragma warning disable CS8618
 namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Anki
 {
