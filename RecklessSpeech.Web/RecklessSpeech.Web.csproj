@@ -6,17 +6,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\RecklessSpeech.Application.Read\RecklessSpeech.Application.Read.csproj"/>
-        <ProjectReference Include="..\RecklessSpeech.Application.Write.Sequences\RecklessSpeech.Application.Write.Sequences.csproj"/>
-        <ProjectReference Include="..\RecklessSpeech.Infrastructure.Databases\RecklessSpeech.Infrastructure.Databases.csproj"/>
-        <ProjectReference Include="..\RecklessSpeech.Infrastructure.Read\RecklessSpeech.Infrastructure.Read.csproj"/>
-        <ProjectReference Include="..\RecklessSpeech.Infrastructure.Sequences\RecklessSpeech.Infrastructure.Sequences.csproj"/>
+        <ProjectReference Include="..\RecklessSpeech.Application.Read\RecklessSpeech.Application.Read.csproj" />
+        <ProjectReference Include="..\RecklessSpeech.Application.Write.Sequences\RecklessSpeech.Application.Write.Sequences.csproj" />
+        <ProjectReference Include="..\RecklessSpeech.Infrastructure.Databases\RecklessSpeech.Infrastructure.Databases.csproj" />
+        <ProjectReference Include="..\RecklessSpeech.Infrastructure.Read\RecklessSpeech.Infrastructure.Read.csproj" />
+        <ProjectReference Include="..\RecklessSpeech.Infrastructure.Sequences\RecklessSpeech.Infrastructure.Sequences.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
 </Project>

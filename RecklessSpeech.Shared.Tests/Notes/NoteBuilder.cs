@@ -1,4 +1,4 @@
-﻿using RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send;
+﻿using RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki;
 using RecklessSpeech.Domain.Sequences.Notes;
 
 namespace RecklessSpeech.Shared.Tests.Notes
@@ -28,8 +28,8 @@ namespace RecklessSpeech.Shared.Tests.Notes
         public SourceBuilder Source { get; init; }
         public AudioBuilder Audio { get; init; }
 
-        public SendNotesCommand BuildCommand() =>
-            new(new Guid[] { this.Id });
+        public SendNoteToAnkiCommand BuildCommand() =>
+            new(this.Id);
 
         public Note BuildAggregate() =>
             Note.Hydrate(this.Id, this.Question, this.Answer, this.After, this.Source, this.Audio);

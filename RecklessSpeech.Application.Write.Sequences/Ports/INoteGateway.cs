@@ -4,6 +4,6 @@ namespace RecklessSpeech.Application.Write.Sequences.Ports
 {
     public interface INoteGateway
     {
-        Task Send(IReadOnlyCollection<NoteDto> notes);
+        Task Send(NoteDto note);
     }
 }

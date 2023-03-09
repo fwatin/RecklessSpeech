@@ -11,10 +11,9 @@ namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway
 
         public HttpAnkiNoteGateway(HttpClient client) => this.client = client;
 
-        public async Task
-            Send(IReadOnlyCollection<NoteDto> notes) //todo clean passer sur un seul send à la fois et throw exception si ca foire
+        public async Task Send(NoteDto note)
         {
-            AnkiConnectAddNotesPayload pack = BuildPack(notes);
+            AnkiConnectAddNotesPayload pack = BuildPack(note);
 
             string? json = JsonConvert.SerializeObject(pack);
 
@@ -31,29 +30,29 @@ namespace RecklessSpeech.Infrastructure.Sequences.AnkiGateway
 
             AnkiConnectAddNotesResponse? ankiConnectResponse =
                 JsonConvert.DeserializeObject<AnkiConnectAddNotesResponse>(response);
+
+            if (string.IsNullOrEmpty(ankiConnectResponse.error) is false)
+                throw new($"Anki error: {ankiConnectResponse.error}");
         }
 
-        private static AnkiConnectAddNotesPayload BuildPack(IEnumerable<NoteDto> dtos)
+        private static AnkiConnectAddNotesPayload BuildPack(NoteDto dto)
         {
+            var note = new Note
+            {
+                deckName = "All::Langues",
+                modelName = "Full_Recto_verso_before_after_Audio",
+                options = new()
+                {
+                    allowDuplicate = true,
+                    duplicateScope = "deck",
+                    duplicateScopeOptions = new() { deckName = "All", checkChildren = false }
+                },
+                fields = CreateFields(dto)
+            };
+
             AnkiConnectAddNotesPayload pack = new()
             {
-                action = "addNotes",
-                version = 6,
-                @params = new()
-                {
-                    notes = dtos.Select(dto => new Note
-                    {
-                        deckName = "All::Langues",
-                        modelName = "Full_Recto_verso_before_after_Audio",
-                        options = new()
-                        {
-                            allowDuplicate = true,
-                            duplicateScope = "deck",
-                            duplicateScopeOptions = new() { deckName = "All", checkChildren = false }
-                        },
-                        fields = CreateFields(dto)
-                    }).ToArray()
-                }
+                action = "addNotes", version = 6, @params = new() { notes = new[] { note } }
             };
 
 

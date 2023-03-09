@@ -1,5 +1,4 @@
 ﻿using RecklessSpeech.AcceptanceTests.Configuration.Clients;
-using RecklessSpeech.Web.ViewModels.LanguageDictionaries;
 using RecklessSpeech.Web.ViewModels.Sequences;
 using System.Text;
 
@@ -29,18 +28,11 @@ namespace RecklessSpeech.AcceptanceTests.Configuration
         public Task<SequenceSummaryPresentation> GetOne(Guid sequenceId)
             => this.client.Get<SequenceSummaryPresentation>($"http://localhost{this.basePath}/{sequenceId}");
 
-        public async Task SendToAnki(List<Guid> ids) =>
-            await this.client.Post<string>($"http://localhost{this.basePath}/Anki", ids);
+        public async Task SendToAnki(Guid id) =>
+            await this.client.Post<string>($"http://localhost{this.basePath}/send-to-anki?id={id}");
 
         public async Task Enrich(Guid sequenceId) =>
             await this.client.Post<string>($"http://localhost{this.basePath}/Dictionary/dutch",
                 new List<Guid> { sequenceId });
-
-        public async Task AssignLanguageDictionary(Guid id, Guid dictionaryId) =>
-            await this.client.Put<string>($"http://localhost{this.basePath}/Dictionary/{id}", dictionaryId);
-
-        public async Task<IReadOnlyCollection<LanguageDictionarySummaryPresentation>?> GetAllLanguageDictionaries() =>
-            await this.client.Get<IReadOnlyCollection<LanguageDictionarySummaryPresentation>?>(
-                $"http://localhost{this.basePath}/Dictionary");
     }
 }

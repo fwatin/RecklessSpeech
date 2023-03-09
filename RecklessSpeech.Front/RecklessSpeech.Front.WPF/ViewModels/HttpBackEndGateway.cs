@@ -106,14 +106,14 @@ namespace RecklessSpeech.Front.WPF.ViewModels
 
         public async Task SendSequenceToAnki(Guid id)
         {
-            const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences/Anki";
+            string url = $"https://localhost:47973/api/{ApiVersion}/sequences/send-to-anki?id={id}";
 
-            HttpRequestMessage request = BuildJsonMessage(HttpMethod.Post, url, new List<Guid>() { id });
+            HttpRequestMessage request = BuildJsonMessage(HttpMethod.Post, url);
 
             await this.access.SendAsync(request);
         }
 
-        private static HttpRequestMessage BuildJsonMessage(HttpMethod method, string path, object? parameters)
+        private static HttpRequestMessage BuildJsonMessage(HttpMethod method, string path, object? parameters = null)
         {
             HttpRequestMessage request = new(method, new Uri(path, UriKind.RelativeOrAbsolute));
             if (parameters != null)

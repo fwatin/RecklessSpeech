@@ -1,4 +1,4 @@
-using RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send;
+using RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki;
 using RecklessSpeech.Shared.Tests.Notes;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
@@ -7,7 +7,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
     {
         private readonly InMemoryTestSequenceRepository sequenceRepository;
         private readonly SpyNoteGateway spyGateway;
-        private readonly SendNotesCommandHandler sut;
+        private readonly SendNoteToAnkiCommandHandler sut;
 
         public CaseOfNewNotes()
         {
@@ -27,13 +27,13 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
                 };
             this.sequenceRepository.Feed(sequenceBuilder.BuildDomain());
             NoteBuilder noteBuilder = NoteBuilder.Create(sequenceBuilder.SequenceId.Value);
-            SendNotesCommand command = noteBuilder.BuildCommand();
+            SendNoteToAnkiCommand command = noteBuilder.BuildCommand();
 
             //Act
             await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            this.spyGateway.Notes.Single().After.Value.Should().Contain(sequenceBuilder.TranslatedSentence.Value);
+            this.spyGateway.Note!.After.Value.Should().Contain(sequenceBuilder.TranslatedSentence.Value);
         }
 
         [Fact]
@@ -50,14 +50,14 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             this.sequenceRepository.Feed(sequenceBuilder.BuildDomain());
 
             NoteBuilder noteBuilder = NoteBuilder.Create(sequenceBuilder.SequenceId.Value);
-            SendNotesCommand command = noteBuilder.BuildCommand();
+            SendNoteToAnkiCommand command = noteBuilder.BuildCommand();
 
             //Act
             await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
             const string expectedUrl = "https://www.mijnwoordenboek.nl/vertaal/NL/FR/gimmicks";
-            this.spyGateway.Notes.Single().Source.Value.Should().Be($"<a href=\"{expectedUrl}\">{expectedUrl}</a>");
+            this.spyGateway.Note!.Source.Value.Should().Be($"<a href=\"{expectedUrl}\">{expectedUrl}</a>");
         }
     }
 }

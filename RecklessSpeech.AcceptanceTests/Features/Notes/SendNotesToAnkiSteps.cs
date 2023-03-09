@@ -63,7 +63,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Notes
 
         [When(@"the user sends the sequence to Anki")]
         public async Task WhenTheUserSendsTheSequenceToAnki() =>
-            await this.Client.Latest().SequenceRequests().SendToAnki(new() { this.sequenceId });
+            await this.Client.Latest().SequenceRequests().SendToAnki(this.sequenceId);
 
         [Then(@"a corresponding note is sent to Anki")]
         public void ThenACorrespondingNoteIsSentToAnki()
@@ -77,21 +77,21 @@ namespace RecklessSpeech.AcceptanceTests.Features.Notes
                 Audio = new("[sound:1658501397855.mp3]")
             };
             NoteDto expected = builder.BuildDto();
-            this.spyNoteGateway.Notes.Should().ContainEquivalentOf(expected);
+            this.spyNoteGateway.Note.Should().BeEquivalentTo(expected);
         }
 
         [Then(@"the anki note contains the translation for the word in the after field")]
         public void ThenTheAnkiNoteContainsTheTranslationForTheWordInTheAfterField()
         {
-            this.spyNoteGateway.Notes.Should().HaveCount(1);
-            this.spyNoteGateway.Notes.First().After.Value.Should().Contain("pain");
+            this.spyNoteGateway.Note.Should().NotBeNull();
+            this.spyNoteGateway.Note!.After.Value.Should().Contain("pain");
         }
 
         [Then(@"the anki note contains the source")]
         public void ThenTheAnkiNoteContainsTheSource()
         {
-            this.spyNoteGateway.Notes.Should().HaveCount(1);
-            this.spyNoteGateway.Notes.Single().Source.Value.Should()
+            this.spyNoteGateway.Note.Should().NotBeNull();
+            this.spyNoteGateway.Note!.Source.Value.Should()
                 .Contain("https://www.mijnwoordenboek.nl/vertaal/NL/FR/brood");
         }
     }
