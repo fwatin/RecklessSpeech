@@ -7,6 +7,7 @@ using RecklessSpeech.Application.Write.Sequences;
 using RecklessSpeech.Infrastructure.Databases;
 using RecklessSpeech.Infrastructure.Orchestration;
 using RecklessSpeech.Infrastructure.Read;
+using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Infrastructure.Sequences.Executors;
 
 namespace RecklessSpeech.Web
@@ -27,6 +28,7 @@ namespace RecklessSpeech.Web
                 .AddWebDependencies(this.configuration, this.environment)
                 .AddEventsExecutors()
                 .AddSequencesCommands()
+                .AddEventsExecutor()
                 .AddInfrastructure()
                 .AddReadPorts()
                 .AddReadQueries()
