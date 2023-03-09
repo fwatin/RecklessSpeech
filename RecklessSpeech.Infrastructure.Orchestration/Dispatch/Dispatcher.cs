@@ -28,7 +28,7 @@ namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
         {
             try
             {
-                List<DomainEventIdentifier>? events = (await this.mediator.Send(command, CancellationToken.None))
+                List<DomainEventIdentifier> events = (await this.mediator.Send(command, CancellationToken.None))
                     .Select(domainEvent =>
                         new DomainEventIdentifier(this.domainEventIdProvider.NewEventId(), domainEvent))
                     .ToList();

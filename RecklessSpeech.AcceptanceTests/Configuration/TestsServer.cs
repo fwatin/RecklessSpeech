@@ -48,7 +48,7 @@ namespace RecklessSpeech.AcceptanceTests.Configuration
         }
 
         private void ConfigureAcceptanceTests(IServiceCollection services) =>
-            services.AddScoped<ITestsClient>(p => new AcceptanceClient(CreateClient(p), this.context, p));
+            services.AddScoped<ITestsClient>(p => new AcceptanceClient(CreateClient(p), this.context));
 
         private static HttpClient CreateClient(IServiceProvider p) =>
             ((TestServer)p.GetRequiredService<IServer>()).CreateClient();

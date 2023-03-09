@@ -11,7 +11,7 @@ namespace RecklessSpeech.Web.Configuration.Swagger
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            List<string>? jsonQueryParams = context.ApiDescription.ActionDescriptor.Parameters
+            List<string> jsonQueryParams = context.ApiDescription.ActionDescriptor.Parameters
                 .Where(ad => ad.BindingInfo?.BinderType == typeof(JsonQueryBinder))
                 .Select(ad => ad.Name)
                 .ToList();

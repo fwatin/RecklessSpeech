@@ -27,7 +27,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
 
                 HtmlContent htmlContent = GetHtmlContent(rawHtml, translatedSentence);
 
-                Sequence? sequence = Sequence.Create(Guid.NewGuid(),
+                Sequence sequence = Sequence.Create(Guid.NewGuid(),
                     htmlContent,
                     AudioFileNameWithExtension.Create(audioFileNameWithExtension),
                     GetTags(tags),
@@ -145,7 +145,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
 
             HtmlNode? wordNode = htmlDoc.DocumentNode.Descendants()
                 .FirstOrDefault(n => n.HasClass("dc-gap"));
-            Word? word = Word.Create(wordNode != null
+            Word word = Word.Create(wordNode != null
                 ? wordNode.InnerText
                 : "");
 
@@ -153,7 +153,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
             HtmlNode? translatedSentenceNode = htmlDoc.DocumentNode.Descendants()
                 .FirstOrDefault(n => n.HasClass("dc-translation"));
 
-            TranslatedSentence? translatedSentence = TranslatedSentence.Create(translatedSentenceNode != null
+            TranslatedSentence translatedSentence = TranslatedSentence.Create(translatedSentenceNode != null
                 ? translatedSentenceNode.InnerText
                 : "");
 

@@ -4,7 +4,7 @@ namespace RecklessSpeech.AcceptanceTests.Configuration.Clients
 {
     public class AcceptanceClient : TestClientBase, ITestsClient
     {
-        public AcceptanceClient(HttpClient client, ScenarioContext context, IServiceProvider serviceProvider)
+        public AcceptanceClient(HttpClient client, ScenarioContext context)
             : base(context, client)
         {
         }
