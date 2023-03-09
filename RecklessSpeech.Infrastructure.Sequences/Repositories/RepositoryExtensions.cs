@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RecklessSpeech.Application.Write.Sequences.Ports;
-using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
-namespace RecklessSpeech.Infrastructure.Sequences
+namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 {
-    public static class ServiceCollectionExtension
+    public static class RepositoryExtensions
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services) =>
             services
