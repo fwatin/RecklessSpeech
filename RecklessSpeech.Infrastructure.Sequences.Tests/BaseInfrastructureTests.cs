@@ -1,5 +1,4 @@
-﻿using RecklessSpeech.Application.Core.Events;
-using RecklessSpeech.Infrastructure.Databases;
+﻿using RecklessSpeech.Infrastructure.Databases;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 
 namespace RecklessSpeech.Infrastructure.Sequences.Tests
@@ -17,7 +16,5 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests
 
         protected InMemoryDataContext InMemoryDataContext { get; }
         protected DomainEventsRepository Sut { get; }
-
-        protected async Task ApplyEvent(IDomainEvent newEvent) => await this.Sut.ApplyEvents(new List<IDomainEvent> { newEvent });
     }
 }
