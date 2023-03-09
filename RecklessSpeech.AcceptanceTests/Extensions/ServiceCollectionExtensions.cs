@@ -2,7 +2,7 @@
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Application.Write.Sequences.Tests.Notes;
-using RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
+using RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.Mijnwoordenboek;
 
 namespace RecklessSpeech.AcceptanceTests.Extensions
 {

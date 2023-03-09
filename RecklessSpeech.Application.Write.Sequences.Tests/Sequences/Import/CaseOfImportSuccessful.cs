@@ -1,5 +1,6 @@
 ﻿using ExCSS;
 using HtmlAgilityPack;
+using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
 using RecklessSpeech.Domain.Sequences;
 using RecklessSpeech.Shared.Tests;

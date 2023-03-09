@@ -1,6 +1,6 @@
-﻿using RecklessSpeech.Domain.Shared;
-using RecklessSpeech.Infrastructure.Databases;
-using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
+﻿using RecklessSpeech.Application.Core.Events.Executor;
+using RecklessSpeech.Infrastructure.Sequences.Executors;
+using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
 namespace RecklessSpeech.Infrastructure.Sequences.Tests
 {
@@ -9,16 +9,10 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests
         protected BaseInfrastructureTests()
         {
             this.InMemoryDataContext = new();
-            this.Sut = new(new IDomainEventRepository[]
-            {
-                new SequenceDomainEventRepository(this.InMemoryDataContext)
-            });
+            this.Sut = new(new IDomainEventExecutor[] { new RepositoryExecutor(this.InMemoryDataContext) });
         }
 
         protected InMemoryDataContext InMemoryDataContext { get; }
-        protected DomainEventsRepository Sut { get; }
-
-        protected async Task ApplyEvent(IDomainEvent newEvent) =>
-            await this.Sut.ApplyEvents(new List<DomainEventIdentifier> { new(Guid.NewGuid(), newEvent) });
+        protected DomainEventsExecutorManager Sut { get; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
+using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Infrastructure.Entities;
-using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 using RecklessSpeech.Shared.Tests.Sequences;
 using Xunit;
 
@@ -17,10 +17,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests.DomainEvents
             SequenceDao expectedDao = sequenceBuilder.BuildEntity();
 
             //Act
-            await this.Sut.ApplyEvents(new List<DomainEventIdentifier>
-            {
-                new(Guid.Parse("6328FAC7-7AC9-4F3F-8652-9161FF345D4E"), sequenceBuilder.BuildEvent())
-            });
+            await this.Sut.ApplyEvents(new List<IDomainEvent> { sequenceBuilder.BuildEvent() });
 
             //Assert
             SequenceDao result = this.InMemoryDataContext.Sequences.First();

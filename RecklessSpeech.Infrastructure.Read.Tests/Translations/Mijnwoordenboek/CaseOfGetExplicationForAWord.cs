@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Domain.Sequences.Explanations;
-using RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;
+using RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.Mijnwoordenboek;
 using Xunit;
 
 namespace RecklessSpeech.Infrastructure.Read.Tests.Translations.Mijnwoordenboek

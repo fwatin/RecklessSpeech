@@ -2,7 +2,7 @@
 using RecklessSpeech.AcceptanceTests.Configuration;
 using RecklessSpeech.Application.Write.Sequences.Tests.Notes;
 using RecklessSpeech.Domain.Sequences.Notes;
-using RecklessSpeech.Infrastructure.Sequences;
+using RecklessSpeech.Infrastructure.Sequences.Repositories;
 using RecklessSpeech.Shared.Tests.Explanations;
 using RecklessSpeech.Shared.Tests.Notes;
 using RecklessSpeech.Shared.Tests.Sequences;

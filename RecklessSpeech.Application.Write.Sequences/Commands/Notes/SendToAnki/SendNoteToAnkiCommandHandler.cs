@@ -1,8 +1,8 @@
 ﻿using RecklessSpeech.Application.Core.Commands;
+using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Notes;
 using RecklessSpeech.Domain.Sequences.Sequences;
-using RecklessSpeech.Domain.Shared;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki
 {
@@ -20,7 +20,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki
         protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(SendNoteToAnkiCommand command)
         {
             Sequence? sequence = await this.sequenceRepository.GetOne(command.Id);
-            if (sequence is null) return ArraySegment<IDomainEvent>.Empty;
+            if (sequence is null)
+            {
+                return ArraySegment<IDomainEvent>.Empty;
+            }
 
             Note note = Note.CreateFromSequence(sequence);
 
