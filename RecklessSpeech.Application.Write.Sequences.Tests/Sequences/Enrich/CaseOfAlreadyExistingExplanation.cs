@@ -19,7 +19,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
             this.sut = new(
                 this.sequenceRepository,
                 this.explanationRepository,
-                new StubDictionaryGateway());
+                new DummyDictionaryGateway());
 
             this.explanationBuilder = ExplanationBuilder.Create(Guid.Parse("AE97DE7B-CDDC-47DA-822F-D832C85D150B")) with
             {

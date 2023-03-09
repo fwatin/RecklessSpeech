@@ -30,7 +30,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Notes
         [Given(@"an existing sequence")]
         public void GivenAnExistingSequence()
         {
-            SequenceBuilder? builder = SequenceBuilder.Create(this.sequenceId) with
+            SequenceBuilder builder = SequenceBuilder.Create(this.sequenceId) with
             {
                 HtmlContent = new(ContentForQuestion),
                 TranslatedSentence = new("er is geen brood."),
@@ -42,7 +42,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Notes
         [Given(@"a dutch sequence")]
         public void GivenSomeNoteForADutchSequence()
         {
-            SequenceBuilder? builder = SequenceBuilder.Create(this.sequenceId) with
+            SequenceBuilder builder = SequenceBuilder.Create(this.sequenceId) with
             {
                 Word = new("brood"), Explanation = ExplanationBuilder.Create(this.explanationId)
             };
@@ -68,7 +68,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Notes
         [Then(@"a corresponding note is sent to Anki")]
         public void ThenACorrespondingNoteIsSentToAnki()
         {
-            NoteBuilder? builder = NoteBuilder.Create(this.sequenceId) with
+            NoteBuilder builder = NoteBuilder.Create(this.sequenceId) with
             {
                 Question = new(ContentForQuestion),
                 Answer = new("pain"),

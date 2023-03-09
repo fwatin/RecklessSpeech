@@ -29,7 +29,6 @@ namespace RecklessSpeech.AcceptanceTests.Configuration
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
-            ;
         }
 
         private TestServer Initialize()
@@ -38,7 +37,7 @@ namespace RecklessSpeech.AcceptanceTests.Configuration
                     .UseStartup<Startup>()
                     .UseEnvironment("acceptancetest")
                     .ConfigureServices(
-                        (ctx, services) => { this.ConfigureAcceptanceTests(services); }
+                        (_, services) => { this.ConfigureAcceptanceTests(services); }
                     )
                     .ConfigureTestServices(services => services
                         .SubstituteNoteGateway()

@@ -14,7 +14,7 @@
             //Arrange
             Class1[] dtos =
             {
-                new() { word = new() { text = word }, wordTranslationsArr = new string[1] { translation } }
+                new() { word = new() { text = word }, wordTranslationsArr = new[] { translation } }
             };
             AddDetailsToSequencesCommand command = new(dtos);
 

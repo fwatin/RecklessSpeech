@@ -37,7 +37,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
         public async Task ThenTheSequenceEnrichedDataContainsTheRawExplanation()
         {
             this.SequenceListResponse = await this.Client.Latest().SequenceRequests().GetAll();
-            SequenceSummaryPresentation? sequencePresentationForBrood =
+            SequenceSummaryPresentation sequencePresentationForBrood =
                 this.SequenceListResponse.Single(x => x.Id == this.sequenceBuilder.SequenceId.Value);
             sequencePresentationForBrood.Explanation.Should().NotBeNullOrEmpty();
         }

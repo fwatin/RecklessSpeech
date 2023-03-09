@@ -71,7 +71,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
         public async Task Should_html_not_specify_background_styles(string styleName)
         {
             //Arrange
-            ImportSequencesCommand? importSequencesCommand = this.builder.BuildImportCommand();
+            ImportSequencesCommand importSequencesCommand = this.builder.BuildImportCommand();
 
             //Act
             IReadOnlyCollection<IDomainEvent>
@@ -129,7 +129,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
         public async Task Should_show_word_in_red_background_in_html()
         {
             //Arrange
-            ImportSequencesCommand? importSequencesCommand = this.builder.BuildImportCommand();
+            ImportSequencesCommand importSequencesCommand = this.builder.BuildImportCommand();
 
             //Act
             IReadOnlyCollection<IDomainEvent>
@@ -166,7 +166,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
                 HtmlDocument htmlDoc = new();
                 htmlDoc.LoadHtml(htmlContent);
                 HtmlNode? styleNode = htmlDoc.DocumentNode.SelectSingleNode("style");
-                StylesheetParser? parser = new();
+                StylesheetParser parser = new();
                 Stylesheet? stylesheet = await parser.ParseAsync(styleNode.InnerText);
                 return stylesheet.StyleRules.FirstOrDefault(rule => rule.SelectorText == styleName);
             }

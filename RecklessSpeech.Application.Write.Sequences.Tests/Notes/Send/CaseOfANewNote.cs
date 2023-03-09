@@ -4,7 +4,6 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
 {
     public class CaseOfANewNote
     {
-        private const string SomeHtml = "\"<style> some html here for this test\"";
         private readonly Guid sequenceId;
         private readonly InMemoryTestSequenceRepository sequenceRepository;
         private readonly SpyNoteGateway spyGateway;

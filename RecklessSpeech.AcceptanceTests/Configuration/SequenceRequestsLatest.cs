@@ -18,7 +18,7 @@ namespace RecklessSpeech.AcceptanceTests.Configuration
 
         public async Task ImportSequences(string fileContent, string fileName)
         {
-            using MultipartFormDataContent? content = new();
+            using MultipartFormDataContent content = new();
             content.Add(new StreamContent(new MemoryStream(Encoding.UTF8.GetBytes(fileContent))), "file", fileName);
             await this.client.Post<string>($"http://localhost{this.basePath}", content);
         }
