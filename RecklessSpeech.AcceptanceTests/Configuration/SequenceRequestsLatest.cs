@@ -1,5 +1,4 @@
 ﻿using RecklessSpeech.AcceptanceTests.Configuration.Clients;
-using RecklessSpeech.Web.ViewModels.LanguageDictionaries;
 using RecklessSpeech.Web.ViewModels.Sequences;
 using System.Text;
 
@@ -35,12 +34,5 @@ namespace RecklessSpeech.AcceptanceTests.Configuration
         public async Task Enrich(Guid sequenceId) =>
             await this.client.Post<string>($"http://localhost{this.basePath}/Dictionary/dutch",
                 new List<Guid> { sequenceId });
-
-        public async Task AssignLanguageDictionary(Guid id, Guid dictionaryId) =>
-            await this.client.Put<string>($"http://localhost{this.basePath}/Dictionary/{id}", dictionaryId);
-
-        public async Task<IReadOnlyCollection<LanguageDictionarySummaryPresentation>?> GetAllLanguageDictionaries() =>
-            await this.client.Get<IReadOnlyCollection<LanguageDictionarySummaryPresentation>?>(
-                $"http://localhost{this.basePath}/Dictionary");
     }
 }
