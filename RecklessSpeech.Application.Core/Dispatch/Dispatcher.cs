@@ -23,7 +23,7 @@ namespace RecklessSpeech.Application.Core.Dispatch
         {
             try
             {
-                IReadOnlyCollection<IDomainEvent> events = (await this.mediator.Send(command, CancellationToken.None));
+                IReadOnlyCollection<IDomainEvent> events = await this.mediator.Send(command, CancellationToken.None);
 
                 await transactionalStrategy.ExecuteTransactionInReadCommitted(async () =>
                 {
