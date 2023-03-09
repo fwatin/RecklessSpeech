@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
+namespace RecklessSpeech.Application.Core.Dispatch
 {
     public static class DispatcherExtensions
     {

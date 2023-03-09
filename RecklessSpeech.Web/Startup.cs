@@ -2,10 +2,10 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RecklessSpeech.Application.Core.Dispatch;
 using RecklessSpeech.Application.Core.Events.Executor;
 using RecklessSpeech.Application.Read;
 using RecklessSpeech.Application.Write.Sequences;
-using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 using RecklessSpeech.Infrastructure.Read;
 using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Infrastructure.Sequences.Executors;

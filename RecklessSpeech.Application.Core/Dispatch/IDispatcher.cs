@@ -1,9 +1,9 @@
 ﻿using RecklessSpeech.Application.Core.Commands;
+using RecklessSpeech.Application.Core.Dispatch.Transactions;
 using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Core.Queries;
-using RecklessSpeech.Infrastructure.Orchestration.Dispatch.Transactions;
 
-namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
+namespace RecklessSpeech.Application.Core.Dispatch
 {
     public interface IDispatcher
     {

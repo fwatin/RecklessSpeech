@@ -1,11 +1,11 @@
 ﻿using MediatR;
 using RecklessSpeech.Application.Core.Commands;
+using RecklessSpeech.Application.Core.Dispatch.Transactions;
 using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Core.Events.Executor;
 using RecklessSpeech.Application.Core.Queries;
-using RecklessSpeech.Infrastructure.Orchestration.Dispatch.Transactions;
 
-namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
+namespace RecklessSpeech.Application.Core.Dispatch
 {
     internal class Dispatcher : IDispatcher
     {

@@ -1,4 +1,4 @@
-﻿namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch.Transactions
+﻿namespace RecklessSpeech.Application.Core.Dispatch.Transactions
 {
     public interface ITransactionalStrategy
     {
