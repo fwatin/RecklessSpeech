@@ -1,5 +1,5 @@
-﻿using RecklessSpeech.Domain.Sequences.Sequences;
-using RecklessSpeech.Domain.Shared;
+﻿using RecklessSpeech.Application.Core.Events;
+using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Domain.Sequences.Explanations
 {

@@ -1,4 +1,4 @@
-﻿using RecklessSpeech.Domain.Shared;
+﻿using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 
 namespace RecklessSpeech.Infrastructure.Databases

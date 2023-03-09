@@ -1,8 +1,8 @@
 ﻿using RecklessSpeech.Application.Core.Commands;
+using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Notes;
 using RecklessSpeech.Domain.Sequences.Sequences;
-using RecklessSpeech.Domain.Shared;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki
 {

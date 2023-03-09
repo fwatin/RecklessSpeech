@@ -1,4 +1,6 @@
-﻿namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
+﻿using RecklessSpeech.Application.Core.Events;
+
+namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
 {
     public class CaseOfEmptyTranslatedWord
     {

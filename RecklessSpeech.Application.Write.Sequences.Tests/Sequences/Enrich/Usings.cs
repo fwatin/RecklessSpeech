@@ -1,7 +1,6 @@
 ﻿global using FluentAssertions;
 global using RecklessSpeech.Application.Write.Sequences.Commands;
 global using RecklessSpeech.Domain.Sequences.Explanations;
-global using RecklessSpeech.Domain.Shared;
 global using RecklessSpeech.Infrastructure.Databases;
 global using RecklessSpeech.Infrastructure.Sequences;
 global using RecklessSpeech.Infrastructure.Sequences.TranslatorGateways.Mijnwoordenboek;

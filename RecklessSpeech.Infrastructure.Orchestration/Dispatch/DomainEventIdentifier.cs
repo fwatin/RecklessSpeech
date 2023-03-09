@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using RecklessSpeech.Domain.Shared;
+using RecklessSpeech.Application.Core.Events;
 
 namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
 {

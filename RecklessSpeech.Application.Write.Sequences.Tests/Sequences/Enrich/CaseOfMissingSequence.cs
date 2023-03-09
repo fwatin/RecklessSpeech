@@ -1,4 +1,5 @@
-﻿using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
+﻿using RecklessSpeech.Application.Core.Events;
+using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
 using RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Gateways;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich

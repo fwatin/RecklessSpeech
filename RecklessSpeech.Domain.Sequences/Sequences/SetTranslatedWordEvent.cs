@@ -1,4 +1,4 @@
-﻿using RecklessSpeech.Domain.Shared;
+﻿using RecklessSpeech.Application.Core.Events;
 
 namespace RecklessSpeech.Domain.Sequences.Sequences
 {

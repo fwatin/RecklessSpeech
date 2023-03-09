@@ -1,6 +1,6 @@
-﻿using RecklessSpeech.Domain.Sequences.Explanations;
+﻿using RecklessSpeech.Application.Core.Events;
+using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
-using RecklessSpeech.Domain.Shared;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 
