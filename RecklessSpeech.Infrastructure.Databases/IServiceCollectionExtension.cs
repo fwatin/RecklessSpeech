@@ -14,7 +14,7 @@ namespace RecklessSpeech.Infrastructure.Databases
 
         private static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IDomainEventsRepository, DomainEventsRepository>();
+            services.AddScoped<IDomainEventsExecutor, DomainEventsExecutor>();
 
             services.AddScoped<ISequenceRepository, InMemorySequenceRepository>();
             services.AddScoped<InMemorySequenceRepository>();

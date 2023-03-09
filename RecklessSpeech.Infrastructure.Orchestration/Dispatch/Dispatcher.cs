@@ -8,13 +8,13 @@ namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
 {
     internal class Dispatcher : IRecklessSpeechDispatcher
     {
-        private readonly IDomainEventsRepository domainEventsRepository;
+        private readonly IDomainEventsExecutor domainEventsExecutor;
         private readonly IMediator mediator;
 
-        public Dispatcher(IMediator mediator, IDomainEventsRepository domainEventsRepository)
+        public Dispatcher(IMediator mediator, IDomainEventsExecutor domainEventsExecutor)
         {
             this.mediator = mediator;
-            this.domainEventsRepository = domainEventsRepository;
+            this.domainEventsExecutor = domainEventsExecutor;
         }
 
         public async Task<IReadOnlyCollection<IDomainEvent>> Dispatch(
@@ -28,7 +28,7 @@ namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
 
                 await transactionalStrategy.ExecuteTransactional(async () =>
                 {
-                    await this.domainEventsRepository.ApplyEvents(events);
+                    await this.domainEventsExecutor.ApplyEvents(events);
                 });
                 return events;
             }

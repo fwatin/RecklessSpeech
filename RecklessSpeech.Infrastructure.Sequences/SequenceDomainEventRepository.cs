@@ -6,7 +6,7 @@ using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 
 namespace RecklessSpeech.Infrastructure.Sequences
 {
-    public class SequenceDomainEventRepository : IDomainEventRepository
+    public class SequenceDomainEventRepository : IDomainEventExecutor
     {
         private readonly IDataContext dbContext;
 

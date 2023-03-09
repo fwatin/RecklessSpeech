@@ -3,11 +3,11 @@ using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 
 namespace RecklessSpeech.Infrastructure.Databases
 {
-    public class DomainEventsRepository : IDomainEventsRepository
+    public class DomainEventsExecutor : IDomainEventsExecutor
     {
-        private readonly IEnumerable<IDomainEventRepository> repositories;
+        private readonly IEnumerable<IDomainEventExecutor> repositories;
 
-        public DomainEventsRepository(IEnumerable<IDomainEventRepository> repositories) =>
+        public DomainEventsExecutor(IEnumerable<IDomainEventExecutor> repositories) =>
             this.repositories = repositories;
 
         public async Task ApplyEvents(IEnumerable<IDomainEvent> domainEvents)

@@ -8,13 +8,13 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests
         protected BaseInfrastructureTests()
         {
             this.InMemoryDataContext = new();
-            this.Sut = new(new IDomainEventRepository[]
+            this.Sut = new(new IDomainEventExecutor[]
             {
                 new SequenceDomainEventRepository(this.InMemoryDataContext)
             });
         }
 
         protected InMemoryDataContext InMemoryDataContext { get; }
-        protected DomainEventsRepository Sut { get; }
+        protected DomainEventsExecutor Sut { get; }
     }
 }

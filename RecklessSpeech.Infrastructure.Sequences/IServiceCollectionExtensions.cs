@@ -7,6 +7,6 @@ namespace RecklessSpeech.Infrastructure.Sequences
     {
         public static IServiceCollection AddSequencePorts(this IServiceCollection services) =>
             services
-                .AddScoped<IDomainEventRepository, SequenceDomainEventRepository>();
+                .AddScoped<IDomainEventExecutor, SequenceDomainEventRepository>();
     }
 }
