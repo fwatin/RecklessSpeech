@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using RecklessSpeech.Application.Core.Commands;
-using RecklessSpeech.Application.Core.Dispatch.Transactions;
 using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Core.Events.Executor;
 using RecklessSpeech.Application.Core.Queries;
@@ -26,7 +25,7 @@ namespace RecklessSpeech.Application.Core.Dispatch
             {
                 IReadOnlyCollection<IDomainEvent> events = (await this.mediator.Send(command, CancellationToken.None));
 
-                await transactionalStrategy.ExecuteTransactional(async () =>
+                await transactionalStrategy.ExecuteTransactionInReadCommitted(async () =>
                 {
                     await this.executorManager.ApplyEvents(events);
                 });

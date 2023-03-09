@@ -1,6 +1,5 @@
 ﻿using RecklessSpeech.Application.Core.Commands;
 using RecklessSpeech.Application.Core.Dispatch;
-using RecklessSpeech.Application.Core.Dispatch.Transactions;
 using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Core.Queries;
 using System.Collections.Generic;
@@ -19,7 +18,7 @@ namespace RecklessSpeech.Web
         public async Task Dispatch(IEventDrivenCommand command)
         {
             IReadOnlyCollection<IDomainEvent> domainEvents =
-                await this.dispatcher.Dispatch(new RootTransactionalStrategy(), command);
+                await this.dispatcher.Dispatch(new TransactionStrategy(), command);
             await this.Publish(domainEvents);
         }
 
