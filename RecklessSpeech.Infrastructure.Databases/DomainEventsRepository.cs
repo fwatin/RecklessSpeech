@@ -10,9 +10,9 @@ namespace RecklessSpeech.Infrastructure.Databases
         public DomainEventsRepository(IEnumerable<IDomainEventRepository> repositories) =>
             this.repositories = repositories;
 
-        public async Task ApplyEvents(IEnumerable<DomainEventIdentifier> domainEvents)
+        public async Task ApplyEvents(IEnumerable<IDomainEvent> domainEvents)
         {
-            foreach (IDomainEvent? domainEvent in domainEvents.Select(x => x.DomainEvent))
+            foreach (IDomainEvent? domainEvent in domainEvents)
             {
                 await Task.WhenAll(
                     this.repositories.Select(repo => repo.ApplyEvent(domainEvent)));

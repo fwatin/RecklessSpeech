@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using RecklessSpeech.Application.Core.Commands;
+using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Core.Queries;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch.Transactions;
 
@@ -7,30 +8,22 @@ namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
 {
     internal class Dispatcher : IRecklessSpeechDispatcher
     {
-        private readonly IDomainEventIdProvider domainEventIdProvider;
         private readonly IDomainEventsRepository domainEventsRepository;
         private readonly IMediator mediator;
 
-        public Dispatcher(
-            IMediator mediator,
-            IDomainEventsRepository domainEventsRepository,
-            IDomainEventIdProvider domainEventIdProvider
-        )
+        public Dispatcher(IMediator mediator, IDomainEventsRepository domainEventsRepository)
         {
             this.mediator = mediator;
             this.domainEventsRepository = domainEventsRepository;
-            this.domainEventIdProvider = domainEventIdProvider;
         }
 
-        public async Task<IReadOnlyCollection<DomainEventIdentifier>> Dispatch(
+        public async Task<IReadOnlyCollection<IDomainEvent>> Dispatch(
             ITransactionalStrategy transactionalStrategy,
             IEventDrivenCommand command)
         {
             try
             {
-                List<DomainEventIdentifier> events = (await this.mediator.Send(command, CancellationToken.None))
-                    .Select(domainEvent =>
-                        new DomainEventIdentifier(this.domainEventIdProvider.NewEventId(), domainEvent))
+                List<IDomainEvent> events = (await this.mediator.Send(command, CancellationToken.None))
                     .ToList();
 
                 await transactionalStrategy.ExecuteTransactional(async () =>
@@ -59,9 +52,9 @@ namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
             }
         }
 
-        public async Task Publish(IEnumerable<DomainEventIdentifier> domainEvents)
+        public async Task Publish(IEnumerable<IDomainEvent> domainEvents)
         {
-            foreach (DomainEventIdentifier? @event in domainEvents)
+            foreach (IDomainEvent? @event in domainEvents)
             {
                 await this.mediator.Publish(@event);
             }

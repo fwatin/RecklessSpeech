@@ -18,7 +18,6 @@ namespace RecklessSpeech.Infrastructure.Sequences.Tests
         protected InMemoryDataContext InMemoryDataContext { get; }
         protected DomainEventsRepository Sut { get; }
 
-        protected async Task ApplyEvent(IDomainEvent newEvent) =>
-            await this.Sut.ApplyEvents(new List<DomainEventIdentifier> { new(Guid.NewGuid(), newEvent) });
+        protected async Task ApplyEvent(IDomainEvent newEvent) => await this.Sut.ApplyEvents(new List<IDomainEvent> { newEvent });
     }
 }

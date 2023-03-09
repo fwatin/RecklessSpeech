@@ -1,4 +1,5 @@
 ﻿using RecklessSpeech.Application.Core.Commands;
+using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Core.Queries;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
 using RecklessSpeech.Infrastructure.Orchestration.Dispatch.Transactions;
@@ -17,11 +18,11 @@ namespace RecklessSpeech.Web
 
         public async Task Dispatch(IEventDrivenCommand command)
         {
-            IReadOnlyCollection<DomainEventIdentifier> domainEvents =
+            IReadOnlyCollection<IDomainEvent> domainEvents =
                 await this.dispatcher.Dispatch(new RootTransactionalStrategy(), command);
             await this.Publish(domainEvents);
         }
 
-        public Task Publish(IEnumerable<DomainEventIdentifier> domainEvents) => this.dispatcher.Publish(domainEvents);
+        public Task Publish(IEnumerable<IDomainEvent> domainEvents) => this.dispatcher.Publish(domainEvents);
     }
 }
