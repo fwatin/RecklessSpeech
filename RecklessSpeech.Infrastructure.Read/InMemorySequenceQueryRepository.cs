@@ -4,7 +4,6 @@ using RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
-//todo à bouger dans un dossier Read
 namespace RecklessSpeech.Infrastructure.Read
 {
     public class InMemorySequenceQueryRepository : ISequenceQueryRepository
