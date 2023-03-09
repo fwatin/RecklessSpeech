@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RecklessSpeech.AcceptanceTests.Configuration.Clients;
-using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Infrastructure.Sequences.Repositories;
 using TechTalk.SpecFlow;
 

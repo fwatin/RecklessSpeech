@@ -1,6 +1,4 @@
-﻿using RecklessSpeech.Application.Core.Events;
-
-namespace RecklessSpeech.Infrastructure.Orchestration.Dispatch
+﻿namespace RecklessSpeech.Application.Core.Events
 {
     public interface IDomainEventsExecutor
     {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Write.Sequences.Ports;
-using RecklessSpeech.Infrastructure.Orchestration.Dispatch;
-using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
 namespace RecklessSpeech.Infrastructure.Databases
