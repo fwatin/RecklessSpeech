@@ -4,22 +4,20 @@ using RecklessSpeech.Domain.Sequences.Notes;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Domain.Shared;
 
-namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send
+namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki
 {
-    public record SendNotesCommand(Guid Id) : IEventDrivenCommand; //todo rename
-
-    public class SendNotesCommandHandler : CommandHandlerBase<SendNotesCommand>
+    public class SendNoteToAnkiCommandHandler : CommandHandlerBase<SendNoteToAnkiCommand>
     {
         private readonly INoteGateway noteGateway;
         private readonly ISequenceRepository sequenceRepository;
 
-        public SendNotesCommandHandler(INoteGateway noteGateway, ISequenceRepository sequenceRepository)
+        public SendNoteToAnkiCommandHandler(INoteGateway noteGateway, ISequenceRepository sequenceRepository)
         {
             this.noteGateway = noteGateway;
             this.sequenceRepository = sequenceRepository;
         }
 
-        protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(SendNotesCommand command)
+        protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(SendNoteToAnkiCommand command)
         {
             Sequence? sequence = await this.sequenceRepository.GetOne(command.Id);
             if (sequence is null) return ArraySegment<IDomainEvent>.Empty;

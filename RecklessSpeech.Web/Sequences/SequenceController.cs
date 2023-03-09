@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
-using RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send;
+using RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
@@ -84,7 +84,7 @@ namespace RecklessSpeech.Web.Sequences
         {
             try
             {
-                await this.dispatcher.Dispatch(new SendNotesCommand(id));
+                await this.dispatcher.Dispatch(new SendNoteToAnkiCommand(id));
             }
             catch (Exception e)
             {

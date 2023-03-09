@@ -1,14 +1,14 @@
-using RecklessSpeech.Application.Write.Sequences.Commands.Notes.Send;
+using RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
 {
     public class CaseOfANewNote
     {
-        private readonly SendNotesCommand command;
+        private readonly SendNoteToAnkiCommand command;
         private readonly Guid sequenceId;
         private readonly InMemoryTestSequenceRepository sequenceRepository;
         private readonly SpyNoteGateway spyGateway;
-        private readonly SendNotesCommandHandler sut;
+        private readonly SendNoteToAnkiCommandHandler sut;
 
         public CaseOfANewNote()
         {
