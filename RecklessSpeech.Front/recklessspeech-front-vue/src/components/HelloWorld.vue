@@ -16,7 +16,12 @@
       <v-card>
         <v-card-title>Sélectionner un fichier CSV</v-card-title>
         <v-card-text>
-          <input type="file" ref="fileInput" accept=".csv" @change="onFileSelected">
+          <input
+            type="file"
+            ref="fileInput"
+            accept=".csv"
+            @change="onFileSelected"
+          />
         </v-card-text>
         <v-card-actions>
           <v-btn color="primary" @click="importCSV">Importer</v-btn>
@@ -27,22 +32,28 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
+import axios from "axios";
+import { useToast } from "vue-toastification";
 
 export default {
+  setup() {
+    const toast = useToast();
+    return { toast };
+  },
   data() {
     return {
       sequences: [],
       filePickerDialog: false,
-      selectedFile: null
-    }
+      selectedFile: null,
+    };
   },
   mounted() {
-    axios.get('https://localhost:47973/api/v1/sequences')
-      .then(response => {
+    axios
+      .get("https://localhost:47973/api/v1/sequences")
+      .then((response) => {
         this.sequences = response.data;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       });
   },
@@ -56,34 +67,29 @@ export default {
     async importCSV() {
       try {
         const formData = new FormData();
-        formData.append('file', this.selectedFile);
+        formData.append("file", this.selectedFile);
 
-        const response = await axios.post('https://localhost:47973/api/v1/sequences', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
+        const response = await axios.post(
+          "https://localhost:47973/api/v1/sequences",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           }
-        });
+        );
 
         console.log(response.data);
         // Mettre à jour la liste des séquences si besoin
 
-        this.$notify({
-          title: 'Succès',
-          message: 'Le fichier CSV a été importé avec succès.',
-          type: 'success'
-        });
+        this.toast.info("Le fichier CSV a été importé avec succès.");
       } catch (error) {
         console.error(error);
-
-        this.$notify({
-          title: 'Erreur',
-          message: 'Une erreur est survenue lors de l\'importation du fichier CSV.',
-          type: 'error'
-        });
+        this.toast.info("Une erreur est survenue lors de l'importation du fichier CSV.");
       }
 
       this.filePickerDialog = false;
-    }
-  }
-}
+    },
+  },
+};
 </script>
