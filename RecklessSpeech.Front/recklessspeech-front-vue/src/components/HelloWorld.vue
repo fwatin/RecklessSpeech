@@ -2,25 +2,18 @@
   <div>
     <v-btn @click="openFilePicker">Import items.csv</v-btn>
     <v-btn @click="openJsonPicker">Import lln_json_items_xxx.json</v-btn>
-    <v-btn @click="enrichInDutch(checkedSequences)">Enrichir la selection en Néérlandais</v-btn>
-    <v-btn @click="enrichInEnglish(checkedSequences)">Enrichir la selection en Anglais</v-btn>
-    <v-btn @click="sendToAnki(checkedSequences)">Envoyer vers Anki</v-btn>
     <v-btn @click="selectAll()">Tout sélectionner</v-btn>
+    <v-btn color="primary" @click="sendCheckedWords()">Envoyer</v-btn>
+
     <v-card>
       <v-card-title>Liste de séquences</v-card-title>
       <v-card-text>
-        <v-list>
-          <v-list-item v-for="(sequence, index) in sequences" :key="index">
-            <v-row>
-              <v-col cols="6">
-                <v-checkbox-btn
-                  :model-value="checkedSequences[index]"
-                ></v-checkbox-btn>
-              </v-col>
-              <v-col cols="6">
-                <v-label>{{ sequence.word }}</v-label>
-              </v-col>
-            </v-row>
+        <v-list dense>
+          <v-list-item v-for="(word, index) in words" :key="word.id">
+            <v-checkbox
+              v-model="checkedWords[index]"
+              :label="word.word"
+            ></v-checkbox>
           </v-list-item>
         </v-list>
       </v-card-text>
@@ -73,25 +66,43 @@ export default {
   },
   data() {
     return {
-      sequences: [],
       filePickerDialog: false,
       jsonPickerDialog: false,
       selectedFile: null,
       selectedJson: null,
-      checkedSequences: [],
+      words: [],
+      checkedWords: [],
     };
   },
   mounted() {
     axios
       .get("https://localhost:47973/api/v1/sequences")
       .then((response) => {
-        this.sequences = response.data;
+        this.words = response.data;
       })
       .catch((error) => {
         console.error(error);
       });
   },
   methods: {
+    async sendCheckedWords() {
+      const selectedWords = this.words.filter((word, index) => {
+        return this.checkedWords[index];
+      });
+
+        for (const sequence of selectedWords) {
+          let id = sequence.id;
+          const response = await axios.post(
+            `https://localhost:47973/api/v1/sequences/Dictionary/dutch?id=${id}`
+          );
+
+          console.log(response.data);
+          // Mettre à jour la liste des séquences si besoin
+        }
+
+        this.toast.info("Les séquences ont été enrichies avec succès.");
+      }
+    },
     openFilePicker() {
       this.filePickerDialog = true;
     },
@@ -160,67 +171,8 @@ export default {
 
       this.jsonPickerDialog = false;
     },
-    async enrichInDutch(selectedSequences) {
-      try {
-        for (const sequence of selectedSequences) {
-          let id = sequence.id;
-          const response = await axios.post(
-            `https://localhost:47973/api/v1/sequences/Dictionary/dutch?id=${id}`
-          );
-
-          console.log(response.data);
-          // Mettre à jour la liste des séquences si besoin
-        }
-
-        this.toast.info("Les séquences ont été enrichies avec succès.");
-      } catch (error) {
-        console.error(error);
-        this.toast.info(
-          "Une erreur est survenue lors de l'enrichissement des séquences."
-        );
-      }
-    },
-    async enrichInEnglish(selectedSequences) {
-      try {
-        for (const sequence of selectedSequences) {
-          const response = await axios.post(
-            `https://localhost:47973/api/v1/sequences/Dictionary/english?id=${sequence.id}`
-          );
-
-          console.log(response.data);
-          // Mettre à jour la liste des séquences si besoin
-        }
-
-        this.toast.info("Les séquences ont été enrichies avec succès.");
-      } catch (error) {
-        console.error(error);
-        this.toast.info(
-          "Une erreur est survenue lors de l'enrichissement des séquences."
-        );
-      }
-    },
-    async sendToAnki(selectedSequences) {
-      try {
-        for (const sequence of selectedSequences) {
-          const response = await axios.post(
-            `https://localhost:47973/api/v1/sequences/send-to-anki?id=${sequence.id}`
-          );
-
-          console.log(response.data);
-          // Mettre à jour la liste des séquences si besoin
-        }
-
-        this.toast.info("Les séquences ont été envoyées avec succès.");
-      } catch (error) {
-        console.error(error);
-        this.toast.info(
-          "Une erreur est survenue lors de l'envoi des séquences vers Anki."
-        );
-      }
-    },
     selectAll() {
       this.checkedSequences = this.sequences.map(() => true);
     },
-  },
 };
 </script>
