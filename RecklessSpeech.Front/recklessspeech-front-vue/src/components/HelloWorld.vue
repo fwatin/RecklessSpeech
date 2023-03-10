@@ -2,9 +2,8 @@
   <div>
     <v-btn @click="openFilePicker">Import items.csv</v-btn>
     <v-btn @click="openJsonPicker">Import lln_json_items_xxx.json</v-btn>
-    <v-btn @click="enrichInDutch(selectedSequences)"
-      >Enrichir en Néérlandais</v-btn
-    >
+    <v-btn @click="enrichInDutch(selectedSequences)">Enrichir la selection en Néérlandais</v-btn>
+    <v-btn @click="selectAll()">Tout sélectionner</v-btn>
     <v-card>
       <v-card-title>Liste de séquences</v-card-title>
       <v-card-text>
@@ -178,6 +177,9 @@ export default {
           "Une erreur est survenue lors de l'enrichissement des séquences."
         );
       }
+    },
+    selectAll() {
+      this.checkedSequences = this.sequences.map(() => true);
     },
   },
 };
