@@ -89,18 +89,18 @@ export default {
       const selectedWords = this.words.filter((word, index) => {
         return this.checkedWords[index];
       });
-
+        let count = 0;
         for (const sequence of selectedWords) {
           let id = sequence.id;
           const response = await axios.post(
             `https://localhost:47973/api/v1/sequences/Dictionary/dutch?id=${id}`
           );
+          count++;
 
           console.log(response.data);
-          // Mettre à jour la liste des séquences si besoin
         }
 
-        this.toast.info("Les séquences ont été enrichies avec succès.");
+        this.toast.info(count + " séquences ont été enrichies avec succès.");
       }
     },
     openFilePicker() {
