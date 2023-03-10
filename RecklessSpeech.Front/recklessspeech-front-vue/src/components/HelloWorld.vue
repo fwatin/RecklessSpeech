@@ -2,16 +2,24 @@
   <div>
     <v-btn @click="openFilePicker">Import items.csv</v-btn>
     <v-btn @click="openJsonPicker">Import lln_json_items_xxx.json</v-btn>
-    <v-btn @click="enrichInDutch(selectedSequences)">Enrichir en Néérlandais</v-btn>
+    <v-btn @click="enrichInDutch(selectedSequences)"
+      >Enrichir en Néérlandais</v-btn
+    >
     <v-card>
       <v-card-title>Liste de séquences</v-card-title>
       <v-card-text>
         <v-list>
           <v-list-item v-for="(sequence, index) in sequences" :key="index">
-            <v-list-item-action>
-              <v-checkbox v-model="checkedSequences[index]" hide-details></v-checkbox>
-            </v-list-item-action>
-            {{ sequence.word }}
+            <v-row>
+              <v-col cols="6">
+                <v-checkbox-btn
+                  :model-value="checkedSequences[index]"
+                ></v-checkbox-btn>
+              </v-col>
+              <v-col cols="6">
+                <v-label>{{ sequence.word }}</v-label>
+              </v-col>
+            </v-row>
           </v-list-item>
         </v-list>
       </v-card-text>
@@ -124,7 +132,7 @@ export default {
 
       this.filePickerDialog = false;
     },
-  async importJSON() {
+    async importJSON() {
       try {
         const formData = new FormData();
         formData.append("file", this.selectedJson);
