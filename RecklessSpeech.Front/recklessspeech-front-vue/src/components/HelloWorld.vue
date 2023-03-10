@@ -2,9 +2,9 @@
   <div>
     <v-btn @click="openFilePicker">Import items.csv</v-btn>
     <v-btn @click="openJsonPicker">Import lln_json_items_xxx.json</v-btn>
-    <v-btn @click="enrichInDutch(selectedSequences)">Enrichir la selection en Néérlandais</v-btn>
-    <v-btn @click="enrichInEnglish(selectedSequences)">Enrichir la selection en Anglais</v-btn>
-    <v-btn @click="sendToAnki(selectedSequences)">Envoyer vers Anki</v-btn>
+    <v-btn @click="enrichInDutch(checkedSequences)">Enrichir la selection en Néérlandais</v-btn>
+    <v-btn @click="enrichInEnglish(checkedSequences)">Enrichir la selection en Anglais</v-btn>
+    <v-btn @click="sendToAnki(checkedSequences)">Envoyer vers Anki</v-btn>
     <v-btn @click="selectAll()">Tout sélectionner</v-btn>
     <v-card>
       <v-card-title>Liste de séquences</v-card-title>
@@ -78,7 +78,6 @@ export default {
       jsonPickerDialog: false,
       selectedFile: null,
       selectedJson: null,
-      selectedSequences: [],
       checkedSequences: [],
     };
   },
@@ -164,8 +163,9 @@ export default {
     async enrichInDutch(selectedSequences) {
       try {
         for (const sequence of selectedSequences) {
+          let id = sequence.id;
           const response = await axios.post(
-            `https://localhost:47973/api/v1/sequences/Dictionary/dutch?id=${sequence.id}`
+            `https://localhost:47973/api/v1/sequences/Dictionary/dutch?id=${id}`
           );
 
           console.log(response.data);
@@ -210,11 +210,11 @@ export default {
           // Mettre à jour la liste des séquences si besoin
         }
 
-        this.toast.info("Les séquences ont été enrichies avec succès.");
+        this.toast.info("Les séquences ont été envoyées avec succès.");
       } catch (error) {
         console.error(error);
         this.toast.info(
-          "Une erreur est survenue lors de l'enrichissement des séquences."
+          "Une erreur est survenue lors de l'envoi des séquences vers Anki."
         );
       }
     },
