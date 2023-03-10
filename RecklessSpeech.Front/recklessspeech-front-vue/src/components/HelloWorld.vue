@@ -3,7 +3,13 @@
     <v-btn @click="openFilePicker">Import items.csv</v-btn>
     <v-btn @click="openJsonPicker">Import lln_json_items_xxx.json</v-btn>
     <v-btn @click="selectAll()">Tout sélectionner</v-btn>
-    <v-btn color="primary" @click="sendCheckedWords()">Envoyer</v-btn>
+    <v-btn color="primary" @click="enrichInDutch()"
+      >Enrichir en néérlandais</v-btn
+    >
+    <v-btn color="primary" @click="enrichInEnglish()"
+      >Enrichir en anglais</v-btn
+    >
+    <v-btn color="primary" @click="sendToAnki()">Envoyer vers Anki</v-btn>
 
     <v-card>
       <v-card-title>Liste de séquences</v-card-title>
@@ -85,23 +91,62 @@ export default {
       });
   },
   methods: {
-    async sendCheckedWords() {
+    async enrichInDutch() {
       const selectedWords = this.words.filter((word, index) => {
         return this.checkedWords[index];
       });
-        let count = 0;
-        for (const sequence of selectedWords) {
-          let id = sequence.id;
-          const response = await axios.post(
-            `https://localhost:47973/api/v1/sequences/Dictionary/dutch?id=${id}`
-          );
-          count++;
+      let count = 0;
+      for (const sequence of selectedWords) {
+        let id = sequence.id;
+        const response = await axios.post(
+          `https://localhost:47973/api/v1/sequences/Dictionary/dutch?id=${id}`
+        );
+        count++;
 
-          console.log(response.data);
-        }
-
-        this.toast.info(count + " séquences ont été enrichies avec succès.");
+        console.log(response.data);
       }
+
+      this.toast.info(
+        count + " séquences ont été enrichies avec succès en néérlandais."
+      );
+    },
+    async enrichInEnglish() {
+      const selectedWords = this.words.filter((word, index) => {
+        return this.checkedWords[index];
+      });
+      let count = 0;
+      for (const sequence of selectedWords) {
+        let id = sequence.id;
+        const response = await axios.post(
+          `https://localhost:47973/api/v1/sequences/Dictionary/english?id=${id}`
+        );
+        count++;
+
+        console.log(response.data);
+      }
+
+      this.toast.info(
+        count + " séquences ont été enrichies avec succès en anglais."
+      );
+    },
+    async sendToAnki() {
+      const selectedWords = this.words.filter((word, index) => {
+        return this.checkedWords[index];
+      });
+      let count = 0;
+      for (const sequence of selectedWords) {
+        let id = sequence.id;
+        const response = await axios.post(
+          `https://localhost:47973/api/v1/sequences/send-to-anki?id=${id}`
+        );
+        count++;
+
+        console.log(response.data);
+      }
+
+      this.toast.info(
+        count + " séquences ont été envoyées vers Anki avec succès."
+      );
     },
     openFilePicker() {
       this.filePickerDialog = true;
@@ -172,7 +217,8 @@ export default {
       this.jsonPickerDialog = false;
     },
     selectAll() {
-      this.checkedSequences = this.sequences.map(() => true);
+      this.checkedWords = this.words.map(() => true);
     },
+  },
 };
 </script>
