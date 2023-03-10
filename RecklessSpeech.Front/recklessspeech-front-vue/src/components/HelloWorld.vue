@@ -3,6 +3,7 @@
     <v-btn @click="openFilePicker">Import items.csv</v-btn>
     <v-btn @click="openJsonPicker">Import lln_json_items_xxx.json</v-btn>
     <v-btn @click="enrichInDutch(selectedSequences)">Enrichir la selection en Néérlandais</v-btn>
+    <v-btn @click="enrichInEnglish(selectedSequences)">Enrichir la selection en Anglais</v-btn>
     <v-btn @click="selectAll()">Tout sélectionner</v-btn>
     <v-card>
       <v-card-title>Liste de séquences</v-card-title>
@@ -164,6 +165,25 @@ export default {
         for (const sequence of selectedSequences) {
           const response = await axios.post(
             `https://localhost:47973/api/v1/sequences/Dictionary/dutch?id=${sequence.id}`
+          );
+
+          console.log(response.data);
+          // Mettre à jour la liste des séquences si besoin
+        }
+
+        this.toast.info("Les séquences ont été enrichies avec succès.");
+      } catch (error) {
+        console.error(error);
+        this.toast.info(
+          "Une erreur est survenue lors de l'enrichissement des séquences."
+        );
+      }
+    },
+    async enrichInEnglish(selectedSequences) {
+      try {
+        for (const sequence of selectedSequences) {
+          const response = await axios.post(
+            `https://localhost:47973/api/v1/sequences/Dictionary/english?id=${sequence.id}`
           );
 
           console.log(response.data);
