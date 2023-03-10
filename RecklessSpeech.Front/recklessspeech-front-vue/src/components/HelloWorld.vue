@@ -2,11 +2,15 @@
   <div>
     <v-btn @click="openFilePicker">Import items.csv</v-btn>
     <v-btn @click="openJsonPicker">Import lln_json_items_xxx.json</v-btn>
+    <v-btn @click="enrichInDutch(selectedSequences)">Enrichir en Néérlandais</v-btn>
     <v-card>
       <v-card-title>Liste de séquences</v-card-title>
       <v-card-text>
         <v-list>
           <v-list-item v-for="(sequence, index) in sequences" :key="index">
+            <v-list-item-action>
+              <v-checkbox v-model="checkedSequences[index]" hide-details></v-checkbox>
+            </v-list-item-action>
             {{ sequence.word }}
           </v-list-item>
         </v-list>
@@ -65,6 +69,8 @@ export default {
       jsonPickerDialog: false,
       selectedFile: null,
       selectedJson: null,
+      selectedSequences: [],
+      checkedSequences: [],
     };
   },
   mounted() {
@@ -145,6 +151,25 @@ export default {
       }
 
       this.jsonPickerDialog = false;
+    },
+    async enrichInDutch(selectedSequences) {
+      try {
+        for (const sequence of selectedSequences) {
+          const response = await axios.post(
+            `https://localhost:47973/api/v1/sequences/Dictionary/dutch?id=${sequence.id}`
+          );
+
+          console.log(response.data);
+          // Mettre à jour la liste des séquences si besoin
+        }
+
+        this.toast.info("Les séquences ont été enrichies avec succès.");
+      } catch (error) {
+        console.error(error);
+        this.toast.info(
+          "Une erreur est survenue lors de l'enrichissement des séquences."
+        );
+      }
     },
   },
 };
