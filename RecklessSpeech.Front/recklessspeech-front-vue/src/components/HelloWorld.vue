@@ -6,7 +6,7 @@
     <v-card-text>
       <v-list>
         <v-list-item v-for="(sequence, index) in sequences" :key="index">
-          <v-list-item-content>{{ sequence.word }}</v-list-item-content>
+          {{ sequence.word }} 
         </v-list-item>
       </v-list>
     </v-card-text>
