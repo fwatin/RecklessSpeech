@@ -30,7 +30,9 @@ namespace RecklessSpeech.Front.WPF.ViewModels
 
             const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences"; //todo mettre dans des settings
 
-            await this.access.PostAsync(url, content);
+            using HttpClient client = new();
+
+            await client.PostAsync(new Uri(url), content);
         }
 
         public async Task ImportSequencesDetailsFromJson(string filePath)
@@ -45,7 +47,7 @@ namespace RecklessSpeech.Front.WPF.ViewModels
 
             await this.access.PostAsync(url, content);
         }
-        
+
         public async Task<IReadOnlyCollection<SequenceDto>> GetAllSequences()
         {
             const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences";
@@ -87,18 +89,18 @@ namespace RecklessSpeech.Front.WPF.ViewModels
 
         public async Task EnrichSequenceDutch(Guid id)
         {
-            const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences/Dictionary/dutch";
+            string url = $"https://localhost:47973/api/{ApiVersion}/sequences/Dictionary/dutch?id={id}";
 
-            HttpRequestMessage request = BuildJsonMessage(HttpMethod.Post, url, new List<Guid>() { id });
+            HttpRequestMessage request = BuildJsonMessage(HttpMethod.Post, url);
 
             await this.access.SendAsync(request);
         }
 
         public async Task EnrichSequenceEnglish(Guid id)
         {
-            const string url = @$"https://localhost:47973/api/{ApiVersion}/sequences/Dictionary/english";
+            string url = $"https://localhost:47973/api/{ApiVersion}/sequences/Dictionary/english?id={id}";
 
-            HttpRequestMessage request = BuildJsonMessage(HttpMethod.Post, url, new List<Guid>() { id });
+            HttpRequestMessage request = BuildJsonMessage(HttpMethod.Post, url);
 
             await this.access.SendAsync(request);
         }
