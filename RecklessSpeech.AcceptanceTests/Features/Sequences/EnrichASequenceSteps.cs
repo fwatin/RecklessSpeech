@@ -28,7 +28,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
         [Given(@"a sequence to be enriched")]
         public void GivenASequenceToBeEnriched() =>
             this.inMemoryDataContext.Sequences.Add(this.sequenceBuilder.BuildEntity());
-
+            
         [When(@"the user enriches this sequence")]
         public async Task WhenTheUserEnrichesThisSequence() => await this.Client.Latest().SequenceRequests()
             .Enrich(this.sequenceBuilder.SequenceId.Value);

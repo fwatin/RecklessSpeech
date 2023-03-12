@@ -9,6 +9,7 @@ using RecklessSpeech.Application.Write.Sequences;
 using RecklessSpeech.Infrastructure.Read;
 using RecklessSpeech.Infrastructure.Sequences.Executors;
 using RecklessSpeech.Infrastructure.Sequences.Repositories;
+using RecklessSpeech.Web.Configuration.Cors;
 
 namespace RecklessSpeech.Web
 {
@@ -25,6 +26,7 @@ namespace RecklessSpeech.Web
 
         public void ConfigureServices(IServiceCollection services) =>
             services
+                .AddCorsService()
                 .AddWebDependencies(this.configuration, this.environment)
                 .AddEventsExecutors()
                 .AddSequencesCommands()
@@ -43,6 +45,7 @@ namespace RecklessSpeech.Web
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseCors("AllowEverything");
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }

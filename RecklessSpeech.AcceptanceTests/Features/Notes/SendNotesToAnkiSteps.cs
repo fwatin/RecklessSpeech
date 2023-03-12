@@ -54,8 +54,8 @@ namespace RecklessSpeech.AcceptanceTests.Features.Notes
         {
             ExplanationBuilder explanationBuilder = ExplanationBuilder.Create(this.explanationId) with
             {
-                Target = new("brood"),
-                Content = new("pain"),
+                Target = new("pain"),
+                Content = new("brood"),
                 SourceUrl = new("https://www.mijnwoordenboek.nl/vertaal/NL/FR/brood")
             };
             this.dbContext.Explanations.Add(explanationBuilder.BuildEntity());
