@@ -32,7 +32,6 @@ namespace RecklessSpeech.AcceptanceTests.Configuration
             await this.client.Post<string>($"http://localhost{this.basePath}/send-to-anki?id={id}");
 
         public async Task Enrich(Guid sequenceId) =>
-            await this.client.Post<string>($"http://localhost{this.basePath}/Dictionary/dutch",
-                new List<Guid> { sequenceId });
+            await this.client.Post<string>($"http://localhost{this.basePath}/Dictionary/dutch?id={sequenceId}");
     }
 }

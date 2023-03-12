@@ -79,7 +79,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create(this.sequenceId) with
             {
                 TranslatedSentence = new("hey this is the translated sentence from Netflix"),
-                Explanation = ExplanationBuilder.Create() with { Content = new("a lot of explanations") }
+                Explanation = ExplanationBuilder.Create() with { Target = new("a lot of explanations") }
             };
             this.sequenceRepository.Feed(sequenceBuilder);
 
