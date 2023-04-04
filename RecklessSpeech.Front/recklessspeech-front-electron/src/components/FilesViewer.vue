@@ -20,9 +20,10 @@ export default {
 <template>
   <table class="table">
     <tbody>
-      <tr class="clickable" @click="$emit('back')">
+      <tr class="clickable"  @click="$emit('back')">
         <td class="icon-row">
           <IconFolderOpen class="icon-folder" />
+          <b-button variant="outline-primary">sdqrg</b-button>
         </td>
         <td>...</td>
         <td></td>
