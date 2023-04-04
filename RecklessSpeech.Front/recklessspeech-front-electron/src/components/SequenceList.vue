@@ -74,8 +74,16 @@ export default {
       this.filePickerDialog = true;
     },
     selectAll() {
-      this.checkedWords = this.words.map(() => true);
-    },
+  if (this.checkedWords.some((isChecked) => isChecked)) {
+    // Au moins un élément est sélectionné, donc on les désélectionne tous
+    this.checkedWords = [];
+  } else {
+    // Aucun élément n'est sélectionné, donc on les sélectionne tous
+    this.checkedWords = this.words.map(() => true);
+  }
+}
+
+,
   },
 };
 </script>
