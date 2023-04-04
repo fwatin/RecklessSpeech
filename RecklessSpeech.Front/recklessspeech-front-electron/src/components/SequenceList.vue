@@ -55,6 +55,21 @@ export default {
           " séquences ont été enrichies avec succès en anglais."
       );
     },
+    async sendToAnki() {
+      const selectedWords = this.words.filter((word, index) => {
+        return this.checkedWords[index];
+      });
+      for (const sequence of selectedWords) {
+        let id = sequence.id;
+        await axios.post(
+          `https://localhost:47973/api/v1/sequences/send-to-anki?id=${id}`
+        );
+      }
+
+      this.toast.info(
+        selectedWords.length + " séquences ont été envoyées vers Anki avec succès."
+      );
+    },
     openFilePicker() {
       this.filePickerDialog = true;
     },
@@ -69,6 +84,9 @@ export default {
       </button>
       <button class="clickable" @click="enrichInEnglish()">
         Enrichir en anglais
+      </button>
+      <button class="clickable" @click="sendToAnki()">
+        Envoyer vers Anki
       </button>
     </div>
 
