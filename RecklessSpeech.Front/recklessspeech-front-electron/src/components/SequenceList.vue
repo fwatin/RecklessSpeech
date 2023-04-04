@@ -6,6 +6,7 @@ export default {
     return {
       filePickerDialog: false,
       words: [],
+      checkedWords: [],
     };
   },
   mounted() {
@@ -13,6 +14,7 @@ export default {
       .get("https://localhost:47973/api/v1/sequences")
       .then((response) => {
         this.words = response.data;
+        console.log(this.words.length + " words set into the variable 'words'.")
       })
       .catch((error) => {
         console.error(error);
@@ -35,7 +37,12 @@ export default {
 
     <div>
       <b-table>
-        <b-table-simple>Cras justo odio</b-table-simple>
+        <b-table-simple v-for="(word, index) in words" :key="word.id">
+            <b-checkbox
+              v-model="checkedWords[index]"
+              :label="word.word"
+            ></b-checkbox>
+        </b-table-simple>
       </b-table>
     </div>
   </div>
