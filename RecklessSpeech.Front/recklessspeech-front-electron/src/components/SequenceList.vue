@@ -43,17 +43,16 @@ export default {
       const selectedWords = this.words.filter((word, index) => {
         return this.checkedWords[index];
       });
-      let count = 0;
       for (const sequence of selectedWords) {
         let id = sequence.id;
         await axios.post(
           `https://localhost:47973/api/v1/sequences/Dictionary/english?id=${id}`
         );
-        count++;
       }
 
       console.log(
-        count + " séquences ont été enrichies avec succès en anglais."
+        selectedWords.length +
+          " séquences ont été enrichies avec succès en anglais."
       );
     },
     openFilePicker() {
