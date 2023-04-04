@@ -191,9 +191,6 @@ export default {
         <button class="clickable button-margin" @click="selectAll()">
           Selectionner tout
         </button>
-        <button class="clickable button-margin" @click="openFilePicker">
-          Import items.csv
-        </button>
         <button class="clickable button-margin" @click="enrichInEnglish()">
           Enrichir en anglais
         </button>
