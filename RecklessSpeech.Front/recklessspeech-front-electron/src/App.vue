@@ -71,17 +71,7 @@ export default {
 
 <template>
   <div class="container mt-2">
-    <h4>{{ path }}</h4>
-
-    <div class="form-group mt-4 mb-2">
-      <input
-        v-model="searchString"
-        class="form-control form-control-sm"
-        placeholder="File search"
-      />
-    </div>
     <SequenceList>
-      
     </SequenceList>
 
     <FilesViewer
