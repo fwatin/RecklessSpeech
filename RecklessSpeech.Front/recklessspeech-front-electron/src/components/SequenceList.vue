@@ -1,5 +1,6 @@
 <script>
 import axios from "axios";
+
 export default {
   setup() {},
   data() {
@@ -20,6 +21,7 @@ export default {
         console.log(
           this.words.length + " words set into the variable 'words'."
         );
+        new Notification(this.words.length + " mots ont été importés.").show();
       })
       .catch((error) => {
         console.error(error);
@@ -30,17 +32,17 @@ export default {
       const selectedWords = this.words.filter((word, index) => {
         return this.checkedWords[index];
       });
-      let count = 0;
       for (const sequence of selectedWords) {
         let id = sequence.id;
         await axios.post(
           `https://localhost:47973/api/v1/sequences/Dictionary/dutch?id=${id}`
         );
-        count++;
       }
-      console.log(
-        count + " séquences ont été enrichies avec succès en néérlandais."
-      );
+      let msg =
+        selectedWords.length +
+        " séquences ont été enrichies avec succès en néérlandais.";
+      console.log(msg);
+      new Notification(msg).show();
     },
     async enrichInEnglish() {
       const selectedWords = this.words.filter((word, index) => {
@@ -53,10 +55,11 @@ export default {
         );
       }
 
-      console.log(
+      let msg =
         selectedWords.length +
-          " séquences ont été enrichies avec succès en anglais."
-      );
+        " séquences ont été enrichies avec succès en anglais.";
+      console.log(msg);
+      new Notification(msg).show();
     },
     async sendToAnki() {
       const selectedWords = this.words.filter((word, index) => {
@@ -69,10 +72,11 @@ export default {
         );
       }
 
-      this.toast.info(
+      let msg =
         selectedWords.length +
-          " séquences ont été envoyées vers Anki avec succès."
-      );
+        " séquences ont été envoyées vers Anki avec succès.";
+      console.log(msg);
+      new Notification(msg).show();
     },
     openFilePicker() {
       this.filePickerDialog = true;
@@ -113,12 +117,14 @@ export default {
         console.log(
           "import-details http call ended with status: " + response.status
         );
-        console.log("Le fichier CSV a été importé avec succès.");
+        let msg = "Le fichier CSV a été importé avec succès.";
+        console.log(msg);
+        new Notification(msg).show();
       } catch (error) {
         console.error(error);
-        console.log(
-          "Une erreur est survenue lors de l'importation du fichier CSV."
-        );
+        let msg = "Une erreur est survenue lors de l'importation du fichier CSV."
+        console.log(msg);
+        new Notification(msg).show();
       }
 
       this.filePickerDialog = false;
@@ -143,9 +149,10 @@ export default {
         // Mettre à jour la liste des séquences si besoin
       } catch (error) {
         console.error(error);
-        console.log(
-          "Une erreur est survenue lors de l'importation du fichier Json."
-        );
+
+        let msg = "Une erreur est survenue lors de l'importation du fichier Json."
+        console.log(msg);
+        new Notification(msg).show();
       }
 
       this.jsonPickerDialog = false;
