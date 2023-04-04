@@ -14,7 +14,9 @@ export default {
       .get("https://localhost:47973/api/v1/sequences")
       .then((response) => {
         this.words = response.data;
-        console.log(this.words.length + " words set into the variable 'words'.")
+        console.log(
+          this.words.length + " words set into the variable 'words'."
+        );
       })
       .catch((error) => {
         console.error(error);
@@ -36,14 +38,13 @@ export default {
     </div>
 
     <div>
-      <b-table>
-        <b-table-simple v-for="(word, index) in words" :key="word.id">
-            <b-checkbox
-              v-model="checkedWords[index]"
-              :label="word.word"
-            ></b-checkbox>
-        </b-table-simple>
-      </b-table>
+      <table class="table">
+        <tbody>
+          <tr v-for="file in words" :key="file.name">
+            <td>{{ file.word }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
