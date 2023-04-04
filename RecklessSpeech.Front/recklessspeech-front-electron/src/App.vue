@@ -1,9 +1,11 @@
 <script>
 import fs from "fs";
 import pathModule from "path";
-import { computed, ref } from "vue";
+
 import { app } from "@electron/remote";
-import { file } from "@babel/types";
+import { computed, ref } from "vue";
+
+import FilesViewer from "./components/FilesViewer";
 
 const formatSize = (size) => {
   var i = Math.floor(Math.log(size) / Math.log(1024));
@@ -15,6 +17,8 @@ const formatSize = (size) => {
 };
 
 export default {
+  name: "App",
+  components: { FilesViewer },
   setup() {
     const path = ref(app.getAppPath());
     const files = computed(() => {
@@ -29,7 +33,7 @@ export default {
           };
         })
         .sort((a, b) => {
-          if (a.directory == b.directory) {
+          if (a.directory === b.directory) {
             return a.name.localeCompare(b.name);
           }
           return a.directory ? -1 : 1;
@@ -39,10 +43,10 @@ export default {
     const back = () => {
       path.value = pathModule.dirname(path.value);
     };
-
     const open = (folder) => {
       path.value = pathModule.join(path.value, folder);
     };
+
     const searchString = ref("");
     const filteredFiles = computed(() => {
       return searchString.value
@@ -52,8 +56,10 @@ export default {
 
     return {
       path,
+
       open,
       back,
+
       files,
       searchString,
       filteredFiles,
@@ -64,8 +70,21 @@ export default {
 
 <template>
   <div class="container mt-2">
+    <h4>{{ path }}</h4>
+
     <div class="form-group mt-4 mb-2">
-      <input class="form-control form-control-sm" placeholder="File search" />
+      <input
+        v-model="searchString"
+        class="form-control form-control-sm"
+        placeholder="File search"
+      />
     </div>
+
+    <FilesViewer
+      :files="filteredFiles"
+      :nested="nested"
+      @back="back"
+      @folderclick="open($event.name)"
+    />
   </div>
 </template>
