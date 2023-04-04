@@ -1,0 +1,7 @@
+Comment refaire rapidement un projet electron ?
+-> vidéo suivie : https://www.youtube.com/watch?v=LnRCX074VfA
+
+- dans le bon dossier : vue create nom-projet
+- Attention! me mettre ensuite dans le dossier qui vient d'être crée
+- commande : vue add electron-builder
+- commande yarn add @electron/remote (est ce bien utile)
