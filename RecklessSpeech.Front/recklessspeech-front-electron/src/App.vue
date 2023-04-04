@@ -6,6 +6,7 @@ import { app } from "@electron/remote";
 import { computed, ref } from "vue";
 
 import FilesViewer from "./components/FilesViewer";
+import SequenceList from "./components/SequenceList";
 
 const formatSize = (size) => {
   var i = Math.floor(Math.log(size) / Math.log(1024));
@@ -18,7 +19,7 @@ const formatSize = (size) => {
 
 export default {
   name: "App",
-  components: { FilesViewer },
+  components: { SequenceList, FilesViewer },
   setup() {
     const path = ref(app.getAppPath());
     const files = computed(() => {
@@ -79,6 +80,9 @@ export default {
         placeholder="File search"
       />
     </div>
+    <SequenceList>
+      
+    </SequenceList>
 
     <FilesViewer
       :files="filteredFiles"
