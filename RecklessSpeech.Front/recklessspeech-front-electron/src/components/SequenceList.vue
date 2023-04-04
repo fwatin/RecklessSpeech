@@ -73,6 +73,9 @@ export default {
     openFilePicker() {
       this.filePickerDialog = true;
     },
+    selectAll() {
+      this.checkedWords = this.words.map(() => true);
+    },
   },
 };
 </script>
@@ -85,8 +88,14 @@ export default {
       <button class="clickable" @click="enrichInEnglish()">
         Enrichir en anglais
       </button>
+      <button class="clickable" @click="enrichInDutch()">
+        Enrichir en néérlandais
+      </button>
       <button class="clickable" @click="sendToAnki()">
         Envoyer vers Anki
+      </button>
+      <button class="clickable" @click="selectAll()">
+        Selectionner tout
       </button>
     </div>
 
