@@ -5,8 +5,11 @@ export default {
   data() {
     return {
       filePickerDialog: false,
+      jsonPickerDialog: false,
       words: [],
       checkedWords: [],
+      selectedFile: null,
+      selectedJson: null,
     };
   },
   mounted() {
@@ -74,8 +77,14 @@ export default {
     openFilePicker() {
       this.filePickerDialog = true;
     },
+    openJsonPicker() {
+      this.jsonPickerDialog = true;
+    },
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
+    },
+    onJsonSelected(event) {
+      this.selectedJson = event.target.files[0];
     },
     selectAll() {
       if (this.checkedWords.some((isChecked) => isChecked)) {
@@ -85,6 +94,61 @@ export default {
         // Aucun élément n'est sélectionné, donc on les sélectionne tous
         this.checkedWords = this.words.map(() => true);
       }
+    },
+    async importCSV() {
+      try {
+        const formData = new FormData();
+        formData.append("file", this.selectedFile);
+
+        const response = await axios.post(
+          "https://localhost:47973/api/v1/sequences",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        console.log(
+          "import-details http call ended with status: " + response.status
+        );
+        console.log("Le fichier CSV a été importé avec succès.");
+      } catch (error) {
+        console.error(error);
+        console.log(
+          "Une erreur est survenue lors de l'importation du fichier CSV."
+        );
+      }
+
+      this.filePickerDialog = false;
+    },
+    async importJSON() {
+      try {
+        const formData = new FormData();
+        formData.append("file", this.selectedJson);
+
+        const response = await axios.post(
+          "https://localhost:47973/api/v1/sequences/import-details",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        console.log(
+          "import-details http call ended with status: " + response.status
+        );
+        // Mettre à jour la liste des séquences si besoin
+      } catch (error) {
+        console.error(error);
+        console.log(
+          "Une erreur est survenue lors de l'importation du fichier Json."
+        );
+      }
+
+      this.jsonPickerDialog = false;
     },
   },
 };
@@ -101,7 +165,22 @@ export default {
             accept=".csv"
             @change="onFileSelected"
           />
-          <button color="primary" @click="importCSV">Importer</button>
+          <button @click="importCSV">Importer</button>
+        </p>
+      </fieldset>
+    </div>
+
+    <div class="fieldset-container">
+      <fieldset style="border: 2px solid #000; padding: 10px">
+        <legend style="font-size: 20px">Sélectionner un fichier JSON</legend>
+        <p>
+          <input
+            type="file"
+            ref="fileInput"
+            accept=".json"
+            @change="onJsonSelected"
+          />
+          <button @click="importJSON">Importer</button>
         </p>
       </fieldset>
     </div>
@@ -109,6 +188,9 @@ export default {
     <div class="fieldset-container">
       <fieldset style="border: 2px solid #000; padding: 10px">
         <legend style="font-size: 20px">Enrichir</legend>
+        <button class="clickable button-margin" @click="selectAll()">
+          Selectionner tout
+        </button>
         <button class="clickable button-margin" @click="openFilePicker">
           Import items.csv
         </button>
@@ -117,9 +199,6 @@ export default {
         </button>
         <button class="clickable button-margin" @click="enrichInDutch()">
           Enrichir en néérlandais
-        </button>
-        <button class="clickable button-margin" @click="selectAll()">
-          Selectionner tout
         </button>
       </fieldset>
     </div>
@@ -137,7 +216,11 @@ export default {
         <tbody>
           <tr v-for="(file, index) in words" :key="file.name">
             <td>
-              <input type="checkbox" class="checkboxes" v-model="checkedWords[index]" />
+              <input
+                type="checkbox"
+                class="checkboxes"
+                v-model="checkedWords[index]"
+              />
               <span>{{ file.word }}</span>
             </td>
           </tr>
@@ -155,10 +238,10 @@ export default {
 .button-margin {
   margin: 5px;
 }
-.fieldset-container{
-    margin: 5px;
+.fieldset-container {
+  margin: 5px;
 }
-.checkboxes{
-    margin: 5px;
+.checkboxes {
+  margin: 5px;
 }
 </style>
