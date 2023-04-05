@@ -1,13 +1,29 @@
-const rules = require('./webpack.rules');
-
-rules.push({
-  test: /\.css$/,
-  use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
-});
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
-  // Put your normal webpack config below here
   module: {
-    rules,
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]?[hash]',
+        },
+      },
+    ],
   },
+  plugins: [
+    new VueLoaderPlugin(),
+  ],
 };

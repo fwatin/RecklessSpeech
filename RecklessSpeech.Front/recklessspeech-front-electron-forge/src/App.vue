@@ -1,15 +1,22 @@
-<script>
-import SequenceList from "./components/SequenceList";
+<template>
+  <div id="app">
+    <h1>Bienvenue dans votre projet Electron Forge + Vue 2!</h1>
+  </div>
+</template>
 
+<script>
 export default {
-  name: "App",
-  components: { SequenceList },
+  name: 'App',
 };
 </script>
 
-<template>
-  <div class="container mt-2">
-    <SequenceList>
-    </SequenceList>
-  </div>
-</template>
+<style>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
