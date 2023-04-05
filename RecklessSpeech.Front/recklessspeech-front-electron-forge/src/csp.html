@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data:; connect-src 'self' https://localhost:47973; script-src 'self' 'unsafe-inline' 'unsafe-eval';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://localhost:47973; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'nonce-8IBTHwOdqNKAWeKl7plt8g==';">
     <title>Electron Forge + Vue 2</title>
   </head>
   <body>
     <div id="app"></div>
-    <script type="module" src="./renderer.js"></script>
+    <script nonce="8IBTHwOdqNKAWeKl7plt8g==" src="main_window.js"></script>
   </body>
 </html>
