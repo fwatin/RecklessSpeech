@@ -28,8 +28,11 @@ module.exports = {
           config: './webpack.renderer.config.js',
           entryPoints: [
             {
-              html: './src/index.html',
+              html: './src/csp.html',
               js: './src/renderer.js',
+              preload: {
+                js: './src/preload.js', // Ajoutez cette ligne
+              },
               name: 'main_window',
             },
           ],
