@@ -2,7 +2,6 @@
 import axios from "axios";
 
 export default {
-  setup() {},
   data() {
     return {
       filePickerDialog: false,
@@ -12,20 +11,6 @@ export default {
       selectedFile: null,
       selectedJson: null,
     };
-  },
-  mounted() {
-    axios
-      .get("https://localhost:47973/api/v1/sequences")
-      .then((response) => {
-        this.words = response.data;
-        console.log(
-          this.words.length + " words set into the variable 'words'."
-        );
-        new Notification(this.words.length + " mots ont été importés.").show();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   },
   methods: {
     async enrichInDutch() {
@@ -104,25 +89,32 @@ export default {
         const formData = new FormData();
         formData.append("file", this.selectedFile);
 
-        const response = await axios.post(
-          "https://localhost:47973/api/v1/sequences",
-          formData,
-          {
+        await axios
+          .post("https://localhost:47973/api/v1/sequences", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
-          }
-        );
-
-        console.log(
-          "import-details http call ended with status: " + response.status
-        );
-        let msg = "Le fichier CSV a été importé avec succès.";
-        console.log(msg);
-        new Notification(msg).show();
+          })
+          .then(
+            axios
+              .get("https://localhost:47973/api/v1/sequences")
+              .then((response) => {
+                this.words = response.data;
+                console.log(
+                  this.words.length + " words set into the variable 'words'."
+                );
+                new Notification(
+                  this.words.length + " mots ont été importés."
+                ).show();
+              })
+              .catch((error) => {
+                console.error(error);
+              })
+          );
       } catch (error) {
         console.error(error);
-        let msg = "Une erreur est survenue lors de l'importation du fichier CSV."
+        let msg =
+          "Une erreur est survenue lors de l'importation du fichier CSV.";
         console.log(msg);
         new Notification(msg).show();
       }
@@ -150,7 +142,8 @@ export default {
       } catch (error) {
         console.error(error);
 
-        let msg = "Une erreur est survenue lors de l'importation du fichier Json."
+        let msg =
+          "Une erreur est survenue lors de l'importation du fichier Json.";
         console.log(msg);
         new Notification(msg).show();
       }
