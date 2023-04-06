@@ -31,7 +31,6 @@ const createWindow = () => {
 
   // Handle closing the backend when the mainWindow is closed
   mainWindow.on('closed', () => {
-    mainWindow = null;
     backendProcess.kill();
   });
 };
