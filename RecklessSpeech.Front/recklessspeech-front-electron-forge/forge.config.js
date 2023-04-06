@@ -1,7 +1,9 @@
+const path = require('path');
+
 module.exports = {
   packagerConfig: {
     extraResource: [
-      'D:\\Dev\\MyProjects\\RecklessSpeech\\backend_publish'
+      path.join(__dirname, '..','..', 'backend_publish'),
     ]
   },
   rebuildConfig: {},
