@@ -55,3 +55,4 @@
 /RecklessSpeech.AcceptanceTests/Features/LanguageDictionaries/GetAllLanguageDictionaries.feature.cs
 /RecklessSpeech.Infrastructure.Daos/bin/*
 /RecklessSpeech.Infrastructure.Daos/obj/*
+/backend_publish/*
