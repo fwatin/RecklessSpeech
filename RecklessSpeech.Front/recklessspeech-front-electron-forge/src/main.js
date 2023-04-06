@@ -18,9 +18,12 @@ const createWindow = () => {
   });
 
   if (process.env.NODE_ENV === 'production') {
+    
     // Start the backend process
-    const path_in_appData = 'C:\\Users\\felix\\AppData\\Local\\recklessspeech_front_electron_forge\\app-1.0.0\\backend_publish\\RecklessSpeech.Web.exe';
-    const backendProcess = spawn(path_in_appData);
+    const backendPath = path.join(__dirname, 'backend_publish\\RecklessSpeech.Web.exe');
+    //->C:\Users\felix\AppData\Local\recklessspeech_front_electron_forge\app-1.0.0\resources\app\.webpack\main\backend_publish
+    const backendProcess = spawn(backendPath);
+    
     // Handle closing the backend when the mainWindow is closed
     mainWindow.on('closed', () => {
       backendProcess.kill();
