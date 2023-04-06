@@ -19,9 +19,9 @@ const createWindow = () => {
 
 
   // Start the backend process
-  const path_in_appData = 'C:\\Users\\felix\\AppData\\Local\\recklessspeech_front_electron_forge\\backend_publish\\RecklessSpeech.Web.exe';
+  const path_in_appData = 'C:\\Users\\felix\\AppData\\Local\\recklessspeech_front_electron_forge\\app-1.0.0\\backend_publish\\RecklessSpeech.Web.exe';
   const path_in_repo = 'D:\\Dev\\MyProjects\\RecklessSpeech\\backend_publish\\RecklessSpeech.Web.exe';
-  const backendProcess = spawn(path_in_repo);
+  const backendProcess = spawn(path_in_appData);
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
