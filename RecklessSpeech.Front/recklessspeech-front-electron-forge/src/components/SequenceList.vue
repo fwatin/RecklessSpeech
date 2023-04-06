@@ -138,7 +138,10 @@ export default {
         console.log(
           "import-details http call ended with status: " + response.status
         );
-        // Mettre à jour la liste des séquences si besoin
+        let msg =
+          "Importation du fichier Json avec succès.";
+        console.log(msg);
+        new Notification(msg).show();
       } catch (error) {
         console.error(error);
 
