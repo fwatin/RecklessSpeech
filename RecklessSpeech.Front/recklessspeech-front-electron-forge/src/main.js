@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
+const { spawn } = require('child_process');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -16,11 +17,28 @@ const createWindow = () => {
     },
   });
 
+  // Start the backend process
+  const backendAbsolutePath = 'D:\\Dev\\MyProjects\\RecklessSpeech\\backend_publish\\RecklessSpeech.Web.exe';
+  const srcPath = 'D:\\Dev\\MyProjects\\RecklessSpeech\\RecklessSpeech.Front\\recklessspeech-front-electron-forge\\src';
+
+  // Calculate the relative path
+  const backendRelativePath = path.relative(srcPath, backendAbsolutePath);
+
+  // Start the backend process
+  const backendPath = path.join(__dirname, backendRelativePath);
+  const backendProcess = spawn(backendPath);
+
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+
+  // Handle closing the backend when the mainWindow is closed
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+    backendProcess.kill();
+  });
 };
 
 // This method will be called when Electron has finished
