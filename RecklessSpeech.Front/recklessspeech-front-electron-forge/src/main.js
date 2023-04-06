@@ -17,16 +17,11 @@ const createWindow = () => {
     },
   });
 
-  // Start the backend process
-  const backendAbsolutePath = 'D:\\Dev\\MyProjects\\RecklessSpeech\\backend_publish\\RecklessSpeech.Web.exe';
-  const srcPath = 'D:\\Dev\\MyProjects\\RecklessSpeech\\RecklessSpeech.Front\\recklessspeech-front-electron-forge\\src';
-
-  // Calculate the relative path
-  const backendRelativePath = path.relative(srcPath, backendAbsolutePath);
 
   // Start the backend process
-  const backendPath = path.join(__dirname, backendRelativePath);
-  const backendProcess = spawn(backendAbsolutePath);
+  const path_in_appData = 'C:\\Users\\felix\\AppData\\Local\\recklessspeech_front_electron_forge\\backend_publish\\RecklessSpeech.Web.exe';
+  const path_in_repo = 'D:\\Dev\\MyProjects\\RecklessSpeech\\backend_publish\\RecklessSpeech.Web.exe';
+  const backendProcess = spawn(path_in_repo);
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
