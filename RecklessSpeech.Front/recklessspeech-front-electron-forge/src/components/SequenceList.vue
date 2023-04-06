@@ -27,7 +27,7 @@ export default {
         selectedWords.length +
         " séquences ont été enrichies avec succès en néérlandais.";
       console.log(msg);
-      new Notification(msg).show();
+      new Notification(msg);
     },
     async enrichInEnglish() {
       const selectedWords = this.words.filter((word, index) => {
@@ -44,7 +44,7 @@ export default {
         selectedWords.length +
         " séquences ont été enrichies avec succès en anglais.";
       console.log(msg);
-      new Notification(msg).show();
+      new Notification(msg);
     },
     async sendToAnki() {
       const selectedWords = this.words.filter((word, index) => {
@@ -61,7 +61,7 @@ export default {
         selectedWords.length +
         " séquences ont été envoyées vers Anki avec succès.";
       console.log(msg);
-      new Notification(msg).show();
+      new Notification(msg);
     },
     openFilePicker() {
       this.filePickerDialog = true;
@@ -105,7 +105,7 @@ export default {
                 );
                 new Notification(
                   this.words.length + " mots ont été importés."
-                ).show();
+                );
               })
               .catch((error) => {
                 console.error(error);
@@ -116,7 +116,7 @@ export default {
         let msg =
           "Une erreur est survenue lors de l'importation du fichier CSV.";
         console.log(msg);
-        new Notification(msg).show();
+        new Notification(msg);
       }
 
       this.filePickerDialog = false;
@@ -141,14 +141,14 @@ export default {
         let msg =
           "Importation du fichier Json avec succès.";
         console.log(msg);
-        new Notification(msg).show();
+        new Notification(msg);
       } catch (error) {
         console.error(error);
 
         let msg =
           "Une erreur est survenue lors de l'importation du fichier Json.";
         console.log(msg);
-        new Notification(msg).show();
+        new Notification(msg);
       }
 
       this.jsonPickerDialog = false;

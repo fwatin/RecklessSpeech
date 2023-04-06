@@ -2,6 +2,7 @@ using ExCSS;
 using HtmlAgilityPack;
 using RecklessSpeech.Application.Core.Commands;
 using RecklessSpeech.Application.Core.Events;
+using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using System.Text;
 
@@ -11,6 +12,13 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
 
     public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesCommand>
     {
+        private readonly ISequenceRepository sequenceRepository;
+
+        public ImportSequencesCommandHandler(ISequenceRepository sequenceRepository)
+        {
+            this.sequenceRepository = sequenceRepository;
+        }
+        
         protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(ImportSequencesCommand command)
         {
             if (command.FileContent.StartsWith("\"<style>") is false)
@@ -25,6 +33,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
             {
                 (Word? word, TranslatedSentence? translatedSentence) = GetDataFromHtml(rawHtml);
 
+                if (await this.AlreadyImported(word)) continue;
+
                 HtmlContent htmlContent = GetHtmlContent(rawHtml, translatedSentence);
 
                 Sequence sequence = Sequence.Create(Guid.NewGuid(),
@@ -38,6 +48,12 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
             }
 
             return await Task.FromResult(events);
+        }
+
+        private async Task<bool> AlreadyImported(Word word)
+        {
+            Sequence? sequence = await this.sequenceRepository.GetOneByWord(word.Value);
+            return sequence is not null;
         }
 
         private static HtmlContent GetHtmlContent(string rawHtml, TranslatedSentence translatedSentence)
