@@ -51,17 +51,17 @@ export default {
         return this.checkedWords[index];
       });
       for (const sequence of selectedWords) {
+
+        
         let id = sequence.id;
         await axios.post(
           `https://localhost:${backendPort}/api/v1/sequences/send-to-anki?id=${id}`
-        );
+        ).then(()=>{
+          new Notification(`${sequence.word} successfully sent to Anki.`);
+        }).catch(()=>{
+          new Notification(`${sequence.word} failed to be sent to Anki.`);
+        })
       }
-
-      let msg =
-        selectedWords.length +
-        " séquences ont été envoyées vers Anki avec succès.";
-      console.log(msg);
-      new Notification(msg);
     },
     openFilePicker() {
       this.filePickerDialog = true;
