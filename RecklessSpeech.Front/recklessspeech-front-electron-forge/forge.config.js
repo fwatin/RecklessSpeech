@@ -1,5 +1,9 @@
 module.exports = {
-  packagerConfig: {},
+  packagerConfig: {
+    extraResource: [
+      'D:\\Dev\\MyProjects\\RecklessSpeech\\backend_publish'
+    ]
+  },
   rebuildConfig: {},
   makers: [
     {
