@@ -18,12 +18,11 @@ const createWindow = () => {
   });
 
   if (process.env.NODE_ENV === 'production') {
-    
+
     // Start the backend process
     const backendPath = path.join(process.resourcesPath, 'backend_publish\\RecklessSpeech.Web.exe');
-    //->C:\Users\felix\AppData\Local\recklessspeech_front_electron_forge\app-1.0.0\resources\app\.webpack\main\backend_publish
     const backendProcess = spawn(backendPath);
-    
+
     // Handle closing the backend when the mainWindow is closed
     mainWindow.on('closed', () => {
       backendProcess.kill();
@@ -34,8 +33,9 @@ const createWindow = () => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
-
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.webContents.openDevTools();
+  }
 
 };
 

@@ -1,6 +1,6 @@
 <script>
 import axios from "axios";
-const backendPort = process.env.NODE_ENV === 'development' ? '5001' : '5001';
+const backendPort = process.env.NODE_ENV === 'development' ? '47973' : '5001';
 export default {
   data() {
     return {
