@@ -6,7 +6,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
     {
         private readonly ImportSequencesCommandHandler sut;
 
-        public CaseOfInvalidSequence() => this.sut = new();
+        public CaseOfInvalidSequence() => this.sut = new(new InMemoryTestSequenceRepository());
 
         [Fact]
         public async Task Should_throw_exception_if_audio_does_not_end_with_right_extension()

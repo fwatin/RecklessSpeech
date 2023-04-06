@@ -13,7 +13,6 @@ using RecklessSpeech.Web.ViewModels.Sequences;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -48,12 +47,20 @@ namespace RecklessSpeech.Web.Sequences
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<string>> ImportDetails(IFormFile file)
         {
-            using StreamReader reader = new(file.OpenReadStream());
-            string data = await reader.ReadToEndAsync();
-            Class1[]? sequenceDetailsDto = JsonConvert.DeserializeObject<Class1[]>(data);
-            AddDetailsToSequencesCommand command = new(sequenceDetailsDto!);
-            await this.dispatcher.Dispatch(command);
-            return this.Ok();
+            try
+            {
+                using StreamReader reader = new(file.OpenReadStream());
+                string data = await reader.ReadToEndAsync();
+                Class1[]? sequenceDetailsDto = JsonConvert.DeserializeObject<Class1[]>(data);
+                AddDetailsToSequencesCommand command = new(sequenceDetailsDto!);
+                await this.dispatcher.Dispatch(command);
+                return this.Ok();
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(e.Message);
+            }
+            
         }
 
         [HttpGet]
