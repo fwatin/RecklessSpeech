@@ -29,10 +29,10 @@ module.exports = {
           config: './webpack.renderer.config.js',
           entryPoints: [
             {
-              html: './src/csp.html',
+              html: './src/index.html',
               js: './src/renderer.js',
               preload: {
-                js: './src/preload.js', // Ajoutez cette ligne
+                js: './src/preload.js',
               },
               name: 'main_window',
             },
