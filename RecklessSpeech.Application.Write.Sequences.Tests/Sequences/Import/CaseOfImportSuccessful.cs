@@ -14,7 +14,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
 
         public CaseOfImportSuccessful()
         {
-            this.sut = new();
+            this.sut = new(new InMemoryTestSequenceRepository());
             this.builder = SequenceBuilder.Create(Guid.Parse("259FD4F4-082E-46CB-BF1A-94F99780D2E2")) with
             {
                 TranslatedWord = null
