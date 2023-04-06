@@ -1,6 +1,6 @@
 <script>
 import axios from "axios";
-
+const backendPort = process.env.NODE_ENV === 'development' ? '5001' : '47973';
 export default {
   data() {
     return {
@@ -20,7 +20,7 @@ export default {
       for (const sequence of selectedWords) {
         let id = sequence.id;
         await axios.post(
-          `https://localhost:47973/api/v1/sequences/Dictionary/dutch?id=${id}`
+          `https://localhost:${backendPort}/api/v1/sequences/Dictionary/dutch?id=${id}`
         );
       }
       let msg =
@@ -36,7 +36,7 @@ export default {
       for (const sequence of selectedWords) {
         let id = sequence.id;
         await axios.post(
-          `https://localhost:47973/api/v1/sequences/Dictionary/english?id=${id}`
+          `https://localhost:${backendPort}/api/v1/sequences/Dictionary/english?id=${id}`
         );
       }
 
@@ -53,7 +53,7 @@ export default {
       for (const sequence of selectedWords) {
         let id = sequence.id;
         await axios.post(
-          `https://localhost:47973/api/v1/sequences/send-to-anki?id=${id}`
+          `https://localhost:${backendPort}/api/v1/sequences/send-to-anki?id=${id}`
         );
       }
 
@@ -90,14 +90,14 @@ export default {
         formData.append("file", this.selectedFile);
 
         await axios
-          .post("https://localhost:47973/api/v1/sequences", formData, {
+          .post(`https://localhost:${backendPort}/api/v1/sequences`, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
           })
           .then(
             axios
-              .get("https://localhost:47973/api/v1/sequences")
+              .get(`https://localhost:${backendPort}/api/v1/sequences`)
               .then((response) => {
                 this.words = response.data;
                 console.log(
@@ -127,7 +127,7 @@ export default {
         formData.append("file", this.selectedJson);
 
         const response = await axios.post(
-          "https://localhost:47973/api/v1/sequences/import-details",
+          `https://localhost:${backendPort}/api/v1/sequences/import-details`,
           formData,
           {
             headers: {
