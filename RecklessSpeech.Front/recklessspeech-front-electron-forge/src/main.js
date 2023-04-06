@@ -17,11 +17,15 @@ const createWindow = () => {
     },
   });
 
-
-  // Start the backend process
-  const path_in_appData = 'C:\\Users\\felix\\AppData\\Local\\recklessspeech_front_electron_forge\\app-1.0.0\\backend_publish\\RecklessSpeech.Web.exe';
-  const path_in_repo = 'D:\\Dev\\MyProjects\\RecklessSpeech\\backend_publish\\RecklessSpeech.Web.exe';
-  const backendProcess = spawn(path_in_appData);
+  if (process.env.NODE_ENV === 'production') {
+    // Start the backend process
+    const path_in_appData = 'C:\\Users\\felix\\AppData\\Local\\recklessspeech_front_electron_forge\\app-1.0.0\\backend_publish\\RecklessSpeech.Web.exe';
+    const backendProcess = spawn(path_in_appData);
+    // Handle closing the backend when the mainWindow is closed
+    mainWindow.on('closed', () => {
+      backendProcess.kill();
+    });
+  }
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
@@ -29,10 +33,7 @@ const createWindow = () => {
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 
-  // Handle closing the backend when the mainWindow is closed
-  mainWindow.on('closed', () => {
-    backendProcess.kill();
-  });
+
 };
 
 // This method will be called when Electron has finished
