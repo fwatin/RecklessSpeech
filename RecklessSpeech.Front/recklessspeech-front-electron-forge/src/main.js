@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
+const { spawn } = require('child_process');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -16,11 +17,26 @@ const createWindow = () => {
     },
   });
 
+  if (process.env.NODE_ENV === 'production') {
+
+    // Start the backend process
+    const backendPath = path.join(process.resourcesPath, 'backend_publish\\RecklessSpeech.Web.exe');
+    const backendProcess = spawn(backendPath);
+
+    // Handle closing the backend when the mainWindow is closed
+    mainWindow.on('closed', () => {
+      backendProcess.kill();
+    });
+  }
+
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.webContents.openDevTools();
+  }
+
 };
 
 // This method will be called when Electron has finished

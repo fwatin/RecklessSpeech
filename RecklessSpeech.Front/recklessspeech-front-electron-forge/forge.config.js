@@ -1,5 +1,11 @@
+const path = require('path');
+
 module.exports = {
-  packagerConfig: {},
+  packagerConfig: {
+    extraResource: [
+      path.join(__dirname, '..','..', 'backend_publish'),
+    ]
+  },
   rebuildConfig: {},
   makers: [
     {
