@@ -29,8 +29,8 @@ namespace RecklessSpeech.Web.Sequences
 
         [HttpPost]
         [MapToApiVersion("1.0")]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<string>> ImportSequences(IFormFile file)
+        [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryQueryModel>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> ImportSequences(IFormFile file)
         {
             using StreamReader reader = new(file.OpenReadStream());
             string data = await reader.ReadToEndAsync();
@@ -38,7 +38,9 @@ namespace RecklessSpeech.Web.Sequences
 
             await this.dispatcher.Dispatch(command);
 
-            return this.Ok();
+            IReadOnlyCollection<SequenceSummaryQueryModel> all = await this.dispatcher.Dispatch(new GetAllSequencesQuery());
+
+            return this.Ok(all);
         }
 
         [HttpPost]
