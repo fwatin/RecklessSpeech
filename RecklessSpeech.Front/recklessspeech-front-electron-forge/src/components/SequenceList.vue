@@ -1,6 +1,6 @@
 <script>
 import axios from "axios";
-const backendPort = process.env.NODE_ENV === 'development' ? '47973' : '5001';
+const backendPort = process.env.NODE_ENV === "development" ? "47973" : "5001";
 export default {
   data() {
     return {
@@ -51,16 +51,17 @@ export default {
         return this.checkedWords[index];
       });
       for (const sequence of selectedWords) {
-
-        
         let id = sequence.id;
-        await axios.post(
-          `https://localhost:${backendPort}/api/v1/sequences/send-to-anki?id=${id}`
-        ).then(()=>{
-          new Notification(`${sequence.word} successfully sent to Anki.`);
-        }).catch(()=>{
-          new Notification(`${sequence.word} failed to be sent to Anki.`);
-        })
+        await axios
+          .post(
+            `https://localhost:${backendPort}/api/v1/sequences/send-to-anki?id=${id}`
+          )
+          .then(() => {
+            new Notification(`${sequence.word} successfully sent to Anki.`);
+          })
+          .catch(() => {
+            new Notification(`${sequence.word} failed to be sent to Anki.`);
+          });
       }
     },
     openFilePicker() {
@@ -95,28 +96,18 @@ export default {
               "Content-Type": "multipart/form-data",
             },
           })
-          .then(
-            axios
-              .get(`https://localhost:${backendPort}/api/v1/sequences`)
-              .then((response) => {
-                this.words = response.data;
-                console.log(
-                  this.words.length + " words set into the variable 'words'."
-                );
-                new Notification(
-                  this.words.length + " mots ont été importés."
-                );
-              })
-              .catch((error) => {
-                console.error(error);
-              })
-          );
+          .then((response) => {
+            this.words = response.data;
+            console.log(
+              this.words.length + " words set into the variable 'words'."
+            );
+            new Notification(this.words.length + " mots ont été importés.");
+          });
       } catch (error) {
         console.error(error);
-        let msg =
-          "Une erreur est survenue lors de l'importation du fichier CSV.";
-        console.log(msg);
-        new Notification(msg);
+        new Notification(
+          "Une erreur est survenue lors de l'importation du fichier CSV."
+        );
       }
 
       this.filePickerDialog = false;
@@ -138,8 +129,7 @@ export default {
         console.log(
           "import-details http call ended with status: " + response.status
         );
-        let msg =
-          "Importation du fichier Json avec succès.";
+        let msg = "Importation du fichier Json avec succès.";
         console.log(msg);
         new Notification(msg);
       } catch (error) {
