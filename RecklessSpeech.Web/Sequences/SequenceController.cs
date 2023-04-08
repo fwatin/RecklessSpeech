@@ -29,16 +29,26 @@ namespace RecklessSpeech.Web.Sequences
 
         [HttpPost]
         [MapToApiVersion("1.0")]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<string>> ImportSequences(IFormFile file)
+        [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryQueryModel>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> ImportSequences(IFormFile file)
         {
-            using StreamReader reader = new(file.OpenReadStream());
-            string data = await reader.ReadToEndAsync();
-            ImportSequencesCommand command = new(data);
+            try
+            {
+                using StreamReader reader = new(file.OpenReadStream());
+                string data = await reader.ReadToEndAsync();
+                ImportSequencesCommand command = new(data);
 
-            await this.dispatcher.Dispatch(command);
+                await this.dispatcher.Dispatch(command);
 
-            return this.Ok();
+                IReadOnlyCollection<SequenceSummaryQueryModel> all =
+                    await this.dispatcher.Dispatch(new GetAllSequencesQuery());
+
+                return this.Ok(all);
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
@@ -60,7 +70,6 @@ namespace RecklessSpeech.Web.Sequences
             {
                 return this.BadRequest(e.Message);
             }
-            
         }
 
         [HttpGet]
@@ -93,21 +102,20 @@ namespace RecklessSpeech.Web.Sequences
             try
             {
                 await this.dispatcher.Dispatch(new SendNoteToAnkiCommand(id));
+                return this.Ok();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 return this.BadRequest(e.Message);
             }
-
-            return this.Ok();
         }
 
         [HttpPost]
         [Route("Dictionary/dutch")]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> EnrichDutch([FromQuery] Guid id)
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> EnrichDutch(
+            [FromQuery] Guid id)
         {
             await this.dispatcher.Dispatch(new EnrichDutchSequenceCommand(id));
             return this.Ok();
@@ -117,7 +125,8 @@ namespace RecklessSpeech.Web.Sequences
         [Route("Dictionary/english")]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> EnrichEnglish([FromQuery] Guid id)
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> EnrichEnglish(
+            [FromQuery] Guid id)
         {
             await this.dispatcher.Dispatch(new EnrichEnglishSequenceCommand(id));
             return this.Ok();
