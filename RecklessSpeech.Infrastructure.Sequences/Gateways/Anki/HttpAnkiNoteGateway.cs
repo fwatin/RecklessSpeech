@@ -18,22 +18,40 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Anki
             string? json = JsonConvert.SerializeObject(pack);
 
             StringContent stringContent = new(json, Encoding.UTF8, "application/json");
-
-            HttpResponseMessage responseMessage = await this.client.PostAsync("", stringContent);
+            HttpResponseMessage responseMessage;
+            try
+            {
+                responseMessage = await this.client.PostAsync("", stringContent);
+            }
+            catch (Exception e)
+            {
+                throw new AnkiSendFailedException(
+                    $"Exception thrown during post to Anki. Exception message : {e.Message} and Exception inner-exception : {e.InnerException?.Message}");
+            }
 
             if (responseMessage.IsSuccessStatusCode is false)
             {
-                throw new AnkiSendFailedException();
+                throw new AnkiSendFailedException(
+                    $"Status code is {responseMessage.StatusCode}. Reason phrase : {responseMessage.ReasonPhrase}");
             }
 
             string response = await responseMessage.Content.ReadAsStringAsync();
 
-            AnkiConnectAddNotesResponse? ankiConnectResponse =
-                JsonConvert.DeserializeObject<AnkiConnectAddNotesResponse>(response);
+            AnkiConnectAddNotesResponse? ankiConnectResponse;
+            try
+            {
+                ankiConnectResponse =
+                    JsonConvert.DeserializeObject<AnkiConnectAddNotesResponse>(response);
+            }
+            catch (Exception e)
+            {
+                throw new AnkiSendFailedException(
+                    $"fail while deserializing response into AnkiConnectAddNotesResponse. Json response is {response} and error message : {e.Message}");
+            }
 
             if (string.IsNullOrEmpty(ankiConnectResponse.error) is false)
             {
-                throw new($"Anki error: {ankiConnectResponse.error}");
+                throw new AnkiSendFailedException($"Response specifies Anki error: {ankiConnectResponse.error}");
             }
         }
 
