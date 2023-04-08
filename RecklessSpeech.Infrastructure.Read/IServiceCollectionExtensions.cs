@@ -33,7 +33,7 @@ namespace RecklessSpeech.Infrastructure.Read
                 {
                     HttpAnkiNoteGatewayOptions? options =
                         provider.GetRequiredService<IOptions<HttpAnkiNoteGatewayOptions>>().Value;
-                    client.BaseAddress = new(options.Path);
+                    client.BaseAddress = new("http://localhost:8765/"); //todo résoudre le problème plus tard - en production pas de lecture de l'appsettings
                 });
 
             return services;
