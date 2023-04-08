@@ -102,14 +102,12 @@ namespace RecklessSpeech.Web.Sequences
             try
             {
                 await this.dispatcher.Dispatch(new SendNoteToAnkiCommand(id));
+                return this.Ok();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 return this.BadRequest(e.Message);
             }
-
-            return this.Ok();
         }
 
         [HttpPost]
