@@ -62,39 +62,35 @@ namespace RecklessSpeech.Web.Sequences
         {
             try
             {
-                using (MemoryStream memoryStream = new())
+                using MemoryStream memoryStream = new();
+                await uploadedZipFile.CopyToAsync(memoryStream);
+
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                using ZipArchive archive = new(memoryStream, ZipArchiveMode.Read);
+                foreach (ZipArchiveEntry entry in archive.Entries)
                 {
-                    await uploadedZipFile.CopyToAsync(memoryStream);
+                    if (entry.FullName != "items.csv") continue;
 
-                    // Positionnez le curseur du MemoryStream au début
-                    memoryStream.Seek(0, SeekOrigin.Begin);
-
-                    using (ZipArchive archive = new(memoryStream, ZipArchiveMode.Read))
+                    await using Stream entryStream = entry.Open();
+                    byte[] buffer = new byte[entryStream.Length];
+                    int bytesRead = await entryStream.ReadAsync(buffer);
+                    
+                    if (bytesRead != entryStream.Length)
                     {
-                        foreach (ZipArchiveEntry entry in archive.Entries)
-                        {
-                            if (entry.FullName != "items.csv") continue;
-
-                            using (Stream entryStream = entry.Open())
-                            {
-                                // Lisez les données dans un byte[]
-                                byte[] buffer = new byte[entryStream.Length];
-                                await entryStream.ReadAsync(buffer, 0, buffer.Length);
-
-                                // Convertissez les données en chaîne
-                                string data = Encoding.UTF8.GetString(buffer);
-
-                                ImportSequencesCommand command = new(data);
-
-                                await this.dispatcher.Dispatch(command);
-
-                                IReadOnlyCollection<SequenceSummaryQueryModel> all =
-                                    await this.dispatcher.Dispatch(new GetAllSequencesQuery());
-
-                                return this.Ok(all);
-                            }
-                        }
+                        return this.BadRequest("Erreur lors de la lecture du fichier items.csv");
                     }
+
+                    string data = Encoding.UTF8.GetString(buffer);
+
+                    ImportSequencesCommand command = new(data);
+
+                    await this.dispatcher.Dispatch(command);
+
+                    IReadOnlyCollection<SequenceSummaryQueryModel> all =
+                        await this.dispatcher.Dispatch(new GetAllSequencesQuery());
+
+                    return this.Ok(all);
                 }
             }
             catch (Exception e)
@@ -102,7 +98,6 @@ namespace RecklessSpeech.Web.Sequences
                 return this.BadRequest(e.Message);
             }
 
-            // Retournez une réponse BadRequest en cas d'absence de fichier items.csv dans l'archive
             return this.BadRequest("Le fichier items.csv n'a pas été trouvé dans l'archive.");
         }
 
