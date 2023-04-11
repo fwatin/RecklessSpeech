@@ -13,7 +13,9 @@ using RecklessSpeech.Web.ViewModels.Sequences;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace RecklessSpeech.Web.Sequences
@@ -50,6 +52,60 @@ namespace RecklessSpeech.Web.Sequences
                 return this.BadRequest(e.Message);
             }
         }
+
+        [HttpPost]
+        [Route("import-zip/")]
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryQueryModel>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> ImportSequencesWithZip(
+            IFormFile uploadedZipFile)
+        {
+            try
+            {
+                using (MemoryStream memoryStream = new())
+                {
+                    await uploadedZipFile.CopyToAsync(memoryStream);
+
+                    // Positionnez le curseur du MemoryStream au début
+                    memoryStream.Seek(0, SeekOrigin.Begin);
+
+                    using (ZipArchive archive = new(memoryStream, ZipArchiveMode.Read))
+                    {
+                        foreach (ZipArchiveEntry entry in archive.Entries)
+                        {
+                            if (entry.FullName != "items.csv") continue;
+
+                            using (Stream entryStream = entry.Open())
+                            {
+                                // Lisez les données dans un byte[]
+                                byte[] buffer = new byte[entryStream.Length];
+                                await entryStream.ReadAsync(buffer, 0, buffer.Length);
+
+                                // Convertissez les données en chaîne
+                                string data = Encoding.UTF8.GetString(buffer);
+
+                                ImportSequencesCommand command = new(data);
+
+                                await this.dispatcher.Dispatch(command);
+
+                                IReadOnlyCollection<SequenceSummaryQueryModel> all =
+                                    await this.dispatcher.Dispatch(new GetAllSequencesQuery());
+
+                                return this.Ok(all);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(e.Message);
+            }
+
+            // Retournez une réponse BadRequest en cas d'absence de fichier items.csv dans l'archive
+            return this.BadRequest("Le fichier items.csv n'a pas été trouvé dans l'archive.");
+        }
+
 
         [HttpPost]
         [Route("import-details/")]
