@@ -19,7 +19,7 @@ namespace RecklessSpeech.AcceptanceTests.Configuration
         {
             using MultipartFormDataContent content = new();
             content.Add(new StreamContent(new MemoryStream(Encoding.UTF8.GetBytes(fileContent))), "file", fileName);
-            await this.client.Post<string>($"http://localhost{this.basePath}", content);
+            await this.client.Post<IReadOnlyCollection<SequenceSummaryPresentation>>($"http://localhost{this.basePath}", content);
         }
 
         public Task<IReadOnlyCollection<SequenceSummaryPresentation>> GetAll()
