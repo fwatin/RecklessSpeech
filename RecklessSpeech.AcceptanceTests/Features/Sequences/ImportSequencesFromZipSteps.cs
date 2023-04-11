@@ -31,7 +31,7 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
         [When(@"the user imports this zip file")]
         public async Task WhenTheUserImportsThisZipFile()
         {
-            this.result = await this.Client.Latest().SequenceRequests()
+            await this.Client.Latest().SequenceRequests()
                 .ImportSequencesFromZip(this.filePath!);
         }
 

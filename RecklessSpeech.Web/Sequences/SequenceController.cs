@@ -57,13 +57,12 @@ namespace RecklessSpeech.Web.Sequences
         [Route("import-zip/")]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryQueryModel>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> ImportSequencesWithZip(
-            IFormFile uploadedZipFile)
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> ImportSequencesWithZip(IFormFile file)
         {
             try
             {
                 using MemoryStream memoryStream = new();
-                await uploadedZipFile.CopyToAsync(memoryStream);
+                await file.CopyToAsync(memoryStream);
 
                 memoryStream.Seek(0, SeekOrigin.Begin);
 
