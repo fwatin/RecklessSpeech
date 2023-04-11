@@ -23,11 +23,11 @@ namespace RecklessSpeech.AcceptanceTests.Configuration
                 content);
         }
 
-        public async Task ImportSequencesFromZip(string filePath)
+        public async Task<IReadOnlyCollection<SequenceSummaryPresentation>> ImportSequencesFromZip(string filePath)
         {
             MultipartFormDataContent content = CreateMultipartFormDataContent(filePath);
             
-            await this.client.Post<IReadOnlyCollection<SequenceSummaryPresentation>>($"http://localhost{this.basePath}/import-zip",
+            return await this.client.Post<IReadOnlyCollection<SequenceSummaryPresentation>>($"http://localhost{this.basePath}/import-zip",
                 content);
         }
 
