@@ -16,16 +16,24 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
         private readonly SequenceBuilder sequenceBuilder;
         private string importFileContent = string.Empty;
 
-        public ImportSequencesSteps(ScenarioContext context) : base(context) => this.sequenceBuilder =
-            SequenceBuilder.Create(Guid.Parse("E673F36C-9FBC-421D-9AF8-4B134E49B5C1"));
+        public ImportSequencesSteps(ScenarioContext context) : base(context)
+        {
+            this.sequenceBuilder =
+                SequenceBuilder.Create(Guid.Parse("E673F36C-9FBC-421D-9AF8-4B134E49B5C1"));
+        }
 
         [Given(@"a file containing some sequences")]
-        public void GivenAFileContainingSomeSequences() => this.importFileContent = this.sequenceBuilder.RawCsvContent;
+        public void GivenAFileContainingSomeSequences()
+        {
+            this.importFileContent = this.sequenceBuilder.RawCsvContent;
+        }
 
         [When(@"the user imports this file")]
-        public async Task WhenTheUserImportsThisFile() =>
+        public async Task WhenTheUserImportsThisFile()
+        {
             await this.Client.Latest().SequenceRequests()
                 .ImportSequences(this.importFileContent, this.importFileName);
+        }
 
         [Then(@"some sequences are saved")]
         public void ThenSomeSequencesAreSaved()

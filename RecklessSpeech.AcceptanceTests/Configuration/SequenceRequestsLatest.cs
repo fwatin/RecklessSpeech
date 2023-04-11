@@ -19,8 +19,44 @@ namespace RecklessSpeech.AcceptanceTests.Configuration
         {
             using MultipartFormDataContent content = new();
             content.Add(new StreamContent(new MemoryStream(Encoding.UTF8.GetBytes(fileContent))), "file", fileName);
-            await this.client.Post<IReadOnlyCollection<SequenceSummaryPresentation>>($"http://localhost{this.basePath}", content);
+            await this.client.Post<IReadOnlyCollection<SequenceSummaryPresentation>>($"http://localhost{this.basePath}",
+                content);
         }
+
+        public async Task<IReadOnlyCollection<SequenceSummaryPresentation>> ImportSequencesFromZip(string filePath)
+        {
+            using MultipartFormDataContent content = CreateMultipartFormDataContent(filePath);
+            
+            return await this.client.Post<IReadOnlyCollection<SequenceSummaryPresentation>>(
+                $"http://localhost{this.basePath}/import-zip", content);
+        }
+
+        private static MultipartFormDataContent CreateMultipartFormDataContent(string filePath)
+        {
+            var multipartFormDataContent = new MultipartFormDataContent();
+
+            byte[] fileContent;
+            using (FileStream fileStream = File.OpenRead(filePath))
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    fileStream.CopyTo(memoryStream);
+                    fileContent = memoryStream.ToArray();
+                }
+            }
+
+            ByteArrayContent byteArrayContent = new(fileContent);
+            byteArrayContent.Headers.ContentType = new("application/octet-stream");
+            byteArrayContent.Headers.ContentDisposition = new("form-data")
+            {
+                Name = "lln_anki_items_2023-4-11_update_676746.zip",
+                FileName = Path.GetFileName(filePath)
+            };
+            multipartFormDataContent.Add(byteArrayContent, "myFile", Path.GetFileName(filePath));
+
+            return multipartFormDataContent;
+        }
+
 
         public Task<IReadOnlyCollection<SequenceSummaryPresentation>> GetAll()
             => this.client.Get<IReadOnlyCollection<SequenceSummaryPresentation>>($"http://localhost{this.basePath}");
