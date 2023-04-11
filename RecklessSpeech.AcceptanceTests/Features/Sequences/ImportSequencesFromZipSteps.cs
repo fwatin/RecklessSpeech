@@ -38,6 +38,9 @@ namespace RecklessSpeech.AcceptanceTests.Features.Sequences
         [Then(@"two sequences are saved")]
         public void ThenTwoSequencesAreSaved()
         {
+            IDataContext sequencesContext = this.GetService<IDataContext>();
+            sequencesContext.Sequences.Should().HaveCount(2);
+            
             this.result!.Should().HaveCount(2);
         }
     }
