@@ -85,13 +85,13 @@ export default {
         this.checkedWords = this.words.map(() => true);
       }
     },
-    async importCSV() {
+    async importZip() {
       try {
         const formData = new FormData();
         formData.append("file", this.selectedFile);
 
         await axios
-          .post(`https://localhost:${backendPort}/api/v1/sequences`, formData, {
+          .post(`https://localhost:${backendPort}/api/v1/sequences/import-zip`, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -106,7 +106,7 @@ export default {
       } catch (error) {
         console.error(error);
         new Notification(
-          "Une erreur est survenue lors de l'importation du fichier CSV."
+          "Une erreur est survenue lors de l'importation du fichier zip."
         );
       }
 
@@ -150,15 +150,15 @@ export default {
   <div>
     <div class="fieldset-container">
       <fieldset style="border: 2px solid #000; padding: 10px">
-        <legend style="font-size: 20px">Sélectionner un fichier CSV</legend>
+        <legend style="font-size: 20px">Sélectionner un fichier Zip</legend>
         <p>
           <input
             type="file"
             ref="fileInput"
-            accept=".csv"
+            accept=".zip"
             @change="onFileSelected"
           />
-          <button @click="importCSV">Importer</button>
+          <button @click="importZip">Importer</button>
         </p>
       </fieldset>
     </div>

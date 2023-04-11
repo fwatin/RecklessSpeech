@@ -19,8 +19,35 @@ namespace RecklessSpeech.AcceptanceTests.Configuration
         {
             using MultipartFormDataContent content = new();
             content.Add(new StreamContent(new MemoryStream(Encoding.UTF8.GetBytes(fileContent))), "file", fileName);
-            await this.client.Post<IReadOnlyCollection<SequenceSummaryPresentation>>($"http://localhost{this.basePath}", content);
+            await this.client.Post<IReadOnlyCollection<SequenceSummaryPresentation>>($"http://localhost{this.basePath}",
+                content);
         }
+
+        public async Task<IReadOnlyCollection<SequenceSummaryPresentation>> ImportSequencesFromZip(string filePath)
+        {
+            MultipartFormDataContent content = CreateMultipartFormDataContent(filePath);
+            
+            return await this.client.Post<IReadOnlyCollection<SequenceSummaryPresentation>>($"http://localhost{this.basePath}/import-zip",
+                content);
+        }
+
+        private static MultipartFormDataContent CreateMultipartFormDataContent(string filePath)
+        {
+            var content = new MultipartFormDataContent();
+
+            byte[] fileContent;
+            using (FileStream fileStream = File.OpenRead(filePath))
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    fileStream.CopyTo(memoryStream);
+                    fileContent = memoryStream.ToArray();
+                }
+            }
+            content.Add(new StreamContent(new MemoryStream(fileContent)), "file", "fileName");
+            return content;
+        }
+
 
         public Task<IReadOnlyCollection<SequenceSummaryPresentation>> GetAll()
             => this.client.Get<IReadOnlyCollection<SequenceSummaryPresentation>>($"http://localhost{this.basePath}");

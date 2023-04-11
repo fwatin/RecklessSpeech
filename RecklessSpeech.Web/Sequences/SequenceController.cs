@@ -13,7 +13,9 @@ using RecklessSpeech.Web.ViewModels.Sequences;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace RecklessSpeech.Web.Sequences
@@ -50,6 +52,54 @@ namespace RecklessSpeech.Web.Sequences
                 return this.BadRequest(e.Message);
             }
         }
+
+        [HttpPost]
+        [Route("import-zip/")]
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryQueryModel>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> ImportSequencesWithZip(IFormFile file)
+        {
+            try
+            {
+                using MemoryStream memoryStream = new();
+                await file.CopyToAsync(memoryStream);
+
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                using ZipArchive archive = new(memoryStream, ZipArchiveMode.Read);
+                foreach (ZipArchiveEntry entry in archive.Entries)
+                {
+                    if (entry.FullName != "items.csv") continue;
+
+                    await using Stream entryStream = entry.Open();
+                    byte[] buffer = new byte[entryStream.Length];
+                    int bytesRead = await entryStream.ReadAsync(buffer);
+                    
+                    if (bytesRead != entryStream.Length)
+                    {
+                        return this.BadRequest("Erreur lors de la lecture du fichier items.csv");
+                    }
+
+                    string data = Encoding.UTF8.GetString(buffer);
+
+                    ImportSequencesCommand command = new(data);
+
+                    await this.dispatcher.Dispatch(command);
+
+                    IReadOnlyCollection<SequenceSummaryQueryModel> all =
+                        await this.dispatcher.Dispatch(new GetAllSequencesQuery());
+
+                    return this.Ok(all);
+                }
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(e.Message);
+            }
+
+            return this.BadRequest("Le fichier items.csv n'a pas été trouvé dans l'archive.");
+        }
+
 
         [HttpPost]
         [Route("import-details/")]
