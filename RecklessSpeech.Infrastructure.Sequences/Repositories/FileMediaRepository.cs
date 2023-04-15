@@ -1,4 +1,5 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Ports;
+using System;
 
 namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 {
@@ -6,7 +7,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
     {
         public async Task SaveInMediaCollection(string commandEntryFullName, byte[] commandContent)
         {
-            const string mediaFolderPath = @"C:\Users\felix\AppData\Roaming\Anki2\Félix\collection.media";
+            const string mediaFolderPath = @"C:/Users/felix/AppData/Roaming/Anki2/Félix/collection.media";
 
             if (!Directory.Exists(mediaFolderPath))
             {
@@ -14,10 +15,8 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
             }
 
             string filePath = Path.Combine(mediaFolderPath, commandEntryFullName);
-
-            await using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
             
-            await fileStream.WriteAsync(commandContent, 0, commandContent.Length);
+            await File.WriteAllBytesAsync(filePath,commandContent);
         }
 
     }

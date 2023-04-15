@@ -14,7 +14,16 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.M
 
         protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(SaveMediaCommand command)
         {
-            await this.mediaRepository.SaveInMediaCollection(command.EntryFullName, command.Content);
+            string[] allowedExtensions =
+            {
+                ".mp3", ".jpg"
+            };
+            string extension = Path.GetExtension(command.EntryFullName);
+            if (allowedExtensions.Contains(extension))
+            {
+                string fileName = Path.GetFileName(command.EntryFullName);
+                await this.mediaRepository.SaveInMediaCollection(fileName, command.Content);
+            }
             return Array.Empty<IDomainEvent>();
         }
     }
