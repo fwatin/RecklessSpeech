@@ -18,7 +18,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
         {
             this.sequenceRepository = sequenceRepository;
         }
-        
+
         protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(ImportSequencesCommand command)
         {
             if (command.FileContent.StartsWith("\"<style>") is false)
@@ -207,14 +207,21 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
                  i < lines.Length;
                  i++)
             {
-                string reconstitutedLine = delimiter + lines[i];
-                string[] elements = reconstitutedLine.Split("	");
-                dtos.Add(
-                    new(
-                        ParseHtmlContent(elements[0]),
-                        ParseAudioFileName(elements[1]),
-                        elements[2])
-                );
+                try
+                {
+                    string reconstitutedLine = delimiter + lines[i];
+                    string[] elements = reconstitutedLine.Split("	");
+                    dtos.Add(
+                        new(
+                            ParseHtmlContent(elements[0]),
+                            ParseAudioFileName(elements[1]),
+                            elements[2])
+                    );
+                }
+                catch
+                {
+                    // ignored
+                }
             }
 
             return dtos;
