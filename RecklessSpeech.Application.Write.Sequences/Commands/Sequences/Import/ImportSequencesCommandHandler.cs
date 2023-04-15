@@ -52,7 +52,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
         }
         private MediaId GetMediaId(string audioFileNameWithExtension)
         {
-            return new(Path.GetFileName(audioFileNameWithExtension));
+            string? fileName = Path.GetFileName(audioFileNameWithExtension);
+            return long.TryParse(fileName, out long value)
+                ? new(value)
+                : new MediaId(0);
         }
 
         private async Task<bool> AlreadyImported(Word word)

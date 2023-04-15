@@ -32,6 +32,17 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 
             return await this.CreateSequenceFromEntity(entity);
         }
+        
+        public async Task<Sequence?> GetOneByMediaId(long mediaId)
+        {
+            SequenceDao? entity = this.dbContext.Sequences.SingleOrDefault(x => x.MediaId == mediaId);
+            if (entity is null)
+            {
+                return null;
+            }
+
+            return await this.CreateSequenceFromEntity(entity);
+        }
 
         private async Task<Sequence> CreateSequenceFromEntity(SequenceDao dao)
         {

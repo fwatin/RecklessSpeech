@@ -6,5 +6,6 @@ namespace RecklessSpeech.Application.Write.Sequences.Ports
     {
         Task<Sequence?> GetOne(Guid id);
         Task<Sequence?> GetOneByWord(string word);
+        Task<Sequence?> GetOneByMediaId(long mediaId);
     }
 }

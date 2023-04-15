@@ -29,7 +29,8 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
                 this.tags,
                 this.Word,
                 this.TranslatedSentence,
-                this.TranslatedWord);
+                this.TranslatedWord,
+                this.MediaId);
         }
 
         public static Sequence Create(Guid id,

@@ -47,7 +47,8 @@ namespace RecklessSpeech.Infrastructure.Sequences.Executors
                 @event.Word.Value,
                 null,
                 @event.TranslatedSentence.Value,
-                @event.TranslatedWord?.Value
+                @event.TranslatedWord?.Value,
+                @event.MediaId.Value
             );
 
             this.dbContext.Sequences.Add(dao);

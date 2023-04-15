@@ -10,6 +10,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
         Tags Tags,
         Word Word,
         TranslatedSentence TranslatedSentence,
-        TranslatedWord? TranslatedWord
+        TranslatedWord? TranslatedWord,
+        MediaId MediaId
     ) : IDomainEvent;
 }
