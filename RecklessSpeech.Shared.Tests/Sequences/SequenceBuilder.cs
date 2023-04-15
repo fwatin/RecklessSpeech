@@ -42,6 +42,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
         public TranslatedSentenceBuilder TranslatedSentence { get; init; }
         public ExplanationBuilder? Explanation { get; init; }
         public TranslatedWordBuilder? TranslatedWord { get; init; }
+        public MediaIdBuilder MediaId { get; init; }
 
         public string RawCsvContent
         {
@@ -60,7 +61,8 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.Tags,
                 this.Word,
                 this.TranslatedSentence,
-                this.TranslatedWord);
+                this.TranslatedWord,
+                this.MediaId);
 
         public static SequenceBuilder Create() => Create(Guid.NewGuid());
 
@@ -84,7 +86,8 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.Word.Value,
                 this.Explanation?.ExplanationId.Value,
                 this.TranslatedSentence.Value,
-                this.TranslatedWord?.Value
+                this.TranslatedWord?.Value,
+                this.MediaId.Value
             );
 
         public SequenceSummaryQueryModel BuildQueryModel() =>

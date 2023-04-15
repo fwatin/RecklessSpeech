@@ -1,5 +1,4 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Ports;
-using System;
 
 namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 {

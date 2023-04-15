@@ -6,4 +6,5 @@
 
         public static TranslatedSentence Create(string value) => new(value);
     }
+
 }
