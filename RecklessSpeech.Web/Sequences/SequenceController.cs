@@ -67,6 +67,7 @@ namespace RecklessSpeech.Web.Sequences
                 memoryStream.Seek(0, SeekOrigin.Begin);
 
                 using ZipArchive archive = new(memoryStream, ZipArchiveMode.Read);
+                List<SequenceSummaryQueryModel> all = new();
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
                     if (entry.FullName != "items.csv") continue;
@@ -74,7 +75,7 @@ namespace RecklessSpeech.Web.Sequences
                     await using Stream entryStream = entry.Open();
                     byte[] buffer = new byte[entryStream.Length];
                     int bytesRead = await entryStream.ReadAsync(buffer);
-                    
+
                     if (bytesRead != entryStream.Length)
                     {
                         return this.BadRequest("Erreur lors de la lecture du fichier items.csv");
@@ -86,11 +87,10 @@ namespace RecklessSpeech.Web.Sequences
 
                     await this.dispatcher.Dispatch(command);
 
-                    IReadOnlyCollection<SequenceSummaryQueryModel> all =
-                        await this.dispatcher.Dispatch(new GetAllSequencesQuery());
-
-                    return this.Ok(all);
+                    all.AddRange(await this.dispatcher.Dispatch(new GetAllSequencesQuery()));
                 }
+
+                return this.Ok(all);
             }
             catch (Exception e)
             {
