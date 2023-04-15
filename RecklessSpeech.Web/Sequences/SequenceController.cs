@@ -7,6 +7,7 @@ using RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
+using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Media;
 using RecklessSpeech.Web.Configuration;
 using RecklessSpeech.Web.Configuration.Swagger;
 using RecklessSpeech.Web.ViewModels.Sequences;
@@ -70,24 +71,32 @@ namespace RecklessSpeech.Web.Sequences
                 List<SequenceSummaryQueryModel> all = new();
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
-                    if (entry.FullName != "items.csv") continue;
-
                     await using Stream entryStream = entry.Open();
                     byte[] buffer = new byte[entryStream.Length];
                     int bytesRead = await entryStream.ReadAsync(buffer);
 
                     if (bytesRead != entryStream.Length)
                     {
-                        return this.BadRequest("Erreur lors de la lecture du fichier items.csv");
+                        return this.BadRequest($"Erreur lors de la lecture du fichier {entry.FullName}");
                     }
 
-                    string data = Encoding.UTF8.GetString(buffer);
+                    if (entry.FullName == "items.csv")
+                    {
 
-                    ImportSequencesCommand command = new(data);
 
-                    await this.dispatcher.Dispatch(command);
+                        string data = Encoding.UTF8.GetString(buffer);
 
-                    all.AddRange(await this.dispatcher.Dispatch(new GetAllSequencesQuery()));
+                        ImportSequencesCommand command = new(data);
+
+                        await this.dispatcher.Dispatch(command);
+
+                        all.AddRange(await this.dispatcher.Dispatch(new GetAllSequencesQuery()));
+                    }
+                    else
+                    {
+                        SaveMediaCommand saveMedia = new(entry.FullName, buffer);
+                        await this.dispatcher.Dispatch(saveMedia);
+                    }
                 }
 
                 return this.Ok(all);

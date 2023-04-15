@@ -27,6 +27,8 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
             services.AddScoped<IExplanationRepository, InMemoryExplanationRepository>();
             services.AddScoped<InMemoryExplanationRepository>();
 
+            services.AddScoped<IMediaRepository, FileMediaRepository>();
+
             return services;
         }
     }
