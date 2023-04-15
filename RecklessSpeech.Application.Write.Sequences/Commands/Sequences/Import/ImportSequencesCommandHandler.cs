@@ -42,12 +42,17 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
                     AudioFileNameWithExtension.Create(audioFileNameWithExtension),
                     GetTags(tags),
                     word,
-                    translatedSentence);
+                    translatedSentence,
+                    this.GetMediaId(audioFileNameWithExtension));
 
                 events.AddRange(sequence.Import());
             }
 
             return await Task.FromResult(events);
+        }
+        private MediaId GetMediaId(string audioFileNameWithExtension)
+        {
+            return new(Path.GetFileName(audioFileNameWithExtension));
         }
 
         private async Task<bool> AlreadyImported(Word word)

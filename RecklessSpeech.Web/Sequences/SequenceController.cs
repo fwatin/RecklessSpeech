@@ -105,8 +105,6 @@ namespace RecklessSpeech.Web.Sequences
             {
                 return this.BadRequest(e.Message);
             }
-
-            return this.BadRequest("Le fichier items.csv n'a pas été trouvé dans l'archive.");
         }
 
 

@@ -1,9 +1,6 @@
 ﻿using FluentAssertions;
-using HtmlAgilityPack;
 using RecklessSpeech.AcceptanceTests.Configuration;
-using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Infrastructure.Sequences.Repositories;
-using RecklessSpeech.Shared.Tests.Sequences;
 using RecklessSpeech.Web.ViewModels.Sequences;
 using TechTalk.SpecFlow;
 

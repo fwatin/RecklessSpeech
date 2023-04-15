@@ -17,6 +17,8 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
         public TranslatedSentence TranslatedSentence { get; private init; } = default!;
         public Explanation? Explanation { get; private init; }
         public TranslatedWord? TranslatedWord { get; private init; }
+        public MediaId MediaId { get;  private init; }
+
 
         public IEnumerable<IDomainEvent> Import()
         {
@@ -30,20 +32,21 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
                 this.TranslatedWord);
         }
 
-        public static Sequence Create(
-            Guid id,
+        public static Sequence Create(Guid id,
             HtmlContent htmlContent,
             AudioFileNameWithExtension audioFileNameWithExtension,
             Tags tags,
             Word word,
-            TranslatedSentence translatedSentence) =>
+            TranslatedSentence translatedSentence,
+            MediaId mediaId) =>
             new(new(id))
             {
                 HtmlContent = htmlContent,
                 AudioFile = audioFileNameWithExtension,
                 tags = tags,
                 Word = word,
-                TranslatedSentence = translatedSentence
+                TranslatedSentence = translatedSentence,
+                MediaId = mediaId
             };
 
         public static Sequence Hydrate(
