@@ -15,6 +15,8 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
             }
 
             string filePath = Path.Combine(mediaFolderPath, commandEntryFullName);
+
+            if (File.Exists(filePath)) return;
             
             await File.WriteAllBytesAsync(filePath,commandContent);
         }
