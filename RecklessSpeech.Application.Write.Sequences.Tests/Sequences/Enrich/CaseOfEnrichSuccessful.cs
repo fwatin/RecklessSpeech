@@ -15,7 +15,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
         {
             this.dbContext = new();
 
-            InMemorySequenceRepository sequenceRepository = new(this.dbContext);
+            InMemorySequenceRepository sequenceRepository = new();
             InMemoryExplanationRepository explanationRepository = new(this.dbContext);
 
             this.sut = new(

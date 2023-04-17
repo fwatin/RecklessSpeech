@@ -1,4 +1,5 @@
 using RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki;
+using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
 {
@@ -6,7 +7,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
     {
         private readonly SendNoteToAnkiCommand command;
         private readonly Guid sequenceId;
-        private readonly InMemoryTestSequenceRepository sequenceRepository;
+        private readonly InMemorySequenceRepository sequenceRepository;
         private readonly SpyNoteGateway spyGateway;
         private readonly SendNoteToAnkiCommandHandler sut;
 

@@ -1,12 +1,13 @@
 ﻿using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
 using RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Gateways;
+using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
 {
     public class CaseOfMissingSequence
     {
-        private readonly InMemoryTestSequenceRepository sequenceRepository;
+        private readonly InMemorySequenceRepository sequenceRepository;
         private readonly EnrichDutchSequenceCommandHandler sut;
 
         public CaseOfMissingSequence()

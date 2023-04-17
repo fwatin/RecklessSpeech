@@ -19,7 +19,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki
 
         protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(SendNoteToAnkiCommand command)
         {
-            Sequence? sequence = await this.sequenceRepository.GetOne(command.Id);
+            Sequence? sequence = this.sequenceRepository.GetOne(command.Id);
             if (sequence is null)
             {
                 return ArraySegment<IDomainEvent>.Empty;

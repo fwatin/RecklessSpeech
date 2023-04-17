@@ -19,7 +19,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetai
             //parcourir les details
             foreach (Class1 item in command.Dtos)
             {
-                Sequence? sequence = await this.sequenceRepository.GetOneByMediaId(item.timeModified_ms);
+                Sequence? sequence = this.sequenceRepository.GetOneByMediaId(item.timeModified_ms);
                 if (sequence is null)
                 {
                     continue;

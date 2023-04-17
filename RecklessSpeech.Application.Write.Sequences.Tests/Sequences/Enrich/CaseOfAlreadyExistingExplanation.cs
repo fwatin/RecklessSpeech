@@ -1,6 +1,7 @@
 ﻿using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
 using RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Gateways;
+using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
 {
@@ -9,7 +10,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
         private readonly ExplanationBuilder explanationBuilder;
         private readonly InMemoryTestExplanationRepository explanationRepository;
         private readonly SequenceBuilder sequenceBuilder;
-        private readonly InMemoryTestSequenceRepository sequenceRepository;
+        private readonly InMemorySequenceRepository sequenceRepository;
         private readonly EnrichDutchSequenceCommandHandler sut;
 
         public CaseOfAlreadyExistingExplanation()

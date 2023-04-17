@@ -1,4 +1,5 @@
 ﻿using RecklessSpeech.Application.Core.Events;
+using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
 {
@@ -6,7 +7,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
     {
         private readonly AddDetailsToSequencesCommandHandler sut;
 
-        public CaseOfNonExistingSequence() => this.sut = new(new InMemoryTestSequenceRepository());
+        public CaseOfNonExistingSequence() => this.sut = new(new InMemorySequenceRepository());
 
         [Theory]
         [InlineData("brood", "pain")]

@@ -14,7 +14,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
             this.sequences = new();
         }
 
-        public void Add(Sequence sequence)
+        public void Feed(Sequence sequence)
         {
             this.sequences.Add(sequence);
         }

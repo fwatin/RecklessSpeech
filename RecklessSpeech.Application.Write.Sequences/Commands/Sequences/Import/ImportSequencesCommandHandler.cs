@@ -60,7 +60,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
 
         private async Task<bool> AlreadyImported(Word word)
         {
-            Sequence? sequence = await this.sequenceRepository.GetOneByWord(word.Value);
+            Sequence? sequence = this.sequenceRepository.GetOneByWord(word.Value);
             return sequence is not null;
         }
 
