@@ -7,70 +7,34 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 {
     public class InMemorySequenceRepository : ISequenceRepository
     {
-        private readonly IDataContext dbContext;
+        private readonly List<Sequence> sequences;
 
-        public InMemorySequenceRepository(IDataContext dbContext) => this.dbContext = dbContext;
-
-        public async Task<Sequence?> GetOne(Guid id)
+        public InMemorySequenceRepository()
         {
-            SequenceDao? entity = this.dbContext.Sequences.SingleOrDefault(x => x.Id == id);
-            if (entity is null)
-            {
-                return null;
-            }
-
-            return await this.CreateSequenceFromEntity(entity);
+            this.sequences = new();
         }
 
-        public async Task<Sequence?> GetOneByWord(string word)
+        public void Add(Sequence sequence)
         {
-            SequenceDao? entity = this.dbContext.Sequences.SingleOrDefault(x => x.Word == word);
-            if (entity is null)
-            {
-                return null;
-            }
-
-            return await this.CreateSequenceFromEntity(entity);
+            this.sequences.Add(sequence);
         }
         
-        public async Task<Sequence?> GetOneByMediaId(long mediaId)
+        public Sequence? GetOne(Guid id)
         {
-            SequenceDao? entity = this.dbContext.Sequences.SingleOrDefault(x => x.MediaId == mediaId);
-            if (entity is null)
-            {
-                return null;
-            }
-
-            return await this.CreateSequenceFromEntity(entity);
+            Sequence? entity = this.sequences.SingleOrDefault(x => x.SequenceId.Value == id);
+            return entity ?? null;
         }
 
-        private async Task<Sequence> CreateSequenceFromEntity(SequenceDao dao)
+        public Sequence? GetOneByWord(string word)
         {
-            Explanation? explanation = default;
-            if (dao.ExplanationId is not null)
-            {
-                ExplanationDao explanationDao =
-                    this.dbContext.Explanations.Single(x => x.Id == dao.ExplanationId);
-
-                explanation = Explanation.Hydrate(
-                    explanationDao.Id,
-                    explanationDao.Content,
-                    explanationDao.Target,
-                    explanationDao.SourceUrl);
-            }
-
-            Sequence sequence = Sequence.Hydrate(
-                dao.Id,
-                dao.HtmlContent,
-                dao.AudioFileNameWithExtension,
-                dao.Tags,
-                dao.Word,
-                dao.TranslatedSentence,
-                explanation,
-                dao.TranslatedWord
-            );
-
-            return await Task.FromResult(sequence);
+            Sequence? entity = this.sequences.SingleOrDefault(x => x.Word.Value == word);
+            return entity ?? null;
+        }
+        
+        public Sequence? GetOneByMediaId(long mediaId)
+        {
+            Sequence? entity = this.sequences.SingleOrDefault(x => x.MediaId.Value == mediaId);
+            return entity ?? null;
         }
     }
 }

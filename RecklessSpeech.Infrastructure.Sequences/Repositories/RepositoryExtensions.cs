@@ -21,8 +21,9 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 
         private static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<ISequenceRepository, InMemorySequenceRepository>();
-            services.AddScoped<InMemorySequenceRepository>();
+            InMemorySequenceRepository sequenceRepository = new();
+            services.AddSingleton<ISequenceRepository>(sequenceRepository);
+            services.AddSingleton(sequenceRepository);
 
             services.AddScoped<IExplanationRepository, InMemoryExplanationRepository>();
             services.AddScoped<InMemoryExplanationRepository>();
