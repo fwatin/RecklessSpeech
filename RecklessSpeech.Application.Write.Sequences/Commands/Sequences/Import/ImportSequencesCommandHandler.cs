@@ -1,6 +1,6 @@
 using ExCSS;
 using HtmlAgilityPack;
-using RecklessSpeech.Application.Core.Commands;
+using MediatR;
 using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Sequences;
@@ -8,9 +8,9 @@ using System.Text;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
 {
-    public record ImportSequencesCommand(string FileContent) : IEventDrivenCommand;
+    public record ImportSequencesCommand(string FileContent) : IRequest;
 
-    public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesCommand>
+    public class ImportSequencesCommandHandler : IRequestHandler<ImportSequencesCommand>
     {
         private readonly ISequenceRepository sequenceRepository;
 
@@ -19,7 +19,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
             this.sequenceRepository = sequenceRepository;
         }
 
-        protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(ImportSequencesCommand command)
+        public async Task<Unit> Handle(ImportSequencesCommand command, CancellationToken cancellationToken)
         {
             if (command.FileContent.StartsWith("\"<style>") is false)
             {
@@ -48,8 +48,9 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
                 this.sequenceRepository.Add(sequence);
             }
 
-            return await Task.FromResult(events);
+            return Unit.Value;
         }
+
         private MediaId GetMediaId(string audioFileNameWithExtension)
         {
             string? fileName = Path.GetFileNameWithoutExtension(audioFileNameWithExtension);
