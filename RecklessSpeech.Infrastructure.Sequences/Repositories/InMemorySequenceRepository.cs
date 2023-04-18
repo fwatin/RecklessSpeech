@@ -23,20 +23,20 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 
         public Sequence? GetOne(Guid id)
         {
-            Sequence? entity = this.sequences.SingleOrDefault(x => x.SequenceId.Value == id);
-            return entity ?? null;
+            Sequence? sequence = this.sequences.SingleOrDefault(x => x.SequenceId.Value == id);
+            return sequence ?? null;
         }
 
         public Sequence? GetOneByWord(string word)
         {
-            Sequence? entity = this.sequences.SingleOrDefault(x => x.Word.Value == word);
-            return entity ?? null;
+            Sequence? sequence = this.sequences.SingleOrDefault(x => x.Word.Value == word);
+            return sequence ?? null;
         }
 
         public Sequence? GetOneByMediaId(long mediaId)
         {
-            Sequence? entity = this.sequences.SingleOrDefault(x => x.MediaId.Value == mediaId);
-            return entity ?? null;
+            Sequence? sequence = this.sequences.SingleOrDefault(x => x.MediaId.Value == mediaId);
+            return sequence ?? null;
         }
     }
 }
