@@ -7,5 +7,6 @@ namespace RecklessSpeech.Application.Write.Sequences.Ports
         Sequence? GetOne(Guid id);
         Sequence? GetOneByWord(string word);
         Sequence? GetOneByMediaId(long mediaId);
+        void Add(Sequence sequence);
     }
 }

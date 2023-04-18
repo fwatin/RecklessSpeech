@@ -45,7 +45,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
                     translatedSentence,
                     this.GetMediaId(audioFileNameWithExtension));
 
-                events.AddRange(sequence.Import());
+                this.sequenceRepository.Add(sequence);
             }
 
             return await Task.FromResult(events);

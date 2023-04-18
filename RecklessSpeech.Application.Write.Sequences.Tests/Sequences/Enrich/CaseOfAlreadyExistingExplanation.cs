@@ -39,7 +39,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
         {
             //Arrange
             this.explanationRepository.Feed(this.explanationBuilder);
-            this.sequenceRepository.Feed(this.sequenceBuilder);
+            this.sequenceRepository.Add(this.sequenceBuilder);
             EnrichDutchSequenceCommand command = this.sequenceBuilder.BuildEnrichCommand();
 
             //Act

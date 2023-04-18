@@ -24,7 +24,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
             {
                 Word = new(word), TranslatedWord = null, Explanation = ExplanationBuilder.Create()
             };
-            this.sequenceRepository.Feed(sequenceBuilder);
+            this.sequenceRepository.Add(sequenceBuilder);
             Class1[] dtos = { new() { word = new() { text = word }, wordTranslationsArr = new[] { translation } } };
             AddDetailsToSequencesCommand command = new(dtos);
 

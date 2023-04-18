@@ -29,7 +29,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             {
                 Explanation = ExplanationBuilder.Create()
             };
-            this.sequenceRepository.Feed(sequenceBuilder);
+            this.sequenceRepository.Add(sequenceBuilder);
 
             //Act
             await this.sut.Handle(this.command, CancellationToken.None);
@@ -47,7 +47,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
                 HtmlContent = new("\"<style> some html here for this test\""),
                 Explanation = ExplanationBuilder.Create()
             };
-            this.sequenceRepository.Feed(sequenceBuilder);
+            this.sequenceRepository.Add(sequenceBuilder);
 
             //Act
             await this.sut.Handle(this.command, CancellationToken.None);
@@ -64,7 +64,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             {
                 TranslatedWord = new("pain"), Explanation = ExplanationBuilder.Create()
             };
-            this.sequenceRepository.Feed(sequenceBuilder);
+            this.sequenceRepository.Add(sequenceBuilder);
 
             //Act
             await this.sut.Handle(this.command, CancellationToken.None);
@@ -82,7 +82,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
                 TranslatedSentence = new("hey this is the translated sentence from Netflix"),
                 Explanation = ExplanationBuilder.Create() with { Target = new("a lot of explanations") }
             };
-            this.sequenceRepository.Feed(sequenceBuilder);
+            this.sequenceRepository.Add(sequenceBuilder);
 
             //Act
             await this.sut.Handle(this.command, CancellationToken.None);
@@ -100,7 +100,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             {
                 Explanation = ExplanationBuilder.Create()with { SourceUrl = new("www.farfelu.com/translation") }
             };
-            this.sequenceRepository.Feed(sequenceBuilder);
+            this.sequenceRepository.Add(sequenceBuilder);
 
             //Act
             await this.sut.Handle(this.command, CancellationToken.None);
@@ -118,7 +118,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             {
                 AudioFileNameWithExtension = new("368468486.mp3"), Explanation = ExplanationBuilder.Create()
             };
-            this.sequenceRepository.Feed(sequenceBuilder);
+            this.sequenceRepository.Add(sequenceBuilder);
 
             //Act
             await this.sut.Handle(this.command, CancellationToken.None);

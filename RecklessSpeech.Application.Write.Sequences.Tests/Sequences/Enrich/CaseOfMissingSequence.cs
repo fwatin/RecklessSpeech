@@ -28,7 +28,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
                 {
                     Explanation = ExplanationBuilder.Create()
                 };
-            this.sequenceRepository.Feed(sequenceBuilder.BuildDomain());
+            this.sequenceRepository.Add(sequenceBuilder.BuildDomain());
 
             IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(SequenceBuilder
                 .Create(Guid.Parse("C5686F57-60F4-483D-B21F-C2CB726EDC23"))
