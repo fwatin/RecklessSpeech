@@ -1,5 +1,6 @@
 ﻿using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
+using RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Gateways;
 using RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.Mijnwoordenboek;
 using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
@@ -7,26 +8,25 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
 {
     public class CaseOfEnrichSuccessful
     {
-        private readonly InMemoryDataContext dbContext;
         private readonly SequenceBuilder sequenceBuilder;
         private readonly EnrichDutchSequenceCommandHandler sut;
+        private readonly InMemorySequenceRepository sequenceRepository;
 
         public CaseOfEnrichSuccessful()
         {
-            this.dbContext = new();
-
-            InMemorySequenceRepository sequenceRepository = new();
-            InMemoryExplanationRepository explanationRepository = new(this.dbContext);
-
-            this.sut = new(
-                sequenceRepository,
-                explanationRepository,
-                new MijnwoordenboekLocalGateway());
-
-
+            StubDutchTranslatorGateway stubDutchTranslatorGateway = new();
             ExplanationBuilder explanationBuilder =
-                ExplanationBuilder.Create(Guid.Parse("F189810B-B15E-4360-911C-5FBCCA771887"));
-            this.dbContext.Explanations.Add(explanationBuilder.BuildEntity());
+                ExplanationBuilder.Create(Guid.Parse("F189810B-B15E-4360-911C-5FBCCA771887")) with
+            {
+                Content = new("du pain")
+            };
+            stubDutchTranslatorGateway.Feed(explanationBuilder);
+
+            this.sequenceRepository = new();
+            this.sut = new(
+                this.sequenceRepository,
+                stubDutchTranslatorGateway);
+            
 
             this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("5CFF7781-7892-4172-9656-8EF0E6A76D2C"))with
             {
@@ -38,24 +38,14 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
         public async Task Should_enrich_a_sequence_with_explanation()
         {
             //Arrange
-            this.dbContext.Sequences.Add(this.sequenceBuilder.BuildEntity());
+            this.sequenceRepository.Add(this.sequenceBuilder);
             EnrichDutchSequenceCommand command = this.sequenceBuilder.BuildEnrichCommand();
 
             //Act
-            IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
+            await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            events.Should().HaveCount(2);
-            ExplanationAssignedToSequenceEvent assignExplanationToSequenceEvent =
-                (ExplanationAssignedToSequenceEvent)events.First(x => x is ExplanationAssignedToSequenceEvent);
-
-            ExplanationAddedEvent addExplanationEvent =
-                (ExplanationAddedEvent)events.First(x => x is ExplanationAddedEvent);
-
-            addExplanationEvent.Explanation.Content.Value.Should().Contain("pain");
-            assignExplanationToSequenceEvent.ExplanationId.Value.Should().NotBeEmpty();
-            assignExplanationToSequenceEvent.ExplanationId.Value.Should()
-                .Be(addExplanationEvent.Explanation.ExplanationId.Value);
+            this.sequenceRepository.All.Single()!.Explanation!.Content.Value.Should().Contain("pain");
         }
     }
 }

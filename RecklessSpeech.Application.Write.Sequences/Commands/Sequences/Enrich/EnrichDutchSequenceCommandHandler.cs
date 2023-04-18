@@ -1,53 +1,38 @@
-﻿using RecklessSpeech.Application.Core.Commands;
-using RecklessSpeech.Application.Core.Events;
-using RecklessSpeech.Application.Write.Sequences.Ports;
+﻿using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
 {
-    public record EnrichDutchSequenceCommand(Guid SequenceId) : IEventDrivenCommand;
+    public record EnrichDutchSequenceCommand(Guid SequenceId) : IRequest;
 
-    public class EnrichDutchSequenceCommandHandler : CommandHandlerBase<EnrichDutchSequenceCommand>
+    public class EnrichDutchSequenceCommandHandler : IRequestHandler<EnrichDutchSequenceCommand>
     {
         private readonly IDutchTranslatorGateway dutchTranslatorGateway;
-        private readonly IExplanationRepository explanationRepository;
         private readonly ISequenceRepository sequenceRepository;
 
         public EnrichDutchSequenceCommandHandler(
             ISequenceRepository sequenceRepository,
-            IExplanationRepository explanationRepository,
             IDutchTranslatorGateway dutchTranslatorGateway)
         {
             this.sequenceRepository = sequenceRepository;
-            this.explanationRepository = explanationRepository;
             this.dutchTranslatorGateway = dutchTranslatorGateway;
         }
 
-        protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(EnrichDutchSequenceCommand command)
+        public Task<Unit> Handle(EnrichDutchSequenceCommand command, CancellationToken cancellationToken)
         {
             Sequence? sequence = this.sequenceRepository.GetOne(command.SequenceId);
             if (sequence is null)
             {
-                return Array.Empty<IDomainEvent>();
+                return Task.FromResult(Unit.Value);
             }
 
-            Explanation? existingExplanation = this.explanationRepository.TryGetByTarget(sequence.Word.Value);
+            Explanation existingExplanation = this.dutchTranslatorGateway.GetExplanation(sequence.Word.Value);
+            sequence.Explanation = existingExplanation;
 
-            Explanation explanation =
-                existingExplanation ?? this.dutchTranslatorGateway.GetExplanation(sequence.Word.Value);
-
-            List<IDomainEvent> events = new()
-            {
-                new ExplanationAssignedToSequenceEvent(sequence.SequenceId, explanation.ExplanationId)
-            };
-            if (existingExplanation is null)
-            {
-                events.Add(new ExplanationAddedEvent(explanation));
-            }
-
-            return events;
+            return Task.FromResult(Unit.Value);
         }
+
     }
 }
