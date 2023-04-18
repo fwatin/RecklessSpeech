@@ -25,14 +25,11 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
                 throw new InvalidHtmlContentException();
             }
 
-            List<IDomainEvent> events = new();
             IEnumerable<ImportSequenceDto> lines = Parse(command.FileContent);
 
             foreach ((string? rawHtml, string? audioFileNameWithExtension, string? tags) in lines)
             {
                 (Word? word, TranslatedSentence? translatedSentence) = GetDataFromHtml(rawHtml);
-
-                if (this.AlreadyImported(word)) continue;
 
                 HtmlContent htmlContent = GetHtmlContent(rawHtml, translatedSentence);
 
