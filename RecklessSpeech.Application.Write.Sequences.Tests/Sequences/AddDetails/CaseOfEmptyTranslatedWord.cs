@@ -21,7 +21,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
             //Arrange
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create() with
             {
-                Word = new(word), TranslatedWord = null, Explanation = ExplanationBuilder.Create()
+                Word = new(word), TranslatedWord = null, Explanation = ExplanationBuilder.Create(), MediaId = new(0)
             };
             this.sequenceRepository.Add(sequenceBuilder);
             Class1[] dtos = { new() { word = new() { text = word }, wordTranslationsArr = new[] { translation } } };
@@ -31,7 +31,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
             await this.sut.Handle(command, CancellationToken.None);
 
             //Arrange
-            this.sequenceRepository.GetOneByWord(sequenceBuilder.Word.Value)!.TranslatedWord.Should().Be(translation);
+            this.sequenceRepository.All.Single().TranslatedWord!.Value.Should().Be(translation);
         }
     }
 }
