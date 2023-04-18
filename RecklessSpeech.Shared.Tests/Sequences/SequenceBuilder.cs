@@ -2,7 +2,6 @@
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
 using RecklessSpeech.Domain.Sequences.Sequences;
-using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Shared.Tests.Explanations;
 
 namespace RecklessSpeech.Shared.Tests.Sequences
@@ -67,19 +66,6 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 null,
                 null,
                 new());
-
-        public SequenceDao BuildEntity() =>
-            new(
-                this.SequenceId.Value,
-                this.HtmlContent.Value,
-                this.AudioFileNameWithExtension.Value,
-                this.Tags.Value,
-                this.Word.Value,
-                this.Explanation?.ExplanationId.Value,
-                this.TranslatedSentence.Value,
-                this.TranslatedWord?.Value,
-                this.MediaId.Value
-            );
 
         public SequenceSummaryQueryModel BuildQueryModel() =>
             new(

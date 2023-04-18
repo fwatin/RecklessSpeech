@@ -7,26 +7,13 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services) =>
             services
-                .AddInMemoryDbContext()
                 .AddRepositories();
-
-        private static IServiceCollection AddInMemoryDbContext(this IServiceCollection services)
-        {
-            InMemoryDataContext inMemoryDataContext = new();
-
-            return services
-                .AddSingleton<IDataContext>(inMemoryDataContext)
-                .AddSingleton(inMemoryDataContext);
-        }
 
         private static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             InMemorySequenceRepository sequenceRepository = new();
             services.AddSingleton<ISequenceRepository>(sequenceRepository);
             services.AddSingleton(sequenceRepository);
-
-            services.AddScoped<IExplanationRepository, InMemoryExplanationRepository>();
-            services.AddScoped<InMemoryExplanationRepository>();
 
             services.AddScoped<IMediaRepository, FileMediaRepository>();
 

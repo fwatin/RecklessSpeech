@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using RecklessSpeech.Application.Read.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.English;
@@ -13,13 +12,8 @@ namespace RecklessSpeech.Infrastructure.Read
     {
         public static IServiceCollection AddReadPorts(this IServiceCollection services) =>
             services
-                .AddQueryRepositories()
                 .AddNoteGateway()
                 .AddTranslatorGateway();
-
-        private static IServiceCollection AddQueryRepositories(this IServiceCollection services) =>
-            services
-                .AddScoped<ISequenceQueryRepository, InMemorySequenceQueryRepository>();
 
         private static IServiceCollection AddNoteGateway(this IServiceCollection services)
         {
