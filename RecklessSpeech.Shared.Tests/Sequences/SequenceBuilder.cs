@@ -55,17 +55,6 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             init => this.rawCsvContent = value;
         }
 
-
-        public ImportedSequenceEvent BuildEvent() =>
-            new(this.SequenceId,
-                this.HtmlContent,
-                this.AudioFileNameWithExtension,
-                this.Tags,
-                this.Word,
-                this.TranslatedSentence,
-                this.TranslatedWord,
-                this.MediaId);
-
         public static SequenceBuilder Create() => Create(Guid.NewGuid());
 
         public static SequenceBuilder Create(Guid id) =>
