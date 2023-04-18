@@ -6,8 +6,9 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
     public class CaseOfNonExistingSequence
     {
         private readonly AddDetailsToSequencesCommandHandler sut;
+        private readonly InMemorySequenceRepository inMemorySequenceRepository = new();
 
-        public CaseOfNonExistingSequence() => this.sut = new(new InMemorySequenceRepository());
+        public CaseOfNonExistingSequence() => this.sut = new(this.inMemorySequenceRepository);
 
         [Theory]
         [InlineData("brood", "pain")]
@@ -19,10 +20,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
             AddDetailsToSequencesCommand command = new(dtos);
 
             //Act
-            IReadOnlyCollection<IDomainEvent> ev = await this.sut.Handle(command, CancellationToken.None);
+            await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            ev.Should().BeEmpty();
+            this.inMemorySequenceRepository.All.Should().BeEmpty();
         }
     }
 }

@@ -8,6 +8,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
     public class InMemorySequenceRepository : ISequenceRepository
     {
         private readonly List<Sequence> sequences;
+        public IReadOnlyCollection<Sequence> All =>this.sequences;
 
         public InMemorySequenceRepository()
         {

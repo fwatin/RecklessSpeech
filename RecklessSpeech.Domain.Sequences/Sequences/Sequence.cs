@@ -16,7 +16,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
         public Word Word { get; private init; } = default!;
         public TranslatedSentence TranslatedSentence { get; private init; } = default!;
         public Explanation? Explanation { get; private init; }
-        public TranslatedWord? TranslatedWord { get; private init; }
+        public TranslatedWord? TranslatedWord { get; set; }
         public MediaId MediaId { get;  private init; }
 
 

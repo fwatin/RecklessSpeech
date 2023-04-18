@@ -5,17 +5,15 @@ using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails
 {
-    public class AddDetailsToSequencesCommandHandler : CommandHandlerBase<AddDetailsToSequencesCommand>
+    public class AddDetailsToSequencesCommandHandler : IRequestHandler<AddDetailsToSequencesCommand>
     {
         private readonly ISequenceRepository sequenceRepository;
 
         public AddDetailsToSequencesCommandHandler(ISequenceRepository sequenceRepository) =>
             this.sequenceRepository = sequenceRepository;
 
-        protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(AddDetailsToSequencesCommand command)
+        public Task<Unit> Handle(AddDetailsToSequencesCommand command, CancellationToken cancellationToken)
         {
-            List<IDomainEvent> events = new();
-
             //parcourir les details
             foreach (Class1 item in command.Dtos)
             {
@@ -25,12 +23,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetai
                     continue;
                 }
 
-                events.Add(new SetTranslatedWordEvent(
-                    sequence.SequenceId,
-                    TranslatedWord.Create(item.wordTranslationsArr.First())));
+                sequence.TranslatedWord = TranslatedWord.Create(item.wordTranslationsArr.First()); 
             }
 
-            return events;
+            return Task.FromResult(Unit.Value);
         }
     }
 }

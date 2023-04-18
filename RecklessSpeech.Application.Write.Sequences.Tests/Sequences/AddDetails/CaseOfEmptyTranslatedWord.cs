@@ -1,4 +1,5 @@
-﻿using RecklessSpeech.Application.Core.Events;
+﻿using MediatR;
+using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
@@ -29,11 +30,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
             AddDetailsToSequencesCommand command = new(dtos);
 
             //Act
-            IReadOnlyCollection<IDomainEvent> ev = await this.sut.Handle(command, CancellationToken.None);
+            await this.sut.Handle(command, CancellationToken.None);
 
             //Arrange
-            SetTranslatedWordEvent expected = new(new(sequenceBuilder.SequenceId.Value), new(translation));
-            ev.Single().Should().BeEquivalentTo(expected);
+            this.sequenceRepository.GetOneByWord(sequenceBuilder.Word.Value)!.TranslatedWord.Should().Be(translation);
         }
     }
 }
