@@ -1,6 +1,5 @@
 using ExCSS;
 using HtmlAgilityPack;
-using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using System.Text;
@@ -53,12 +52,6 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
             return long.TryParse(fileName, out long value)
                 ? new(value)
                 : new MediaId(0);
-        }
-
-        private bool AlreadyImported(Word word)
-        {
-            Sequence? sequence = this.sequenceRepository.GetOneByWord(word.Value);
-            return sequence is not null;
         }
 
         private static HtmlContent GetHtmlContent(string rawHtml, TranslatedSentence translatedSentence)

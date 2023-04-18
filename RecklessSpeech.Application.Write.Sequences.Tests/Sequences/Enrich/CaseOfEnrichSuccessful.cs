@@ -43,7 +43,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
             await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            this.sequenceRepository.All.Single()!.Explanation!.Content.Value.Should().Contain("pain");
+            this.sequenceRepository.All.Single().Explanation!.Content.Value.Should().Contain("pain");
         }
     }
 }

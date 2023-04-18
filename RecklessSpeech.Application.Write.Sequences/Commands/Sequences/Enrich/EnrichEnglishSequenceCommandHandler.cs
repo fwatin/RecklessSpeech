@@ -28,7 +28,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
                 return Task.FromResult(Unit.Value);
             }
 
-            Explanation? explanation = this.translatorGateway.GetExplanation(sequence.Word.Value);
+            Explanation explanation = this.translatorGateway.GetExplanation(sequence.Word.Value);
             sequence.Explanation = explanation;
 
             return Task.FromResult(Unit.Value);

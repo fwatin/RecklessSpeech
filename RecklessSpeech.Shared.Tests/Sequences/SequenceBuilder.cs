@@ -4,7 +4,6 @@ using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Shared.Tests.Explanations;
-using RecklessSpeech.Web.ViewModels.Sequences;
 
 namespace RecklessSpeech.Shared.Tests.Sequences
 {
