@@ -6,8 +6,8 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
     {
         public async Task SaveInMediaCollection(string commandEntryFullName, byte[] commandContent)
         {
-            const string mediaFolderPath = @"C:/Users/felix/AppData/Roaming/Anki2/Félix/collection.media";
-
+            const string mediaFolderPath = @"C:/Users/felix/AppData/Roaming/Anki2/Felix/collection.media";
+            
             if (!Directory.Exists(mediaFolderPath))
             {
                 return;
