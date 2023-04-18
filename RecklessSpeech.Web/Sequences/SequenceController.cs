@@ -42,10 +42,10 @@ namespace RecklessSpeech.Web.Sequences
                 string data = await reader.ReadToEndAsync();
                 ImportSequencesCommand command = new(data);
 
-                await this.dispatcher.Publish(command);
+                await this.dispatcher.Send(command);
 
                 IReadOnlyCollection<SequenceSummaryQueryModel> all =
-                    await this.dispatcher.Publish(new GetAllSequencesQuery());
+                    await this.dispatcher.Send(new GetAllSequencesQuery());
 
                 return this.Ok(all);
             }
@@ -89,14 +89,14 @@ namespace RecklessSpeech.Web.Sequences
 
                         ImportSequencesCommand command = new(data);
 
-                        await this.dispatcher.Publish(command);
+                        await this.dispatcher.Send(command);
 
-                        all.AddRange(await this.dispatcher.Publish(new GetAllSequencesQuery()));
+                        all.AddRange(await this.dispatcher.Send(new GetAllSequencesQuery()));
                     }
                     else
                     {
                         SaveMediaCommand saveMedia = new(entry.FullName, buffer);
-                        await this.dispatcher.Publish(saveMedia);
+                        await this.dispatcher.Send(saveMedia);
                     }
                 }
 
@@ -121,7 +121,7 @@ namespace RecklessSpeech.Web.Sequences
                 string data = await reader.ReadToEndAsync();
                 Class1[]? sequenceDetailsDto = JsonConvert.DeserializeObject<Class1[]>(data);
                 AddDetailsToSequencesCommand command = new(sequenceDetailsDto!);
-                await this.dispatcher.Publish(command);
+                await this.dispatcher.Send(command);
                 return this.Ok();
             }
             catch (Exception e)
@@ -136,7 +136,7 @@ namespace RecklessSpeech.Web.Sequences
         public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> Get()
         {
             IReadOnlyCollection<SequenceSummaryQueryModel> result =
-                await this.dispatcher.Publish(new GetAllSequencesQuery());
+                await this.dispatcher.Send(new GetAllSequencesQuery());
             return this.Ok(result.ToPresentation());
         }
 
@@ -146,7 +146,7 @@ namespace RecklessSpeech.Web.Sequences
         [SwaggerResponseErrors((int)HttpStatusCode.NotFound, ApiErrors.ReadSequenceNotFound)]
         public async Task<ActionResult<SequenceSummaryPresentation>> GetOne(Guid sequenceId)
         {
-            SequenceSummaryQueryModel result = await this.dispatcher.Publish(new GetOneSequenceQuery(new(sequenceId)));
+            SequenceSummaryQueryModel result = await this.dispatcher.Send(new GetOneSequenceQuery(new(sequenceId)));
             return this.Ok(result.ToPresentation());
         }
 
@@ -159,7 +159,7 @@ namespace RecklessSpeech.Web.Sequences
         {
             try
             {
-                await this.dispatcher.Publish(new SendNoteToAnkiCommand(id));
+                await this.dispatcher.Send(new SendNoteToAnkiCommand(id));
                 return this.Ok();
             }
             catch (Exception e)
@@ -175,7 +175,7 @@ namespace RecklessSpeech.Web.Sequences
         public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> EnrichDutch(
             [FromQuery] Guid id)
         {
-            await this.dispatcher.Publish(new EnrichDutchSequenceCommand(id));
+            await this.dispatcher.Send(new EnrichDutchSequenceCommand(id));
             return this.Ok();
         }
 
@@ -186,7 +186,7 @@ namespace RecklessSpeech.Web.Sequences
         public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> EnrichEnglish(
             [FromQuery] Guid id)
         {
-            await this.dispatcher.Publish(new EnrichEnglishSequenceCommand(id));
+            await this.dispatcher.Send(new EnrichEnglishSequenceCommand(id));
             return this.Ok();
         }
     }

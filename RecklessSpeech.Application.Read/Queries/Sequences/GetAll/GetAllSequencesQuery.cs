@@ -2,5 +2,5 @@
 
 namespace RecklessSpeech.Application.Read.Queries.Sequences.GetAll
 {
-    public record GetAllSequencesQuery : IQuery<IReadOnlyCollection<SequenceSummaryQueryModel>>;
+    public record GetAllSequencesQuery :  IQuery<IReadOnlyCollection<SequenceSummaryQueryModel>>;
 }
