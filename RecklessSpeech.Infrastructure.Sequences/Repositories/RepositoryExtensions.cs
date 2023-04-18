@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RecklessSpeech.Application.Read.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 
 namespace RecklessSpeech.Infrastructure.Sequences.Repositories
@@ -12,6 +13,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
         private static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             InMemorySequenceRepository sequenceRepository = new();
+            services.AddSingleton<ISequenceQueryRepository>(sequenceRepository);
             services.AddSingleton<ISequenceRepository>(sequenceRepository);
             services.AddSingleton(sequenceRepository);
 
