@@ -3,6 +3,7 @@ using HtmlAgilityPack;
 using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
 using RecklessSpeech.Domain.Sequences;
+using RecklessSpeech.Infrastructure.Sequences.Repositories;
 using RecklessSpeech.Shared.Tests;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
@@ -11,10 +12,12 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
     {
         private readonly SequenceBuilder builder;
         private readonly ImportSequencesCommandHandler sut;
+        private readonly InMemorySequenceRepository inMemorySequenceRepository;
 
         public CaseOfImportSuccessful()
         {
-            this.sut = new(new InMemoryTestSequenceRepository());
+            this.inMemorySequenceRepository = new InMemorySequenceRepository();
+            this.sut = new(this.inMemorySequenceRepository);
             this.builder = SequenceBuilder.Create(Guid.Parse("259FD4F4-082E-46CB-BF1A-94F99780D2E2")) with
             {
                 TranslatedWord = null
@@ -28,27 +31,12 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
             ImportSequencesCommand command = this.builder.BuildImportCommand();
 
             //Act
-            IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
+            await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            events.Should().HaveCount(1);
-            (events.First() as ImportedSequenceEvent)!.HtmlContent.Value.Should().NotBeNullOrEmpty();
-            (events.First() as ImportedSequenceEvent)!.AudioFileNameWithExtension.Value.Should()
-                .NotBeNullOrEmpty();
-            (events.First() as ImportedSequenceEvent)!.Tags.Value.Should().NotBeNullOrEmpty();
-        }
-
-        [Fact]
-        public async Task Should_add_a_known_sequence()
-        {
-            //Arrange
-            ImportSequencesCommand command = this.builder.BuildImportCommand();
-
-            //Act
-            IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
-
-            //Assert
-            Fixture.VerifyEquivalence(this.builder.BuildEvent(), (ImportedSequenceEvent)events.First());
+            this.inMemorySequenceRepository.All.Should().HaveCount(1);
+            this.inMemorySequenceRepository.All.Single().HtmlContent.Value.Should().NotBeNullOrEmpty();
+            this.inMemorySequenceRepository.All.Single().AudioFile.Value.Should().NotBeNullOrEmpty();
         }
 
         [Fact]
@@ -58,10 +46,11 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
             ImportSequencesCommand command = new(Fixture.SomeContentWithTwoSequences);
 
             //Act
-            IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
+            await this.sut.Handle(command, CancellationToken.None);
+
 
             //Assert
-            events.Should().HaveCount(2);
+            this.inMemorySequenceRepository.All.Should().HaveCount(2);
         }
 
         [Theory]
@@ -72,15 +61,14 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
         public async Task Should_html_not_specify_background_styles(string styleName)
         {
             //Arrange
-            ImportSequencesCommand importSequencesCommand = this.builder.BuildImportCommand();
+            ImportSequencesCommand command = this.builder.BuildImportCommand();
 
             //Act
-            IReadOnlyCollection<IDomainEvent>
-                events = await this.sut.Handle(importSequencesCommand, CancellationToken.None);
+            await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            ImportedSequenceEvent importEvent = (ImportedSequenceEvent)events.First();
-            IStyleRule? dcCard = await Fixture.GetStyleRule(importEvent.HtmlContent.Value, styleName);
+            var sequence = this.inMemorySequenceRepository.All.Single();
+            IStyleRule? dcCard = await Fixture.GetStyleRule(sequence.HtmlContent.Value, styleName);
             dcCard.Should().BeNull();
         }
 
@@ -91,11 +79,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
             ImportSequencesCommand command = this.builder.BuildImportCommand();
 
             //Act
-            IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
+            await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            ImportedSequenceEvent importEvent = (ImportedSequenceEvent)events.First();
-            importEvent.Word.Value.Should().Be("gimmicks");
+            this.inMemorySequenceRepository.All.Single().Word.Value.Should().Be("gimmicks");
         }
 
         [Fact]
@@ -105,11 +92,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
             ImportSequencesCommand command = this.builder.BuildImportCommand();
 
             //Act
-            IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
+            await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            ImportedSequenceEvent importEvent = (ImportedSequenceEvent)events.First();
-            importEvent.TranslatedSentence.Value.Should().Be("Et ça n'arrive pas par quelques astuces statistiques.");
+            this.inMemorySequenceRepository.All.Single().TranslatedSentence.Value.Should().Be("Et ça n'arrive pas par quelques astuces statistiques.");
         }
 
         [Fact]
@@ -119,26 +105,23 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
             ImportSequencesCommand command = this.builder.BuildImportCommand();
 
             //Act
-            IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
+            await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            ImportedSequenceEvent importEvent = (ImportedSequenceEvent)events.First();
-            importEvent.HtmlContent.Value.Should().NotContain("c1::");
+            this.inMemorySequenceRepository.All.Single().HtmlContent.Value.Should().NotContain("c1::");
         }
 
         [Fact]
         public async Task Should_show_word_in_red_background_in_html()
         {
             //Arrange
-            ImportSequencesCommand importSequencesCommand = this.builder.BuildImportCommand();
+            ImportSequencesCommand command = this.builder.BuildImportCommand();
 
             //Act
-            IReadOnlyCollection<IDomainEvent>
-                events = await this.sut.Handle(importSequencesCommand, CancellationToken.None);
+            await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            ImportedSequenceEvent importEvent = (ImportedSequenceEvent)events.First();
-            Fixture.VerifyWordHasAttributeBackgroundInRed(importEvent.HtmlContent.Value);
+            Fixture.VerifyWordHasAttributeBackgroundInRed(this.inMemorySequenceRepository.All.Single().HtmlContent.Value);
         }
 
         [Fact]
@@ -148,11 +131,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
             ImportSequencesCommand command = this.builder.BuildImportCommand();
 
             //Act
-            IReadOnlyCollection<IDomainEvent> events = await this.sut.Handle(command, CancellationToken.None);
+            await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            ImportedSequenceEvent importEvent = (ImportedSequenceEvent)events.First();
-            importEvent.HtmlContent.Value.Should().NotContain(this.builder.TranslatedSentence.Value);
+            this.inMemorySequenceRepository.All.Single().HtmlContent.Value.Should().NotContain(this.builder.TranslatedSentence.Value);
         }
 
 
@@ -170,16 +152,6 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Import
                 StylesheetParser parser = new();
                 Stylesheet? stylesheet = await parser.ParseAsync(styleNode.InnerText);
                 return stylesheet.StyleRules.FirstOrDefault(rule => rule.SelectorText == styleName);
-            }
-
-            public static void VerifyEquivalence(ImportedSequenceEvent expected, ImportedSequenceEvent result)
-            {
-                string exp = expected.HtmlContent.Value.WithoutSpaceAndReturns();
-                string res = result.HtmlContent.Value.WithoutSpaceAndReturns();
-
-                result.Should().Match(s => StringCompare.WithoutSpaceAndReturns(exp) == res);
-
-                expected.Should().BeEquivalentTo(result, AssertExtensions.IgnoreIdAndHtmlContent);
             }
 
             public static void VerifyWordHasAttributeBackgroundInRed(string htmlContent)

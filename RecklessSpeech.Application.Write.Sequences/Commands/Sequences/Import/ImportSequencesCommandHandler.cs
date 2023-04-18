@@ -42,7 +42,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
                     GetTags(tags),
                     word,
                     translatedSentence,
-                    this.GetMediaId(audioFileNameWithExtension));
+                    GetMediaId(audioFileNameWithExtension));
 
                 this.sequenceRepository.Add(sequence);
             }
@@ -50,9 +50,9 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
             return Task.FromResult(Unit.Value);
         }
 
-        private MediaId GetMediaId(string audioFileNameWithExtension)
+        private static MediaId GetMediaId(string audioFileNameWithExtension)
         {
-            string? fileName = Path.GetFileNameWithoutExtension(audioFileNameWithExtension);
+            string fileName = Path.GetFileNameWithoutExtension(audioFileNameWithExtension);
             return long.TryParse(fileName, out long value)
                 ? new(value)
                 : new MediaId(0);

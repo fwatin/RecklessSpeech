@@ -1,6 +1,4 @@
-﻿using RecklessSpeech.Application.Core.Commands;
-using RecklessSpeech.Application.Core.Events;
-using RecklessSpeech.Application.Write.Sequences.Ports;
+﻿using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.English;
 using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
