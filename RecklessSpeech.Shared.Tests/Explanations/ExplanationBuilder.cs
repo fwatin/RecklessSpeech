@@ -1,5 +1,4 @@
 ﻿using RecklessSpeech.Domain.Sequences.Explanations;
-using RecklessSpeech.Infrastructure.Entities;
 
 namespace RecklessSpeech.Shared.Tests.Explanations
 {
@@ -43,14 +42,6 @@ namespace RecklessSpeech.Shared.Tests.Explanations
                 builder.Content.Value,
                 builder.Target.Value,
                 builder.SourceUrl.Value);
-
-        public ExplanationDao BuildEntity() =>
-            new(
-                this.ExplanationId.Value,
-                this.Target.Value,
-                this.Content.Value,
-                this.SourceUrl.Value
-            );
 
         public Explanation BuildDomain() =>
             Explanation.Hydrate(

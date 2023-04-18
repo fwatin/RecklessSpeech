@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
-using RecklessSpeech.Infrastructure.Read.Tests.TestDoubles.Repositories;
+using RecklessSpeech.Infrastructure.Sequences.Repositories;
 using RecklessSpeech.Shared.Tests.Sequences;
 using Xunit;
 
@@ -9,7 +9,7 @@ namespace RecklessSpeech.Infrastructure.Read.Tests.Sequences
     public class CaseOfGetAll
     {
         private readonly GetAllSequencesQuery command;
-        private readonly InMemoryTestSequenceQueryRepository repository;
+        private readonly InMemorySequenceRepository repository;
         private readonly GetAllSequencesQueryHandler sut;
 
         public CaseOfGetAll()
@@ -24,7 +24,7 @@ namespace RecklessSpeech.Infrastructure.Read.Tests.Sequences
         {
             //Arrange
             SequenceBuilder builder = SequenceBuilder.Create(Guid.Parse("46AA5502-39A3-4E17-BFF7-ECAAEF56237B"));
-            this.repository.Feed(builder.BuildQueryModel());
+            this.repository.Add(builder);
 
             //Act
 

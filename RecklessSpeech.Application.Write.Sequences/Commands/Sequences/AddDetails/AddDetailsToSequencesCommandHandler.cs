@@ -1,36 +1,30 @@
-﻿using RecklessSpeech.Application.Core.Commands;
-using RecklessSpeech.Application.Core.Events;
-using RecklessSpeech.Application.Write.Sequences.Ports;
+﻿using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails
 {
-    public class AddDetailsToSequencesCommandHandler : CommandHandlerBase<AddDetailsToSequencesCommand>
+    public class AddDetailsToSequencesCommandHandler : IRequestHandler<AddDetailsToSequencesCommand>
     {
         private readonly ISequenceRepository sequenceRepository;
 
         public AddDetailsToSequencesCommandHandler(ISequenceRepository sequenceRepository) =>
             this.sequenceRepository = sequenceRepository;
 
-        protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(AddDetailsToSequencesCommand command)
+        public Task<Unit> Handle(AddDetailsToSequencesCommand command, CancellationToken cancellationToken)
         {
-            List<IDomainEvent> events = new();
-
             //parcourir les details
             foreach (Class1 item in command.Dtos)
             {
-                Sequence? sequence = await this.sequenceRepository.GetOneByMediaId(item.timeModified_ms);
+                Sequence? sequence = this.sequenceRepository.GetOneByMediaId(item.timeModified_ms);
                 if (sequence is null)
                 {
                     continue;
                 }
 
-                events.Add(new SetTranslatedWordEvent(
-                    sequence.SequenceId,
-                    TranslatedWord.Create(item.wordTranslationsArr.First())));
+                sequence.TranslatedWord = TranslatedWord.Create(item.wordTranslationsArr.First()); 
             }
 
-            return events;
+            return Task.FromResult(Unit.Value);
         }
     }
 }

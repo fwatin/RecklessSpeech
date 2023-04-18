@@ -1,11 +1,12 @@
 using RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki;
+using RecklessSpeech.Infrastructure.Sequences.Repositories;
 using RecklessSpeech.Shared.Tests.Notes;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
 {
     public class CaseOfNewNotes
     {
-        private readonly InMemoryTestSequenceRepository sequenceRepository;
+        private readonly InMemorySequenceRepository sequenceRepository;
         private readonly SpyNoteGateway spyGateway;
         private readonly SendNoteToAnkiCommandHandler sut;
 
@@ -25,7 +26,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
                 {
                     Explanation = ExplanationBuilder.Create()
                 };
-            this.sequenceRepository.Feed(sequenceBuilder.BuildDomain());
+            this.sequenceRepository.Add(sequenceBuilder.BuildDomain());
             NoteBuilder noteBuilder = NoteBuilder.Create(sequenceBuilder.SequenceId.Value);
             SendNoteToAnkiCommand command = noteBuilder.BuildCommand();
 
@@ -47,7 +48,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
                 {
                     Explanation = ExplanationBuilder.Create(explanationBuilder.ExplanationId.Value)
                 };
-            this.sequenceRepository.Feed(sequenceBuilder.BuildDomain());
+            this.sequenceRepository.Add(sequenceBuilder.BuildDomain());
 
             NoteBuilder noteBuilder = NoteBuilder.Create(sequenceBuilder.SequenceId.Value);
             SendNoteToAnkiCommand command = noteBuilder.BuildCommand();

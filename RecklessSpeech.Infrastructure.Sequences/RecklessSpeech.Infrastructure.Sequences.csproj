@@ -9,7 +9,6 @@
     <ItemGroup>
         <ProjectReference Include="..\RecklessSpeech.Application.Write.Sequences\RecklessSpeech.Application.Write.Sequences.csproj" />
         <ProjectReference Include="..\RecklessSpeech.Domain.Sequences\RecklessSpeech.Domain.Sequences.csproj" />
-        <ProjectReference Include="..\RecklessSpeech.Infrastructure.Daos\RecklessSpeech.Infrastructure.Daos.csproj" />
     </ItemGroup>
 
     <ItemGroup>

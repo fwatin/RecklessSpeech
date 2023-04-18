@@ -1,16 +1,14 @@
 using ExCSS;
 using HtmlAgilityPack;
-using RecklessSpeech.Application.Core.Commands;
-using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using System.Text;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
 {
-    public record ImportSequencesCommand(string FileContent) : IEventDrivenCommand;
+    public record ImportSequencesCommand(string FileContent) : IRequest;
 
-    public class ImportSequencesCommandHandler : CommandHandlerBase<ImportSequencesCommand>
+    public class ImportSequencesCommandHandler : IRequestHandler<ImportSequencesCommand>
     {
         private readonly ISequenceRepository sequenceRepository;
 
@@ -19,49 +17,40 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
             this.sequenceRepository = sequenceRepository;
         }
 
-        protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(ImportSequencesCommand command)
+        public Task<Unit> Handle(ImportSequencesCommand command, CancellationToken cancellationToken)
         {
             if (command.FileContent.StartsWith("\"<style>") is false)
             {
                 throw new InvalidHtmlContentException();
             }
 
-            List<IDomainEvent> events = new();
             IEnumerable<ImportSequenceDto> lines = Parse(command.FileContent);
 
-            foreach ((string? rawHtml, string? audioFileNameWithExtension, string? tags) in lines)
+            foreach (ImportSequenceDto line in lines)
             {
-                (Word? word, TranslatedSentence? translatedSentence) = GetDataFromHtml(rawHtml);
+                (Word? word, TranslatedSentence? translatedSentence) = GetDataFromHtml(line.RawHtml);
 
-                if (await this.AlreadyImported(word)) continue;
-
-                HtmlContent htmlContent = GetHtmlContent(rawHtml, translatedSentence);
+                HtmlContent htmlContent = GetHtmlContent(line.RawHtml, translatedSentence);
 
                 Sequence sequence = Sequence.Create(Guid.NewGuid(),
                     htmlContent,
-                    AudioFileNameWithExtension.Create(audioFileNameWithExtension),
-                    GetTags(tags),
+                    AudioFileNameWithExtension.Create(line.AudioFileNameWithExtension),
                     word,
                     translatedSentence,
-                    this.GetMediaId(audioFileNameWithExtension));
+                    GetMediaId(line.AudioFileNameWithExtension));
 
-                events.AddRange(sequence.Import());
+                this.sequenceRepository.Add(sequence);
             }
 
-            return await Task.FromResult(events);
+            return Task.FromResult(Unit.Value);
         }
-        private MediaId GetMediaId(string audioFileNameWithExtension)
+
+        private static MediaId GetMediaId(string audioFileNameWithExtension)
         {
-            string? fileName = Path.GetFileNameWithoutExtension(audioFileNameWithExtension);
+            string fileName = Path.GetFileNameWithoutExtension(audioFileNameWithExtension);
             return long.TryParse(fileName, out long value)
                 ? new(value)
                 : new MediaId(0);
-        }
-
-        private async Task<bool> AlreadyImported(Word word)
-        {
-            Sequence? sequence = await this.sequenceRepository.GetOneByWord(word.Value);
-            return sequence is not null;
         }
 
         private static HtmlContent GetHtmlContent(string rawHtml, TranslatedSentence translatedSentence)
@@ -184,27 +173,6 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
             return (word, translatedSentence);
         }
 
-        private static Tags GetTags(string element)
-        {
-            if (element.StartsWith("\""))
-            {
-                element = element.Substring(1,
-                    element.Length - 1);
-            }
-
-            if (element.EndsWith("\n"))
-            {
-                element = element[..^1];
-            }
-
-            if (element.EndsWith("\""))
-            {
-                element = element[..^1];
-            }
-
-            return Tags.Create(element.Trim());
-        }
-
         private static IEnumerable<ImportSequenceDto> Parse(string fileContent)
         {
             string delimiter = "\"<style>";
@@ -222,8 +190,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
                     dtos.Add(
                         new(
                             ParseHtmlContent(elements[0]),
-                            ParseAudioFileName(elements[1]),
-                            elements[2])
+                            ParseAudioFileName(elements[1]))
                     );
                 }
                 catch
@@ -267,7 +234,6 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
         }
 
         private record ImportSequenceDto(string RawHtml,
-            string AudioFileNameWithExtension,
-            string Tags);
+            string AudioFileNameWithExtension);
     }
 }

@@ -2,9 +2,7 @@
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
 using RecklessSpeech.Domain.Sequences.Sequences;
-using RecklessSpeech.Infrastructure.Entities;
 using RecklessSpeech.Shared.Tests.Explanations;
-using RecklessSpeech.Web.ViewModels.Sequences;
 
 namespace RecklessSpeech.Shared.Tests.Sequences
 {
@@ -21,7 +19,8 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             WordBuilder word,
             TranslatedSentenceBuilder translatedSentence,
             ExplanationBuilder? explanation,
-            TranslatedWordBuilder? translatedWord)
+            TranslatedWordBuilder? translatedWord,
+            MediaIdBuilder mediaId)
         {
             this.SequenceId = sequenceId;
             this.HtmlContent = htmlContent;
@@ -32,6 +31,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             this.TranslatedSentence = translatedSentence;
             this.Explanation = explanation;
             this.TranslatedWord = translatedWord;
+            this.MediaId = mediaId;
         }
 
         public SequenceIdBuilder SequenceId { get; init; }
@@ -53,17 +53,6 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             init => this.rawCsvContent = value;
         }
 
-
-        public ImportedSequenceEvent BuildEvent() =>
-            new(this.SequenceId,
-                this.HtmlContent,
-                this.AudioFileNameWithExtension,
-                this.Tags,
-                this.Word,
-                this.TranslatedSentence,
-                this.TranslatedWord,
-                this.MediaId);
-
         public static SequenceBuilder Create() => Create(Guid.NewGuid());
 
         public static SequenceBuilder Create(Guid id) =>
@@ -75,31 +64,10 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 new(),
                 new(),
                 null,
-                null);
-
-        public SequenceDao BuildEntity() =>
-            new(
-                this.SequenceId.Value,
-                this.HtmlContent.Value,
-                this.AudioFileNameWithExtension.Value,
-                this.Tags.Value,
-                this.Word.Value,
-                this.Explanation?.ExplanationId.Value,
-                this.TranslatedSentence.Value,
-                this.TranslatedWord?.Value,
-                this.MediaId.Value
-            );
+                null,
+                new());
 
         public SequenceSummaryQueryModel BuildQueryModel() =>
-            new(
-                this.SequenceId.Value,
-                this.HtmlContent.Value,
-                this.AudioFileNameWithExtension.Value,
-                this.Tags.Value,
-                this.Word.Value,
-                this.Explanation?.Content.Value);
-
-        public SequenceSummaryPresentation BuildSummaryPresentation() =>
             new(
                 this.SequenceId.Value,
                 this.Word.Value,
@@ -162,7 +130,8 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.Tags.Value,
                 this.Word.Value,
                 this.TranslatedSentence.Value,
-                this.Explanation!,
+                this.MediaId.Value,
+                this.Explanation?.BuildDomain(),
                 this.TranslatedWord?.Value);
     }
 }

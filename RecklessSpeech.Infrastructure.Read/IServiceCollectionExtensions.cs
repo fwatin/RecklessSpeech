@@ -1,6 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using RecklessSpeech.Application.Read.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.English;
@@ -14,13 +12,8 @@ namespace RecklessSpeech.Infrastructure.Read
     {
         public static IServiceCollection AddReadPorts(this IServiceCollection services) =>
             services
-                .AddQueryRepositories()
                 .AddNoteGateway()
                 .AddTranslatorGateway();
-
-        private static IServiceCollection AddQueryRepositories(this IServiceCollection services) =>
-            services
-                .AddScoped<ISequenceQueryRepository, InMemorySequenceQueryRepository>();
 
         private static IServiceCollection AddNoteGateway(this IServiceCollection services)
         {
@@ -29,10 +22,11 @@ namespace RecklessSpeech.Infrastructure.Read
                 .ValidateDataAnnotations();
 
             services.AddHttpClient<INoteGateway, HttpAnkiNoteGateway>(
-                (provider, client) =>
+                (_, client) =>
+//                    (provider, client) =>
                 {
-                    HttpAnkiNoteGatewayOptions? options =
-                        provider.GetRequiredService<IOptions<HttpAnkiNoteGatewayOptions>>().Value;
+                    // HttpAnkiNoteGatewayOptions? options =
+                    //     provider.GetRequiredService<IOptions<HttpAnkiNoteGatewayOptions>>().Value;
                     client.BaseAddress = new("http://localhost:8765/"); //todo résoudre le problème plus tard - en production pas de lecture de l'appsettings
                 });
 

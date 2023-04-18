@@ -74,7 +74,7 @@ namespace RecklessSpeech.Domain.Sequences.Notes
 
             if (sequence.Explanation is not null)
             {
-                stringBuilder.AppendLine(sequence.Explanation.Target.Value);
+                stringBuilder.AppendLine(sequence.Explanation.Content.Value);
             }
 
             return After.Create(stringBuilder.ToString());

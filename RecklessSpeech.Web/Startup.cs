@@ -2,12 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RecklessSpeech.Application.Core.Dispatch;
-using RecklessSpeech.Application.Core.Events.Executor;
 using RecklessSpeech.Application.Read;
 using RecklessSpeech.Application.Write.Sequences;
 using RecklessSpeech.Infrastructure.Read;
-using RecklessSpeech.Infrastructure.Sequences.Executors;
 using RecklessSpeech.Infrastructure.Sequences.Repositories;
 using RecklessSpeech.Web.Configuration.Cors;
 
@@ -28,13 +25,10 @@ namespace RecklessSpeech.Web
             services
                 .AddCorsService()
                 .AddWebDependencies(this.configuration, this.environment)
-                .AddEventsExecutors()
                 .AddSequencesCommands()
-                .AddEventsExecutor()
                 .AddInfrastructure()
                 .AddReadPorts()
-                .AddReadQueries()
-                .AddInfrastructureOrchestration();
+                .AddReadQueries();
 
         public void Configure(IApplicationBuilder app, IConfiguration config)
         {

@@ -1,12 +1,10 @@
-﻿using RecklessSpeech.Application.Core.Commands;
-using RecklessSpeech.Application.Core.Events;
-using RecklessSpeech.Application.Write.Sequences.Ports;
+﻿using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Notes;
 using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki
 {
-    public class SendNoteToAnkiCommandHandler : CommandHandlerBase<SendNoteToAnkiCommand>
+    public class SendNoteToAnkiCommandHandler : IRequestHandler<SendNoteToAnkiCommand>
     {
         private readonly INoteGateway noteGateway;
         private readonly ISequenceRepository sequenceRepository;
@@ -17,19 +15,18 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki
             this.sequenceRepository = sequenceRepository;
         }
 
-        protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(SendNoteToAnkiCommand command)
+        public async Task<Unit> Handle(SendNoteToAnkiCommand command, CancellationToken cancellationToken)
         {
-            Sequence? sequence = await this.sequenceRepository.GetOne(command.Id);
+            Sequence? sequence = this.sequenceRepository.GetOne(command.Id);
             if (sequence is null)
             {
-                return ArraySegment<IDomainEvent>.Empty;
+                return Unit.Value;
             }
 
             Note note = Note.CreateFromSequence(sequence);
 
             await this.noteGateway.Send(note.GetDto());
-
-            return await Task.FromResult(Array.Empty<IDomainEvent>());
+            return Unit.Value;
         }
     }
 }

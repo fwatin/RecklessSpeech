@@ -1,52 +1,38 @@
-﻿using RecklessSpeech.Application.Core.Commands;
-using RecklessSpeech.Application.Core.Events;
-using RecklessSpeech.Application.Write.Sequences.Ports;
+﻿using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.English;
 using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
 {
-    public record EnrichEnglishSequenceCommand(Guid SequenceId) : IEventDrivenCommand;
+    public record EnrichEnglishSequenceCommand(Guid SequenceId) : IRequest;
 
-    public class EnrichEnglishSequenceCommandHandler : CommandHandlerBase<EnrichEnglishSequenceCommand>
+    public class EnrichEnglishSequenceCommandHandler : IRequestHandler<EnrichEnglishSequenceCommand>
     {
-        private readonly IExplanationRepository explanationRepository;
         private readonly ISequenceRepository sequenceRepository;
         private readonly IEnglishTranslatorGateway translatorGateway;
 
         public EnrichEnglishSequenceCommandHandler(
             ISequenceRepository sequenceRepository,
-            IExplanationRepository explanationRepository,
             IEnglishTranslatorGateway translatorGateway)
         {
             this.sequenceRepository = sequenceRepository;
-            this.explanationRepository = explanationRepository;
             this.translatorGateway = translatorGateway;
         }
 
-        protected override async Task<IReadOnlyCollection<IDomainEvent>> Handle(EnrichEnglishSequenceCommand command)
+        public Task<Unit> Handle(EnrichEnglishSequenceCommand command, CancellationToken cancellationToken)
         {
-            Sequence? sequence = await this.sequenceRepository.GetOne(command.SequenceId);
+            Sequence? sequence = this.sequenceRepository.GetOne(command.SequenceId);
             if (sequence is null)
             {
-                return ArraySegment<IDomainEvent>.Empty;
+                return Task.FromResult(Unit.Value);
             }
 
-            Explanation? existingExplanation = this.explanationRepository.TryGetByTarget(sequence.Word.Value);
+            Explanation explanation = this.translatorGateway.GetExplanation(sequence.Word.Value);
+            sequence.Explanation = explanation;
 
-            Explanation explanation = existingExplanation ?? this.translatorGateway.GetExplanation(sequence.Word.Value);
-
-            List<IDomainEvent> events = new()
-            {
-                new ExplanationAssignedToSequenceEvent(sequence.SequenceId, explanation.ExplanationId)
-            };
-            if (existingExplanation is null)
-            {
-                events.Add(new ExplanationAddedEvent(explanation));
-            }
-
-            return events;
+            return Task.FromResult(Unit.Value);
         }
+
     }
 }

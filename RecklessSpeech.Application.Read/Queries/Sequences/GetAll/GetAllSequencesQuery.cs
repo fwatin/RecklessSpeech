@@ -1,6 +1,6 @@
-﻿using RecklessSpeech.Application.Core.Queries;
+﻿using MediatR;
 
 namespace RecklessSpeech.Application.Read.Queries.Sequences.GetAll
 {
-    public record GetAllSequencesQuery : IQuery<IReadOnlyCollection<SequenceSummaryQueryModel>>;
+    public record GetAllSequencesQuery :  IRequest<IReadOnlyCollection<SequenceSummaryQueryModel>>;
 }
