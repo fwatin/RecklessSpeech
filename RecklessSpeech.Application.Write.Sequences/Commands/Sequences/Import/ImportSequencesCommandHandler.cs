@@ -18,7 +18,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
             this.sequenceRepository = sequenceRepository;
         }
 
-        public async Task<Unit> Handle(ImportSequencesCommand command, CancellationToken cancellationToken)
+        public Task<Unit> Handle(ImportSequencesCommand command, CancellationToken cancellationToken)
         {
             if (command.FileContent.StartsWith("\"<style>") is false)
             {
@@ -32,7 +32,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
             {
                 (Word? word, TranslatedSentence? translatedSentence) = GetDataFromHtml(rawHtml);
 
-                if (await this.AlreadyImported(word)) continue;
+                if (this.AlreadyImported(word)) continue;
 
                 HtmlContent htmlContent = GetHtmlContent(rawHtml, translatedSentence);
 
@@ -47,7 +47,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
                 this.sequenceRepository.Add(sequence);
             }
 
-            return Unit.Value;
+            return Task.FromResult(Unit.Value);
         }
 
         private MediaId GetMediaId(string audioFileNameWithExtension)
@@ -58,7 +58,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import
                 : new MediaId(0);
         }
 
-        private async Task<bool> AlreadyImported(Word word)
+        private bool AlreadyImported(Word word)
         {
             Sequence? sequence = this.sequenceRepository.GetOneByWord(word.Value);
             return sequence is not null;
