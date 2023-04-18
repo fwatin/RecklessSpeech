@@ -21,7 +21,8 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             WordBuilder word,
             TranslatedSentenceBuilder translatedSentence,
             ExplanationBuilder? explanation,
-            TranslatedWordBuilder? translatedWord)
+            TranslatedWordBuilder? translatedWord,
+            MediaIdBuilder mediaId)
         {
             this.SequenceId = sequenceId;
             this.HtmlContent = htmlContent;
@@ -32,6 +33,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             this.TranslatedSentence = translatedSentence;
             this.Explanation = explanation;
             this.TranslatedWord = translatedWord;
+            this.MediaId = mediaId;
         }
 
         public SequenceIdBuilder SequenceId { get; init; }
@@ -75,7 +77,8 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 new(),
                 new(),
                 null,
-                null);
+                null,
+                new());
 
         public SequenceDao BuildEntity() =>
             new(
@@ -96,12 +99,6 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.HtmlContent.Value,
                 this.AudioFileNameWithExtension.Value,
                 this.Tags.Value,
-                this.Word.Value,
-                this.Explanation?.Content.Value);
-
-        public SequenceSummaryPresentation BuildSummaryPresentation() =>
-            new(
-                this.SequenceId.Value,
                 this.Word.Value,
                 this.Explanation?.Content.Value);
 
@@ -162,6 +159,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.Tags.Value,
                 this.Word.Value,
                 this.TranslatedSentence.Value,
+                this.MediaId.Value,
                 this.Explanation?.BuildDomain(),
                 this.TranslatedWord?.Value);
     }

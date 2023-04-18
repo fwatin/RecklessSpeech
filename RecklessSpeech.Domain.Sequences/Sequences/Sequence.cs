@@ -57,6 +57,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
             string tags,
             string word,
             string translatedSentence,
+            long mediaId,
             Explanation? explanation,
             string? translatedWord) =>
             new(new(id))
@@ -67,7 +68,8 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
                 Word = Word.Hydrate(word),
                 TranslatedSentence = TranslatedSentence.Hydrate(translatedSentence),
                 Explanation = explanation,
-                TranslatedWord = TranslatedWord.Hydrate(translatedWord)
+                TranslatedWord = TranslatedWord.Hydrate(translatedWord),
+                MediaId = MediaId.Hydrate(mediaId)
             };
     }
 }
