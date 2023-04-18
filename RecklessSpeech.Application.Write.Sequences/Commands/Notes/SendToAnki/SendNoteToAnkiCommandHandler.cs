@@ -1,5 +1,4 @@
-﻿using MediatR;
-using RecklessSpeech.Application.Write.Sequences.Ports;
+﻿using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Notes;
 using RecklessSpeech.Domain.Sequences.Sequences;
 

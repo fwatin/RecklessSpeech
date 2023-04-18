@@ -1,5 +1,4 @@
-﻿using RecklessSpeech.Application.Core.Events;
-using RecklessSpeech.Infrastructure.Sequences.Repositories;
+﻿using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
 {

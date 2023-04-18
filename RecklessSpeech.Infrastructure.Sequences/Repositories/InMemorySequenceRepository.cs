@@ -1,7 +1,5 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Ports;
-using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
-using RecklessSpeech.Infrastructure.Entities;
 
 namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 {

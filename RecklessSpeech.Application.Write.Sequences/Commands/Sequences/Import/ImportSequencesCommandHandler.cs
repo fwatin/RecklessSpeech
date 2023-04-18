@@ -1,6 +1,5 @@
 using ExCSS;
 using HtmlAgilityPack;
-using MediatR;
 using RecklessSpeech.Application.Core.Events;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Sequences;

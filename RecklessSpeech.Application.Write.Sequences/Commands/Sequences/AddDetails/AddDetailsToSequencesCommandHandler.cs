@@ -1,6 +1,4 @@
-﻿using RecklessSpeech.Application.Core.Commands;
-using RecklessSpeech.Application.Core.Events;
-using RecklessSpeech.Application.Write.Sequences.Ports;
+﻿using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails
