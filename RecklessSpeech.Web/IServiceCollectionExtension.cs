@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
+using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
 using RecklessSpeech.Web.Configuration;
 using RecklessSpeech.Web.Configuration.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -25,7 +27,7 @@ namespace RecklessSpeech.Web
                 .AddMvcServices()
                 .ConfigureApiVersioning()
                 .AddHttpContextAccessor()
-                .AddDispatcher();
+                .AddDispatchers();
 
             if (environment.EnvironmentName != "acceptancetest")
             {
@@ -43,9 +45,14 @@ namespace RecklessSpeech.Web
             return services;
         }
 
-        private static void AddDispatcher(this IServiceCollection services) =>
-            services.AddMediatR(Assembly.GetCallingAssembly())
-                .AddScoped<WebDispatcher>();
+        private static void AddDispatchers(this IServiceCollection services)
+        {
+            Assembly applicationRentalWrite = typeof(ImportSequencesCommand).Assembly;
+            services.AddMediatR(applicationRentalWrite);
+            
+            Assembly applicationRead = typeof(GetAllSequencesQuery).Assembly;
+            services.AddMediatR(applicationRead);
+        }
 
         public static IServiceCollection AddSwaggerServices(this IServiceCollection services) =>
             services

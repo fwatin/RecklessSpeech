@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\RecklessSpeech.Application.Core\RecklessSpeech.Application.Core.csproj" />
         <ProjectReference Include="..\RecklessSpeech.Domain.Sequences\RecklessSpeech.Domain.Sequences.csproj" />
     </ItemGroup>
 
