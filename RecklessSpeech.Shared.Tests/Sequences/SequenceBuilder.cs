@@ -162,7 +162,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.Tags.Value,
                 this.Word.Value,
                 this.TranslatedSentence.Value,
-                this.Explanation!,
+                this.Explanation?.BuildDomain(),
                 this.TranslatedWord?.Value);
     }
 }
