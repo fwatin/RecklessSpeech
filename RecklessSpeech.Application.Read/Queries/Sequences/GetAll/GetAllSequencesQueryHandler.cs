@@ -11,9 +11,10 @@ namespace RecklessSpeech.Application.Read.Queries.Sequences.GetAll
         public GetAllSequencesQueryHandler(ISequenceQueryRepository sequenceQueryRepository) =>
             this.sequenceQueryRepository = sequenceQueryRepository;
 
-        public async Task<IReadOnlyCollection<SequenceSummaryQueryModel>> Handle(GetAllSequencesQuery request, CancellationToken cancellationToken)
+        public Task<IReadOnlyCollection<SequenceSummaryQueryModel>> Handle(GetAllSequencesQuery request, CancellationToken cancellationToken)
         {
-            return (await this.sequenceQueryRepository.GetAll()).ToList();
+            IReadOnlyCollection<SequenceSummaryQueryModel> sequences = this.sequenceQueryRepository.GetAll().Select(x=>x.ToQueryModel()).ToList();
+            return Task.FromResult(sequences);
         }
     }
 }

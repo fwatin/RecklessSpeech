@@ -17,7 +17,9 @@ namespace RecklessSpeech.Application.Read.Queries.Sequences.GetOne
 
         public async Task<SequenceSummaryQueryModel> Handle(GetOneSequenceQuery request, CancellationToken cancellationToken)
         {
-            return await this.sequenceQueryRepository.GetOne(request.SequenceId.Value);
+            SequenceSummaryQueryModel? r = this.sequenceQueryRepository.GetOne(request.SequenceId.Value)?.ToQueryModel();
+            if (r is null) throw new($"could not find {request.SequenceId.Value}");
+            return await Task.FromResult(r);
         }
     }
 }

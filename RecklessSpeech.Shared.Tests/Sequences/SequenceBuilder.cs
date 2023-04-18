@@ -70,9 +70,6 @@ namespace RecklessSpeech.Shared.Tests.Sequences
         public SequenceSummaryQueryModel BuildQueryModel() =>
             new(
                 this.SequenceId.Value,
-                this.HtmlContent.Value,
-                this.AudioFileNameWithExtension.Value,
-                this.Tags.Value,
                 this.Word.Value,
                 this.Explanation?.Content.Value);
 

@@ -1,10 +1,10 @@
-using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
+using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Application.Read.Ports
 {
     public interface ISequenceQueryRepository
     {
-        Task<IReadOnlyCollection<SequenceSummaryQueryModel>> GetAll();
-        Task<SequenceSummaryQueryModel> GetOne(Guid id);
+        IReadOnlyCollection<Sequence> GetAll();
+        Sequence? GetOne(Guid id);
     }
 }

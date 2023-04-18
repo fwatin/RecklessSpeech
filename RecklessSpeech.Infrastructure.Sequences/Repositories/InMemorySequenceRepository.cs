@@ -1,12 +1,13 @@
-﻿using RecklessSpeech.Application.Write.Sequences.Ports;
+﻿using RecklessSpeech.Application.Read.Ports;
+using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 {
-    public class InMemorySequenceRepository : ISequenceRepository
+    public class InMemorySequenceRepository : ISequenceRepository, ISequenceQueryRepository
     {
         private readonly List<Sequence> sequences;
-        public IReadOnlyCollection<Sequence> All =>this.sequences;
+        public IReadOnlyCollection<Sequence> All => this.sequences;
 
         public InMemorySequenceRepository()
         {
@@ -17,7 +18,9 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
         {
             this.sequences.Add(sequence);
         }
-        
+
+        public IReadOnlyCollection<Sequence> GetAll() => this.sequences;
+
         public Sequence? GetOne(Guid id)
         {
             Sequence? entity = this.sequences.SingleOrDefault(x => x.SequenceId.Value == id);
@@ -29,7 +32,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
             Sequence? entity = this.sequences.SingleOrDefault(x => x.Word.Value == word);
             return entity ?? null;
         }
-        
+
         public Sequence? GetOneByMediaId(long mediaId)
         {
             Sequence? entity = this.sequences.SingleOrDefault(x => x.MediaId.Value == mediaId);
