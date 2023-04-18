@@ -89,7 +89,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
 
             //Assert
             this.spyGateway.Note!.After.Value.Trim().Should().Be(
-                "translated sentence from Netflix: \"hey this is the translated sentence from Netflix\"a lot of explanations");
+                "translated sentence from Netflix: \"hey this is the translated sentence from Netflix\"veut dire genre trucs, astuces");
         }
 
         [Fact]
