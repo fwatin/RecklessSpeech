@@ -2,15 +2,14 @@
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Gateways
 {
-    public class StubChatGptGateway : IChatGptGateway
+    public class EmptyDutchTranslatorGateway : IDutchTranslatorGateway
     {
-        private Explanation? item;
-
-        public void Feed(Explanation explanation) => this.item = explanation;
-
         public Explanation GetExplanation(string word)
         {
-            return this.item!;
+            return ExplanationBuilder.Create() with
+            {
+                Content = new(""),
+            };
         }
     }
 }
