@@ -14,7 +14,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
             this.sequenceRepository = new();
 
             this.sut = new(this.sequenceRepository,
-                new DummyDictionaryGateway());
+                new DummyDictionaryGateway(),
+                new DummyChatGptGateway());
         }
 
         [Fact]

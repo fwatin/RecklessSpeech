@@ -14,7 +14,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
 
         public EnrichDutchSequenceCommandHandler(
             ISequenceRepository sequenceRepository,
-            IDutchTranslatorGateway dutchTranslatorGateway)
+            IDutchTranslatorGateway dutchTranslatorGateway,
+            IChatGptGateway chatGptGateway)
         {
             this.sequenceRepository = sequenceRepository;
             this.dutchTranslatorGateway = dutchTranslatorGateway;

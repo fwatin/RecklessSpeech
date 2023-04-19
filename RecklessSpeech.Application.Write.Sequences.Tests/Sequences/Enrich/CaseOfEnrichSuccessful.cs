@@ -23,7 +23,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
             this.sequenceRepository = new();
             this.sut = new(
                 this.sequenceRepository,
-                stubDutchTranslatorGateway);
+                stubDutchTranslatorGateway,
+                new StubChatGptGateway());
             
 
             this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("5CFF7781-7892-4172-9656-8EF0E6A76D2C"))with
