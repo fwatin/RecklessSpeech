@@ -23,22 +23,25 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
             this.chatGptGateway = chatGptGateway;
         }
 
-        public Task<Unit> Handle(EnrichDutchSequenceCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(EnrichDutchSequenceCommand command, CancellationToken cancellationToken)
         {
             Sequence? sequence = this.sequenceRepository.GetOne(command.SequenceId);
             if (sequence is null)
             {
-                return Task.FromResult(Unit.Value);
+                return Unit.Value;
+            }
+            
+            if (sequence.OriginalSentence is not null)
+            {
+                Explanation explanationWithChatGpt =
+                    await this.chatGptGateway.GetExplanation(sequence.Word.Value, sequence.OriginalSentence!.Value);
+                sequence.Explanations.Add(explanationWithChatGpt);
             }
 
             Explanation translationWithDictionary = this.dutchTranslatorGateway.GetExplanation(sequence.Word.Value);
-            Explanation explanationWithChatGpt = this.chatGptGateway.GetExplanation(sequence.Word.Value);
-            
             sequence.Explanations.Add(translationWithDictionary);
-            sequence.Explanations.Add(explanationWithChatGpt);
 
-            return Task.FromResult(Unit.Value);
+            return Unit.Value;
         }
-
     }
 }

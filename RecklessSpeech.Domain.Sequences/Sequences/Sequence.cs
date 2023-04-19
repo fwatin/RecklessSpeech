@@ -6,7 +6,6 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
     {
         public AudioFileNameWithExtension AudioFile = default!;
         private Sequence(SequenceId sequenceId) => this.SequenceId = sequenceId;
-
         public SequenceId SequenceId { get; }
         public HtmlContent HtmlContent { get; private init; } = default!;
         public Word Word { get; private init; } = default!;
@@ -14,6 +13,8 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
         public List<Explanation> Explanations { get; set; }
         public TranslatedWord? TranslatedWord { get; set; }
         public MediaId MediaId { get;  private init; }= default!;
+        
+        public OriginalSentence? OriginalSentence { get; set; }
 
 
         public static Sequence Create(Guid id,
@@ -36,7 +37,6 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
             Guid id,
             string htmlContent,
             string audioFileNameWithExtension,
-            string tags,
             string word,
             string translatedSentence,
             long mediaId,

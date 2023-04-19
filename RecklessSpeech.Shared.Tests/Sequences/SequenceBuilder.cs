@@ -126,7 +126,6 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             Sequence.Hydrate(this.SequenceId.Value,
                 this.HtmlContent.Value,
                 this.AudioFileNameWithExtension.Value,
-                this.Tags.Value,
                 this.Word.Value,
                 this.TranslatedSentence.Value,
                 this.MediaId.Value,

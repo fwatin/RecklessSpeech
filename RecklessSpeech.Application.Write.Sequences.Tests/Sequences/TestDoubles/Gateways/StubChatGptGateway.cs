@@ -8,9 +8,9 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles
 
         public void Feed(Explanation explanation) => this.item = explanation;
 
-        public Explanation GetExplanation(string word)
+        public Task<Explanation> GetExplanation(string word, string sentence)
         {
-            return this.item!;
+            return Task.FromResult(this.item!);
         }
     }
 }

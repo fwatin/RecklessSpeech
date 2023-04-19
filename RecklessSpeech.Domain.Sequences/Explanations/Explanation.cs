@@ -2,6 +2,7 @@
 {
     public sealed class Explanation
     {
+        //todo virer id c'est un value object
         private Explanation(ExplanationId explanationId, Content content, Target target, SourceUrl sourceUrl)
         {
             this.ExplanationId = explanationId;
