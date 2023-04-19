@@ -10,6 +10,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
     public class EnrichDutchSequenceCommandHandler : IRequestHandler<EnrichDutchSequenceCommand>
     {
         private readonly IDutchTranslatorGateway dutchTranslatorGateway;
+        private readonly IChatGptGateway chatGptGateway;
         private readonly ISequenceRepository sequenceRepository;
 
         public EnrichDutchSequenceCommandHandler(
@@ -19,6 +20,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
         {
             this.sequenceRepository = sequenceRepository;
             this.dutchTranslatorGateway = dutchTranslatorGateway;
+            this.chatGptGateway = chatGptGateway;
         }
 
         public Task<Unit> Handle(EnrichDutchSequenceCommand command, CancellationToken cancellationToken)
@@ -29,8 +31,11 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
                 return Task.FromResult(Unit.Value);
             }
 
-            Explanation existingExplanation = this.dutchTranslatorGateway.GetExplanation(sequence.Word.Value);
-            sequence.Explanation = existingExplanation;
+            Explanation translationWithDictionary = this.dutchTranslatorGateway.GetExplanation(sequence.Word.Value);
+            Explanation explanationWithChatGpt = this.chatGptGateway.GetExplanation(sequence.Word.Value);
+            
+            sequence.Explanations.Add(translationWithDictionary);
+            sequence.Explanations.Add(explanationWithChatGpt);
 
             return Task.FromResult(Unit.Value);
         }

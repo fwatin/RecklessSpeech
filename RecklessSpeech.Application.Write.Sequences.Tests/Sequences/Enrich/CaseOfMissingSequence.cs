@@ -1,8 +1,4 @@
-﻿using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
-using RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Gateways;
-using RecklessSpeech.Infrastructure.Sequences.Repositories;
-
-namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
+﻿namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
 {
     public class CaseOfMissingSequence
     {
@@ -27,7 +23,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
 
             await this.sut.Handle(SequenceBuilder.Create(Guid.NewGuid()).BuildEnrichCommand(), CancellationToken.None);
 
-            this.sequenceRepository.All.Single().Explanation.Should().BeNull();
+            this.sequenceRepository.All.Single().Explanations[0].Should().BeNull();
         }
     }
 }

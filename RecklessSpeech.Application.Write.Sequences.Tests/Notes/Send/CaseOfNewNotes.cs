@@ -1,5 +1,4 @@
 using RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki;
-using RecklessSpeech.Infrastructure.Sequences.Repositories;
 using RecklessSpeech.Shared.Tests.Notes;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
@@ -24,7 +23,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             SequenceBuilder sequenceBuilder =
                 SequenceBuilder.Create(Guid.Parse("B03B23B5-EB9F-4EB8-A762-308A39ADA735")) with
                 {
-                    Explanation = ExplanationBuilder.Create()
+                    Explanations = new() { ExplanationBuilder.Create() }
                 };
             this.sequenceRepository.Add(sequenceBuilder.BuildDomain());
             NoteBuilder noteBuilder = NoteBuilder.Create(sequenceBuilder.SequenceId.Value);
@@ -46,7 +45,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             SequenceBuilder sequenceBuilder =
                 SequenceBuilder.Create(Guid.Parse("B03B23B5-EB9F-4EB8-A762-308A39ADA735")) with
                 {
-                    Explanation = ExplanationBuilder.Create(explanationBuilder.ExplanationId.Value)
+                    Explanations = new() { ExplanationBuilder.Create(explanationBuilder.ExplanationId.Value) }
                 };
             this.sequenceRepository.Add(sequenceBuilder.BuildDomain());
 

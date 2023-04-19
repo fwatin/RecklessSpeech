@@ -1,6 +1,4 @@
-﻿using RecklessSpeech.Infrastructure.Sequences.Repositories;
-
-namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
+﻿namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
 {
     public class CaseOfNonExistingSequence
     {

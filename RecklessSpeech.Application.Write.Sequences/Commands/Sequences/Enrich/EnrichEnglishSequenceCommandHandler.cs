@@ -29,10 +29,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
             }
 
             Explanation explanation = this.translatorGateway.GetExplanation(sequence.Word.Value);
-            sequence.Explanation = explanation;
+            sequence.Explanations.Add(explanation);
+            
 
             return Task.FromResult(Unit.Value);
         }
-
     }
 }

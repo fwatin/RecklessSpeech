@@ -18,7 +18,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             TagsBuilder tags,
             WordBuilder word,
             TranslatedSentenceBuilder translatedSentence,
-            ExplanationBuilder? explanation,
+            List<ExplanationBuilder> explanations,
             TranslatedWordBuilder? translatedWord,
             MediaIdBuilder mediaId)
         {
@@ -29,7 +29,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             this.Word = word;
             this.rawCsvContent = null;
             this.TranslatedSentence = translatedSentence;
-            this.Explanation = explanation;
+            this.Explanations = explanations;
             this.TranslatedWord = translatedWord;
             this.MediaId = mediaId;
         }
@@ -40,7 +40,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
         public TagsBuilder Tags { get; init; }
         public WordBuilder Word { get; init; }
         public TranslatedSentenceBuilder TranslatedSentence { get; init; }
-        public ExplanationBuilder? Explanation { get; init; }
+        public List<ExplanationBuilder> Explanations { get; init; }
         public TranslatedWordBuilder? TranslatedWord { get; init; }
         public MediaIdBuilder MediaId { get; init; }
 
@@ -63,15 +63,14 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 new(),
                 new(),
                 new(),
-                null,
+                new(),
                 null,
                 new());
 
         public SequenceSummaryQueryModel BuildQueryModel() =>
             new(
                 this.SequenceId.Value,
-                this.Word.Value,
-                this.Explanation?.Content.Value);
+                this.Word.Value);
 
         public ImportSequencesCommand BuildImportCommand() => new(this.RawCsvContent);
 
@@ -131,7 +130,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.Word.Value,
                 this.TranslatedSentence.Value,
                 this.MediaId.Value,
-                this.Explanation?.BuildDomain(),
+                 this.Explanations.Select(x=>x.BuildDomain()).ToList(),
                 this.TranslatedWord?.Value);
     }
 }

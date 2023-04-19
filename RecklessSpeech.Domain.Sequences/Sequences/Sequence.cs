@@ -11,7 +11,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
         public HtmlContent HtmlContent { get; private init; } = default!;
         public Word Word { get; private init; } = default!;
         public TranslatedSentence TranslatedSentence { get; private init; } = default!;
-        public Explanation? Explanation { get; set; }
+        public List<Explanation> Explanations { get; set; }
         public TranslatedWord? TranslatedWord { get; set; }
         public MediaId MediaId { get;  private init; }= default!;
 
@@ -28,7 +28,8 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
                 AudioFile = audioFileNameWithExtension,
                 Word = word,
                 TranslatedSentence = translatedSentence,
-                MediaId = mediaId
+                MediaId = mediaId,
+                Explanations = new()
             };
 
         public static Sequence Hydrate(
@@ -39,7 +40,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
             string word,
             string translatedSentence,
             long mediaId,
-            Explanation? explanation,
+            List<Explanation> explanations,
             string? translatedWord) =>
             new(new(id))
             {
@@ -47,7 +48,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
                 AudioFile = AudioFileNameWithExtension.Hydrate(audioFileNameWithExtension),
                 Word = Word.Hydrate(word),
                 TranslatedSentence = TranslatedSentence.Hydrate(translatedSentence),
-                Explanation = explanation,
+                Explanations = explanations,
                 TranslatedWord = TranslatedWord.Hydrate(translatedWord),
                 MediaId = MediaId.Hydrate(mediaId)
             };
