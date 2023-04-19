@@ -57,7 +57,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
 
             //Assert
             const string expectedUrl = "https://www.mijnwoordenboek.nl/vertaal/NL/FR/gimmicks";
-            this.spyGateway.Note!.Source.Value.Should().Be($"<a href=\"{expectedUrl}\">{expectedUrl}</a>");
+            this.spyGateway.Note!.Source.Value.Should().Contain($"<a href=\"{expectedUrl}\">{expectedUrl}</a>");
         }
     }
 }

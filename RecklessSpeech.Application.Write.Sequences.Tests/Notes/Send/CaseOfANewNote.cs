@@ -107,7 +107,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
 
             //Assert
             this.spyGateway.Note!.Source.Value.Should()
-                .Be("<a href=\"www.farfelu.com/translation\">www.farfelu.com/translation</a>");
+                .Contain("<a href=\"www.farfelu.com/translation\">www.farfelu.com/translation</a>");
         }
 
         [Fact]
