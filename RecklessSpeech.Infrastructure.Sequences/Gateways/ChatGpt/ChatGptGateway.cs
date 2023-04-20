@@ -31,7 +31,8 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt
 
             if (response is null) throw new("unexpected ChatGpt response is null");
             
-            string template = Path.Join(AppContext.BaseDirectory, "Gateways","ChatGpt","templates", "display_explanation.html");
+            string path = Path.Join(AppContext.BaseDirectory, "Gateways","ChatGpt","templates", "display_explanation.html");
+            string template = await File.ReadAllTextAsync(path);
 
             string content = template
                 .Replace("{{word}}", word)
