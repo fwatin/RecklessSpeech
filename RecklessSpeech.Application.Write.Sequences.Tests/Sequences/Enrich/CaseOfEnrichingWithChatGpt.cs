@@ -9,7 +9,7 @@
         public CaseOfEnrichingWithChatGpt()
         {
             this.sequenceRepository = new();
-            this.chatGptGateway = new StubChatGptGateway();
+            this.chatGptGateway = new();
             this.sut = new(this.sequenceRepository, new EmptyDutchTranslatorGateway(), this.chatGptGateway);
         }
 
@@ -17,7 +17,10 @@
         public async Task Should_add_in_sequence_content()
         {
             //Arrange
-            SequenceBuilder sequenceBuilder = SequenceBuilder.Create();
+            SequenceBuilder sequenceBuilder = SequenceBuilder.Create() with
+            {
+                OriginalSentence = new("tiens j'ai laché une caisse")
+            };
             this.sequenceRepository.Add(sequenceBuilder);
             ExplanationBuilder explanation = ExplanationBuilder.Create() with
             {
@@ -31,7 +34,8 @@
             await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            this.sequenceRepository.GetAll().Single().Explanations.Any(x=>x.Content.Value.Contains("C'est une expression pour dire prout")).Should().BeTrue();
+            this.sequenceRepository.GetAll().Single().Explanations
+                .Any(x => x.Content.Value.Contains("C'est une expression pour dire prout")).Should().BeTrue();
         }
     }
 }
