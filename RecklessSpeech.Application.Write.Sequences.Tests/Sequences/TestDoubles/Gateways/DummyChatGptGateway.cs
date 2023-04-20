@@ -4,6 +4,6 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles
 {
     public class DummyChatGptGateway : IChatGptGateway
     {
-        public Task<Explanation> GetExplanation(string word, string sentence) => throw new NotImplementedException();
+        public Task<Explanation> GetExplanation(string word, string sentence, Language language) => throw new NotImplementedException();
     }
 }

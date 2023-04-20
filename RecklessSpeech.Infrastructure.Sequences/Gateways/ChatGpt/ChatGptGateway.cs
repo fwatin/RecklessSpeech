@@ -13,12 +13,12 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt
             this.client = client;
         }
 
-        public async Task<Explanation> GetExplanation(string word, string sentence)
+        public async Task<Explanation> GetExplanation(string word, string sentence, Language language)
         {
             ChatGptRequest request = new("gpt-3.5-turbo",
                 new()
                 {
-                    new("user", $"Peux tu expliquer le sens du mot néérlandais {word} dans la phrase {sentence}")
+                    new("user", $"Peux tu expliquer le sens du mot {language.GetLanguageInFrench()} {word} dans la phrase {sentence}")
                 });
 
             HttpRequestMessage requestMessage = new(HttpMethod.Post, "chat/completions")

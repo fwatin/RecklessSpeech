@@ -4,6 +4,6 @@ namespace RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Du
 {
     public interface IChatGptGateway
     {
-        Task<Explanation> GetExplanation(string word, string sentence);
+        Task<Explanation> GetExplanation(string word, string sentence, Language language);
     }
 }
