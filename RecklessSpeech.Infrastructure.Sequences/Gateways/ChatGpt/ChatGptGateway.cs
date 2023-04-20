@@ -30,9 +30,16 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt
             ChatGptResponse? response = await httpResponseMessage.Content.ReadFromJsonAsync<ChatGptResponse>();
 
             if (response is null) throw new("unexpected ChatGpt response is null");
+            
+            string template = Path.Join(AppContext.BaseDirectory, "Gateways","ChatGpt","templates", "display_explanation.html");
 
-            return Explanation.Create(Guid.NewGuid(),
-                response.choices.First().message.content, word, "ChatGpt");
+            string content = template
+                .Replace("{{word}}", word)
+                .Replace("{{sentence}}", sentence)
+                .Replace("{{explanation}}", response.choices.First().message.content);
+
+
+            return Explanation.Create(Guid.NewGuid(),content, word, "ChatGpt");
         }
     }
 }
