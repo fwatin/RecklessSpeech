@@ -10,6 +10,7 @@ export default {
       checkedWords: [],
       selectedFile: null,
       selectedJson: null,
+      enrichProgression: 0,
     };
   },
   methods: {
@@ -17,11 +18,17 @@ export default {
       const selectedWords = this.words.filter((word, index) => {
         return this.checkedWords[index];
       });
+      this.enrichProgression = 0;
+      let enrichCount = 0;
+      let total = selectedWords.length;
       for (const sequence of selectedWords) {
         let id = sequence.id;
         await axios.post(
           `https://localhost:${backendPort}/api/v1/sequences/Dictionary/dutch?id=${id}`
         );
+        enrichCount++;
+        this.enrichProgression = Math.round((enrichCount * 100) / total);
+        localStorage.setItem('enrich progression',this.enrichProgression);
       }
       let msg =
         selectedWords.length +
@@ -91,11 +98,15 @@ export default {
         formData.append("file", this.selectedFile);
 
         await axios
-          .post(`https://localhost:${backendPort}/api/v1/sequences/import-zip`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
+          .post(
+            `https://localhost:${backendPort}/api/v1/sequences/import-zip`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          )
           .then((response) => {
             this.words = response.data;
             console.log(
@@ -180,7 +191,9 @@ export default {
 
     <div class="fieldset-container">
       <fieldset style="border: 2px solid #000; padding: 10px">
-        <legend style="font-size: 20px">Enrichir</legend>
+        <legend style="font-size: 20px">
+          Enrichir {{ this.enrichProgression }}%
+        </legend>
         <button class="clickable button-margin" @click="selectAll()">
           Selectionner tout
         </button>
