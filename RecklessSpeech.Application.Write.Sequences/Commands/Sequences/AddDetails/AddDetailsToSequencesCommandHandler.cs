@@ -24,12 +24,9 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetai
 
                 sequence.TranslatedWord = TranslatedWord.Create(item.wordTranslationsArr.First());
                 StringBuilder sentences = new();
-                if (item.context?.phrase?.subtitles != null)
+                foreach (var sentence in item.context.phrase.subtitles.Values)
                 {
-                    foreach (var sentence in item.context.phrase.subtitles.Values)
-                    {
-                        sentences.Append(sentence);
-                    }
+                    sentences.Append(sentence);
                 }
 
                 sequence.OriginalSentence = OriginalSentence.Create(sentences.ToString());

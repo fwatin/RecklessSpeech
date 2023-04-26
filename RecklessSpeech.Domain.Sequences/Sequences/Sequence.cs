@@ -5,7 +5,12 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
     public sealed class Sequence
     {
         public AudioFileNameWithExtension AudioFile = default!;
-        private Sequence(SequenceId sequenceId) => this.SequenceId = sequenceId;
+        private Sequence(SequenceId sequenceId)
+        {
+            this.SequenceId = sequenceId;
+            this.Explanations = new();
+        }
+
         public SequenceId SequenceId { get; }
         public HtmlContent HtmlContent { get; private init; } = default!;
         public Word Word { get; private init; } = default!;

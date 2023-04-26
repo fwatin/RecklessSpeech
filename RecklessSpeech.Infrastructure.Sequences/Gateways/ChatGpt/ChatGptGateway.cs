@@ -19,7 +19,8 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt
             ChatGptRequest request = new("gpt-3.5-turbo",
                 new()
                 {
-                    new("user", $"Peux-tu expliquer le sens du mot {language.GetLanguageInFrench()} {word} dans la phrase {sentence}")
+                    new("user",
+                        $"Peux-tu expliquer le sens du mot {language.GetLanguageInFrench()} {word} dans la phrase {sentence}")
                 });
 
             HttpRequestMessage requestMessage = new(HttpMethod.Post, "chat/completions")
@@ -28,24 +29,29 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt
             };
             HttpResponseMessage httpResponseMessage = await this.client.SendAsync(requestMessage);
 
-            var options = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            };
+            var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, };
             ChatGptResponse? response = await httpResponseMessage.Content.ReadFromJsonAsync<ChatGptResponse>(options);
 
             if (response is null) throw new("unexpected ChatGpt response is null");
-            
-            string path = Path.Join(AppContext.BaseDirectory, "Gateways","ChatGpt","templates", "display_explanation.html");
+
+            string path = Path.Join(AppContext.BaseDirectory, "Gateways", "ChatGpt", "templates",
+                "display_explanation.html");
             string template = await File.ReadAllTextAsync(path);
 
             string content = template
                 .Replace("{{word}}", word)
                 .Replace("{{sentence}}", sentence)
                 .Replace("{{language}}", language.GetLanguageInFrench())
-                .Replace("{{explanation}}", response.choices.First().Message.Content);
+                .Replace("{{explanation}}", GetContent(response));
 
-            return Explanation.Create(Guid.NewGuid(),content, word, "ChatGpt");
+            return Explanation.Create(Guid.NewGuid(), content, word, "ChatGpt");
+        }
+
+        private static string GetContent(ChatGptResponse response)
+        {
+            return response.choices?.First().Message?.Content is null
+                ? "Null content in ChatGpt response"
+                : response.choices!.First().Message!.Content!;
         }
     }
 }
