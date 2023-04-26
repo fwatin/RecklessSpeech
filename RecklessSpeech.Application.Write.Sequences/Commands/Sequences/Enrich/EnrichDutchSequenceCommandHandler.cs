@@ -10,29 +10,38 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
     public class EnrichDutchSequenceCommandHandler : IRequestHandler<EnrichDutchSequenceCommand>
     {
         private readonly IDutchTranslatorGateway dutchTranslatorGateway;
+        private readonly IChatGptGateway chatGptGateway;
         private readonly ISequenceRepository sequenceRepository;
 
         public EnrichDutchSequenceCommandHandler(
             ISequenceRepository sequenceRepository,
-            IDutchTranslatorGateway dutchTranslatorGateway)
+            IDutchTranslatorGateway dutchTranslatorGateway,
+            IChatGptGateway chatGptGateway)
         {
             this.sequenceRepository = sequenceRepository;
             this.dutchTranslatorGateway = dutchTranslatorGateway;
+            this.chatGptGateway = chatGptGateway;
         }
 
-        public Task<Unit> Handle(EnrichDutchSequenceCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(EnrichDutchSequenceCommand command, CancellationToken cancellationToken)
         {
             Sequence? sequence = this.sequenceRepository.GetOne(command.SequenceId);
             if (sequence is null)
             {
-                return Task.FromResult(Unit.Value);
+                return Unit.Value;
+            }
+            
+            if (sequence.OriginalSentence is not null)
+            {
+                Explanation explanationWithChatGpt =
+                    await this.chatGptGateway.GetExplanation(sequence.Word.Value, sequence.OriginalSentence!.Value,new Dutch());
+                sequence.Explanations.Add(explanationWithChatGpt);
             }
 
-            Explanation existingExplanation = this.dutchTranslatorGateway.GetExplanation(sequence.Word.Value);
-            sequence.Explanation = existingExplanation;
+            Explanation translationWithDictionary = this.dutchTranslatorGateway.GetExplanation(sequence.Word.Value);
+            sequence.Explanations.Add(translationWithDictionary);
 
-            return Task.FromResult(Unit.Value);
+            return Unit.Value;
         }
-
     }
 }

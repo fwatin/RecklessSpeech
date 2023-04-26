@@ -9,8 +9,7 @@ namespace RecklessSpeech.Application.Read.Queries
         {
             return new(
                 sequence.SequenceId.Value,
-                sequence.Word.Value,
-                sequence.Explanation?.Content.Value
+                sequence.Word.Value
             );
         }
         

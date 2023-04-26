@@ -20,5 +20,4 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             return new(builder.Value);
         }
     }
-
 }

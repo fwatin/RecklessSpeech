@@ -1,8 +1,4 @@
-﻿using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
-using RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Gateways;
-using RecklessSpeech.Infrastructure.Sequences.Repositories;
-
-namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
+﻿namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
 {
     public class CaseOfEnrichSuccessful
     {
@@ -23,12 +19,14 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
             this.sequenceRepository = new();
             this.sut = new(
                 this.sequenceRepository,
-                stubDutchTranslatorGateway);
+                stubDutchTranslatorGateway,
+                new StubChatGptGateway());
             
 
             this.sequenceBuilder = SequenceBuilder.Create(Guid.Parse("5CFF7781-7892-4172-9656-8EF0E6A76D2C"))with
             {
-                Word = new("brood"), Explanation = explanationBuilder
+                Word = new("brood"),
+                Explanations = new() { explanationBuilder },
             };
         }
 
@@ -43,7 +41,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.Enrich
             await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            this.sequenceRepository.All.Single().Explanation!.Content.Value.Should().Contain("pain");
+            this.sequenceRepository.All.Single().Explanations[0].Content.Value.Should().Contain("pain");
         }
     }
 }

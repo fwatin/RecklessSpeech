@@ -1,4 +1,5 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Ports;
+using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.English;
 using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
@@ -11,28 +12,38 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
     {
         private readonly ISequenceRepository sequenceRepository;
         private readonly IEnglishTranslatorGateway translatorGateway;
+        private readonly IChatGptGateway chatGptGateway;
 
         public EnrichEnglishSequenceCommandHandler(
             ISequenceRepository sequenceRepository,
-            IEnglishTranslatorGateway translatorGateway)
+            IEnglishTranslatorGateway translatorGateway,
+            IChatGptGateway chatGptGateway)
         {
             this.sequenceRepository = sequenceRepository;
             this.translatorGateway = translatorGateway;
+            this.chatGptGateway = chatGptGateway;
         }
 
-        public Task<Unit> Handle(EnrichEnglishSequenceCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(EnrichEnglishSequenceCommand command, CancellationToken cancellationToken)
         {
             Sequence? sequence = this.sequenceRepository.GetOne(command.SequenceId);
             if (sequence is null)
             {
-                return Task.FromResult(Unit.Value);
+                return Unit.Value;
+            }
+            
+            if (sequence.OriginalSentence is not null)
+            {
+                Explanation explanationWithChatGpt =
+                    await this.chatGptGateway.GetExplanation(sequence.Word.Value, sequence.OriginalSentence!.Value,new English());
+                sequence.Explanations.Add(explanationWithChatGpt);
             }
 
             Explanation explanation = this.translatorGateway.GetExplanation(sequence.Word.Value);
-            sequence.Explanation = explanation;
+            sequence.Explanations.Add(explanation);
+            
 
-            return Task.FromResult(Unit.Value);
+            return Unit.Value;
         }
-
     }
 }

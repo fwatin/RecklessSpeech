@@ -1,4 +1,5 @@
-﻿using RecklessSpeech.Domain.Sequences.Sequences;
+﻿using RecklessSpeech.Domain.Sequences.Explanations;
+using RecklessSpeech.Domain.Sequences.Sequences;
 using System.Text;
 
 namespace RecklessSpeech.Domain.Sequences.Notes
@@ -43,16 +44,21 @@ namespace RecklessSpeech.Domain.Sequences.Notes
 
         private static Source CreateSource(Sequence sequence)
         {
-            if (sequence.Explanation is null)
+            if (sequence.Explanations.Count == 0)
             {
                 return Source.Create("");
             }
 
-            string url = sequence.Explanation.SourceUrl.Value;
+            StringBuilder urlBuilder = new();
 
-            string urlWithHyperlink = $"<a href=\"{url}\">{url}</a>";
+            foreach (Explanation explanation in sequence.Explanations)
+            {
+                var url = explanation.SourceUrl.Value;
+                string urlWithHyperlink = $"<a href=\"{url}\">{url}</a>";
+                urlBuilder.AppendLine(urlWithHyperlink);
+            }
 
-            return Source.Create(urlWithHyperlink);
+            return Source.Create(urlBuilder.ToString());
         }
 
         private static Audio CreateAudio(Sequence sequence)
@@ -72,9 +78,10 @@ namespace RecklessSpeech.Domain.Sequences.Notes
 
             stringBuilder.Append($"translated sentence from Netflix: \"{sequence.TranslatedSentence.Value}\"");
 
-            if (sequence.Explanation is not null)
+
+            foreach (var explanation in sequence.Explanations)         
             {
-                stringBuilder.AppendLine(sequence.Explanation.Content.Value);
+                stringBuilder.AppendLine(explanation.Content.Value);
             }
 
             return After.Create(stringBuilder.ToString());

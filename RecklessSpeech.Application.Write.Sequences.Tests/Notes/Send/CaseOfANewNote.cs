@@ -1,5 +1,4 @@
 using RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki;
-using RecklessSpeech.Infrastructure.Sequences.Repositories;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
 {
@@ -27,7 +26,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             //Arrange
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create(this.sequenceId) with
             {
-                Explanation = ExplanationBuilder.Create()
+                Explanations = new(){ExplanationBuilder.Create()}
             };
             this.sequenceRepository.Add(sequenceBuilder);
 
@@ -45,7 +44,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create(this.sequenceId) with
             {
                 HtmlContent = new("\"<style> some html here for this test\""),
-                Explanation = ExplanationBuilder.Create()
+                Explanations = new(){ExplanationBuilder.Create()}
             };
             this.sequenceRepository.Add(sequenceBuilder);
 
@@ -62,7 +61,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             //Arrange
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create(this.sequenceId) with
             {
-                TranslatedWord = new("pain"), Explanation = ExplanationBuilder.Create()
+                TranslatedWord = new("pain"), 
+                Explanations = new(){ExplanationBuilder.Create()}
             };
             this.sequenceRepository.Add(sequenceBuilder);
 
@@ -80,7 +80,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create(this.sequenceId) with
             {
                 TranslatedSentence = new("hey this is the translated sentence from Netflix"),
-                Explanation = ExplanationBuilder.Create() with { Target = new("a lot of explanations") }
+                Explanations = new(){ExplanationBuilder.Create() with { Target = new("a lot of explanations") }}
             };
             this.sequenceRepository.Add(sequenceBuilder);
 
@@ -98,7 +98,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             //Arrange
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create(this.sequenceId) with
             {
-                Explanation = ExplanationBuilder.Create()with { SourceUrl = new("www.farfelu.com/translation") }
+                Explanations = new(){ExplanationBuilder.Create() with {SourceUrl = new("www.farfelu.com/translation") }}
             };
             this.sequenceRepository.Add(sequenceBuilder);
 
@@ -107,7 +107,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
 
             //Assert
             this.spyGateway.Note!.Source.Value.Should()
-                .Be("<a href=\"www.farfelu.com/translation\">www.farfelu.com/translation</a>");
+                .Contain("<a href=\"www.farfelu.com/translation\">www.farfelu.com/translation</a>");
         }
 
         [Fact]
@@ -116,7 +116,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             //Arrange
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create(this.sequenceId) with
             {
-                AudioFileNameWithExtension = new("368468486.mp3"), Explanation = ExplanationBuilder.Create()
+                AudioFileNameWithExtension = new("368468486.mp3"), 
+                Explanations = new(){ExplanationBuilder.Create()}
             };
             this.sequenceRepository.Add(sequenceBuilder);
 

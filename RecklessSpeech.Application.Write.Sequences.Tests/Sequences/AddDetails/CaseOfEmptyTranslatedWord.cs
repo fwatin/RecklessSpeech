@@ -1,6 +1,4 @@
-﻿using RecklessSpeech.Infrastructure.Sequences.Repositories;
-
-namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
+﻿namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
 {
     public class CaseOfEmptyTranslatedWord
     {
@@ -21,7 +19,9 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.AddDetails
             //Arrange
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create() with
             {
-                Word = new(word), TranslatedWord = null, Explanation = ExplanationBuilder.Create(), MediaId = new(0)
+                Word = new(word), TranslatedWord = null, 
+                Explanations = new() { ExplanationBuilder.Create() },
+                MediaId = new(0)
             };
             this.sequenceRepository.Add(sequenceBuilder);
             Class1[] dtos = { new() { word = new() { text = word }, wordTranslationsArr = new[] { translation } } };

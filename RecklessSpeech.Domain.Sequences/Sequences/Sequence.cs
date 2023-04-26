@@ -5,15 +5,20 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
     public sealed class Sequence
     {
         public AudioFileNameWithExtension AudioFile = default!;
-        private Sequence(SequenceId sequenceId) => this.SequenceId = sequenceId;
+        private Sequence(SequenceId sequenceId)
+        {
+            this.SequenceId = sequenceId;
+            this.Explanations = new();
+        }
 
         public SequenceId SequenceId { get; }
         public HtmlContent HtmlContent { get; private init; } = default!;
         public Word Word { get; private init; } = default!;
         public TranslatedSentence TranslatedSentence { get; private init; } = default!;
-        public Explanation? Explanation { get; set; }
+        public List<Explanation> Explanations { get; set; }
         public TranslatedWord? TranslatedWord { get; set; }
         public MediaId MediaId { get;  private init; }= default!;
+        public OriginalSentence? OriginalSentence { get; set; }
 
 
         public static Sequence Create(Guid id,
@@ -28,28 +33,29 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
                 AudioFile = audioFileNameWithExtension,
                 Word = word,
                 TranslatedSentence = translatedSentence,
-                MediaId = mediaId
+                MediaId = mediaId,
+                Explanations = new()
             };
 
-        public static Sequence Hydrate(
-            Guid id,
+        public static Sequence Hydrate(Guid id,
             string htmlContent,
             string audioFileNameWithExtension,
-            string tags,
             string word,
             string translatedSentence,
             long mediaId,
-            Explanation? explanation,
-            string? translatedWord) =>
+            List<Explanation> explanations,
+            string? translatedWord, 
+            string? originalSentence) =>
             new(new(id))
             {
                 HtmlContent = HtmlContent.Hydrate(htmlContent),
                 AudioFile = AudioFileNameWithExtension.Hydrate(audioFileNameWithExtension),
                 Word = Word.Hydrate(word),
                 TranslatedSentence = TranslatedSentence.Hydrate(translatedSentence),
-                Explanation = explanation,
+                Explanations = explanations,
                 TranslatedWord = TranslatedWord.Hydrate(translatedWord),
-                MediaId = MediaId.Hydrate(mediaId)
+                MediaId = MediaId.Hydrate(mediaId),
+                OriginalSentence = OriginalSentence.Hydrate(originalSentence)
             };
     }
 }

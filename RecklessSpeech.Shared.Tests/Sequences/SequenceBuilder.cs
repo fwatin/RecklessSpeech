@@ -18,9 +18,10 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             TagsBuilder tags,
             WordBuilder word,
             TranslatedSentenceBuilder translatedSentence,
-            ExplanationBuilder? explanation,
+            List<ExplanationBuilder> explanations,
             TranslatedWordBuilder? translatedWord,
-            MediaIdBuilder mediaId)
+            MediaIdBuilder mediaId,
+            OriginalSentenceBuilder? originalSentence)
         {
             this.SequenceId = sequenceId;
             this.HtmlContent = htmlContent;
@@ -29,9 +30,10 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             this.Word = word;
             this.rawCsvContent = null;
             this.TranslatedSentence = translatedSentence;
-            this.Explanation = explanation;
+            this.Explanations = explanations;
             this.TranslatedWord = translatedWord;
             this.MediaId = mediaId;
+            this.OriginalSentence = originalSentence;
         }
 
         public SequenceIdBuilder SequenceId { get; init; }
@@ -40,9 +42,11 @@ namespace RecklessSpeech.Shared.Tests.Sequences
         public TagsBuilder Tags { get; init; }
         public WordBuilder Word { get; init; }
         public TranslatedSentenceBuilder TranslatedSentence { get; init; }
-        public ExplanationBuilder? Explanation { get; init; }
+        public List<ExplanationBuilder> Explanations { get; init; }
         public TranslatedWordBuilder? TranslatedWord { get; init; }
         public MediaIdBuilder MediaId { get; init; }
+        public OriginalSentenceBuilder? OriginalSentence { get; init; }
+
 
         public string RawCsvContent
         {
@@ -63,15 +67,14 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 new(),
                 new(),
                 new(),
+                new(),
                 null,
-                null,
-                new());
+                new(),null);
 
         public SequenceSummaryQueryModel BuildQueryModel() =>
             new(
                 this.SequenceId.Value,
-                this.Word.Value,
-                this.Explanation?.Content.Value);
+                this.Word.Value);
 
         public ImportSequencesCommand BuildImportCommand() => new(this.RawCsvContent);
 
@@ -127,11 +130,11 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             Sequence.Hydrate(this.SequenceId.Value,
                 this.HtmlContent.Value,
                 this.AudioFileNameWithExtension.Value,
-                this.Tags.Value,
                 this.Word.Value,
                 this.TranslatedSentence.Value,
                 this.MediaId.Value,
-                this.Explanation?.BuildDomain(),
-                this.TranslatedWord?.Value);
+                 this.Explanations.Select(x=>x.BuildDomain()).ToList(),
+                this.TranslatedWord?.Value,
+                this.OriginalSentence?.Value);
     }
 }

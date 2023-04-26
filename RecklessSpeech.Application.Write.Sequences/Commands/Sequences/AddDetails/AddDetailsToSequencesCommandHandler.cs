@@ -1,5 +1,6 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Sequences;
+using System.Text;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails
 {
@@ -21,7 +22,14 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetai
                     continue;
                 }
 
-                sequence.TranslatedWord = TranslatedWord.Create(item.wordTranslationsArr.First()); 
+                sequence.TranslatedWord = TranslatedWord.Create(item.wordTranslationsArr.First());
+                StringBuilder sentences = new();
+                foreach (var sentence in item.context.phrase.subtitles.Values)
+                {
+                    sentences.Append(sentence);
+                }
+
+                sequence.OriginalSentence = OriginalSentence.Create(sentences.ToString());
             }
 
             return Task.FromResult(Unit.Value);

@@ -1,6 +1,4 @@
-﻿// ReSharper disable All
-
-#pragma warning disable CS8618
+﻿#pragma warning disable CS8618
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails;
 public class Class1
 {
@@ -26,8 +24,8 @@ public class Context
 
 public class Phrase
 {
-    public Subtitletokens subtitleTokens { get; set; }
-    public Subtitles subtitles { get; set; }
+    public Dictionary<string,Subtitletokens[]> subtitleTokens { get; set; }
+    public Dictionary<string,string> subtitles { get; set; }
     public Mtranslations mTranslations { get; set; }
     public Htranslations hTranslations { get; set; }
     public Reference reference { get; set; }
@@ -36,13 +34,6 @@ public class Phrase
 }
 
 public class Subtitletokens
-{
-    public _0[] _0 { get; set; }
-    public _1[] _1 { get; set; }
-    public _2[] _2 { get; set; }
-}
-
-public class _0
 {
     public string pos { get; set; }
     public Form form { get; set; }
@@ -82,93 +73,6 @@ public class Lemma
 public class Form_Norm
 {
     public string text { get; set; }
-}
-
-public class _1
-{
-    public string pos { get; set; }
-    public Form1 form { get; set; }
-    public int freq { get; set; }
-    public string xpos { get; set; }
-    public Feats1 feats { get; set; }
-    public Lemma1 lemma { get; set; }
-    public string deprel { get; set; }
-    public int? pointer { get; set; }
-    public object diocoFreq { get; set; }
-    public Form_Norm1 form_norm { get; set; }
-}
-
-public class Form1
-{
-    public string text { get; set; }
-}
-
-public class Feats1
-{
-    public string Case { get; set; }
-    public string Person { get; set; }
-    public string PronType { get; set; }
-    public string Tense { get; set; }
-    public string Number { get; set; }
-    public string VerbForm { get; set; }
-    public string Gender { get; set; }
-}
-
-public class Lemma1
-{
-    public string text { get; set; }
-}
-
-public class Form_Norm1
-{
-    public string text { get; set; }
-}
-
-public class _2
-{
-    public string pos { get; set; }
-    public Form2 form { get; set; }
-    public int freq { get; set; }
-    public string xpos { get; set; }
-    public Feats2 feats { get; set; }
-    public Lemma2 lemma { get; set; }
-    public string deprel { get; set; }
-    public int? pointer { get; set; }
-    public object diocoFreq { get; set; }
-    public Form_Norm2 form_norm { get; set; }
-}
-
-public class Form2
-{
-    public string text { get; set; }
-}
-
-public class Feats2
-{
-    public string Gender { get; set; }
-    public string Number { get; set; }
-    public string Definite { get; set; }
-    public string Case { get; set; }
-    public string Person { get; set; }
-    public string PronType { get; set; }
-    public string VerbForm { get; set; }
-}
-
-public class Lemma2
-{
-    public string text { get; set; }
-}
-
-public class Form_Norm2
-{
-    public string text { get; set; }
-}
-
-public class Subtitles
-{
-    public string _0 { get; set; }
-    public string _1 { get; set; }
-    public string _2 { get; set; }
 }
 
 public class Mtranslations

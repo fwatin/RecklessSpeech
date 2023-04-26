@@ -14,7 +14,6 @@ namespace RecklessSpeech.Web.ViewModels.Sequences
             this SequenceSummaryQueryModel queryModel) =>
             new(
                 queryModel.Id,
-                queryModel.Word,
-                queryModel.Explanation);
+                queryModel.Word);
     }
 }
