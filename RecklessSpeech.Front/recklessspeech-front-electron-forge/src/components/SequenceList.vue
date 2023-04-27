@@ -11,6 +11,7 @@ export default {
       selectedFile: null,
       selectedJson: null,
       enrichProgression: 0,
+      isEnriching: false,
       sendToAnkiProgression: 0,
     };
   },
@@ -20,6 +21,7 @@ export default {
         return this.checkedWords[index];
       });
       this.enrichProgression = 0;
+      this.isEnriching = true;
       let enrichCount = 0;
       let total = selectedWords.length;
       for (const sequence of selectedWords) {
@@ -30,6 +32,7 @@ export default {
         enrichCount++;
         this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
+      this.isEnriching = false;
       let msg =
         selectedWords.length +
         " séquences ont été enrichies avec succès en néérlandais.";
@@ -41,6 +44,7 @@ export default {
         return this.checkedWords[index];
       });
       this.enrichProgression = 0;
+      this.isEnriching = true;
       let enrichCount = 0;
       let total = selectedWords.length;
       for (const sequence of selectedWords) {
@@ -51,6 +55,7 @@ export default {
         enrichCount++;
         this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
+      this.isEnriching = false;
 
       let msg =
         selectedWords.length +
@@ -77,8 +82,10 @@ export default {
           .catch(() => {
             new Notification(`${sequence.word} failed to be sent to Anki.`);
           });
-          sendToAnkiCount++;
-        this.sendToAnkiProgression = Math.round((sendToAnkiCount * 100) / total);
+        sendToAnkiCount++;
+        this.sendToAnkiProgression = Math.round(
+          (sendToAnkiCount * 100) / total
+        );
       }
     },
     openFilePicker() {
@@ -203,6 +210,7 @@ export default {
       <fieldset style="border: 2px solid #000; padding: 10px">
         <legend style="font-size: 20px">
           Enrichir {{ this.enrichProgression }}%
+          <div v-if="isEnriching" class="spinner"></div>
         </legend>
         <button class="clickable button-margin" @click="selectAll()">
           Selectionner tout
@@ -258,5 +266,22 @@ export default {
 }
 .checkboxes {
   margin: 5px;
+}
+.spinner {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #3498db;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
