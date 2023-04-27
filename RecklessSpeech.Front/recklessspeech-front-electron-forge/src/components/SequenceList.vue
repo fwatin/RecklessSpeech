@@ -182,122 +182,80 @@ export default {
 };
 </script>
 <template>
-  <div>
-    <div class="fieldset-container">
-      <fieldset style="border: 2px solid #000; padding: 10px">
-        <legend style="font-size: 20px">Sélectionner un fichier Zip</legend>
-        <p>
-          <input
-            type="file"
-            ref="fileInput"
-            accept=".zip"
-            @change="onFileSelected"
-          />
-          <button @click="importZip">Importer</button>
-        </p>
-      </fieldset>
+  <div class="container mt-5">
+
+    <!-- Importer un fichier Zip -->
+    <div class="card mb-4">
+      <div class="card-header">Sélectionner un fichier Zip</div>
+      <div class="card-body">
+        <div class="input-group">
+          <input type="file" class="form-control" ref="fileInput" accept=".zip" @change="onFileSelected" />
+          <button class="btn btn-primary ml-3" @click="importZip">Importer</button>
+        </div>
+      </div>
     </div>
 
-    <div class="fieldset-container">
-      <fieldset style="border: 2px solid #000; padding: 10px">
-        <legend style="font-size: 20px">Sélectionner un fichier JSON</legend>
-        <p>
-          <input
-            type="file"
-            ref="fileInput"
-            accept=".json"
-            @change="onJsonSelected"
-          />
-          <button @click="importJSON">Importer</button>
-        </p>
-      </fieldset>
+    <!-- Importer un fichier JSON -->
+    <div class="card mb-4">
+      <div class="card-header">Sélectionner un fichier JSON</div>
+      <div class="card-body">
+        <div class="input-group">
+          <input type="file" class="form-control" ref="fileInput" accept=".json" @change="onJsonSelected" />
+          <button class="btn btn-primary ml-3" @click="importJSON">Importer</button>
+        </div>
+      </div>
     </div>
 
-    <div class="fieldset-container">
-      <fieldset style="border: 2px solid #000; padding: 10px">
-        <legend style="font-size: 20px; display: flex; align-items: center">
-          <div v-if="isEnriching" class="spinner"></div>
+    <!-- Enrichir -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <div class="d-flex align-items-center">
+          <div v-if="isEnriching" class="spinner-border text-primary mr-2" role="status"></div>
           Enrichir {{ this.enrichProgression }}%
-        </legend>
-        <button class="clickable button-margin" @click="selectAll()">
-          Selectionner tout
-        </button>
-        <button class="clickable button-margin" @click="enrichInEnglish()">
-          Enrichir en anglais
-        </button>
-        <button class="clickable button-margin" @click="enrichInDutch()">
-          Enrichir en néérlandais
-        </button>
-      </fieldset>
-    </div>
-    <div class="fieldset-container">
-      <fieldset style="border: 2px solid #000; padding: 10px">
-        <legend style="font-size: 20px; display: flex; align-items: center">
-          <div v-if="isSendingToAnki" class="spinner"></div>
-          Envoyer {{ this.sendToAnkiProgression }}%
-        </legend>
-        <button class="clickable button-margin" @click="sendToAnki()">
-          Envoyer vers Anki
-        </button>
-      </fieldset>
+        </div>
+      </div>
+      <div class="card-body">
+        <button class="btn btn-secondary mr-2" @click="selectAll()">Sélectionner tout</button>
+        <button class="btn btn-info mr-2" @click="enrichInEnglish()">Enrichir en anglais</button>
+        <button class="btn btn-info" @click="enrichInDutch()">Enrichir en néérlandais</button>
+      </div>
     </div>
 
-    <div>
-      <table class="table">
-        <tbody>
-          <tr v-for="(file, index) in words" :key="file.name">
-            <td>
-              <input
-                type="checkbox"
-                class="checkboxes"
-                v-model="checkedWords[index]"
-              />
-              <span>{{ file.word }}</span>
-            </td>
-            <td>
-              <span>{{ file.translatedWord }}</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Envoyer à Anki -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <div class="d-flex align-items-center">
+          <div v-if="isSendingToAnki" class="spinner-border text-primary mr-2" role="status"></div>
+          Envoyer {{ this.sendToAnkiProgression }}%
+        </div>
+      </div>
+      <div class="card-body">
+        <button class="btn btn-primary" @click="sendToAnki()">Envoyer vers Anki</button>
+      </div>
     </div>
+
+    <!-- Tableau des mots -->
+    <div class="card">
+      <div class="card-body">
+        <table class="table">
+          <tbody>
+            <tr v-for="(file, index) in words" :key="file.name">
+              <td>
+                <input type="checkbox" class="form-check-input" v-model="checkedWords[index]" />
+                <span>{{ file.word }}</span>
+              </td>
+              <td>
+                <span>{{ file.translatedWord }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
 </template>
 
-
 <style scoped>
-.clickable {
-  cursor: pointer;
-}
-.button-margin {
-  margin: 5px;
-}
-.fieldset-container {
-  margin: 5px;
-}
-.checkboxes {
-  margin: 5px;
-}
-.spinner {
-  border: 5px solid #f3f3f3;
-  border-top: 5px solid #3498db;
-  border-radius: 50%;
-  width: 10px;
-  height: 10px;
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.table td {
-  border-bottom: 1px solid rgb(202, 200, 200);
-  padding-right: 10px;
-}
+/* Pas besoin de styles spécifiques ici car nous utilisons Bootstrap */
 </style>
