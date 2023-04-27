@@ -148,15 +148,19 @@ export default {
         const formData = new FormData();
         formData.append("file", this.selectedJson);
 
-        const response = await axios.post(
-          `https://localhost:${backendPort}/api/v1/sequences/import-details`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const response = await axios
+          .post(
+            `https://localhost:${backendPort}/api/v1/sequences/import-details`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          )
+          .then((response) => {
+            this.words = response.data;
+          });
         console.log(
           "import-details http call ended with status: " + response.status
         );
@@ -250,6 +254,9 @@ export default {
               />
               <span>{{ file.word }}</span>
             </td>
+            <td>
+              <span>{{ file.translatedWord }}</span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -287,5 +294,10 @@ export default {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.table td {
+  border-bottom: 1px solid rgb(202, 200, 200);
+  padding-right: 10px;
 }
 </style>

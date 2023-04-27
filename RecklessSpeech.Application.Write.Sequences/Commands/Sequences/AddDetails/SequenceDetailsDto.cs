@@ -4,7 +4,7 @@ public class Class1
 {
     public string itemType { get; set; }
     public string langCode_G { get; set; }
-    public Context context { get; set; }
+    public Context? context { get; set; }
     public string[] tags { get; set; }
     public string learningStage { get; set; }
     public string[] wordTranslationsArr { get; set; }
@@ -19,7 +19,7 @@ public class Class1
 public class Context
 {
     public int wordIndex { get; set; }
-    public Phrase phrase { get; set; }
+    public Phrase? phrase { get; set; }
 }
 
 public class Phrase
