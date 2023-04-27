@@ -12,6 +12,7 @@ export default {
       selectedJson: null,
       enrichProgression: 0,
       isEnriching: false,
+      isSendingToAnki: false,
       sendToAnkiProgression: 0,
     };
   },
@@ -70,6 +71,7 @@ export default {
       this.sendToAnkiProgression = 0;
       let sendToAnkiCount = 0;
       let total = selectedWords.length;
+      this.isSendingToAnki = true;
       for (const sequence of selectedWords) {
         let id = sequence.id;
         await axios
@@ -87,6 +89,7 @@ export default {
           (sendToAnkiCount * 100) / total
         );
       }
+      this.isSendingToAnki = false;
     },
     openFilePicker() {
       this.filePickerDialog = true;
@@ -225,7 +228,8 @@ export default {
     </div>
     <div class="fieldset-container">
       <fieldset style="border: 2px solid #000; padding: 10px">
-        <legend style="font-size: 20px">
+        <legend style="font-size: 20px; display: flex; align-items: center">
+          <div v-if="isSendingToAnki" class="spinner"></div>
           Envoyer {{ this.sendToAnkiProgression }}%
         </legend>
         <button class="clickable button-margin" @click="sendToAnki()">
