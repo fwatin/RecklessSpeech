@@ -208,9 +208,9 @@ export default {
 
     <div class="fieldset-container">
       <fieldset style="border: 2px solid #000; padding: 10px">
-        <legend style="font-size: 20px">
-          Enrichir {{ this.enrichProgression }}%
+        <legend style="font-size: 20px; display: flex; align-items: center">
           <div v-if="isEnriching" class="spinner"></div>
+          Enrichir {{ this.enrichProgression }}%
         </legend>
         <button class="clickable button-margin" @click="selectAll()">
           Selectionner tout
@@ -268,11 +268,11 @@ export default {
   margin: 5px;
 }
 .spinner {
-  border: 16px solid #f3f3f3;
-  border-top: 16px solid #3498db;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 10px;
+  height: 10px;
   animation: spin 2s linear infinite;
 }
 
