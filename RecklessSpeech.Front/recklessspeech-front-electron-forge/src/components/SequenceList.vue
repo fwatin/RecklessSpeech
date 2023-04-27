@@ -10,6 +10,8 @@ export default {
       checkedWords: [],
       selectedFile: null,
       selectedJson: null,
+      enrichProgression: 0,
+      sendToAnkiProgression: 0,
     };
   },
   methods: {
@@ -17,11 +19,16 @@ export default {
       const selectedWords = this.words.filter((word, index) => {
         return this.checkedWords[index];
       });
+      this.enrichProgression = 0;
+      let enrichCount = 0;
+      let total = selectedWords.length;
       for (const sequence of selectedWords) {
         let id = sequence.id;
         await axios.post(
           `https://localhost:${backendPort}/api/v1/sequences/Dictionary/dutch?id=${id}`
         );
+        enrichCount++;
+        this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
       let msg =
         selectedWords.length +
@@ -33,11 +40,16 @@ export default {
       const selectedWords = this.words.filter((word, index) => {
         return this.checkedWords[index];
       });
+      this.enrichProgression = 0;
+      let enrichCount = 0;
+      let total = selectedWords.length;
       for (const sequence of selectedWords) {
         let id = sequence.id;
         await axios.post(
           `https://localhost:${backendPort}/api/v1/sequences/Dictionary/english?id=${id}`
         );
+        enrichCount++;
+        this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
 
       let msg =
@@ -50,6 +62,9 @@ export default {
       const selectedWords = this.words.filter((word, index) => {
         return this.checkedWords[index];
       });
+      this.sendToAnkiProgression = 0;
+      let sendToAnkiCount = 0;
+      let total = selectedWords.length;
       for (const sequence of selectedWords) {
         let id = sequence.id;
         await axios
@@ -62,6 +77,8 @@ export default {
           .catch(() => {
             new Notification(`${sequence.word} failed to be sent to Anki.`);
           });
+          sendToAnkiCount++;
+        this.sendToAnkiProgression = Math.round((sendToAnkiCount * 100) / total);
       }
     },
     openFilePicker() {
@@ -91,11 +108,15 @@ export default {
         formData.append("file", this.selectedFile);
 
         await axios
-          .post(`https://localhost:${backendPort}/api/v1/sequences/import-zip`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
+          .post(
+            `https://localhost:${backendPort}/api/v1/sequences/import-zip`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          )
           .then((response) => {
             this.words = response.data;
             console.log(
@@ -180,7 +201,9 @@ export default {
 
     <div class="fieldset-container">
       <fieldset style="border: 2px solid #000; padding: 10px">
-        <legend style="font-size: 20px">Enrichir</legend>
+        <legend style="font-size: 20px">
+          Enrichir {{ this.enrichProgression }}%
+        </legend>
         <button class="clickable button-margin" @click="selectAll()">
           Selectionner tout
         </button>
@@ -194,7 +217,9 @@ export default {
     </div>
     <div class="fieldset-container">
       <fieldset style="border: 2px solid #000; padding: 10px">
-        <legend style="font-size: 20px">Envoyer</legend>
+        <legend style="font-size: 20px">
+          Envoyer {{ this.sendToAnkiProgression }}%
+        </legend>
         <button class="clickable button-margin" @click="sendToAnki()">
           Envoyer vers Anki
         </button>
