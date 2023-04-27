@@ -28,7 +28,6 @@ export default {
         );
         enrichCount++;
         this.enrichProgression = Math.round((enrichCount * 100) / total);
-        localStorage.setItem('enrich progression',this.enrichProgression);
       }
       let msg =
         selectedWords.length +
@@ -37,6 +36,9 @@ export default {
       new Notification(msg);
     },
     async enrichInEnglish() {
+      this.enrichProgression = 0;
+      let enrichCount = 0;
+      let total = selectedWords.length;
       const selectedWords = this.words.filter((word, index) => {
         return this.checkedWords[index];
       });
@@ -45,6 +47,8 @@ export default {
         await axios.post(
           `https://localhost:${backendPort}/api/v1/sequences/Dictionary/english?id=${id}`
         );
+        enrichCount++;
+        this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
 
       let msg =
