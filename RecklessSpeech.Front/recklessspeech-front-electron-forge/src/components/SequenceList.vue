@@ -250,6 +250,9 @@ export default {
               />
               <span>{{ file.word }}</span>
             </td>
+            <td>
+              <span>{{ file.TranslatedWord }}</span>
+            </td>
           </tr>
         </tbody>
       </table>
