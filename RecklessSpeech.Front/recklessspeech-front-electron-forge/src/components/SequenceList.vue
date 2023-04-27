@@ -295,4 +295,9 @@ export default {
     transform: rotate(360deg);
   }
 }
+
+.table td {
+  border-bottom: 1px solid rgb(202, 200, 200);
+  padding-right: 10px;
+}
 </style>
