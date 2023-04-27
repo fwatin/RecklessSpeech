@@ -37,12 +37,12 @@ export default {
       new Notification(msg);
     },
     async enrichInEnglish() {
-      this.enrichProgression = 0;
-      let enrichCount = 0;
-      let total = selectedWords.length;
       const selectedWords = this.words.filter((word, index) => {
         return this.checkedWords[index];
       });
+      this.enrichProgression = 0;
+      let enrichCount = 0;
+      let total = selectedWords.length;
       for (const sequence of selectedWords) {
         let id = sequence.id;
         await axios.post(
