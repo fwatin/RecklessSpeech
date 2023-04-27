@@ -69,12 +69,13 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 new(),
                 new(),
                 null,
-                new(),null);
+                new(), null);
 
         public SequenceSummaryQueryModel BuildQueryModel() =>
             new(
                 this.SequenceId.Value,
-                this.Word.Value);
+                this.Word.Value,
+                this.TranslatedWord == null ? "" : this.TranslatedWord.Value);
 
         public ImportSequencesCommand BuildImportCommand() => new(this.RawCsvContent);
 
@@ -133,7 +134,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.Word.Value,
                 this.TranslatedSentence.Value,
                 this.MediaId.Value,
-                 this.Explanations.Select(x=>x.BuildDomain()).ToList(),
+                this.Explanations.Select(x => x.BuildDomain()).ToList(),
                 this.TranslatedWord?.Value,
                 this.OriginalSentence?.Value);
     }
