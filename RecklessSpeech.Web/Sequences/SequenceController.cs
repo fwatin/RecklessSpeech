@@ -112,8 +112,8 @@ namespace RecklessSpeech.Web.Sequences
         [HttpPost]
         [Route("import-details/")]
         [MapToApiVersion("1.0")]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<string>> ImportDetails(IFormFile file)
+        [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryQueryModel>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> ImportDetails(IFormFile file)
         {
             try
             {
@@ -122,7 +122,9 @@ namespace RecklessSpeech.Web.Sequences
                 Class1[]? sequenceDetailsDto = JsonConvert.DeserializeObject<Class1[]>(data);
                 AddDetailsToSequencesCommand command = new(sequenceDetailsDto!);
                 await this.dispatcher.Send(command);
-                return this.Ok();
+
+                IReadOnlyCollection<SequenceSummaryQueryModel> r = await this.dispatcher.Send(new GetAllSequencesQuery());
+                return this.Ok(r);
             }
             catch (Exception e)
             {
