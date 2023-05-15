@@ -173,23 +173,25 @@ namespace RecklessSpeech.Web.Sequences
         [HttpPost]
         [Route("Dictionary/dutch")]
         [MapToApiVersion("1.0")]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> EnrichDutch(
+        [ProducesResponseType(typeof(SequenceSummaryQueryModel), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<SequenceSummaryQueryModel>> EnrichDutch(
             [FromQuery] Guid id)
         {
             await this.dispatcher.Send(new EnrichDutchSequenceCommand(id));
-            return this.Ok();
+            SequenceSummaryQueryModel result = await this.dispatcher.Send(new GetOneSequenceQuery(new(id)));
+            return this.Ok(result);
         }
 
         [HttpPost]
         [Route("Dictionary/english")]
         [MapToApiVersion("1.0")]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> EnrichEnglish(
+        [ProducesResponseType(typeof(SequenceSummaryQueryModel), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<SequenceSummaryQueryModel>> EnrichEnglish(
             [FromQuery] Guid id)
         {
             await this.dispatcher.Send(new EnrichEnglishSequenceCommand(id));
-            return this.Ok();
+            SequenceSummaryQueryModel result = await this.dispatcher.Send(new GetOneSequenceQuery(new(id)));
+            return this.Ok(result);
         }
     }
 }

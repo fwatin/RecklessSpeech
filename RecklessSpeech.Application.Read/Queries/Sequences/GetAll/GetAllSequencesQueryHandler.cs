@@ -13,7 +13,7 @@ namespace RecklessSpeech.Application.Read.Queries.Sequences.GetAll
 
         public Task<IReadOnlyCollection<SequenceSummaryQueryModel>> Handle(GetAllSequencesQuery request, CancellationToken cancellationToken)
         {
-            IReadOnlyCollection<SequenceSummaryQueryModel> sequences = this.sequenceQueryRepository.GetAll().Select(x=>x.ToQueryModel()).ToList();
+            IReadOnlyCollection<SequenceSummaryQueryModel> sequences = this.sequenceQueryRepository.GetAll().Select(x=>x.ToSummaryQueryModel()).ToList();
             return Task.FromResult(sequences);
         }
     }
