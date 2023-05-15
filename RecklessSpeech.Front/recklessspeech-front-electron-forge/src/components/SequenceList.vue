@@ -18,14 +18,14 @@ export default {
   },
   methods: {
     async enrichInDutch() {
-      const selectedWords = this.words.filter((word, index) => {
+      const selectedSequences = this.words.filter((word, index) => {
         return this.checkedWords[index];
       });
       this.enrichProgression = 0;
       this.isEnriching = true;
       let enrichCount = 0;
-      let total = selectedWords.length;
-      for (const sequence of selectedWords) {
+      let total = selectedSequences.length;
+      for (const sequence of selectedSequences) {
         let id = sequence.id;
         await axios.post(
           `https://localhost:${backendPort}/api/v1/sequences/Dictionary/dutch?id=${id}`
@@ -35,20 +35,20 @@ export default {
       }
       this.isEnriching = false;
       let msg =
-        selectedWords.length +
+        selectedSequences.length +
         " séquences ont été enrichies avec succès en néérlandais.";
       console.log(msg);
       new Notification(msg);
     },
     async enrichInEnglish() {
-      const selectedWords = this.words.filter((word, index) => {
+      const selectedSequences = this.words.filter((word, index) => {
         return this.checkedWords[index];
       });
       this.enrichProgression = 0;
       this.isEnriching = true;
       let enrichCount = 0;
-      let total = selectedWords.length;
-      for (const sequence of selectedWords) {
+      let total = selectedSequences.length;
+      for (const sequence of selectedSequences) {
         let id = sequence.id;
         await axios.post(
           `https://localhost:${backendPort}/api/v1/sequences/Dictionary/english?id=${id}`
@@ -59,20 +59,20 @@ export default {
       this.isEnriching = false;
 
       let msg =
-        selectedWords.length +
+        selectedSequences.length +
         " séquences ont été enrichies avec succès en anglais.";
       console.log(msg);
       new Notification(msg);
     },
     async sendToAnki() {
-      const selectedWords = this.words.filter((word, index) => {
+      const selectedSequences = this.words.filter((word, index) => {
         return this.checkedWords[index];
       });
       this.sendToAnkiProgression = 0;
       let sendToAnkiCount = 0;
-      let total = selectedWords.length;
+      let total = selectedSequences.length;
       this.isSendingToAnki = true;
-      for (const sequence of selectedWords) {
+      for (const sequence of selectedSequences) {
         let id = sequence.id;
         await axios
           .post(
