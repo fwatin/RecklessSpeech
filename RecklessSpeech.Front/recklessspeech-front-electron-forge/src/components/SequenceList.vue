@@ -4,7 +4,7 @@ const backendPort = process.env.NODE_ENV === "development" ? "47973" : "5001";
 export default {
   data() {
     return {
-   filePickerDialog: false,
+      filePickerDialog: false,
       jsonPickerDialog: false,
       sequences: [],
       checkedSequences: [],
@@ -18,7 +18,7 @@ export default {
     };
   },
   methods: {
-         selectSequence(index, isShiftPressed) {
+    selectSequence(index, isShiftPressed) {
       if (isShiftPressed && this.lastSelectedSequenceIndex !== null) {
         const start = Math.min(this.lastSelectedSequenceIndex, index);
         const end = Math.max(this.lastSelectedSequenceIndex, index);
@@ -30,7 +30,9 @@ export default {
         this.lastSelectedSequenceIndex = index;
         const isChecked = this.checkedSequences.includes(index);
         if (isChecked) {
-          this.checkedSequences = this.checkedSequences.filter(i => i !== index);
+          this.checkedSequences = this.checkedSequences.filter(
+            (i) => i !== index
+          );
         } else {
           this.checkedSequences.push(index);
         }
@@ -40,12 +42,14 @@ export default {
     toggleCheckedSequence(index) {
       const isChecked = this.checkedSequences.includes(index);
       if (isChecked) {
-        this.checkedSequences = this.checkedSequences.filter(i => i !== index);
+        this.checkedSequences = this.checkedSequences.filter(
+          (i) => i !== index
+        );
       } else {
         this.checkedSequences.push(index);
       }
     },
-      selectAll() {
+    selectAll() {
       if (this.checkedSequences.length === this.sequences.length) {
         this.checkedSequences = [];
       } else {
@@ -56,9 +60,13 @@ export default {
       this.enrichProgression = 0;
       this.isEnriching = true;
       let enrichCount = 0;
-      let total = this.checkedSequences.length;
-      for (const sequence of this.checkedSequences) {
-        let id = sequence.id;
+      const selectedIndices = this.checkedSequences
+        .map((isChecked, index) => (isChecked ? index : null))
+        .filter((index) => index !== null);
+      const total = selectedIndices.length;
+      for (const index of selectedIndices) {
+        const sequence = this.sequences[index];
+        const id = sequence.id;
         await axios.post(
           `https://localhost:${backendPort}/api/v1/sequences/Dictionary/dutch?id=${id}`
         );
@@ -66,9 +74,9 @@ export default {
         this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
       this.isEnriching = false;
-      let msg =
-        this.checkedSequences.length +
-        " séquences ont été enrichies avec succès en néérlandais.";
+      const msg =
+        selectedIndices.length +
+        " séquences ont été enrichies avec succès en néerlandais.";
       console.log(msg);
       new Notification(msg);
     },
@@ -284,15 +292,17 @@ export default {
       </div>
     </div>
 
- 
-       <!-- Liste des mots -->
+    <!-- Liste des mots -->
     <div class="card">
       <div class="card-body">
         <div class="list-group">
           <div
             v-for="(sequence, index) in sequences"
             :key="sequence.id"
-            :class="['list-group-item', { 'active': checkedSequences.includes(index) }]"
+            :class="[
+              'list-group-item',
+              { active: checkedSequences.includes(index) },
+            ]"
             @mousedown="selectSequence(index, $event.shiftKey)"
             @keydown.space.prevent="toggleCheckedSequence(index)"
             tabindex="0"
