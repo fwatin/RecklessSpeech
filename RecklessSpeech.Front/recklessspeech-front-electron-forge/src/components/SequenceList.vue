@@ -56,30 +56,7 @@ export default {
         this.checkedSequences = this.sequences.map((_, index) => index);
       }
     },
-    async enrichInDutch() {
-      this.enrichProgression = 0;
-      this.isEnriching = true;
-      let enrichCount = 0;
-      const selectedIndices = this.checkedSequences
-        .map((isChecked, index) => (isChecked ? index : null))
-        .filter((index) => index !== null);
-      const total = selectedIndices.length;
-      for (const index of selectedIndices) {
-        const sequence = this.sequences[index];
-        const id = sequence.id;
-        await axios.post(
-          `https://localhost:${backendPort}/api/v1/sequences/Dictionary/dutch?id=${id}`
-        );
-        enrichCount++;
-        this.enrichProgression = Math.round((enrichCount * 100) / total);
-      }
-      this.isEnriching = false;
-      const msg =
-        selectedIndices.length +
-        " séquences ont été enrichies avec succès en néerlandais.";
-      console.log(msg);
-      new Notification(msg);
-    },
+
     async enrichInEnglish() {
       const selectedSequences = this.sequences.filter((index) => {
         return this.checkedSequences[index];
@@ -104,16 +81,53 @@ export default {
       console.log(msg);
       new Notification(msg);
     },
+    async enrichInDutch() {
+      this.enrichProgression = 0;
+      this.isEnriching = true;
+
+      console.log("checkedSequences.length: " + this.checkedSequences.length);
+
+      this.enrichProgression = 0;
+      this.isEnriching = true;
+      let enrichCount = 0;
+      const selectedSequences = [];
+
+      for (let i = 0; i < this.checkedSequences.length; i++) {
+          selectedSequences.push(this.sequences[i]);
+      }
+
+      console.log("selectedSequences.length: " + selectedSequences.length);
+
+      const total = selectedSequences.length;
+      for (const sequence of selectedSequences) {
+        const id = sequence.id;
+        await axios.post(
+          `https://localhost:${backendPort}/api/v1/sequences/Dictionary/dutch?id=${id}`
+        );
+        enrichCount++;
+        this.enrichProgression = Math.round((enrichCount * 100) / total);
+      }
+      this.isEnriching = false;
+      const msg =
+        selectedSequences.length +
+        " séquences ont été enrichies avec succès en néerlandais.";
+      console.log(msg);
+      new Notification(msg);
+    },
+
     async sendToAnki() {
-      const selectedSequences = this.sequences.filter((word, index) => {
-        return this.checkedSequences[index];
-      });
+      
+      const selectedSequences = [];
+
+      for (let i = 0; i < this.checkedSequences.length; i++) {
+          selectedSequences.push(this.sequences[i]);
+      }
+
       this.sendToAnkiProgression = 0;
       let sendToAnkiCount = 0;
-      let total = selectedSequences.length;
-      this.isSendingToAnki = true;
+      const total = selectedSequences.length;
       for (const sequence of selectedSequences) {
-        let id = sequence.id;
+        const id = sequence.id;
         await axios
           .post(
             `https://localhost:${backendPort}/api/v1/sequences/send-to-anki?id=${id}`
@@ -126,9 +140,9 @@ export default {
           (sendToAnkiCount * 100) / total
         );
       }
-      this.isSendingToAnki = false;
       new Notification(`${selectedSequences.length} sequences sent to Anki.`);
     },
+
     openFilePicker() {
       this.filePickerDialog = true;
     },
