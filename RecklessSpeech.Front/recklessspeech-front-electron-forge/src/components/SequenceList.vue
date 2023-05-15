@@ -78,9 +78,6 @@ export default {
           .post(
             `https://localhost:${backendPort}/api/v1/sequences/send-to-anki?id=${id}`
           )
-          .then(() => {
-            new Notification(`${sequence.word} successfully sent to Anki.`);
-          })
           .catch(() => {
             new Notification(`${sequence.word} failed to be sent to Anki.`);
           });
@@ -90,6 +87,7 @@ export default {
         );
       }
       this.isSendingToAnki = false;
+      new Notification(`${selectedSequences.length} sequences sent to Anki.`);
     },
     openFilePicker() {
       this.filePickerDialog = true;
