@@ -6,14 +6,7 @@ export default {
     return {
       filePickerDialog: false,
       jsonPickerDialog: false,
-      sequences: [
-        {
-          id: String,
-          word: String,
-          translatedWord: String,
-          hasExplanations: Boolean,
-        },
-      ],
+      sequences: [],
       checkedSequences: [],
       selectedFile: null,
       selectedJson: null,
@@ -348,7 +341,6 @@ export default {
             <span
               v-if="sequence.hasExplanations"
               class="badge badge-success"
-              style="background-color: #28a745; color: #fff"
               >Enriched</span
             >
           </div>
@@ -357,3 +349,9 @@ export default {
     </div>
   </div>
 </template>
+<style>
+.badge-success {
+  background-color: green !important;
+  color: white;
+}
+</style>
