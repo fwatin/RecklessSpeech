@@ -58,15 +58,25 @@ export default {
     },
 
     async enrichInEnglish() {
-      const selectedSequences = this.sequences.filter((index) => {
-        return this.checkedSequences[index];
-      });
+      this.enrichProgression = 0;
+      this.isEnriching = true;
+
+      console.log("checkedSequences.length: " + this.checkedSequences.length);
+
       this.enrichProgression = 0;
       this.isEnriching = true;
       let enrichCount = 0;
-      let total = selectedSequences.length;
+      const selectedSequences = [];
+
+      for (let i = 0; i < this.checkedSequences.length; i++) {
+          selectedSequences.push(this.sequences[i]);
+      }
+
+      console.log("selectedSequences.length: " + selectedSequences.length);
+
+      const total = selectedSequences.length;
       for (const sequence of selectedSequences) {
-        let id = sequence.id;
+        const id = sequence.id;
         await axios.post(
           `https://localhost:${backendPort}/api/v1/sequences/Dictionary/english?id=${id}`
         );
@@ -74,13 +84,13 @@ export default {
         this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
       this.isEnriching = false;
-
-      let msg =
+      const msg =
         selectedSequences.length +
         " séquences ont été enrichies avec succès en anglais.";
       console.log(msg);
       new Notification(msg);
     },
+
     async enrichInDutch() {
       this.enrichProgression = 0;
       this.isEnriching = true;
