@@ -53,14 +53,11 @@ export default {
       }
     },
     async enrichInDutch() {
-      const selectedSequences = this.sequences.filter((index) => {
-        return this.checkedSequences[index];
-      });
       this.enrichProgression = 0;
       this.isEnriching = true;
       let enrichCount = 0;
-      let total = selectedSequences.length;
-      for (const sequence of selectedSequences) {
+      let total = this.checkedSequences.length;
+      for (const sequence of this.checkedSequences) {
         let id = sequence.id;
         await axios.post(
           `https://localhost:${backendPort}/api/v1/sequences/Dictionary/dutch?id=${id}`
@@ -70,7 +67,7 @@ export default {
       }
       this.isEnriching = false;
       let msg =
-        selectedSequences.length +
+        this.checkedSequences.length +
         " séquences ont été enrichies avec succès en néérlandais.";
       console.log(msg);
       new Notification(msg);
