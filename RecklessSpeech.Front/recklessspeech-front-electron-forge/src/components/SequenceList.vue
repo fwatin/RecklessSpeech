@@ -6,8 +6,8 @@ export default {
     return {
       filePickerDialog: false,
       jsonPickerDialog: false,
-      words: [],
-      checkedWords: [],
+      sequences: [],
+      checkedSequences: [],
       selectedFile: null,
       selectedJson: null,
       enrichProgression: 0,
@@ -18,8 +18,8 @@ export default {
   },
   methods: {
     async enrichInDutch() {
-      const selectedSequences = this.words.filter((word, index) => {
-        return this.checkedWords[index];
+      const selectedSequences = this.sequences.filter((index) => {
+        return this.checkedSequences[index];
       });
       this.enrichProgression = 0;
       this.isEnriching = true;
@@ -41,8 +41,8 @@ export default {
       new Notification(msg);
     },
     async enrichInEnglish() {
-      const selectedSequences = this.words.filter((word, index) => {
-        return this.checkedWords[index];
+      const selectedSequences = this.sequences.filter((index) => {
+        return this.checkedSequences[index];
       });
       this.enrichProgression = 0;
       this.isEnriching = true;
@@ -65,8 +65,8 @@ export default {
       new Notification(msg);
     },
     async sendToAnki() {
-      const selectedSequences = this.words.filter((word, index) => {
-        return this.checkedWords[index];
+      const selectedSequences = this.sequences.filter((word, index) => {
+        return this.checkedSequences[index];
       });
       this.sendToAnkiProgression = 0;
       let sendToAnkiCount = 0;
@@ -104,12 +104,12 @@ export default {
       this.selectedJson = event.target.files[0];
     },
     selectAll() {
-      if (this.checkedWords.some((isChecked) => isChecked)) {
+      if (this.checkedSequences.some((isChecked) => isChecked)) {
         // Au moins un élément est sélectionné, donc on les désélectionne tous
-        this.checkedWords = [];
+        this.checkedSequences = [];
       } else {
         // Aucun élément n'est sélectionné, donc on les sélectionne tous
-        this.checkedWords = this.words.map(() => true);
+        this.checkedSequences = this.sequences.map(() => true);
       }
     },
     async importZip() {
@@ -128,11 +128,11 @@ export default {
             }
           )
           .then((response) => {
-            this.words = response.data;
+            this.sequences = response.data;
             console.log(
-              this.words.length + " words set into the variable 'words'."
+              this.sequences.length + " words set into the variable 'words'."
             );
-            new Notification(this.words.length + " mots ont été importés.");
+            new Notification(this.sequences.length + " mots ont été importés.");
           });
       } catch (error) {
         console.error(error);
@@ -159,7 +159,7 @@ export default {
             }
           )
           .then((response) => {
-            this.words = response.data;
+            this.sequences = response.data;
 
             let msg = "Importation du fichier Json avec succès.";
             console.log(msg);
@@ -273,7 +273,7 @@ export default {
                 <input
                   type="checkbox"
                   class="form-check-input"
-                  v-model="checkedWords[index]"
+                  v-model="checkedSequences[index]"
                 />
                 <span>{{ file.word }}</span>
               </td>
@@ -287,7 +287,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style scoped>
-/* Pas besoin de styles spécifiques ici car nous utilisons Bootstrap */
-</style>
