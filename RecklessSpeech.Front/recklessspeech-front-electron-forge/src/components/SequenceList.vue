@@ -6,7 +6,14 @@ export default {
     return {
       filePickerDialog: false,
       jsonPickerDialog: false,
-      sequences: [],
+      sequences: [
+        {
+          id: String,
+          word: String,
+          translatedWord: String,
+          hasExplanations: Boolean,
+        },
+      ],
       checkedSequences: [],
       selectedFile: null,
       selectedJson: null,
@@ -69,7 +76,7 @@ export default {
       const selectedSequences = [];
 
       for (let i = 0; i < this.checkedSequences.length; i++) {
-          selectedSequences.push(this.sequences[i]);
+        selectedSequences.push(this.sequences[i]);
       }
 
       console.log("selectedSequences.length: " + selectedSequences.length);
@@ -103,7 +110,7 @@ export default {
       const selectedSequences = [];
 
       for (let i = 0; i < this.checkedSequences.length; i++) {
-          selectedSequences.push(this.sequences[i]);
+        selectedSequences.push(this.sequences[i]);
       }
 
       console.log("selectedSequences.length: " + selectedSequences.length);
@@ -126,11 +133,10 @@ export default {
     },
 
     async sendToAnki() {
-      
       const selectedSequences = [];
 
       for (let i = 0; i < this.checkedSequences.length; i++) {
-          selectedSequences.push(this.sequences[i]);
+        selectedSequences.push(this.sequences[i]);
       }
 
       this.sendToAnkiProgression = 0;
