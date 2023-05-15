@@ -4,7 +4,7 @@ const backendPort = process.env.NODE_ENV === "development" ? "47973" : "5001";
 export default {
   data() {
     return {
-      filePickerDialog: false,
+     filePickerDialog: false,
       jsonPickerDialog: false,
       sequences: [],
       checkedSequences: [],
@@ -14,9 +14,37 @@ export default {
       isEnriching: false,
       isSendingToAnki: false,
       sendToAnkiProgression: 0,
+      lastSelectedSequenceIndex: null,
     };
   },
   methods: {
+      selectSequence(index, isShiftPressed) {
+      if (isShiftPressed && this.lastSelectedSequenceIndex !== null) {
+        const start = Math.min(this.lastSelectedSequenceIndex, index);
+        const end = Math.max(this.lastSelectedSequenceIndex, index);
+        this.checkedSequences = [];
+        for (let i = start; i <= end; i++) {
+          this.checkedSequences.push(i);
+        }
+      } else {
+        this.lastSelectedSequenceIndex = index;
+        const isChecked = this.checkedSequences.includes(index);
+        if (isChecked) {
+          this.checkedSequences = this.checkedSequences.filter(i => i !== index);
+        } else {
+          this.checkedSequences.push(index);
+        }
+      }
+    },
+
+    toggleCheckedSequence(index) {
+      const isChecked = this.checkedSequences.includes(index);
+      if (isChecked) {
+        this.checkedSequences = this.checkedSequences.filter(i => i !== index);
+      } else {
+        this.checkedSequences.push(index);
+      }
+    },
     async enrichInDutch() {
       const selectedSequences = this.sequences.filter((index) => {
         return this.checkedSequences[index];
@@ -261,26 +289,29 @@ export default {
       </div>
     </div>
 
-    <!-- Tableau des mots -->
+ 
+         <!-- Liste des mots -->
     <div class="card">
       <div class="card-body">
-        <table class="table">
-          <tbody>
-            <tr v-for="(file, index) in words" :key="file.name">
-              <td>
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  v-model="checkedSequences[index]"
-                />
-                <span>{{ file.word }}</span>
-              </td>
-              <td>
-                <span>{{ file.translatedWord }}</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="list-group">
+          <div
+            v-for="(sequence, index) in sequences"
+            :key="sequence.id"
+            :class="['list-group-item', { 'active': checkedSequences.includes(index) }]"
+            @mousedown="selectSequence(index, $event.shiftKey)"
+            @keydown.space.prevent="toggleCheckedSequence(index)"
+            tabindex="0"
+          >
+            <input
+              type="checkbox"
+              class="form-check-input"
+              v-model="checkedSequences"
+              :value="index"
+            />
+            <span>{{ sequence.word }}</span>
+            <span class="ml-2">{{ sequence.translatedWord }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
