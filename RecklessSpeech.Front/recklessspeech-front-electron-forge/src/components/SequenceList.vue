@@ -4,7 +4,7 @@ const backendPort = process.env.NODE_ENV === "development" ? "47973" : "5001";
 export default {
   data() {
     return {
-     filePickerDialog: false,
+   filePickerDialog: false,
       jsonPickerDialog: false,
       sequences: [],
       checkedSequences: [],
@@ -18,7 +18,7 @@ export default {
     };
   },
   methods: {
-      selectSequence(index, isShiftPressed) {
+         selectSequence(index, isShiftPressed) {
       if (isShiftPressed && this.lastSelectedSequenceIndex !== null) {
         const start = Math.min(this.lastSelectedSequenceIndex, index);
         const end = Math.max(this.lastSelectedSequenceIndex, index);
@@ -43,6 +43,13 @@ export default {
         this.checkedSequences = this.checkedSequences.filter(i => i !== index);
       } else {
         this.checkedSequences.push(index);
+      }
+    },
+      selectAll() {
+      if (this.checkedSequences.length === this.sequences.length) {
+        this.checkedSequences = [];
+      } else {
+        this.checkedSequences = this.sequences.map((_, index) => index);
       }
     },
     async enrichInDutch() {
@@ -128,15 +135,6 @@ export default {
     },
     onJsonSelected(event) {
       this.selectedJson = event.target.files[0];
-    },
-    selectAll() {
-      if (this.checkedSequences.some((isChecked) => isChecked)) {
-        // Au moins un élément est sélectionné, donc on les désélectionne tous
-        this.checkedSequences = [];
-      } else {
-        // Aucun élément n'est sélectionné, donc on les sélectionne tous
-        this.checkedSequences = this.sequences.map(() => true);
-      }
     },
     async importZip() {
       try {
@@ -290,7 +288,7 @@ export default {
     </div>
 
  
-         <!-- Liste des mots -->
+       <!-- Liste des mots -->
     <div class="card">
       <div class="card-body">
         <div class="list-group">
