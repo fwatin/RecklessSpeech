@@ -77,9 +77,18 @@ export default {
       const total = selectedSequences.length;
       for (const sequence of selectedSequences) {
         const id = sequence.id;
-        await axios.post(
+        
+        const response = await axios.post(
           `https://localhost:${backendPort}/api/v1/sequences/Dictionary/english?id=${id}`
         );
+
+        // Assigner la valeur de hasExplanations de la réponse à l'élément de séquence correspondant
+        const index = selectedSequences.indexOf(sequence);
+        if (index !== -1) {
+          selectedSequences[index].hasExplanations =
+            response.data.hasExplanations;
+        }
+
         enrichCount++;
         this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
@@ -111,9 +120,18 @@ export default {
       const total = selectedSequences.length;
       for (const sequence of selectedSequences) {
         const id = sequence.id;
-        await axios.post(
+
+        const response = await axios.post(
           `https://localhost:${backendPort}/api/v1/sequences/Dictionary/dutch?id=${id}`
         );
+
+        // Assigner la valeur de hasExplanations de la réponse à l'élément de séquence correspondant
+        const index = selectedSequences.indexOf(sequence);
+        if (index !== -1) {
+          selectedSequences[index].hasExplanations =
+            response.data.hasExplanations;
+        }
+
         enrichCount++;
         this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
@@ -338,9 +356,7 @@ export default {
             />
             <span>{{ sequence.word }}</span>
             <span class="ml-2">{{ sequence.translatedWord }}</span>
-            <span
-              v-if="sequence.hasExplanations"
-              class="badge badge-success"
+            <span v-if="sequence.hasExplanations" class="badge badge-success"
               >Enriched</span
             >
           </div>
