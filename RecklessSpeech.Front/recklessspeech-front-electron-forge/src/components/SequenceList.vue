@@ -345,6 +345,12 @@ export default {
             />
             <span>{{ sequence.word }}</span>
             <span class="ml-2">{{ sequence.translatedWord }}</span>
+            <span
+              v-if="sequence.hasExplanations"
+              class="badge badge-success"
+              style="background-color: #28a745; color: #fff"
+              >Enriched</span
+            >
           </div>
         </div>
       </div>
