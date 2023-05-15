@@ -160,13 +160,11 @@ export default {
           )
           .then((response) => {
             this.words = response.data;
+
+            let msg = "Importation du fichier Json avec succès.";
+            console.log(msg);
+            new Notification(msg);
           });
-        console.log(
-          "import-details http call ended with status: " + response.status
-        );
-        let msg = "Importation du fichier Json avec succès.";
-        console.log(msg);
-        new Notification(msg);
       } catch (error) {
         console.error(error);
 
@@ -183,14 +181,21 @@ export default {
 </script>
 <template>
   <div class="container mt-5">
-
     <!-- Importer un fichier Zip -->
     <div class="card mb-4">
       <div class="card-header">Sélectionner un fichier Zip</div>
       <div class="card-body">
         <div class="input-group">
-          <input type="file" class="form-control" ref="fileInput" accept=".zip" @change="onFileSelected" />
-          <button class="btn btn-primary ml-3" @click="importZip">Importer</button>
+          <input
+            type="file"
+            class="form-control"
+            ref="fileInput"
+            accept=".zip"
+            @change="onFileSelected"
+          />
+          <button class="btn btn-primary ml-3" @click="importZip">
+            Importer
+          </button>
         </div>
       </div>
     </div>
@@ -200,8 +205,16 @@ export default {
       <div class="card-header">Sélectionner un fichier JSON</div>
       <div class="card-body">
         <div class="input-group">
-          <input type="file" class="form-control" ref="fileInput" accept=".json" @change="onJsonSelected" />
-          <button class="btn btn-primary ml-3" @click="importJSON">Importer</button>
+          <input
+            type="file"
+            class="form-control"
+            ref="fileInput"
+            accept=".json"
+            @change="onJsonSelected"
+          />
+          <button class="btn btn-primary ml-3" @click="importJSON">
+            Importer
+          </button>
         </div>
       </div>
     </div>
@@ -210,14 +223,24 @@ export default {
     <div class="card mb-4">
       <div class="card-header">
         <div class="d-flex align-items-center">
-          <div v-if="isEnriching" class="spinner-border text-primary mr-2" role="status"></div>
+          <div
+            v-if="isEnriching"
+            class="spinner-border text-primary mr-2"
+            role="status"
+          ></div>
           Enrichir {{ this.enrichProgression }}%
         </div>
       </div>
       <div class="card-body">
-        <button class="btn btn-secondary mr-2" @click="selectAll()">Sélectionner tout</button>
-        <button class="btn btn-info mr-2" @click="enrichInEnglish()">Enrichir en anglais</button>
-        <button class="btn btn-info" @click="enrichInDutch()">Enrichir en néérlandais</button>
+        <button class="btn btn-secondary mr-2" @click="selectAll()">
+          Sélectionner tout
+        </button>
+        <button class="btn btn-info mr-2" @click="enrichInEnglish()">
+          Enrichir en anglais
+        </button>
+        <button class="btn btn-info" @click="enrichInDutch()">
+          Enrichir en néérlandais
+        </button>
       </div>
     </div>
 
@@ -225,12 +248,18 @@ export default {
     <div class="card mb-4">
       <div class="card-header">
         <div class="d-flex align-items-center">
-          <div v-if="isSendingToAnki" class="spinner-border text-primary mr-2" role="status"></div>
+          <div
+            v-if="isSendingToAnki"
+            class="spinner-border text-primary mr-2"
+            role="status"
+          ></div>
           Envoyer {{ this.sendToAnkiProgression }}%
         </div>
       </div>
       <div class="card-body">
-        <button class="btn btn-primary" @click="sendToAnki()">Envoyer vers Anki</button>
+        <button class="btn btn-primary" @click="sendToAnki()">
+          Envoyer vers Anki
+        </button>
       </div>
     </div>
 
@@ -241,7 +270,11 @@ export default {
           <tbody>
             <tr v-for="(file, index) in words" :key="file.name">
               <td>
-                <input type="checkbox" class="form-check-input" v-model="checkedWords[index]" />
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  v-model="checkedWords[index]"
+                />
                 <span>{{ file.word }}</span>
               </td>
               <td>
@@ -252,7 +285,6 @@ export default {
         </table>
       </div>
     </div>
-
   </div>
 </template>
 
