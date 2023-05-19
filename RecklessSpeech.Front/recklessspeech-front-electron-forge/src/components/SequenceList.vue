@@ -7,7 +7,7 @@ export default {
       filePickerDialog: false,
       jsonPickerDialog: false,
       sequences: [],
-      checkedSequences: [],
+      checkedSequenceIndexes: [],
       selectedFile: null,
       selectedJson: null,
       enrichProgression: 0,
@@ -22,38 +22,43 @@ export default {
       if (isShiftPressed && this.lastSelectedSequenceIndex !== null) {
         const start = Math.min(this.lastSelectedSequenceIndex, index);
         const end = Math.max(this.lastSelectedSequenceIndex, index);
-        this.checkedSequences = [];
+        this.checkedSequenceIndexes = [];
         for (let i = start; i <= end; i++) {
-          this.checkedSequences.push(i);
+          this.checkedSequenceIndexes.push(i);
         }
       } else {
         this.lastSelectedSequenceIndex = index;
-        const isChecked = this.checkedSequences.includes(index);
+        const isChecked = this.checkedSequenceIndexes.includes(index);
         if (isChecked) {
-          this.checkedSequences = this.checkedSequences.filter(
+          this.checkedSequenceIndexes = this.checkedSequenceIndexes.filter(
             (i) => i !== index
           );
         } else {
-          this.checkedSequences.push(index);
+          this.checkedSequenceIndexes.push(index);
         }
+      }
+      for (const sequence of this.checkedSequenceIndexes) {
+        console.log(sequence);
+        const result = this.sequences.find(x => x.id === id);
+        console.log("selectionné :" + result);
       }
     },
 
     toggleCheckedSequence(index) {
-      const isChecked = this.checkedSequences.includes(index);
+      const isChecked = this.checkedSequenceIndexes.includes(index);
       if (isChecked) {
-        this.checkedSequences = this.checkedSequences.filter(
+        this.checkedSequenceIndexes = this.checkedSequenceIndexes.filter(
           (i) => i !== index
         );
       } else {
-        this.checkedSequences.push(index);
+        this.checkedSequenceIndexes.push(index);
       }
     },
     selectAll() {
-      if (this.checkedSequences.length === this.sequences.length) {
-        this.checkedSequences = [];
+      if (this.checkedSequenceIndexes.length === this.sequences.length) {
+        this.checkedSequenceIndexes = [];
       } else {
-        this.checkedSequences = this.sequences.map((_, index) => index);
+        this.checkedSequenceIndexes = this.sequences.map((_, index) => index);
       }
     },
 
@@ -61,14 +66,14 @@ export default {
       this.enrichProgression = 0;
       this.isEnriching = true;
 
-      console.log("checkedSequences.length: " + this.checkedSequences.length);
+      console.log("checkedSequenceIndexes.length: " + this.checkedSequenceIndexes.length);
 
       this.enrichProgression = 0;
       this.isEnriching = true;
       let enrichCount = 0;
       const selectedSequences = [];
 
-      for (let i = 0; i < this.checkedSequences.length; i++) {
+      for (let i = 0; i < this.checkedSequenceIndexes.length; i++) {
         selectedSequences.push(this.sequences[i]);
       }
 
@@ -104,14 +109,14 @@ export default {
       this.enrichProgression = 0;
       this.isEnriching = true;
 
-      console.log("checkedSequences.length: " + this.checkedSequences.length);
+      console.log("checkedSequenceIndexes.length: " + this.checkedSequenceIndexes.length);
 
       this.enrichProgression = 0;
       this.isEnriching = true;
       let enrichCount = 0;
       const selectedSequences = [];
 
-      for (let i = 0; i < this.checkedSequences.length; i++) {
+      for (let i = 0; i < this.checkedSequenceIndexes.length; i++) {
         selectedSequences.push(this.sequences[i]);
       }
 
@@ -146,7 +151,7 @@ export default {
     async sendToAnki() {
       const selectedSequences = [];
 
-      for (let i = 0; i < this.checkedSequences.length; i++) {
+      for (let i = 0; i < this.checkedSequenceIndexes.length; i++) {
         selectedSequences.push(this.sequences[i]);
       }
 
@@ -342,7 +347,7 @@ export default {
             :key="sequence.id"
             :class="[
               'list-group-item',
-              { active: checkedSequences.includes(index) },
+              { active: checkedSequenceIndexes.includes(index) },
             ]"
             @mousedown="selectSequence(index, $event.shiftKey)"
             @keydown.space.prevent="toggleCheckedSequence(index)"
@@ -351,7 +356,7 @@ export default {
             <input
               type="checkbox"
               class="form-check-input"
-              v-model="checkedSequences"
+              v-model="checkedSequenceIndexes"
               :value="index"
             />
             <span>{{ sequence.word }}</span>
