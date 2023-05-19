@@ -135,7 +135,7 @@ export default {
       let sendToAnkiCount = 0;
       const total = this.checkedSequenceIndexes.length;
       for (const index of this.checkedSequenceIndexes) {
-        const id = this.sequences[index];
+        const id = this.sequences[index].id;
 
         await axios
           .post(
