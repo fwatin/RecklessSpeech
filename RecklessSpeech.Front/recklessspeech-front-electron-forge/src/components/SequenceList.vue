@@ -85,13 +85,13 @@ export default {
           .then((response) => {
             this.sequences[index].hasExplanations =
               response.data.hasExplanations;
-            enrichCount++;
-            this.enrichProgression = Math.round((enrichCount * 100) / total);
           });
       }
+      enrichCount++;
+      this.enrichProgression = Math.round((enrichCount * 100) / total);
       this.isEnriching = false;
       const msg =
-      total + " séquences ont été enrichies avec succès en anglais.";
+        total + " séquences ont été enrichies avec succès en anglais.";
       console.log(msg);
       new Notification(msg);
     },
@@ -119,13 +119,13 @@ export default {
           .then((response) => {
             this.sequences[index].hasExplanations =
               response.data.hasExplanations;
-            enrichCount++;
-            this.enrichProgression = Math.round((enrichCount * 100) / total);
           });
       }
+      enrichCount++;
+      this.enrichProgression = Math.round((enrichCount * 100) / total);
       this.isEnriching = false;
       const msg =
-      total + " séquences ont été enrichies avec succès en néérlandais.";
+        total + " séquences ont été enrichies avec succès en néérlandais.";
       console.log(msg);
       new Notification(msg);
     },
@@ -142,14 +142,16 @@ export default {
             `https://localhost:${backendPort}/api/v1/sequences/send-to-anki?id=${id}`
           )
           .then((response) => {
-            this.sequences[index].sentToAnkiTimes =response.data.sentToAnkiTimes;
+            this.sequences[index].sentToAnkiTimes =
+              response.data.sentToAnkiTimes;
           })
           .catch(() => {
             new Notification(`${sequence.word} failed to be sent to Anki.`);
           });
 
         sendToAnkiCount++;
-        this.sendToAnkiProgression = Math.round((sendToAnkiCount * 100) / total
+        this.sendToAnkiProgression = Math.round(
+          (sendToAnkiCount * 100) / total
         );
       }
       new Notification(`${total} sequences sent to Anki.`);
