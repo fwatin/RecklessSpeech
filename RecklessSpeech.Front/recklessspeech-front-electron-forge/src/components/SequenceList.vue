@@ -105,26 +105,15 @@ export default {
       let enrichCount = 0;
       const selectedSequences = [];
 
-      for (let i = 0; i < this.checkedSequenceIndexes.length; i++) {
-        selectedSequences.push(this.sequences[i]);
-      }
-
-      console.log("selectedSequences.length: " + selectedSequences.length);
-
-      const total = selectedSequences.length;
-      for (const sequence of selectedSequences) {
-        const id = sequence.id;
-
+      const total = this.checkedSequenceIndexes.length;
+      for (let index of this.checkedSequenceIndexes) {
+        const id = this.sequences[index].id;
+        
         const response = await axios.post(
           `https://localhost:${backendPort}/api/v1/sequences/Dictionary/dutch?id=${id}`
         );
 
-        // Assigner la valeur de hasExplanations de la réponse à l'élément de séquence correspondant
-        const index = selectedSequences.indexOf(sequence);
-        if (index !== -1) {
-          selectedSequences[index].hasExplanations =
-            response.data.hasExplanations;
-        }
+          this.sequences[index].hasExplanations =response.data.hasExplanations;
 
         enrichCount++;
         this.enrichProgression = Math.round((enrichCount * 100) / total);
@@ -132,7 +121,7 @@ export default {
       this.isEnriching = false;
       const msg =
         selectedSequences.length +
-        " séquences ont été enrichies avec succès en néerlandais.";
+        " séquences ont été enrichies avec succès en néérlandais.";
       console.log(msg);
       new Notification(msg);
     },
