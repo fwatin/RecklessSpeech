@@ -65,22 +65,23 @@ export default {
     async enrichInEnglish() {
       this.enrichProgression = 0;
       this.isEnriching = true;
+      let toBeEnrichedIndexes = this.checkedSequenceIndexes.slice();
 
       console.log(
-        "checkedSequenceIndexes.length: " + this.checkedSequenceIndexes.length
+        "checkedSequenceIndexes.length: " + toBeEnrichedIndexes.length
       );
 
       this.enrichProgression = 0;
       this.isEnriching = true;
       let enrichCount = 0;
 
-      const total = this.checkedSequenceIndexes.length;
-      for (let index of this.checkedSequenceIndexes) {
+      const total = toBeEnrichedIndexes.length;
+      for (let index of toBeEnrichedIndexes) {
         const id = this.sequences[index].id;
 
         await axios
           .post(
-            `https://localhost:${backendPort}/api/v1/sequences/Dictionary/english?id=${id}`
+            `https://localhost:${backendPort}/api/v1/sequences/Dictionary/english?id=${id}` 
           )
           .then((response) => {
             this.sequences[index].hasExplanations =
@@ -91,7 +92,7 @@ export default {
       }
       this.isEnriching = false;
       const msg =
-        total + " séquences ont été enrichies avec succès en anglais.";
+        total + " séquences ont été enrichies avec succès en anglais."; 
       console.log(msg);
       new Notification(msg);
     },
@@ -99,17 +100,18 @@ export default {
     async enrichInDutch() {
       this.enrichProgression = 0;
       this.isEnriching = true;
+      let toBeEnrichedIndexes = this.checkedSequenceIndexes.slice();
 
       console.log(
-        "checkedSequenceIndexes.length: " + this.checkedSequenceIndexes.length
+        "checkedSequenceIndexes.length: " + toBeEnrichedIndexes.length
       );
 
       this.enrichProgression = 0;
       this.isEnriching = true;
       let enrichCount = 0;
 
-      const total = this.checkedSequenceIndexes.length;
-      for (let index of this.checkedSequenceIndexes) {
+      const total = toBeEnrichedIndexes.length;
+      for (let index of toBeEnrichedIndexes) {
         const id = this.sequences[index].id;
 
         await axios
@@ -125,7 +127,7 @@ export default {
       }
       this.isEnriching = false;
       const msg =
-        total + " séquences ont été enrichies avec succès en néérlandais.";
+        total + " séquences ont été enrichies avec succès en néérlandais."; 
       console.log(msg);
       new Notification(msg);
     },
@@ -133,8 +135,9 @@ export default {
     async sendToAnki() {
       this.sendToAnkiProgression = 0;
       let sendToAnkiCount = 0;
-      const total = this.checkedSequenceIndexes.length;
-      for (const index of this.checkedSequenceIndexes) {
+      let toBeSentIndexes = this.checkedSequenceIndexes.slice();
+      const total = toBeSentIndexes.length;
+      for (const index of toBeSentIndexes) {
         const id = this.sequences[index].id;
 
         await axios
