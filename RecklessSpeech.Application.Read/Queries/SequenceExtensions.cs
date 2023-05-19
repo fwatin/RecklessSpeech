@@ -11,7 +11,8 @@ namespace RecklessSpeech.Application.Read.Queries
                 sequence.SequenceId.Value,
                 sequence.Word.Value,
                 sequence.TranslatedWord == null ? "" : sequence.TranslatedWord.Value,
-                sequence.Explanations.Any()
+                sequence.Explanations.Any(),
+                sequence.SentToAnkiTimes
             );
         }
         

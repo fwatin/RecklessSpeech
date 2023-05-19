@@ -76,7 +76,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.SequenceId.Value,
                 this.Word.Value,
                 this.TranslatedWord == null ? "" : this.TranslatedWord.Value,
-                false);
+                false, 0);
 
         public ImportSequencesCommand BuildImportCommand() => new(this.RawCsvContent);
 

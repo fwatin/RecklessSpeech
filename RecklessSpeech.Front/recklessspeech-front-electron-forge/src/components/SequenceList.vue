@@ -7,7 +7,7 @@ export default {
       filePickerDialog: false,
       jsonPickerDialog: false,
       sequences: [],
-      checkedSequences: [],
+      checkedSequenceIndexes: [],
       selectedFile: null,
       selectedJson: null,
       enrichProgression: 0,
@@ -22,80 +22,77 @@ export default {
       if (isShiftPressed && this.lastSelectedSequenceIndex !== null) {
         const start = Math.min(this.lastSelectedSequenceIndex, index);
         const end = Math.max(this.lastSelectedSequenceIndex, index);
-        this.checkedSequences = [];
+        this.checkedSequenceIndexes = [];
         for (let i = start; i <= end; i++) {
-          this.checkedSequences.push(i);
+          this.checkedSequenceIndexes.push(i);
         }
       } else {
         this.lastSelectedSequenceIndex = index;
-        const isChecked = this.checkedSequences.includes(index);
+        const isChecked = this.checkedSequenceIndexes.includes(index);
         if (isChecked) {
-          this.checkedSequences = this.checkedSequences.filter(
+          this.checkedSequenceIndexes = this.checkedSequenceIndexes.filter(
             (i) => i !== index
           );
         } else {
-          this.checkedSequences.push(index);
+          this.checkedSequenceIndexes.push(index);
         }
+      }
+      for (const index of this.checkedSequenceIndexes) {
+        console.log(index);
+        const result = this.sequences[index].word;
+        console.log("selectionné :" + result);
       }
     },
 
     toggleCheckedSequence(index) {
-      const isChecked = this.checkedSequences.includes(index);
+      const isChecked = this.checkedSequenceIndexes.includes(index);
       if (isChecked) {
-        this.checkedSequences = this.checkedSequences.filter(
+        this.checkedSequenceIndexes = this.checkedSequenceIndexes.filter(
           (i) => i !== index
         );
       } else {
-        this.checkedSequences.push(index);
+        this.checkedSequenceIndexes.push(index);
       }
     },
     selectAll() {
-      if (this.checkedSequences.length === this.sequences.length) {
-        this.checkedSequences = [];
+      if (this.checkedSequenceIndexes.length === this.sequences.length) {
+        this.checkedSequenceIndexes = [];
       } else {
-        this.checkedSequences = this.sequences.map((_, index) => index);
+        this.checkedSequenceIndexes = this.sequences.map((_, index) => index);
       }
     },
 
     async enrichInEnglish() {
       this.enrichProgression = 0;
       this.isEnriching = true;
+      let toBeEnrichedIndexes = this.checkedSequenceIndexes.slice();
 
-      console.log("checkedSequences.length: " + this.checkedSequences.length);
+      console.log(
+        "checkedSequenceIndexes.length: " + toBeEnrichedIndexes.length
+      );
 
       this.enrichProgression = 0;
       this.isEnriching = true;
       let enrichCount = 0;
-      const selectedSequences = [];
 
-      for (let i = 0; i < this.checkedSequences.length; i++) {
-        selectedSequences.push(this.sequences[i]);
-      }
+      const total = toBeEnrichedIndexes.length;
+      for (let index of toBeEnrichedIndexes) {
+        const id = this.sequences[index].id;
 
-      console.log("selectedSequences.length: " + selectedSequences.length);
-
-      const total = selectedSequences.length;
-      for (const sequence of selectedSequences) {
-        const id = sequence.id;
-        
-        const response = await axios.post(
-          `https://localhost:${backendPort}/api/v1/sequences/Dictionary/english?id=${id}`
-        );
-
-        // Assigner la valeur de hasExplanations de la réponse à l'élément de séquence correspondant
-        const index = selectedSequences.indexOf(sequence);
-        if (index !== -1) {
-          selectedSequences[index].hasExplanations =
-            response.data.hasExplanations;
-        }
-
+        await axios
+          .post(
+            `https://localhost:${backendPort}/api/v1/sequences/Dictionary/english?id=${id}` 
+          )
+          .then((response) => {
+            this.sequences[index].hasExplanations =
+              response.data.hasExplanations;
+          });
         enrichCount++;
         this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
       this.isEnriching = false;
       const msg =
-        selectedSequences.length +
-        " séquences ont été enrichies avec succès en anglais.";
+        total + " séquences ont été enrichies avec succès en anglais."; 
       console.log(msg);
       new Notification(msg);
     },
@@ -103,71 +100,64 @@ export default {
     async enrichInDutch() {
       this.enrichProgression = 0;
       this.isEnriching = true;
+      let toBeEnrichedIndexes = this.checkedSequenceIndexes.slice();
 
-      console.log("checkedSequences.length: " + this.checkedSequences.length);
+      console.log(
+        "checkedSequenceIndexes.length: " + toBeEnrichedIndexes.length
+      );
 
       this.enrichProgression = 0;
       this.isEnriching = true;
       let enrichCount = 0;
-      const selectedSequences = [];
 
-      for (let i = 0; i < this.checkedSequences.length; i++) {
-        selectedSequences.push(this.sequences[i]);
-      }
+      const total = toBeEnrichedIndexes.length;
+      for (let index of toBeEnrichedIndexes) {
+        const id = this.sequences[index].id;
 
-      console.log("selectedSequences.length: " + selectedSequences.length);
-
-      const total = selectedSequences.length;
-      for (const sequence of selectedSequences) {
-        const id = sequence.id;
-
-        const response = await axios.post(
-          `https://localhost:${backendPort}/api/v1/sequences/Dictionary/dutch?id=${id}`
-        );
-
-        // Assigner la valeur de hasExplanations de la réponse à l'élément de séquence correspondant
-        const index = selectedSequences.indexOf(sequence);
-        if (index !== -1) {
-          selectedSequences[index].hasExplanations =
-            response.data.hasExplanations;
-        }
-
+        await axios
+          .post(
+            `https://localhost:${backendPort}/api/v1/sequences/Dictionary/dutch?id=${id}`
+          )
+          .then((response) => {
+            this.sequences[index].hasExplanations =
+              response.data.hasExplanations;
+          });
         enrichCount++;
         this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
       this.isEnriching = false;
       const msg =
-        selectedSequences.length +
-        " séquences ont été enrichies avec succès en néerlandais.";
+        total + " séquences ont été enrichies avec succès en néérlandais."; 
       console.log(msg);
       new Notification(msg);
     },
 
     async sendToAnki() {
-      const selectedSequences = [];
-
-      for (let i = 0; i < this.checkedSequences.length; i++) {
-        selectedSequences.push(this.sequences[i]);
-      }
-
       this.sendToAnkiProgression = 0;
       let sendToAnkiCount = 0;
-      const total = selectedSequences.length;
-      for (const sequence of selectedSequences) {
-        const id = sequence.id;
+      let toBeSentIndexes = this.checkedSequenceIndexes.slice();
+      const total = toBeSentIndexes.length;
+      for (const index of toBeSentIndexes) {
+        const id = this.sequences[index].id;
+
         await axios
           .post(
             `https://localhost:${backendPort}/api/v1/sequences/send-to-anki?id=${id}`
           )
+          .then((response) => {
+            this.sequences[index].sentToAnkiTimes =
+              response.data.sentToAnkiTimes;
+          })
           .catch(() => {
             new Notification(`${sequence.word} failed to be sent to Anki.`);
           });
+
         sendToAnkiCount++;
         this.sendToAnkiProgression = Math.round(
           (sendToAnkiCount * 100) / total
         );
       }
-      new Notification(`${selectedSequences.length} sequences sent to Anki.`);
+      new Notification(`${total} sequences sent to Anki.`);
     },
 
     openFilePicker() {
@@ -342,7 +332,7 @@ export default {
             :key="sequence.id"
             :class="[
               'list-group-item',
-              { active: checkedSequences.includes(index) },
+              { active: checkedSequenceIndexes.includes(index) },
             ]"
             @mousedown="selectSequence(index, $event.shiftKey)"
             @keydown.space.prevent="toggleCheckedSequence(index)"
@@ -351,13 +341,18 @@ export default {
             <input
               type="checkbox"
               class="form-check-input"
-              v-model="checkedSequences"
+              v-model="checkedSequenceIndexes"
               :value="index"
             />
             <span>{{ sequence.word }}</span>
             <span class="ml-2">{{ sequence.translatedWord }}</span>
             <span v-if="sequence.hasExplanations" class="badge badge-success"
               >Enriched</span
+            >
+            <span
+              v-if="sequence.sentToAnkiTimes != 0"
+              class="badge badge-success"
+              >Sent to Anki</span
             >
           </div>
         </div>
