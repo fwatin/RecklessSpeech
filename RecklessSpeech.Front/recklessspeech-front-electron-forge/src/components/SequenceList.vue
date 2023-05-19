@@ -86,9 +86,9 @@ export default {
             this.sequences[index].hasExplanations =
               response.data.hasExplanations;
           });
+        enrichCount++;
+        this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
-      enrichCount++;
-      this.enrichProgression = Math.round((enrichCount * 100) / total);
       this.isEnriching = false;
       const msg =
         total + " séquences ont été enrichies avec succès en anglais.";
@@ -120,9 +120,9 @@ export default {
             this.sequences[index].hasExplanations =
               response.data.hasExplanations;
           });
+        enrichCount++;
+        this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
-      enrichCount++;
-      this.enrichProgression = Math.round((enrichCount * 100) / total);
       this.isEnriching = false;
       const msg =
         total + " séquences ont été enrichies avec succès en néérlandais.";
