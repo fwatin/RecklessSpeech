@@ -66,30 +66,32 @@ export default {
       this.enrichProgression = 0;
       this.isEnriching = true;
 
-      console.log("checkedSequenceIndexes.length: " + this.checkedSequenceIndexes.length);
+      console.log(
+        "checkedSequenceIndexes.length: " + this.checkedSequenceIndexes.length
+      );
 
       this.enrichProgression = 0;
       this.isEnriching = true;
       let enrichCount = 0;
-      const selectedSequences = [];
 
       const total = this.checkedSequenceIndexes.length;
       for (let index of this.checkedSequenceIndexes) {
         const id = this.sequences[index].id;
-        
-        const response = await axios.post(
-          `https://localhost:${backendPort}/api/v1/sequences/Dictionary/english?id=${id}`
-        );
 
-          this.sequences[index].hasExplanations =response.data.hasExplanations;
-
-        enrichCount++;
-        this.enrichProgression = Math.round((enrichCount * 100) / total);
+        await axios
+          .post(
+            `https://localhost:${backendPort}/api/v1/sequences/Dictionary/english?id=${id}`
+          )
+          .then((response) => {
+            this.sequences[index].hasExplanations =
+              response.data.hasExplanations;
+            enrichCount++;
+            this.enrichProgression = Math.round((enrichCount * 100) / total);
+          });
       }
       this.isEnriching = false;
       const msg =
-        selectedSequences.length +
-        " séquences ont été enrichies avec succès en anglais.";
+      total + " séquences ont été enrichies avec succès en anglais.";
       console.log(msg);
       new Notification(msg);
     },
@@ -98,59 +100,59 @@ export default {
       this.enrichProgression = 0;
       this.isEnriching = true;
 
-      console.log("checkedSequenceIndexes.length: " + this.checkedSequenceIndexes.length);
+      console.log(
+        "checkedSequenceIndexes.length: " + this.checkedSequenceIndexes.length
+      );
 
       this.enrichProgression = 0;
       this.isEnriching = true;
       let enrichCount = 0;
-      const selectedSequences = [];
 
       const total = this.checkedSequenceIndexes.length;
       for (let index of this.checkedSequenceIndexes) {
         const id = this.sequences[index].id;
-        
-        const response = await axios.post(
-          `https://localhost:${backendPort}/api/v1/sequences/Dictionary/dutch?id=${id}`
-        );
 
-          this.sequences[index].hasExplanations =response.data.hasExplanations;
-
-        enrichCount++;
-        this.enrichProgression = Math.round((enrichCount * 100) / total);
+        await axios
+          .post(
+            `https://localhost:${backendPort}/api/v1/sequences/Dictionary/dutch?id=${id}`
+          )
+          .then((response) => {
+            this.sequences[index].hasExplanations =
+              response.data.hasExplanations;
+            enrichCount++;
+            this.enrichProgression = Math.round((enrichCount * 100) / total);
+          });
       }
       this.isEnriching = false;
       const msg =
-        selectedSequences.length +
-        " séquences ont été enrichies avec succès en néérlandais.";
+      total + " séquences ont été enrichies avec succès en néérlandais.";
       console.log(msg);
       new Notification(msg);
     },
 
     async sendToAnki() {
-      const selectedSequences = [];
-
-      for (let i = 0; i < this.checkedSequenceIndexes.length; i++) {
-        selectedSequences.push(this.sequences[i]);
-      }
-
       this.sendToAnkiProgression = 0;
       let sendToAnkiCount = 0;
-      const total = selectedSequences.length;
-      for (const sequence of selectedSequences) {
-        const id = sequence.id;
+      const total = this.checkedSequenceIndexes.length;
+      for (const index of this.checkedSequenceIndexes) {
+        const id = this.sequences[index];
+
         await axios
           .post(
             `https://localhost:${backendPort}/api/v1/sequences/send-to-anki?id=${id}`
           )
+          .then((response) => {
+            this.sequences[index].sentToAnkiTimes =response.data.sentToAnkiTimes;
+          })
           .catch(() => {
             new Notification(`${sequence.word} failed to be sent to Anki.`);
           });
+
         sendToAnkiCount++;
-        this.sendToAnkiProgression = Math.round(
-          (sendToAnkiCount * 100) / total
+        this.sendToAnkiProgression = Math.round((sendToAnkiCount * 100) / total
         );
       }
-      new Notification(`${selectedSequences.length} sequences sent to Anki.`);
+      new Notification(`${total} sequences sent to Anki.`);
     },
 
     openFilePicker() {
@@ -341,6 +343,11 @@ export default {
             <span class="ml-2">{{ sequence.translatedWord }}</span>
             <span v-if="sequence.hasExplanations" class="badge badge-success"
               >Enriched</span
+            >
+            <span
+              v-if="sequence.sentToAnkiTimes != 0"
+              class="badge badge-success"
+              >Sent to Anki</span
             >
           </div>
         </div>
