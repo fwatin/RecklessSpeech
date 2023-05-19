@@ -19,6 +19,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
         public TranslatedWord? TranslatedWord { get; set; }
         public MediaId MediaId { get;  private init; }= default!;
         public OriginalSentence? OriginalSentence { get; set; }
+        public int SentToAnkiTimes { get; set; }
 
 
         public static Sequence Create(Guid id,
@@ -26,16 +27,19 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
             AudioFileNameWithExtension audioFileNameWithExtension,
             Word word,
             TranslatedSentence translatedSentence,
-            MediaId mediaId) =>
-            new(new(id))
+            MediaId mediaId)
+        {
+            return new(new(id))
             {
                 HtmlContent = htmlContent,
                 AudioFile = audioFileNameWithExtension,
                 Word = word,
                 TranslatedSentence = translatedSentence,
                 MediaId = mediaId,
-                Explanations = new()
+                Explanations = new(),
+                SentToAnkiTimes = 0
             };
+        }
 
         public static Sequence Hydrate(Guid id,
             string htmlContent,
@@ -45,8 +49,9 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
             long mediaId,
             List<Explanation> explanations,
             string? translatedWord, 
-            string? originalSentence) =>
-            new(new(id))
+            string? originalSentence)
+        {
+            return new(new(id))
             {
                 HtmlContent = HtmlContent.Hydrate(htmlContent),
                 AudioFile = AudioFileNameWithExtension.Hydrate(audioFileNameWithExtension),
@@ -55,7 +60,9 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
                 Explanations = explanations,
                 TranslatedWord = TranslatedWord.Hydrate(translatedWord),
                 MediaId = MediaId.Hydrate(mediaId),
-                OriginalSentence = OriginalSentence.Hydrate(originalSentence)
+                OriginalSentence = OriginalSentence.Hydrate(originalSentence),
+                SentToAnkiTimes = 0
             };
+        }
     }
 }

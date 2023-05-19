@@ -26,6 +26,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki
             Note note = Note.CreateFromSequence(sequence);
 
             await this.noteGateway.Send(note.GetDto());
+
+            sequence.SentToAnkiTimes++;
             return Unit.Value;
         }
     }
