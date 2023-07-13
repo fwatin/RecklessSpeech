@@ -137,7 +137,7 @@ export default {
             this.sequences[index].hasExplanations =
               response.data.hasExplanations;
 
-              this.sequences[index].sentToAnkiTimes =
+            this.sequences[index].sentToAnkiTimes =
               response.data.sentToAnkiTimes;
           });
         enrichCount++;
@@ -273,12 +273,10 @@ export default {
     <div class="card mb-4">
       <div class="card-header">
         <div class="d-flex align-items-center">
-          <div
-            v-if="isEnriching"
-            class="spinner-border text-primary mr-2"
-            role="status"
-          ></div>
-          Enrichir {{ this.enrichProgression }}%
+          <b-spinner variant="primary" v-if="isEnriching"></b-spinner>
+          <span class="m-1"
+            >Envoyer vers Anki {{ this.enrichProgression }}%</span
+          >
         </div>
       </div>
       <div class="card-body">
@@ -291,20 +289,6 @@ export default {
         <button class="btn btn-info" @click="enrichAndSendInDutch()">
           Enrichir et envoyer en néérlandais
         </button>
-      </div>
-    </div>
-
-    <!-- Envoyer à Anki -->
-    <div class="card mb-4">
-      <div class="card-header">
-        <div class="d-flex align-items-center">
-          <div
-            v-if="isSendingToAnki"
-            class="spinner-border text-primary mr-2"
-            role="status"
-          ></div>
-          Envoyer {{ this.sendToAnkiProgression }}%
-        </div>
       </div>
     </div>
 
