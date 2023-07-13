@@ -17,6 +17,9 @@ export default {
       lastSelectedSequenceIndex: null,
     };
   },
+  created() {
+    this.import();
+  },
   methods: {
     selectSequence(index, isShiftPressed) {
       if (isShiftPressed && this.lastSelectedSequenceIndex !== null) {
@@ -98,6 +101,15 @@ export default {
         total + " séquences ont été enrichies avec succès en anglais.";
       console.log(msg);
       new Notification(msg);
+    },
+
+    async import() {
+      await axios
+        .get(`https://localhost:${backendPort}/api/v1/sequences`)
+        .then((response) => {
+          this.sequences = response.data;
+          console.log("sequences importées");
+        });
     },
 
     async enrichAndSendInDutch() {

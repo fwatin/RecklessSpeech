@@ -134,5 +134,15 @@ namespace RecklessSpeech.Web.Sequences
                 return this.BadRequest(e.Message);
             }
         }
+        
+        [HttpGet]
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryQueryModel>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> Get()
+        {
+            IReadOnlyCollection<SequenceSummaryQueryModel> result =
+                await this.dispatcher.Send(new GetAllSequencesQuery());
+            return this.Ok(result);
+        }
     }
 }
