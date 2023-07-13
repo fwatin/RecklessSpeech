@@ -132,34 +132,6 @@ export default {
       new Notification(msg);
     },
 
-    async sendToAnki() {
-      this.sendToAnkiProgression = 0;
-      let sendToAnkiCount = 0;
-      let toBeSentIndexes = this.checkedSequenceIndexes.slice();
-      const total = toBeSentIndexes.length;
-      for (const index of toBeSentIndexes) {
-        const id = this.sequences[index].id;
-
-        await axios
-          .post(
-            `https://localhost:${backendPort}/api/v1/sequences/send-to-anki?id=${id}`
-          )
-          .then((response) => {
-            this.sequences[index].sentToAnkiTimes =
-              response.data.sentToAnkiTimes;
-          })
-          .catch(() => {
-            new Notification(`${sequence.word} failed to be sent to Anki.`);
-          });
-
-        sendToAnkiCount++;
-        this.sendToAnkiProgression = Math.round(
-          (sendToAnkiCount * 100) / total
-        );
-      }
-      new Notification(`${total} sequences sent to Anki.`);
-    },
-
     openFilePicker() {
       this.filePickerDialog = true;
     },
@@ -315,11 +287,6 @@ export default {
           ></div>
           Envoyer {{ this.sendToAnkiProgression }}%
         </div>
-      </div>
-      <div class="card-body">
-        <button class="btn btn-primary" @click="sendToAnki()">
-          Envoyer vers Anki
-        </button>
       </div>
     </div>
 
