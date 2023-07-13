@@ -32,34 +32,11 @@ namespace RecklessSpeech.Web.Sequences
         public SequenceController(IMediator dispatcher) => this.dispatcher = dispatcher;
 
         [HttpPost]
-        [MapToApiVersion("1.0")]
-        [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryQueryModel>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> ImportSequences(IFormFile file)
-        {
-            try
-            {
-                using StreamReader reader = new(file.OpenReadStream());
-                string data = await reader.ReadToEndAsync();
-                ImportSequencesCommand command = new(data);
-
-                await this.dispatcher.Send(command);
-
-                IReadOnlyCollection<SequenceSummaryQueryModel> all =
-                    await this.dispatcher.Send(new GetAllSequencesQuery());
-
-                return this.Ok(all);
-            }
-            catch (Exception e)
-            {
-                return this.BadRequest(e.Message);
-            }
-        }
-
-        [HttpPost]
         [Route("import-zip/")]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryQueryModel>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> ImportSequencesWithZip(IFormFile file)
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> ImportSequencesWithZip(
+            IFormFile file)
         {
             try
             {
@@ -83,8 +60,6 @@ namespace RecklessSpeech.Web.Sequences
 
                     if (entry.FullName == "items.csv")
                     {
-
-
                         string data = Encoding.UTF8.GetString(buffer);
 
                         ImportSequencesCommand command = new(data);
@@ -123,7 +98,8 @@ namespace RecklessSpeech.Web.Sequences
                 AddDetailsToSequencesCommand command = new(sequenceDetailsDto!);
                 await this.dispatcher.Send(command);
 
-                IReadOnlyCollection<SequenceSummaryQueryModel> r = await this.dispatcher.Send(new GetAllSequencesQuery());
+                IReadOnlyCollection<SequenceSummaryQueryModel> r =
+                    await this.dispatcher.Send(new GetAllSequencesQuery());
                 return this.Ok(r);
             }
             catch (Exception e)
@@ -132,35 +108,27 @@ namespace RecklessSpeech.Web.Sequences
             }
         }
 
-        [HttpGet]
-        [MapToApiVersion("1.0")]
-        [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryPresentation>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryPresentation>>> Get()
-        {
-            IReadOnlyCollection<SequenceSummaryQueryModel> result =
-                await this.dispatcher.Send(new GetAllSequencesQuery());
-            return this.Ok(result.ToPresentation());
-        }
-
-        [HttpGet("{sequenceId:guid}")]
-        [MapToApiVersion("1.0")]
-        [ProducesResponseType(typeof(SequenceSummaryPresentation), (int)HttpStatusCode.OK)]
-        [SwaggerResponseErrors((int)HttpStatusCode.NotFound, ApiErrors.ReadSequenceNotFound)]
-        public async Task<ActionResult<SequenceSummaryPresentation>> GetOne(Guid sequenceId)
-        {
-            SequenceSummaryQueryModel result = await this.dispatcher.Send(new GetOneSequenceQuery(new(sequenceId)));
-            return this.Ok(result.ToPresentation());
-        }
-
         [HttpPost]
         [Route("send-to-anki/")]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<SequenceSummaryQueryModel>> SendToAnki([FromQuery] Guid id)
+        public async Task<ActionResult<SequenceSummaryQueryModel>> EnrichAndSendToAnki([FromQuery] Guid id,
+            string language)
         {
             try
             {
+                switch (language)
+                {
+                    case "english":
+                        await this.dispatcher.Send(new EnrichEnglishSequenceCommand(id));
+                        break;
+                    case "dutch":
+                        await this.dispatcher.Send(new EnrichDutchSequenceCommand(id));
+                        break;
+                }
+
                 await this.dispatcher.Send(new SendNoteToAnkiCommand(id));
+
                 SequenceSummaryQueryModel result = await this.dispatcher.Send(new GetOneSequenceQuery(new(id)));
                 return this.Ok(result);
             }
@@ -168,30 +136,6 @@ namespace RecklessSpeech.Web.Sequences
             {
                 return this.BadRequest(e.Message);
             }
-        }
-
-        [HttpPost]
-        [Route("Dictionary/dutch")]
-        [MapToApiVersion("1.0")]
-        [ProducesResponseType(typeof(SequenceSummaryQueryModel), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<SequenceSummaryQueryModel>> EnrichDutch(
-            [FromQuery] Guid id)
-        {
-            await this.dispatcher.Send(new EnrichDutchSequenceCommand(id));
-            SequenceSummaryQueryModel result = await this.dispatcher.Send(new GetOneSequenceQuery(new(id)));
-            return this.Ok(result);
-        }
-
-        [HttpPost]
-        [Route("Dictionary/english")]
-        [MapToApiVersion("1.0")]
-        [ProducesResponseType(typeof(SequenceSummaryQueryModel), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<SequenceSummaryQueryModel>> EnrichEnglish(
-            [FromQuery] Guid id)
-        {
-            await this.dispatcher.Send(new EnrichEnglishSequenceCommand(id));
-            SequenceSummaryQueryModel result = await this.dispatcher.Send(new GetOneSequenceQuery(new(id)));
-            return this.Ok(result);
         }
     }
 }
