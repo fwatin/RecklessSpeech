@@ -62,7 +62,7 @@ export default {
       }
     },
 
-    async enrichInEnglish() {
+    async enrichAndSendInEnglish() {
       this.enrichProgression = 0;
       this.isEnriching = true;
       let toBeEnrichedIndexes = this.checkedSequenceIndexes.slice();
@@ -81,7 +81,7 @@ export default {
 
         await axios
           .post(
-            `https://localhost:${backendPort}/api/v1/sequences/Dictionary/english?id=${id}` 
+            `https://localhost:${backendPort}/api/v1/sequences/enrich-and-send-to-anki/english?id=${id}` 
           )
           .then((response) => {
             this.sequences[index].hasExplanations =
@@ -97,7 +97,7 @@ export default {
       new Notification(msg);
     },
 
-    async enrichInDutch() {
+    async enrichAndSendInDutch() {
       this.enrichProgression = 0;
       this.isEnriching = true;
       let toBeEnrichedIndexes = this.checkedSequenceIndexes.slice();
@@ -116,7 +116,7 @@ export default {
 
         await axios
           .post(
-            `https://localhost:${backendPort}/api/v1/sequences/Dictionary/dutch?id=${id}`
+            `https://localhost:${backendPort}/api/v1/sequences/enrich-and-send-to-anki/dutch?id=${id}`
           )
           .then((response) => {
             this.sequences[index].hasExplanations =
@@ -295,11 +295,11 @@ export default {
         <button class="btn btn-secondary mr-2" @click="selectAll()">
           Sélectionner tout
         </button>
-        <button class="btn btn-info mr-2" @click="enrichInEnglish()">
-          Enrichir en anglais
+        <button class="btn btn-info mr-2" @click="enrichAndSendInEnglish()">
+          Enrichir et envoyer en anglais
         </button>
-        <button class="btn btn-info" @click="enrichInDutch()">
-          Enrichir en néérlandais
+        <button class="btn btn-info" @click="enrichAndSendInDutch()">
+          Enrichir et envoyer en néérlandais
         </button>
       </div>
     </div>

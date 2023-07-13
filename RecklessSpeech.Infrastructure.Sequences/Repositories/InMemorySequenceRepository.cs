@@ -35,7 +35,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 
         public Sequence? GetOneByMediaId(long mediaId)
         {
-            Sequence? sequence = this.sequences.SingleOrDefault(x => x.MediaId.Value == mediaId);
+            Sequence? sequence = this.sequences.FirstOrDefault(x => x.MediaId.Value == mediaId);
             return sequence ?? null;
         }
     }

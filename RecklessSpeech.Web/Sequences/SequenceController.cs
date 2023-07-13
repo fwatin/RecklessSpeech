@@ -109,7 +109,7 @@ namespace RecklessSpeech.Web.Sequences
         }
 
         [HttpPost]
-        [Route("send-to-anki/")]
+        [Route("enrich-and-send-to-anki/{language}")]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<SequenceSummaryQueryModel>> EnrichAndSendToAnki([FromQuery] Guid id,
