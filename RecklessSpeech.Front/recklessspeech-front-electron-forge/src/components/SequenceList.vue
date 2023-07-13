@@ -81,18 +81,21 @@ export default {
 
         await axios
           .post(
-            `https://localhost:${backendPort}/api/v1/sequences/enrich-and-send-to-anki/english?id=${id}` 
+            `https://localhost:${backendPort}/api/v1/sequences/enrich-and-send-to-anki/english?id=${id}`
           )
           .then((response) => {
             this.sequences[index].hasExplanations =
               response.data.hasExplanations;
+
+            this.sequences[index].sentToAnkiTimes =
+              response.data.sentToAnkiTimes;
           });
         enrichCount++;
         this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
       this.isEnriching = false;
       const msg =
-        total + " séquences ont été enrichies avec succès en anglais."; 
+        total + " séquences ont été enrichies avec succès en anglais.";
       console.log(msg);
       new Notification(msg);
     },
@@ -121,13 +124,16 @@ export default {
           .then((response) => {
             this.sequences[index].hasExplanations =
               response.data.hasExplanations;
+
+              this.sequences[index].sentToAnkiTimes =
+              response.data.sentToAnkiTimes;
           });
         enrichCount++;
         this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
       this.isEnriching = false;
       const msg =
-        total + " séquences ont été enrichies avec succès en néérlandais."; 
+        total + " séquences ont été enrichies avec succès en néérlandais.";
       console.log(msg);
       new Notification(msg);
     },
