@@ -110,44 +110,6 @@ export default {
         });
     },
 
-    async enrichAndSendInDutch() {
-      this.enrichProgression = 0;
-      this.isSending = true;
-      let toBeEnrichedIndexes = this.checkedSequenceIndexes.slice();
-
-      console.log(
-        "checkedSequenceIndexes.length: " + toBeEnrichedIndexes.length
-      );
-
-      this.enrichProgression = 0;
-      this.isSending = true;
-      let enrichCount = 0;
-
-      const total = toBeEnrichedIndexes.length;
-      for (let index of toBeEnrichedIndexes) {
-        const id = this.sequences[index].id;
-
-        await axios
-          .post(
-            `https://localhost:${backendPort}/api/v1/sequences/enrich-and-send-to-anki/dutch?id=${id}`
-          )
-          .then((response) => {
-            this.sequences[index].hasExplanations =
-              response.data.hasExplanations;
-
-            this.sequences[index].sentToAnkiTimes =
-              response.data.sentToAnkiTimes;
-          });
-        enrichCount++;
-        this.enrichProgression = Math.round((enrichCount * 100) / total);
-      }
-      this.isSending = false;
-      const msg =
-        total + " séquences ont été enrichies avec succès en néérlandais.";
-      console.log(msg);
-      new Notification(msg);
-    },
-
     openFilePicker() {
       this.filePickerDialog = true;
     },
