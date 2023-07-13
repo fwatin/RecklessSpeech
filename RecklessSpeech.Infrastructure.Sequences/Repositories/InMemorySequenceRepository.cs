@@ -27,16 +27,10 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
             return sequence ?? null;
         }
 
-        public Sequence? GetOneByWord(string word)
+        public IEnumerable<Sequence> GetOneByMediaId(long mediaId)
         {
-            Sequence? sequence = this.sequences.SingleOrDefault(x => x.Word.Value == word);
-            return sequence ?? null;
-        }
-
-        public Sequence? GetOneByMediaId(long mediaId)
-        {
-            Sequence? sequence = this.sequences.SingleOrDefault(x => x.MediaId.Value == mediaId);
-            return sequence ?? null;
+            IEnumerable<Sequence> sequence = this.sequences.Where(x => x.MediaId.Value == mediaId);
+            return sequence;
         }
     }
 }

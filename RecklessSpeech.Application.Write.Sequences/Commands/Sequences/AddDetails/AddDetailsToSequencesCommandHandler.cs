@@ -13,26 +13,24 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetai
 
         public Task<Unit> Handle(AddDetailsToSequencesCommand command, CancellationToken cancellationToken)
         {
-            //parcourir les details
             foreach (Class1 item in command.Dtos)
             {
-                Sequence? sequence = this.sequenceRepository.GetOneByMediaId(item.timeModified_ms);
-                if (sequence is null)
+                IEnumerable<Sequence> sequences = this.sequenceRepository.GetOneByMediaId(item.timeModified_ms);
+
+                foreach (Sequence sequence in sequences)
                 {
-                    continue;
+                    sequence.TranslatedWord = TranslatedWord.Create(item.wordTranslationsArr.First());
+                    StringBuilder sentences = new();
+
+                    if (item.context?.phrase?.subtitles is null) return Task.FromResult(Unit.Value);
+
+                    foreach (var sentence in item.context.phrase.subtitles.Values)
+                    {
+                        sentences.Append(sentence);
+                    }
+
+                    sequence.OriginalSentence = OriginalSentence.Create(sentences.ToString());
                 }
-
-                sequence.TranslatedWord = TranslatedWord.Create(item.wordTranslationsArr.First());
-                StringBuilder sentences = new();
-
-                if (item.context?.phrase?.subtitles is null) return Task.FromResult(Unit.Value);
-                
-                foreach (var sentence in item.context.phrase.subtitles.Values)
-                {
-                    sentences.Append(sentence);
-                }
-
-                sequence.OriginalSentence = OriginalSentence.Create(sentences.ToString());
             }
 
             return Task.FromResult(Unit.Value);

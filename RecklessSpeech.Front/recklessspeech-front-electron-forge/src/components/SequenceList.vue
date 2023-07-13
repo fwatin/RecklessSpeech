@@ -11,11 +11,12 @@ export default {
       selectedFile: null,
       selectedJson: null,
       enrichProgression: 0,
-      isEnriching: false,
-      isSendingToAnki: false,
-      sendToAnkiProgression: 0,
+      isSending: false,
       lastSelectedSequenceIndex: null,
     };
+  },
+  created() {
+    this.import();
   },
   methods: {
     selectSequence(index, isShiftPressed) {
@@ -62,9 +63,9 @@ export default {
       }
     },
 
-    async enrichInEnglish() {
+    async enrichAndSend(lang) {
       this.enrichProgression = 0;
-      this.isEnriching = true;
+      this.isSending = true;
       let toBeEnrichedIndexes = this.checkedSequenceIndexes.slice();
 
       console.log(
@@ -72,7 +73,7 @@ export default {
       );
 
       this.enrichProgression = 0;
-      this.isEnriching = true;
+      this.isSending = true;
       let enrichCount = 0;
 
       const total = toBeEnrichedIndexes.length;
@@ -81,83 +82,32 @@ export default {
 
         await axios
           .post(
-            `https://localhost:${backendPort}/api/v1/sequences/Dictionary/english?id=${id}` 
+            `https://localhost:${backendPort}/api/v1/sequences/enrich-and-send-to-anki/${lang}?id=${id}`
           )
           .then((response) => {
             this.sequences[index].hasExplanations =
               response.data.hasExplanations;
-          });
-        enrichCount++;
-        this.enrichProgression = Math.round((enrichCount * 100) / total);
-      }
-      this.isEnriching = false;
-      const msg =
-        total + " séquences ont été enrichies avec succès en anglais."; 
-      console.log(msg);
-      new Notification(msg);
-    },
 
-    async enrichInDutch() {
-      this.enrichProgression = 0;
-      this.isEnriching = true;
-      let toBeEnrichedIndexes = this.checkedSequenceIndexes.slice();
-
-      console.log(
-        "checkedSequenceIndexes.length: " + toBeEnrichedIndexes.length
-      );
-
-      this.enrichProgression = 0;
-      this.isEnriching = true;
-      let enrichCount = 0;
-
-      const total = toBeEnrichedIndexes.length;
-      for (let index of toBeEnrichedIndexes) {
-        const id = this.sequences[index].id;
-
-        await axios
-          .post(
-            `https://localhost:${backendPort}/api/v1/sequences/Dictionary/dutch?id=${id}`
-          )
-          .then((response) => {
-            this.sequences[index].hasExplanations =
-              response.data.hasExplanations;
-          });
-        enrichCount++;
-        this.enrichProgression = Math.round((enrichCount * 100) / total);
-      }
-      this.isEnriching = false;
-      const msg =
-        total + " séquences ont été enrichies avec succès en néérlandais."; 
-      console.log(msg);
-      new Notification(msg);
-    },
-
-    async sendToAnki() {
-      this.sendToAnkiProgression = 0;
-      let sendToAnkiCount = 0;
-      let toBeSentIndexes = this.checkedSequenceIndexes.slice();
-      const total = toBeSentIndexes.length;
-      for (const index of toBeSentIndexes) {
-        const id = this.sequences[index].id;
-
-        await axios
-          .post(
-            `https://localhost:${backendPort}/api/v1/sequences/send-to-anki?id=${id}`
-          )
-          .then((response) => {
             this.sequences[index].sentToAnkiTimes =
               response.data.sentToAnkiTimes;
-          })
-          .catch(() => {
-            new Notification(`${sequence.word} failed to be sent to Anki.`);
           });
-
-        sendToAnkiCount++;
-        this.sendToAnkiProgression = Math.round(
-          (sendToAnkiCount * 100) / total
-        );
+        enrichCount++;
+        this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
-      new Notification(`${total} sequences sent to Anki.`);
+      this.isSending = false;
+      const msg =
+        total + " séquences ont été envoyées avec succès.";
+      console.log(msg);
+      new Notification(msg);
+    },
+
+    async import() {
+      await axios
+        .get(`https://localhost:${backendPort}/api/v1/sequences`)
+        .then((response) => {
+          this.sequences = response.data;
+          console.log("sequences importées");
+        });
     },
 
     openFilePicker() {
@@ -283,42 +233,21 @@ export default {
     <div class="card mb-4">
       <div class="card-header">
         <div class="d-flex align-items-center">
-          <div
-            v-if="isEnriching"
-            class="spinner-border text-primary mr-2"
-            role="status"
-          ></div>
-          Enrichir {{ this.enrichProgression }}%
+          <b-spinner variant="primary" v-if="isSending"></b-spinner>
+          <span class="m-1"
+            >Envoyer vers Anki {{ this.enrichProgression }}%</span
+          >
         </div>
       </div>
       <div class="card-body">
         <button class="btn btn-secondary mr-2" @click="selectAll()">
           Sélectionner tout
         </button>
-        <button class="btn btn-info mr-2" @click="enrichInEnglish()">
-          Enrichir en anglais
+        <button class="btn btn-info mr-2" @click="enrichAndSend('english')">
+          Enrichir et envoyer en anglais
         </button>
-        <button class="btn btn-info" @click="enrichInDutch()">
-          Enrichir en néérlandais
-        </button>
-      </div>
-    </div>
-
-    <!-- Envoyer à Anki -->
-    <div class="card mb-4">
-      <div class="card-header">
-        <div class="d-flex align-items-center">
-          <div
-            v-if="isSendingToAnki"
-            class="spinner-border text-primary mr-2"
-            role="status"
-          ></div>
-          Envoyer {{ this.sendToAnkiProgression }}%
-        </div>
-      </div>
-      <div class="card-body">
-        <button class="btn btn-primary" @click="sendToAnki()">
-          Envoyer vers Anki
+        <button class="btn btn-info" @click="enrichAndSend('dutch')">
+          Enrichir et envoyer en néérlandais
         </button>
       </div>
     </div>
