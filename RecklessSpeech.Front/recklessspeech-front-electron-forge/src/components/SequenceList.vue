@@ -11,9 +11,7 @@ export default {
       selectedFile: null,
       selectedJson: null,
       enrichProgression: 0,
-      isEnriching: false,
-      isSendingToAnki: false,
-      sendToAnkiProgression: 0,
+      isSending: false,
       lastSelectedSequenceIndex: null,
     };
   },
@@ -65,9 +63,9 @@ export default {
       }
     },
 
-    async enrichAndSendInEnglish() {
+    async enrichAndSend(lang) {
       this.enrichProgression = 0;
-      this.isEnriching = true;
+      this.isSending = true;
       let toBeEnrichedIndexes = this.checkedSequenceIndexes.slice();
 
       console.log(
@@ -75,7 +73,7 @@ export default {
       );
 
       this.enrichProgression = 0;
-      this.isEnriching = true;
+      this.isSending = true;
       let enrichCount = 0;
 
       const total = toBeEnrichedIndexes.length;
@@ -84,7 +82,7 @@ export default {
 
         await axios
           .post(
-            `https://localhost:${backendPort}/api/v1/sequences/enrich-and-send-to-anki/english?id=${id}`
+            `https://localhost:${backendPort}/api/v1/sequences/enrich-and-send-to-anki/${lang}?id=${id}`
           )
           .then((response) => {
             this.sequences[index].hasExplanations =
@@ -96,9 +94,9 @@ export default {
         enrichCount++;
         this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
-      this.isEnriching = false;
+      this.isSending = false;
       const msg =
-        total + " séquences ont été enrichies avec succès en anglais.";
+        total + " séquences ont été envoyées avec succès.";
       console.log(msg);
       new Notification(msg);
     },
@@ -114,7 +112,7 @@ export default {
 
     async enrichAndSendInDutch() {
       this.enrichProgression = 0;
-      this.isEnriching = true;
+      this.isSending = true;
       let toBeEnrichedIndexes = this.checkedSequenceIndexes.slice();
 
       console.log(
@@ -122,7 +120,7 @@ export default {
       );
 
       this.enrichProgression = 0;
-      this.isEnriching = true;
+      this.isSending = true;
       let enrichCount = 0;
 
       const total = toBeEnrichedIndexes.length;
@@ -143,7 +141,7 @@ export default {
         enrichCount++;
         this.enrichProgression = Math.round((enrichCount * 100) / total);
       }
-      this.isEnriching = false;
+      this.isSending = false;
       const msg =
         total + " séquences ont été enrichies avec succès en néérlandais.";
       console.log(msg);
@@ -273,7 +271,7 @@ export default {
     <div class="card mb-4">
       <div class="card-header">
         <div class="d-flex align-items-center">
-          <b-spinner variant="primary" v-if="isEnriching"></b-spinner>
+          <b-spinner variant="primary" v-if="isSending"></b-spinner>
           <span class="m-1"
             >Envoyer vers Anki {{ this.enrichProgression }}%</span
           >
@@ -283,10 +281,10 @@ export default {
         <button class="btn btn-secondary mr-2" @click="selectAll()">
           Sélectionner tout
         </button>
-        <button class="btn btn-info mr-2" @click="enrichAndSendInEnglish()">
+        <button class="btn btn-info mr-2" @click="enrichAndSend('english')">
           Enrichir et envoyer en anglais
         </button>
-        <button class="btn btn-info" @click="enrichAndSendInDutch()">
+        <button class="btn btn-info" @click="enrichAndSend('dutch')">
           Enrichir et envoyer en néérlandais
         </button>
       </div>
