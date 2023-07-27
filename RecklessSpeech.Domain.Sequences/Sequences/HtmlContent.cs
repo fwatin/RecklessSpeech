@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace RecklessSpeech.Domain.Sequences.Sequences
 {
@@ -19,19 +20,20 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
         public static HtmlContent Create(MediaId mediaId, TranslatedSentence translatedSentence, Word word, string title)
         {
             StringBuilder stringBuilder = new();
+            string[] motsAvecSeparateurs = Regex.Split(translatedSentence.Value, @"(\s|[:;])");
 
-            foreach (var wordInSentence in translatedSentence.Value.Split(' '))
+            foreach (var wordInSentence in motsAvecSeparateurs)
             {
                 if (wordInSentence.Trim().StartsWith(word.Value))
                 {
                     string underlined =
                         $"<span class=\"dc-gap\"><span class=\"dc-down dc-lang-en dc-orig\"" +
-                        $" style=\"background-color: rgb(157, 0, 0);\">{word.Value}</span></span>";
+                        $" style=\"background-color: rgb(157, 0, 0);\">{wordInSentence}</span></span>";
                     stringBuilder.AppendLine(underlined);
                 }
                 else
                 {
-                    string normal = $"<span class=\"dc-down dc-lang-en dc-orig\">{word.Value}</span>";
+                    string normal = $"<span class=\"dc-down dc-lang-en dc-orig\">{wordInSentence}</span>";
                     stringBuilder.AppendLine(normal);
                 }
             }
@@ -39,7 +41,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
 
             string template = GetTemplate();
 
-            string html = template.Replace("{{mediaId}}", mediaId.ToString());
+            string html = template.Replace("{{mediaId}}", mediaId.Value.ToString());
             html = html.Replace("{{html_sentence}}", sentence);
             html = html.Replace("{{title}}", title);
 
