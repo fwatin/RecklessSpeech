@@ -23,7 +23,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
             AudioFileNameWithExtension audio = AudioFileNameWithExtension.Create(request.AudioFilenameWithExtension);
             MediaId mediaId = MediaId.Create(request.MediaId);
 
-            HtmlContent htmlContent = GetHtmlContent(mediaId, translatedSentence);
+            HtmlContent htmlContent = default;
+                //= GetHtmlContent(mediaId, translatedSentence);
 
             Sequence sequence = Sequence.Create(Guid.NewGuid(),
                 htmlContent,
