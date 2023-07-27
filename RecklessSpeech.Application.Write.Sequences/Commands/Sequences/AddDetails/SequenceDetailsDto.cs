@@ -29,8 +29,16 @@ public class Phrase
     public Mtranslations mTranslations { get; set; }
     public Htranslations hTranslations { get; set; }
     public Reference reference { get; set; }
-    public object thumb_prev { get; set; }
-    public object thumb_next { get; set; }
+    public Thumb thumb_prev { get; set; }
+    public Thumb thumb_next { get; set; }
+}
+
+public class Thumb
+{
+    public double time{ get; set; }
+    public double width{ get; set; }
+    public double height{ get; set; }
+    public string dataURL{ get; set; }
 }
 
 public class Subtitletokens

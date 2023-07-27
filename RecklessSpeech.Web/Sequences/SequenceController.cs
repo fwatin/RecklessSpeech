@@ -82,7 +82,7 @@ namespace RecklessSpeech.Web.Sequences
             }
         }
 
-        
+
         [HttpPost]
         [Route("import-json/")]
         [MapToApiVersion("1.0")]
@@ -94,19 +94,35 @@ namespace RecklessSpeech.Web.Sequences
                 using StreamReader reader = new(file.OpenReadStream());
                 string data = await reader.ReadToEndAsync();
                 Class1[]? payload = JsonConvert.DeserializeObject<Class1[]>(data);
-                
-                //photo 1 et 2
-                //SaveMediaCommand saveMedia = new(entry.FullName, buffer);
-                //await this.dispatcher.Send(saveMedia);
-                
-                //mp3
-                Class1 item = payload.First();
-                string mp3InBase64 = item.audio.dataURL.Split(',').Last();
-                byte[] mp3 = Convert.FromBase64String(mp3InBase64);
-                SaveMediaCommand saveMedia = new($"{item.timeModified_ms}.mp3", mp3);
-                await this.dispatcher.Send(saveMedia);
-                
-                return this.Ok($"{item.timeModified_ms}.mp3 imported");
+
+                foreach (Class1 item in payload)
+                {
+                    string? prevBase64 = item.context?.phrase?.thumb_prev.dataURL.Split(',').Last();
+                    if (prevBase64 is not null)
+                    {
+
+                        byte[] prev = Convert.FromBase64String(prevBase64);
+                        SaveMediaCommand savePrev = new($"{item.timeModified_ms}_prev.jpg", prev);
+                        await this.dispatcher.Send(savePrev);
+                    }
+                    
+                    string? nextBase64 = item.context?.phrase?.thumb_next.dataURL.Split(',').Last();
+                    if (nextBase64 is not null)
+                    {
+
+                        byte[] next = Convert.FromBase64String(nextBase64);
+                        SaveMediaCommand saveNext = new($"{item.timeModified_ms}_next.jpg", next);
+                        await this.dispatcher.Send(saveNext);
+                    }
+
+                    //mp3
+                    string mp3InBase64 = item.audio.dataURL.Split(',').Last();
+                    byte[] mp3 = Convert.FromBase64String(mp3InBase64);
+                    SaveMediaCommand saveMp3 = new($"{item.timeModified_ms}.mp3", mp3);
+                    await this.dispatcher.Send(saveMp3);
+                }
+
+                return this.Ok($"imported");
             }
             catch (Exception e)
             {
@@ -167,7 +183,7 @@ namespace RecklessSpeech.Web.Sequences
                 return this.BadRequest(e.Message);
             }
         }
-        
+
         [HttpGet]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryQueryModel>), (int)HttpStatusCode.OK)]
