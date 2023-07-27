@@ -9,6 +9,7 @@ using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Media;
+using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences;
 using System;
 using System.Buffers.Text;
 using System.Collections.Generic;
@@ -105,7 +106,7 @@ namespace RecklessSpeech.Web.Sequences
                         SaveMediaCommand savePrev = new($"{item.timeModified_ms}_prev.jpg", prev);
                         await this.dispatcher.Send(savePrev);
                     }
-                    
+
                     string? nextBase64 = item.context?.phrase?.thumb_next.dataURL.Split(',').Last();
                     if (nextBase64 is not null)
                     {
@@ -120,7 +121,16 @@ namespace RecklessSpeech.Web.Sequences
                     byte[] mp3 = Convert.FromBase64String(mp3InBase64);
                     SaveMediaCommand saveMp3 = new($"{item.timeModified_ms}.mp3", mp3);
                     await this.dispatcher.Send(saveMp3);
+
+                    //sequence
+                    ImportSequenceCommand import = new(item.word.text,
+                        item.context!.phrase!.subtitles["1"],
+                        $"{item.timeModified_ms}.mp3",
+                        item.timeModified_ms);
+                    
+                    await this.dispatcher.Send(import);
                 }
+
 
                 return this.Ok($"imported");
             }
