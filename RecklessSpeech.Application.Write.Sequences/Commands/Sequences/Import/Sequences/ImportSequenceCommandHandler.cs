@@ -18,8 +18,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
             AudioFileNameWithExtension audio = AudioFileNameWithExtension.Create(request.AudioFilenameWithExtension);
             MediaId mediaId = MediaId.Create(request.MediaId);
 
-            HtmlContent htmlContent = default;
-            //= GetHtmlContent(mediaId, translatedSentence);
+            HtmlContent htmlContent = HtmlContent.Create(mediaId, translatedSentence, word, "Saving Private Ryan");
 
             Sequence sequence = Sequence.Create(Guid.NewGuid(),
                 htmlContent,

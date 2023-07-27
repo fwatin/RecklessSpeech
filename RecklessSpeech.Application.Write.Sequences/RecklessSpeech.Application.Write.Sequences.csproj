@@ -22,9 +22,6 @@
 
     <ItemGroup>
       <None Remove="Commands\Sequences\Import\Sequences\sequence_template.html" />
-      <EmbeddedResource Include="Commands\Sequences\Import\Sequences\sequence_template.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </EmbeddedResource>
     </ItemGroup>
 
 </Project>
