@@ -10,9 +10,11 @@ using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Media;
 using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -80,6 +82,37 @@ namespace RecklessSpeech.Web.Sequences
             }
         }
 
+        
+        [HttpPost]
+        [Route("import-json/")]
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryQueryModel>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> ImportJson(IFormFile file)
+        {
+            try
+            {
+                using StreamReader reader = new(file.OpenReadStream());
+                string data = await reader.ReadToEndAsync();
+                Class1[]? payload = JsonConvert.DeserializeObject<Class1[]>(data);
+                
+                //photo 1 et 2
+                //SaveMediaCommand saveMedia = new(entry.FullName, buffer);
+                //await this.dispatcher.Send(saveMedia);
+                
+                //mp3
+                Class1 item = payload.First();
+                string mp3InBase64 = item.audio.dataURL.Split(',').Last();
+                byte[] mp3 = Convert.FromBase64String(mp3InBase64);
+                SaveMediaCommand saveMedia = new($"{item.timeModified_ms}.mp3", mp3);
+                await this.dispatcher.Send(saveMedia);
+                
+                return this.Ok($"{item.timeModified_ms}.mp3 imported");
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(e.Message);
+            }
+        }
 
         [HttpPost]
         [Route("import-details/")]
