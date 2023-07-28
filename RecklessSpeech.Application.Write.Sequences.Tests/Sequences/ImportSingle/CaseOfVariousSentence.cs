@@ -1,5 +1,4 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences;
-using System.Text.RegularExpressions;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingle
 {
@@ -20,6 +19,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             //Arrange
             ImportSequenceCommand command = new(
                 "target",
+                new[] {"cible"},
                 "target",
                 "cible",
                 "mp3.mp3",
@@ -32,13 +32,13 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             string html = this.repository.All.Single().HtmlContent.Value;
             html.Should().Contain(GetUnderlined("target"));
         }
-        
+
         [Fact]
         public async Task Case_of_sentence_with_special_characters()
         {
             //Arrange
             ImportSequenceCommand command = new(
-                "target",
+                "target",new[] {"cible"},
                 "this is the target, and the target is here.",
                 "supposely translation",
                 "mp3.mp3",
@@ -50,16 +50,34 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             //Assert
             string html = this.repository.All.Single().HtmlContent.Value;
             html.Should().Contain(GetNormal("this is the "));
-            html.Should().Contain(GetUnderlined("target"),Exactly.Twice());
+            html.Should().Contain(GetUnderlined("target"), Exactly.Twice());
             html.Should().Contain(GetNormal(" is here."));
+        }
+
+        [Fact]
+        public async Task Should_separate_translations_with_coma()
+        {
+            //Arrange
+            ImportSequenceCommand command = new(
+                "target",new[] {"cible", "visée", "rabbit"},
+                "this is the target, and the target is here.",
+                "supposely translation",
+                "mp3.mp3",
+                4438);
+
+            //Act
+            await this.sut.Handle(command, CancellationToken.None);
+
+            //Assert
+            this.repository.All.Single().TranslatedWord!.Value.Should().Be("cible, visée, rabbit");
         }
 
         private static string GetUnderlined(string word)
         {
-            return  $"<span class=\"dc-gap\"><span class=\"dc-down dc-lang-en dc-orig\"" +
-                                    $" style=\"background-color: rgb(157, 0, 0);\">{word}</span></span>";
+            return $"<span class=\"dc-gap\"><span class=\"dc-down dc-lang-en dc-orig\"" +
+                   $" style=\"background-color: rgb(157, 0, 0);\">{word}</span></span>";
         }
-        
+
         private static string GetNormal(string word)
         {
             return $"<span class=\"dc-down dc-lang-en dc-orig\">{word}</span>";

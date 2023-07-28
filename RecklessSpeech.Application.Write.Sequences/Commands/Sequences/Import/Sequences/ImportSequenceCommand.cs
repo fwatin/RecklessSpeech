@@ -2,6 +2,7 @@
 {
     public record ImportSequenceCommand(
         string Word,
+        string[] TranslatedWordPropositions,
         string OriginalSentence,
         string TranslatedSentence,
         string Title,
