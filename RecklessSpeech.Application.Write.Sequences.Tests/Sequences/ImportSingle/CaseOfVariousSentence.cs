@@ -1,4 +1,5 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences;
+using System.Text.RegularExpressions;
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingle
 {
@@ -37,7 +38,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             //Arrange
             ImportSequenceCommand command = new(
                 "target",
-                "this is the target.",
+                "this is the target, and the target is here.",
                 "mp3.mp3",
                 4438);
 
@@ -47,8 +48,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             //Assert
             string html = this.repository.All.Single().HtmlContent.Value;
             html.Should().Contain(GetNormal("this is the "));
-            html.Should().Contain(GetUnderlined("target"));
-            html.Should().Contain(GetNormal("."));
+            html.Should().Contain(GetUnderlined("target"),Exactly.Twice());
+            html.Should().Contain(GetNormal(" is here."));
         }
 
         private static string GetUnderlined(string word)

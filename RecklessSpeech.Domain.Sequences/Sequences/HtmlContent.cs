@@ -20,9 +20,10 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
         public static HtmlContent Create(MediaId mediaId, TranslatedSentence translatedSentence, Word word, string title)
         {
             StringBuilder stringBuilder = new();
-            string[] motsAvecSeparateurs = Regex.Split(translatedSentence.Value, @"(\s|[:;])");
+            string pattern = $"({Regex.Escape(word.Value)})";
+            var splittedSentenceKeepingSeparator = Regex.Split(translatedSentence.Value, pattern); 
 
-            foreach (var wordInSentence in motsAvecSeparateurs)
+            foreach (var wordInSentence in splittedSentenceKeepingSeparator)
             {
                 if (wordInSentence.Trim().StartsWith(word.Value))
                 {
@@ -37,6 +38,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
                     stringBuilder.AppendLine(normal);
                 }
             }
+
             string sentence = stringBuilder.ToString();
 
             string template = GetTemplate();
