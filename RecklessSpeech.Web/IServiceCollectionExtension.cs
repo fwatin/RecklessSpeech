@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
+using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences;
 using RecklessSpeech.Web.Configuration;
 using RecklessSpeech.Web.Configuration.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -47,7 +48,7 @@ namespace RecklessSpeech.Web
 
         private static void AddDispatchers(this IServiceCollection services)
         {
-            Assembly applicationRentalWrite = typeof(ImportSequencesCommand).Assembly;
+            Assembly applicationRentalWrite = typeof(ImportSequenceCommand).Assembly;
             services.AddMediatR(applicationRentalWrite);
             
             Assembly applicationRead = typeof(GetAllSequencesQuery).Assembly;
