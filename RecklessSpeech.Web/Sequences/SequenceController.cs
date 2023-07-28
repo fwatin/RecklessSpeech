@@ -74,8 +74,9 @@ namespace RecklessSpeech.Web.Sequences
                     await this.dispatcher.Send(import);
                 }
 
-
-                return this.Ok($"imported");
+                IReadOnlyCollection<SequenceSummaryQueryModel> result =
+                    await this.dispatcher.Send(new GetAllSequencesQuery());
+                return this.Ok(result);
             }
             catch (Exception e)
             {
