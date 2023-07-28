@@ -71,6 +71,25 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             //Assert
             this.repository.All.Single().TranslatedWord!.Value.Should().Be("cible, visée, rabbit");
         }
+        
+        [Fact]
+        public async Task Should_not_take_into_account_the_case()
+        {
+            //Arrange
+            ImportSequenceCommand command = new(
+                "target",new[] {"cible"},
+                new []{"this is the TARGET."},
+                "supposely translation",
+                "mp3.mp3",
+                4438);
+
+            //Act
+            await this.sut.Handle(command, CancellationToken.None);
+
+            //Assert
+            string html = this.repository.All.Single().HtmlContent.Value;
+            html.Should().Contain(GetUnderlined("TARGET"));
+        }
 
         private static string GetUnderlined(string word)
         {

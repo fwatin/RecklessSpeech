@@ -21,11 +21,13 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
         {
             StringBuilder stringBuilder = new();
             string pattern = $"({Regex.Escape(word.Value)})";
-            var splittedSentenceKeepingSeparator = Regex.Split(originalSentences.GetCentralSentence(), pattern); 
+            var splittedSentenceKeepingSeparator = Regex.Split(originalSentences.GetCentralSentence(),
+                pattern,
+                RegexOptions.IgnoreCase);
 
             foreach (var wordInSentence in splittedSentenceKeepingSeparator)
             {
-                if (wordInSentence.Trim().StartsWith(word.Value))
+                if (wordInSentence.ToLowerInvariant().StartsWith(word.Value.ToLowerInvariant()))
                 {
                     string underlined =
                         $"<span class=\"dc-gap\"><span class=\"dc-down dc-lang-en dc-orig\"" +
