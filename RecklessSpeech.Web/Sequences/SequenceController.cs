@@ -44,7 +44,6 @@ namespace RecklessSpeech.Web.Sequences
                     string? prevBase64 = item.context?.phrase?.thumb_prev.dataURL.Split(',').Last();
                     if (prevBase64 is not null)
                     {
-
                         byte[] prev = Convert.FromBase64String(prevBase64);
                         SaveMediaCommand savePrev = new($"{item.timeModified_ms}_prev.jpg", prev);
                         await this.dispatcher.Send(savePrev);
@@ -53,7 +52,6 @@ namespace RecklessSpeech.Web.Sequences
                     string? nextBase64 = item.context?.phrase?.thumb_next.dataURL.Split(',').Last();
                     if (nextBase64 is not null)
                     {
-
                         byte[] next = Convert.FromBase64String(nextBase64);
                         SaveMediaCommand saveNext = new($"{item.timeModified_ms}_next.jpg", next);
                         await this.dispatcher.Send(saveNext);
@@ -68,7 +66,7 @@ namespace RecklessSpeech.Web.Sequences
                     //sequence
                     ImportSequenceCommand import = new(item.word.text,
                         item.context!.phrase!.subtitles["1"],
-                        $"{item.timeModified_ms}.mp3",
+                        item.context.phrase.reference.title,
                         item.timeModified_ms);
                     
                     await this.dispatcher.Send(import);
