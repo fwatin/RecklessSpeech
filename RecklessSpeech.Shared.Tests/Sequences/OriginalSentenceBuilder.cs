@@ -6,11 +6,11 @@ namespace RecklessSpeech.Shared.Tests.Sequences
     {
         public OriginalSentenceBuilder() { }
 
-        public OriginalSentenceBuilder(string value) => this.Value = value;
+        public OriginalSentenceBuilder(List<string> value) => this.Value = value;
 
-        public string Value { get; init; } = "It's just a gimmick";
+        public List<string> Value { get; init; } = new(){"It's just a gimmick"};
 
-        public static implicit operator OriginalSentence?(OriginalSentenceBuilder? builder)
+        public static implicit operator OriginalSentences?(OriginalSentenceBuilder? builder)
         {
             if (builder is null)
             {

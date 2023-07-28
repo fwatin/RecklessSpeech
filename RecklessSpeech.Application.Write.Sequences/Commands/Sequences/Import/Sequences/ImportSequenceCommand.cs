@@ -3,7 +3,7 @@
     public record ImportSequenceCommand(
         string Word,
         string[] TranslatedWordPropositions,
-        string OriginalSentence,
+        string[] OriginalSentences,
         string TranslatedSentence,
         string Title,
         long MediaId) : IRequest;

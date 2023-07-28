@@ -20,7 +20,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             ImportSequenceCommand command = new(
                 "target",
                 new[] {"cible"},
-                "target",
+                new []{"target"},
                 "cible",
                 "mp3.mp3",
                 4438);
@@ -39,7 +39,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             //Arrange
             ImportSequenceCommand command = new(
                 "target",new[] {"cible"},
-                "this is the target, and the target is here.",
+                new []{"this is the target, and the target is here."},
                 "supposely translation",
                 "mp3.mp3",
                 4438);
@@ -60,7 +60,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             //Arrange
             ImportSequenceCommand command = new(
                 "target",new[] {"cible", "visée", "rabbit"},
-                "this is the target, and the target is here.",
+                new []{"this is the target, and the target is here."},
                 "supposely translation",
                 "mp3.mp3",
                 4438);

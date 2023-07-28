@@ -15,19 +15,19 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
         {
             Word word = Word.Create(request.Word);
             TranslatedSentence translatedSentence = TranslatedSentence.Create(request.TranslatedSentence);
-            OriginalSentence originalSentence = OriginalSentence.Create(request.OriginalSentence);
+            OriginalSentences originalSentences = OriginalSentences.Create(request.OriginalSentences.ToList());
             AudioFileNameWithExtension audio = AudioFileNameWithExtension.Create($"{request.MediaId.ToString()}.mp3");
             MediaId mediaId = MediaId.Create(request.MediaId);
             TranslatedWord translatedWord = TranslatedWord.Create(string.Join(", ", request.TranslatedWordPropositions));
 
-            HtmlContent htmlContent = HtmlContent.Create(mediaId, originalSentence, word, request.Title);
+            HtmlContent htmlContent = HtmlContent.Create(mediaId, originalSentences, word, request.Title);
 
             Sequence sequence = Sequence.Create(Guid.NewGuid(),
                 htmlContent,
                 audio,
                 word,
                 translatedWord,
-                originalSentence,
+                originalSentences,
                 translatedSentence,
                 mediaId);
 

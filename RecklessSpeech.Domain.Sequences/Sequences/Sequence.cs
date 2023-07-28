@@ -18,7 +18,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
         public List<Explanation> Explanations { get; set; }
         public TranslatedWord? TranslatedWord { get; set; }
         public MediaId MediaId { get;  private init; }= default!;
-        public OriginalSentence? OriginalSentence { get; set; }
+        public OriginalSentences? OriginalSentences { get; set; }
         public int SentToAnkiTimes { get; set; }
 
 
@@ -27,7 +27,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
             AudioFileNameWithExtension audioFileNameWithExtension,
             Word word,
             TranslatedWord translatedWord,
-            OriginalSentence originalSentence,
+            OriginalSentences originalSentences,
             TranslatedSentence translatedSentence,
             MediaId mediaId)
         {
@@ -37,7 +37,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
                 AudioFile = audioFileNameWithExtension,
                 Word = word,
                 TranslatedWord = translatedWord,
-                OriginalSentence = originalSentence,
+                OriginalSentences = originalSentences,
                 TranslatedSentence = translatedSentence,
                 MediaId = mediaId,
                 Explanations = new(),
@@ -53,7 +53,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
             long mediaId,
             List<Explanation> explanations,
             string? translatedWord, 
-            string? originalSentence)
+            List<string> originalSentences)
         {
             return new(new(id))
             {
@@ -64,7 +64,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
                 Explanations = explanations,
                 TranslatedWord = TranslatedWord.Hydrate(translatedWord),
                 MediaId = MediaId.Hydrate(mediaId),
-                OriginalSentence = OriginalSentence.Hydrate(originalSentence),
+                OriginalSentences = OriginalSentences.Hydrate(originalSentences),
                 SentToAnkiTimes = 0
             };
         }

@@ -17,11 +17,11 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
             return new(value);
         }
 
-        public static HtmlContent Create(MediaId mediaId, OriginalSentence originalSentence, Word word, string title)
+        public static HtmlContent Create(MediaId mediaId, OriginalSentences originalSentences, Word word, string title)
         {
             StringBuilder stringBuilder = new();
             string pattern = $"({Regex.Escape(word.Value)})";
-            var splittedSentenceKeepingSeparator = Regex.Split(originalSentence.Value, pattern); 
+            var splittedSentenceKeepingSeparator = Regex.Split(originalSentences.GetCentralSentence(), pattern); 
 
             foreach (var wordInSentence in splittedSentenceKeepingSeparator)
             {
