@@ -21,6 +21,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             ImportSequenceCommand command = new(
                 "target",
                 "target",
+                "cible",
                 "mp3.mp3",
                 4438);
 
@@ -39,6 +40,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             ImportSequenceCommand command = new(
                 "target",
                 "this is the target, and the target is here.",
+                "supposely translation",
                 "mp3.mp3",
                 4438);
 

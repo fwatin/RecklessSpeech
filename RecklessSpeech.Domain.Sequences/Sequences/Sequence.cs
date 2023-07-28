@@ -26,6 +26,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
             HtmlContent htmlContent,
             AudioFileNameWithExtension audioFileNameWithExtension,
             Word word,
+            OriginalSentence originalSentence,
             TranslatedSentence translatedSentence,
             MediaId mediaId)
         {
@@ -34,6 +35,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
                 HtmlContent = htmlContent,
                 AudioFile = audioFileNameWithExtension,
                 Word = word,
+                OriginalSentence = originalSentence,
                 TranslatedSentence = translatedSentence,
                 MediaId = mediaId,
                 Explanations = new(),

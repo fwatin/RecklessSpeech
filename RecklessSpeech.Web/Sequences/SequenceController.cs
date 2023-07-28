@@ -66,6 +66,7 @@ namespace RecklessSpeech.Web.Sequences
                     //sequence
                     ImportSequenceCommand import = new(item.word.text,
                         item.context!.phrase!.subtitles["1"],
+                        item.context!.phrase!.hTranslations["1"],
                         item.context.phrase.reference.title,
                         item.timeModified_ms);
                     
