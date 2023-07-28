@@ -32,12 +32,12 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
                     string underlined =
                         $"<span class=\"dc-gap\"><span class=\"dc-down dc-lang-en dc-orig\"" +
                         $" style=\"background-color: rgb(157, 0, 0);\">{wordInSentence}</span></span>";
-                    stringBuilder.AppendLine(underlined);
+                    stringBuilder.Append(underlined);
                 }
                 else
                 {
                     string normal = $"<span class=\"dc-down dc-lang-en dc-orig\">{wordInSentence}</span>";
-                    stringBuilder.AppendLine(normal);
+                    stringBuilder.Append(normal);
                 }
             }
 
