@@ -85,30 +85,6 @@ namespace RecklessSpeech.Web.Sequences
         }
 
         [HttpPost]
-        [Route("import-details/")]
-        [MapToApiVersion("1.0")]
-        [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryQueryModel>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> ImportDetails(IFormFile file)
-        {
-            try
-            {
-                using StreamReader reader = new(file.OpenReadStream());
-                string data = await reader.ReadToEndAsync();
-                Class1[]? sequenceDetailsDto = JsonConvert.DeserializeObject<Class1[]>(data);
-                AddDetailsToSequencesCommand command = new(sequenceDetailsDto!);
-                await this.dispatcher.Send(command);
-
-                IReadOnlyCollection<SequenceSummaryQueryModel> r =
-                    await this.dispatcher.Send(new GetAllSequencesQuery());
-                return this.Ok(r);
-            }
-            catch (Exception e)
-            {
-                return this.BadRequest(e.Message);
-            }
-        }
-
-        [HttpPost]
         [Route("enrich-and-send-to-anki/{language}")]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
