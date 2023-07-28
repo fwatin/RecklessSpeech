@@ -15,10 +15,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
         {
             Word word = Word.Create(request.Word);
             TranslatedSentence translatedSentence = TranslatedSentence.Create(request.TranslatedSentence);
-            AudioFileNameWithExtension audio = AudioFileNameWithExtension.Create(request.AudioFilenameWithExtension);
+            AudioFileNameWithExtension audio = AudioFileNameWithExtension.Create($"{request.MediaId.ToString()}.mp3");
             MediaId mediaId = MediaId.Create(request.MediaId);
 
-            HtmlContent htmlContent = HtmlContent.Create(mediaId, translatedSentence, word, "Saving Private Ryan");
+            HtmlContent htmlContent = HtmlContent.Create(mediaId, translatedSentence, word, request.Title);
 
             Sequence sequence = Sequence.Create(Guid.NewGuid(),
                 htmlContent,
