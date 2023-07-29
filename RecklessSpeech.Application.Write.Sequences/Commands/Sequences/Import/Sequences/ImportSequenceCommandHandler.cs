@@ -9,7 +9,6 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
         public ImportSequenceCommandHandler(ISequenceRepository sequenceRepository)
         {
             this.sequenceRepository = sequenceRepository;
-
         }
         public Task<Unit> Handle(ImportSequenceCommand request, CancellationToken cancellationToken)
         {
@@ -32,7 +31,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
                 mediaId);
 
             this.sequenceRepository.Add(sequence);
-            
+
             return Task.FromResult(Unit.Value);
         }
     }
