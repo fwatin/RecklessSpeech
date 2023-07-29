@@ -1,0 +1,96 @@
+﻿<style>
+    html,
+    .dc-card {
+        padding-bottom: 1rem;
+        border-bottom: 0.5px solid rgb(128, 128, 128)
+    }
+
+    .nightMode .cloze {
+        color: rgb(21, 105, 199)
+    }
+
+    .dc-title {
+        color: rgb(127, 127, 127);
+        font-size: 0.8rem;
+        text-align: center;
+        padding-top: 0.65rem;
+        margin-bottom: 0.65rem
+    }
+
+    .dc-images {
+        text-align: center;
+        max-width: 450px;
+        margin: 0 auto 0.5rem
+    }
+
+    .dc-image {
+        width: calc(50% - 10px);
+        margin-left: 2px;
+        margin-right: 2px;
+        display: inline-block;
+        padding-bottom: 29%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .dc-line {
+        padding: 0.4rem
+    }
+
+    .dc-up {
+        display: block;
+        font-size: 0.75rem
+    }
+
+    .dc-translation {
+        color: rgb(255, 0, 255)
+    }
+
+    .dc-layer {
+        display: inline-block;
+        text-align: center;
+        line-height: 1.3rem
+    }
+
+    .dc-lang-zh-CN.dc-orig {
+        font-size: 1.2rem
+    }
+
+    .dc-lang-zh-TW.dc-orig {
+        font-size: 1.2rem
+    }
+
+    .dc-lang-ja.dc-orig {
+        font-size: 1.2rem
+    }
+
+    .dc-lang-th.dc-orig {
+        font-size: 1.2rem
+    }
+
+    .dc-lang-ar.dc-orig {
+        font-size: 1.2rem
+    }
+
+    .dc-lang-fa.dc-orig {
+        font-size: 1.2rem
+    }
+
+    .dc-lang-ur.dc-orig {
+        font-size: 1.2rem
+    }
+</style>
+<div class="dc-bg">
+    <div class="dc-card dc-lang-en dc-word-naked">
+        <div class="dc-title">{{title}}</div>
+        <div class="dc-images">
+            <div class="dc-image dc-image-prev" style="background-image: url({{mediaId}}_prev.jpg)"></div>
+            <div class="dc-image dc-image-next" style="background-image: url({{mediaId}}_next.jpg)"></div>
+        </div>
+        <div class="dc-line">
+            {{html_sentence}}
+        </div>
+        <div class="dc-line dc-translation dc-lang-fr"></div>
+    </div>
+</div>

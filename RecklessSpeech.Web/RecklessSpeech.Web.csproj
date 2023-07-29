@@ -8,7 +8,6 @@
     <ItemGroup>
         <ProjectReference Include="..\RecklessSpeech.Application.Read\RecklessSpeech.Application.Read.csproj" />
         <ProjectReference Include="..\RecklessSpeech.Application.Write.Sequences\RecklessSpeech.Application.Write.Sequences.csproj" />
-        <ProjectReference Include="..\RecklessSpeech.Infrastructure.Read\RecklessSpeech.Infrastructure.Read.csproj" />
         <ProjectReference Include="..\RecklessSpeech.Infrastructure.Sequences\RecklessSpeech.Infrastructure.Sequences.csproj" />
     </ItemGroup>
 

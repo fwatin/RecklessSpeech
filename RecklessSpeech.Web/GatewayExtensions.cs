@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
@@ -7,10 +7,11 @@ using RecklessSpeech.Infrastructure.Sequences.Gateways.Anki;
 using RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt;
 using RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.Mijnwoordenboek;
 using RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.WordReference;
+using System;
 
-namespace RecklessSpeech.Infrastructure.Read
+namespace RecklessSpeech.Web
 {
-    public static class ServiceCollectionExtensions
+    public static class GatewayExtensions
     {
         public static IServiceCollection AddGateways(this IServiceCollection services, IConfiguration configuration) =>
             services

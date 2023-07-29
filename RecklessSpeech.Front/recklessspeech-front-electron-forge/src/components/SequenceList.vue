@@ -8,7 +8,6 @@ export default {
       jsonPickerDialog: false,
       sequences: [],
       checkedSequenceIndexes: [],
-      selectedFile: null,
       selectedJson: null,
       enrichProgression: 0,
       isSending: false,
@@ -116,42 +115,8 @@ export default {
     openJsonPicker() {
       this.jsonPickerDialog = true;
     },
-    onFileSelected(event) {
-      this.selectedFile = event.target.files[0];
-    },
     onJsonSelected(event) {
       this.selectedJson = event.target.files[0];
-    },
-    async importZip() {
-      try {
-        const formData = new FormData();
-        formData.append("file", this.selectedFile);
-
-        await axios
-          .post(
-            `https://localhost:${backendPort}/api/v1/sequences/import-zip`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            }
-          )
-          .then((response) => {
-            this.sequences = response.data;
-            console.log(
-              this.sequences.length + " words set into the variable 'words'."
-            );
-            new Notification(this.sequences.length + " mots ont été importés.");
-          });
-      } catch (error) {
-        console.error(error);
-        new Notification(
-          "Une erreur est survenue lors de l'importation du fichier zip."
-        );
-      }
-
-      this.filePickerDialog = false;
     },
     async importJSON() {
       try {
@@ -160,7 +125,7 @@ export default {
 
         const response = await axios
           .post(
-            `https://localhost:${backendPort}/api/v1/sequences/import-details`,
+            `https://localhost:${backendPort}/api/v1/sequences/import-json`,
             formData,
             {
               headers: {
@@ -191,24 +156,6 @@ export default {
 </script>
 <template>
   <div class="container mt-5">
-    <!-- Importer un fichier Zip -->
-    <div class="card mb-4">
-      <div class="card-header">Sélectionner un fichier Zip</div>
-      <div class="card-body">
-        <div class="input-group">
-          <input
-            type="file"
-            class="form-control"
-            ref="fileInput"
-            accept=".zip"
-            @change="onFileSelected"
-          />
-          <button class="btn btn-primary ml-3" @click="importZip">
-            Importer
-          </button>
-        </div>
-      </div>
-    </div>
 
     <!-- Importer un fichier JSON -->
     <div class="card mb-4">

@@ -1,6 +1,5 @@
 ﻿using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
-using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Shared.Tests.Explanations;
 
@@ -21,7 +20,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             List<ExplanationBuilder> explanations,
             TranslatedWordBuilder? translatedWord,
             MediaIdBuilder mediaId,
-            OriginalSentenceBuilder? originalSentence)
+            OriginalSentenceBuilder originalSentence)
         {
             this.SequenceId = sequenceId;
             this.HtmlContent = htmlContent;
@@ -45,7 +44,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
         public List<ExplanationBuilder> Explanations { get; init; }
         public TranslatedWordBuilder? TranslatedWord { get; init; }
         public MediaIdBuilder MediaId { get; init; }
-        public OriginalSentenceBuilder? OriginalSentence { get; init; }
+        public OriginalSentenceBuilder OriginalSentence { get; init; }
 
 
         public string RawCsvContent
@@ -69,16 +68,18 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 new(),
                 new(),
                 null,
-                new(), null);
+                new(),
+                new());
 
         public SequenceSummaryQueryModel BuildQueryModel() =>
             new(
                 this.SequenceId.Value,
                 this.Word.Value,
-                this.TranslatedWord == null ? "" : this.TranslatedWord.Value,
-                false, 0);
-
-        public ImportSequencesCommand BuildImportCommand() => new(this.RawCsvContent);
+                this.TranslatedWord == null
+                    ? ""
+                    : this.TranslatedWord.Value,
+                false,
+                0);
 
         private string DefaultExampleFromMoneyBall() =>
             "\"<style>\n\n    html,\n    body {\n        padding: 0;\n        margin: 0;\n    }\n\n    .card {\n        " +
@@ -137,6 +138,6 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.MediaId.Value,
                 this.Explanations.Select(x => x.BuildDomain()).ToList(),
                 this.TranslatedWord?.Value,
-                this.OriginalSentence?.Value);
+                this.OriginalSentence.Value);
     }
 }

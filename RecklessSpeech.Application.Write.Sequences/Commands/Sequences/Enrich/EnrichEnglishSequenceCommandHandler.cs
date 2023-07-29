@@ -32,10 +32,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
                 return Unit.Value;
             }
             
-            if (sequence.OriginalSentence is not null)
+            if (sequence.OriginalSentences is not null)
             {
                 Explanation explanationWithChatGpt =
-                    await this.chatGptGateway.GetExplanation(sequence.Word.Value, sequence.OriginalSentence!.Value,new English());
+                    await this.chatGptGateway.GetExplanation(sequence.Word.Value, sequence.OriginalSentences!.Joined(),new English());
                 sequence.Explanations.Add(explanationWithChatGpt);
             }
 

@@ -26,11 +26,19 @@ public class Phrase
 {
     public Dictionary<string,Subtitletokens[]> subtitleTokens { get; set; }
     public Dictionary<string,string> subtitles { get; set; }
-    public Mtranslations mTranslations { get; set; }
-    public Htranslations hTranslations { get; set; }
+    public Dictionary<string,string> mTranslations { get; set; }
+    public Dictionary<string,string> hTranslations { get; set; }
     public Reference reference { get; set; }
-    public object thumb_prev { get; set; }
-    public object thumb_next { get; set; }
+    public Thumb thumb_prev { get; set; }
+    public Thumb thumb_next { get; set; }
+}
+
+public class Thumb
+{
+    public double time{ get; set; }
+    public double width{ get; set; }
+    public double height{ get; set; }
+    public string dataURL{ get; set; }
 }
 
 public class Subtitletokens
@@ -73,20 +81,6 @@ public class Lemma
 public class Form_Norm
 {
     public string text { get; set; }
-}
-
-public class Mtranslations
-{
-    public string _0 { get; set; }
-    public string _1 { get; set; }
-    public string _2 { get; set; }
-}
-
-public class Htranslations
-{
-    public string _0 { get; set; }
-    public string _1 { get; set; }
-    public string _2 { get; set; }
 }
 
 public class Reference

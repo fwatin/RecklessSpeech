@@ -19,7 +19,7 @@
             //Arrange
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create() with
             {
-                OriginalSentence = new("tiens j'ai laché une caisse")
+                OriginalSentence = new(new(){"tiens j'ai laché une caisse"})
             };
             this.sequenceRepository.Add(sequenceBuilder);
             ExplanationBuilder explanation = ExplanationBuilder.Create() with

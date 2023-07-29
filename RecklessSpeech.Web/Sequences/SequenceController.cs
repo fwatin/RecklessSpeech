@@ -7,20 +7,19 @@ using RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
 using RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
-using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Media;
+using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
+using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RecklessSpeech.Web.Sequences
 {
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/sequences")]
+    [Route("api/v1/sequences")]
     [ApiController]
     public class SequenceController : ControllerBase
     {
@@ -29,75 +28,55 @@ namespace RecklessSpeech.Web.Sequences
         public SequenceController(IMediator dispatcher) => this.dispatcher = dispatcher;
 
         [HttpPost]
-        [Route("import-zip/")]
+        [Route("import-json/")]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryQueryModel>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> ImportSequencesWithZip(
-            IFormFile file)
-        {
-            try
-            {
-                using MemoryStream memoryStream = new();
-                await file.CopyToAsync(memoryStream);
-
-                memoryStream.Seek(0, SeekOrigin.Begin);
-
-                using ZipArchive archive = new(memoryStream, ZipArchiveMode.Read);
-                List<SequenceSummaryQueryModel> all = new();
-                foreach (ZipArchiveEntry entry in archive.Entries)
-                {
-                    await using Stream entryStream = entry.Open();
-                    byte[] buffer = new byte[entryStream.Length];
-                    int bytesRead = await entryStream.ReadAsync(buffer);
-
-                    if (bytesRead != entryStream.Length)
-                    {
-                        return this.BadRequest($"Erreur lors de la lecture du fichier {entry.FullName}");
-                    }
-
-                    if (entry.FullName == "items.csv")
-                    {
-                        string data = Encoding.UTF8.GetString(buffer);
-
-                        ImportSequencesCommand command = new(data);
-
-                        await this.dispatcher.Send(command);
-
-                        all.AddRange(await this.dispatcher.Send(new GetAllSequencesQuery()));
-                    }
-                    else
-                    {
-                        SaveMediaCommand saveMedia = new(entry.FullName, buffer);
-                        await this.dispatcher.Send(saveMedia);
-                    }
-                }
-
-                return this.Ok(all);
-            }
-            catch (Exception e)
-            {
-                return this.BadRequest(e.Message);
-            }
-        }
-
-
-        [HttpPost]
-        [Route("import-details/")]
-        [MapToApiVersion("1.0")]
-        [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryQueryModel>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> ImportDetails(IFormFile file)
+        public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> ImportJson(IFormFile file)
         {
             try
             {
                 using StreamReader reader = new(file.OpenReadStream());
                 string data = await reader.ReadToEndAsync();
-                Class1[]? sequenceDetailsDto = JsonConvert.DeserializeObject<Class1[]>(data);
-                AddDetailsToSequencesCommand command = new(sequenceDetailsDto!);
-                await this.dispatcher.Send(command);
+                Class1[]? payload = JsonConvert.DeserializeObject<Class1[]>(data);
 
-                IReadOnlyCollection<SequenceSummaryQueryModel> r =
+                foreach (Class1 item in payload)
+                {
+                    string? prevBase64 = item.context?.phrase?.thumb_prev.dataURL.Split(',').Last();
+                    if (prevBase64 is not null)
+                    {
+                        byte[] prev = Convert.FromBase64String(prevBase64);
+                        SaveMediaCommand savePrev = new($"{item.timeModified_ms}_prev.jpg", prev);
+                        await this.dispatcher.Send(savePrev);
+                    }
+
+                    string? nextBase64 = item.context?.phrase?.thumb_next.dataURL.Split(',').Last();
+                    if (nextBase64 is not null)
+                    {
+                        byte[] next = Convert.FromBase64String(nextBase64);
+                        SaveMediaCommand saveNext = new($"{item.timeModified_ms}_next.jpg", next);
+                        await this.dispatcher.Send(saveNext);
+                    }
+
+                    //mp3
+                    string mp3InBase64 = item.audio.dataURL.Split(',').Last();
+                    byte[] mp3 = Convert.FromBase64String(mp3InBase64);
+                    SaveMediaCommand saveMp3 = new($"{item.timeModified_ms}.mp3", mp3);
+                    await this.dispatcher.Send(saveMp3);
+
+                    //sequence
+                    ImportSequenceCommand import = new(item.word.text,
+                        item.wordTranslationsArr,
+                        item.context!.phrase!.subtitles.Values.ToArray(),
+                        item.context!.phrase!.hTranslations["1"],
+                        item.context.phrase.reference.title,
+                        item.timeModified_ms);
+
+                    await this.dispatcher.Send(import);
+                }
+
+                IReadOnlyCollection<SequenceSummaryQueryModel> result =
                     await this.dispatcher.Send(new GetAllSequencesQuery());
-                return this.Ok(r);
+                return this.Ok(result);
             }
             catch (Exception e)
             {
@@ -134,7 +113,7 @@ namespace RecklessSpeech.Web.Sequences
                 return this.BadRequest(e.Message);
             }
         }
-        
+
         [HttpGet]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryQueryModel>), (int)HttpStatusCode.OK)]
