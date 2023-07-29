@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 namespace RecklessSpeech.Web.Sequences
 {
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/sequences")]
+    [Route("api/v1/sequences")]
     [ApiController]
     public class SequenceController : ControllerBase
     {

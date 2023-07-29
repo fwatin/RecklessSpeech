@@ -19,9 +19,4 @@
         <PackageReference Include="HtmlAgilityPack" Version="1.11.43" />
     </ItemGroup>
 
-
-    <ItemGroup>
-      <None Remove="Commands\Sequences\Import\Sequences\sequence_template.html" />
-    </ItemGroup>
-
 </Project>

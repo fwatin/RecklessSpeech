@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RecklessSpeech.Application.Read;
 using RecklessSpeech.Application.Write.Sequences;
-using RecklessSpeech.Infrastructure.Read;
 using RecklessSpeech.Infrastructure.Sequences.Repositories;
 using RecklessSpeech.Web.Configuration.Cors;
 
