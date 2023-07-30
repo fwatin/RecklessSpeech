@@ -29,8 +29,8 @@ namespace RecklessSpeech.Web
             services.AddHttpClient<INoteGateway, HttpAnkiNoteGateway>(
                 (_, client) =>
                 {
-                    string path = configuration["AnkiPath"];
-                    client.BaseAddress = new(path);
+                    string? options = configuration["Anki:Path"];
+                    client.BaseAddress = new(options!);
                 });
 
             return services;

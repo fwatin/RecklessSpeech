@@ -2,6 +2,6 @@
 {
     public class HttpAnkiNoteGatewayOptions
     {
-        public string AnkiPath { get; init; } = default!;
+        public string AnkiPath { get; set; }
     }
 }
