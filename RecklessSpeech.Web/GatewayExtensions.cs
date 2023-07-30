@@ -22,15 +22,15 @@ namespace RecklessSpeech.Web
 
         private static IServiceCollection AddNoteGateway(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddOptions<AnkiNoteGatewayOptions>()
+            services.AddOptions<AnkiSettings>()
                 .BindConfiguration("Anki")
                 .ValidateDataAnnotations();
 
             services.AddHttpClient<INoteGateway, HttpAnkiNoteGateway>(
                 (provider, client) =>
                 {
-                    var options =  provider.GetRequiredService<IOptions<AnkiNoteGatewayOptions>>();
-                    string path = options.Value.Path;
+                    var options =  provider.GetRequiredService<IOptions<AnkiSettings>>();
+                    string path = options.Value.Url;
                     client.BaseAddress = new(path);
                 });
 
