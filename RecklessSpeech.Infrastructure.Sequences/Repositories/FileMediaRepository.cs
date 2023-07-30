@@ -1,35 +1,22 @@
-﻿using RecklessSpeech.Application.Write.Sequences.Ports;
+﻿using Microsoft.Extensions.Options;
+using RecklessSpeech.Application.Write.Sequences.Ports;
+using RecklessSpeech.Infrastructure.Sequences.Gateways.Anki;
 
 namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 {
     public class FileMediaRepository : IMediaRepository
     {
+        private readonly IOptions<AnkiSettings> settings;
+        public FileMediaRepository(IOptions<AnkiSettings> settings)
+        {
+            this.settings = settings;
+        }
+        
         public async Task SaveInMediaCollection(string commandEntryFullName, byte[] commandContent)
         {
-            string mediaFolderPath = GetPath();
-            if (string.IsNullOrEmpty(mediaFolderPath)) return;
-
-            string filePath = Path.Combine(mediaFolderPath, commandEntryFullName);
-
-            if (File.Exists(filePath)) return;
+            if (File.Exists(this.settings.Value.MediaPath)) return;
             
-            await File.WriteAllBytesAsync(filePath,commandContent);
+            await File.WriteAllBytesAsync(settings.Value.MediaPath,commandContent);
         }
-
-        private static string GetPath()
-        {
-            const string officeDesktop = @"C:/Users/felix/AppData/Roaming/Anki2/Felix/collection.media";
-            const string surfacePro = @"C:\Users\felix\AppData\Roaming\Anki2\Félix\collection.media";
-            
-
-            if (Directory.Exists(surfacePro))
-            {
-                return surfacePro;
-            }
-            return Directory.Exists(officeDesktop)
-                ? officeDesktop
-                : string.Empty;
-        }
-
     }
 }
