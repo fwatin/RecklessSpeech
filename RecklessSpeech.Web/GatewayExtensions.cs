@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
@@ -14,22 +13,22 @@ namespace RecklessSpeech.Web
 {
     public static class GatewayExtensions
     {
-        public static IServiceCollection AddGateways(this IServiceCollection services, IConfiguration configuration) =>
+        public static IServiceCollection AddGateways(this IServiceCollection services) =>
             services
-                .AddNoteGateway(configuration)
-                .AddChatGptGateway(configuration)
+                .AddNoteGateway()
+                .AddChatGptGateway()
                 .AddTranslatorGateway();
 
-        private static IServiceCollection AddNoteGateway(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddNoteGateway(this IServiceCollection services)
         {
             services.AddOptions<AnkiSettings>()
-                .BindConfiguration("Anki")
+                .BindConfiguration(AnkiSettings.SECTION_KEY)
                 .ValidateDataAnnotations();
 
             services.AddHttpClient<INoteGateway, HttpAnkiNoteGateway>(
                 (provider, client) =>
                 {
-                    var options =  provider.GetRequiredService<IOptions<AnkiSettings>>();
+                    var options = provider.GetRequiredService<IOptions<AnkiSettings>>();
                     string path = options.Value.Url;
                     client.BaseAddress = new(path);
                 });
@@ -37,15 +36,18 @@ namespace RecklessSpeech.Web
             return services;
         }
 
-        private static IServiceCollection AddChatGptGateway(this IServiceCollection services,
-            IConfiguration configuration)
+        private static IServiceCollection AddChatGptGateway(this IServiceCollection services)
         {
-            string chatGptKey = configuration["CHATGPT_KEY"];
+            services.AddOptions<ChatGptSettings>()
+                .BindConfiguration(ChatGptSettings.SECTION_KEY)
+                .ValidateDataAnnotations();
+
             services.AddHttpClient<IChatGptGateway, ChatGptGateway>(
-                (_, client) =>
+                (provider, client) =>
                 {
-                    client.BaseAddress = new Uri("https://api.openai.com/v1/");
-                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {chatGptKey}");
+                    var options = provider.GetRequiredService<IOptions<ChatGptSettings>>();
+                    client.BaseAddress = new Uri(options.Value.Url);
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {options.Value.SubscriptionKey}");
                 });
 
             return services;
