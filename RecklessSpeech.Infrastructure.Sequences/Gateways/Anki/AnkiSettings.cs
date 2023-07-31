@@ -1,8 +1,11 @@
-﻿namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Anki
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Anki
 {
     public class AnkiSettings
     {
-        public string Url { get; set; }
-        public string MediaPath { get; set; }
+        [Required] public string Url { get; set; }
+
+        [Required] public string MediaPath { get; set; }
     }
 }
