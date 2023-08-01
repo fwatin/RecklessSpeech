@@ -43,7 +43,8 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt
 
             string content = template
                 .Replace("{{word}}", word)
-                .Replace("{{sentence}}", sentences.GetCentralSentence())
+                .Replace("{{central}}", sentences.GetCentralSentence())
+                .Replace("{{sentence}}", sentences.Joined())
                 .Replace("{{language}}", language.GetLanguageInFrench())
                 .Replace("{{explanation}}", GetContent(response));
 
