@@ -33,13 +33,21 @@ namespace RecklessSpeech.Web.Sequences
         [ProducesResponseType(typeof(IReadOnlyCollection<SequenceSummaryQueryModel>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IReadOnlyCollection<SequenceSummaryQueryModel>>> ImportJson(IFormFile file)
         {
+            Class1[]? payload;
             try
             {
                 using StreamReader reader = new(file.OpenReadStream());
                 string data = await reader.ReadToEndAsync();
-                Class1[]? payload = JsonConvert.DeserializeObject<Class1[]>(data);
+                payload = JsonConvert.DeserializeObject<Class1[]>(data);
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest($"error while reading and deserializing json: + {e.Message}");
+            }
 
-                foreach (Class1 item in payload)
+            foreach (Class1 item in payload)
+            {
+                try
                 {
                     string? prevBase64 = item.context?.phrase?.thumb_prev.dataURL.Split(',').Last();
                     if (prevBase64 is not null)
@@ -73,15 +81,15 @@ namespace RecklessSpeech.Web.Sequences
 
                     await this.dispatcher.Send(import);
                 }
+                finally
+                {
+                    Console.WriteLine($"error while importing {item.word.text}");
+                }
+            }
 
-                IReadOnlyCollection<SequenceSummaryQueryModel> result =
-                    await this.dispatcher.Send(new GetAllSequencesQuery());
-                return this.Ok(result);
-            }
-            catch (Exception e)
-            {
-                return this.BadRequest(e.Message);
-            }
+            IReadOnlyCollection<SequenceSummaryQueryModel> result =
+                await this.dispatcher.Send(new GetAllSequencesQuery());
+            return this.Ok(result);
         }
 
         [HttpPost]
