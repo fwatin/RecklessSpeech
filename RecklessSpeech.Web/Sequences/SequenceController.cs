@@ -75,8 +75,11 @@ namespace RecklessSpeech.Web.Sequences
                     TranslationDto translation = new TranslationDto(
                         item.context!.phrase!.hTranslations?.Values.ToArray(),
                         item.context!.phrase!.mTranslations?.Values.ToArray());
+
+                    int wordIndex = item.context.wordIndex;
+                    var correspondingToken = item.context.phrase.subtitleTokens["1"][wordIndex];
                     
-                    ImportSequenceCommand import = new(item.word.text,
+                    ImportSequenceCommand import = new(correspondingToken.form.text,
                         item.wordTranslationsArr,
                         item.context!.phrase!.subtitles.Values.ToArray(),
                         translation,
