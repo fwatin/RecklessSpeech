@@ -11,12 +11,14 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
         {
             this.settings = settings;
         }
-        
+
         public async Task SaveInMediaCollection(string commandEntryFullName, byte[] commandContent)
         {
             if (File.Exists(this.settings.Value.MediaPath)) return;
-            
-            await File.WriteAllBytesAsync(settings.Value.MediaPath,commandContent);
+
+            string filePath = Path.Combine(this.settings.Value.MediaPath, commandEntryFullName);
+
+            await File.WriteAllBytesAsync(filePath, commandContent);
         }
     }
 }
