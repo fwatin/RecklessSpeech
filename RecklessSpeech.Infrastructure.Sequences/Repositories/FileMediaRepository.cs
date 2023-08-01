@@ -14,9 +14,9 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 
         public async Task SaveInMediaCollection(string commandEntryFullName, byte[] commandContent)
         {
-            if (File.Exists(this.settings.Value.MediaPath)) return;
-
             string filePath = Path.Combine(this.settings.Value.MediaPath, commandEntryFullName);
+            
+            if (File.Exists(filePath)) return;
 
             await File.WriteAllBytesAsync(filePath, commandContent);
         }
