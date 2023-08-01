@@ -72,8 +72,9 @@ namespace RecklessSpeech.Web.Sequences
                     await this.dispatcher.Send(saveMp3);
 
                     //sequence
-                    TranslationDto translation = new TranslationDto(item.context!.phrase!.hTranslations.Values.ToArray(),
-                        item.context!.phrase!.mTranslations.Values.ToArray());
+                    TranslationDto translation = new TranslationDto(
+                        item.context!.phrase!.hTranslations?.Values.ToArray(),
+                        item.context!.phrase!.mTranslations?.Values.ToArray());
                     
                     ImportSequenceCommand import = new(item.word.text,
                         item.wordTranslationsArr,
