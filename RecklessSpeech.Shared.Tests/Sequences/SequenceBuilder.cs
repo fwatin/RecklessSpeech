@@ -130,14 +130,14 @@ namespace RecklessSpeech.Shared.Tests.Sequences
         public static implicit operator Sequence(SequenceBuilder builder) => builder.BuildDomain();
 
         public Sequence BuildDomain() =>
-            Sequence.Hydrate(this.SequenceId.Value,
-                this.HtmlContent.Value,
-                this.AudioFileNameWithExtension.Value,
-                this.Word.Value,
-                this.TranslatedSentence.Value,
-                this.MediaId.Value,
-                this.Explanations.Select(x => x.BuildDomain()).ToList(),
-                this.TranslatedWord?.Value,
-                this.OriginalSentence.Value);
+            Sequence.Create(this.SequenceId.Value,
+                this.HtmlContent,
+                this.AudioFileNameWithExtension,
+                this.Word,
+                this.TranslatedWord,
+                this.OriginalSentence,
+                this.TranslatedSentence,
+                this.MediaId);
+
     }
 }

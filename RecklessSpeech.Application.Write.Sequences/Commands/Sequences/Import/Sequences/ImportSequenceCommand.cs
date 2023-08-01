@@ -4,8 +4,10 @@
         string Word,
         string[] TranslatedWordPropositions,
         string[] OriginalSentences,
-        string TranslatedSentence,
+        TranslationDto TranslatedSentence,
         string Title,
         long MediaId) : IRequest;
+
+    public record TranslationDto(string?[]? HumanTranslation, string?[]? MachineTranslation);
 
 }

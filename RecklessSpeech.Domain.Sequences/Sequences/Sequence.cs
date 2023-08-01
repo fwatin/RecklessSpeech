@@ -14,7 +14,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
         public SequenceId SequenceId { get; }
         public HtmlContent HtmlContent { get; private init; } = default!;
         public Word Word { get; private init; } = default!;
-        public TranslatedSentence TranslatedSentence { get; private init; } = default!;
+        public SentenceTranslations SentenceTranslations { get; private init; } = default!;
         public List<Explanation> Explanations { get; set; }
         public TranslatedWord? TranslatedWord { get; set; }
         public MediaId MediaId { get;  private init; }= default!;
@@ -28,7 +28,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
             Word word,
             TranslatedWord translatedWord,
             OriginalSentences originalSentences,
-            TranslatedSentence translatedSentence,
+            SentenceTranslations sentenceTranslations,
             MediaId mediaId)
         {
             return new(new(id))
@@ -38,33 +38,9 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
                 Word = word,
                 TranslatedWord = translatedWord,
                 OriginalSentences = originalSentences,
-                TranslatedSentence = translatedSentence,
+                SentenceTranslations = sentenceTranslations,
                 MediaId = mediaId,
                 Explanations = new(),
-                SentToAnkiTimes = 0
-            };
-        }
-
-        public static Sequence Hydrate(Guid id,
-            string htmlContent,
-            string audioFileNameWithExtension,
-            string word,
-            string translatedSentence,
-            long mediaId,
-            List<Explanation> explanations,
-            string? translatedWord, 
-            List<string> originalSentences)
-        {
-            return new(new(id))
-            {
-                HtmlContent = HtmlContent.Hydrate(htmlContent),
-                AudioFile = AudioFileNameWithExtension.Hydrate(audioFileNameWithExtension),
-                Word = Word.Hydrate(word),
-                TranslatedSentence = TranslatedSentence.Hydrate(translatedSentence),
-                Explanations = explanations,
-                TranslatedWord = TranslatedWord.Hydrate(translatedWord),
-                MediaId = MediaId.Hydrate(mediaId),
-                OriginalSentences = OriginalSentences.Hydrate(originalSentences),
                 SentToAnkiTimes = 0
             };
         }

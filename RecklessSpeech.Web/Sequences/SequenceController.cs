@@ -72,18 +72,21 @@ namespace RecklessSpeech.Web.Sequences
                     await this.dispatcher.Send(saveMp3);
 
                     //sequence
+                    TranslationDto translation = new TranslationDto(item.context!.phrase!.hTranslations.Values.ToArray(),
+                        item.context!.phrase!.mTranslations.Values.ToArray());
+                    
                     ImportSequenceCommand import = new(item.word.text,
                         item.wordTranslationsArr,
                         item.context!.phrase!.subtitles.Values.ToArray(),
-                        item.context!.phrase!.hTranslations["1"],
+                        translation,
                         item.context.phrase.reference.title,
                         item.timeModified_ms);
 
                     await this.dispatcher.Send(import);
                 }
-                finally
+                catch (Exception e)
                 {
-                    Console.WriteLine($"error while importing {item.word.text}");
+                    Console.WriteLine($"error while importing {item.word.text} : {e.Message}");
                 }
             }
 
