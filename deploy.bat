@@ -1,7 +1,18 @@
 @echo off
-cd "C:\Dev\MyProjects\RecklessSpeech"
+cd /d "%~dp0"
+
+echo "Début de la publication..."
+:: Passer au dossier de l'application .NET et le publier
 dotnet publish -c Release -o ./backend_publish
-cd "C:\Dev\MyProjects\RecklessSpeech\RecklessSpeech.Front\recklessspeech-front-electron-forge"
+echo "Publication terminée"
+set /p DummyName=Appuyez sur une touche pour continuer...
+
+:: Passer au dossier de l'application Electron et le construire
+cd "RecklessSpeech.Front\recklessspeech-front-electron-forge"
 yarn make
-start "C:\Dev\MyProjects\RecklessSpeech\RecklessSpeech.Front\recklessspeech-front-electron-forge\out\make\squirrel.windows\x64"
+
+:: Lancer l'application Electron
+start "out\make\squirrel.windows\x64"
 pause
+
+set /p DummyName=Appuyez sur une touche pour continuer...
