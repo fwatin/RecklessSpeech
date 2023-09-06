@@ -1,7 +1,7 @@
 <script>
 import axios from "axios";
-const backendPort = process.env.NODE_ENV === "development" ? "47973" : "5000";
-const http = process.env.NODE_ENV === "development" ? "https" : "http";
+const backendPort = process.env.NODE_ENV === "development" ? "5000" : "5000";
+const http = process.env.NODE_ENV === "development" ? "http" : "http";
 const baseUrl = `${http}://localhost:${backendPort}`;
 export default {
   data() {
