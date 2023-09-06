@@ -26,22 +26,16 @@ const createWindow = () => {
   // Options pour le processus fils
   const options = {
     cwd: path.join(resourcePath, 'backend_publish'), // Ici, nous définissons le répertoire de travail
-    detached: false,
-    shell: "cmd"
+    detached: false
   };
 
   // Lance le processus du backend
   const backendProcess = spawn(backendPath, [], options);
+  console.log("this is backend process pid : " + backendProcess.pid);
 
-  // Tue le processus du backend lorsque la fenêtre principale est fermée
   app.on('window-all-closed', () => {
-    console.log("le kill arrive en dessous");
-    backendProcess.kill();
-    backendProcess.kill('SIGTERM');
+    console.log('window-all-closed triggered...');
   });
-  //}
-
-
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
