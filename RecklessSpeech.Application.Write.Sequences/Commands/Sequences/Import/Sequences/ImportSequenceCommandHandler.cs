@@ -13,7 +13,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
         public Task<Unit> Handle(ImportSequenceCommand request, CancellationToken cancellationToken)
         {
             Word word = Word.Create(request.Word);
-            TranslatedSentence translatedSentence = TranslatedSentence.Create(request.TranslatedSentence);
+            SentenceTranslations sentenceTranslations = SentenceTranslations.Create(request.TranslatedSentence.HumanTranslation,
+                request.TranslatedSentence.MachineTranslation);
             OriginalSentences originalSentences = OriginalSentences.Create(request.OriginalSentences.ToList());
             AudioFileNameWithExtension audio = AudioFileNameWithExtension.Create($"{request.MediaId.ToString()}.mp3");
             MediaId mediaId = MediaId.Create(request.MediaId);
@@ -27,7 +28,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
                 word,
                 translatedWord,
                 originalSentences,
-                translatedSentence,
+                sentenceTranslations,
                 mediaId);
 
             this.sequenceRepository.Add(sequence);

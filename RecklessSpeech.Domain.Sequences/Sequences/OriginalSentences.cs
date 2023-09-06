@@ -2,11 +2,6 @@
 {
     public record OriginalSentences(List<string> Values)
     {
-        public static OriginalSentences Hydrate(List<string> values)
-        {
-            return new(values);
-        }
-
         public static OriginalSentences Create(List<string> value) => new(value);
         
         public string Joined()

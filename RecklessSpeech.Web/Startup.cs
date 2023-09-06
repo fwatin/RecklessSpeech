@@ -26,7 +26,7 @@ namespace RecklessSpeech.Web
                 .AddWebDependencies(this.configuration, this.environment)
                 .AddSequencesCommands()
                 .AddInfrastructure()
-                .AddGateways(this.configuration)
+                .AddGateways()
                 .AddReadQueries();
 
         public void Configure(IApplicationBuilder app, IConfiguration config)

@@ -1,5 +1,6 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Domain.Sequences.Explanations;
+using RecklessSpeech.Domain.Sequences.Sequences;
 using System.Net.Http.Json;
 using System.Text.Json;
 
@@ -14,13 +15,15 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt
             this.client = client;
         }
 
-        public async Task<Explanation> GetExplanation(string word, string sentence, Language language)
+        public async Task<Explanation> GetExplanation(string word, OriginalSentences sentences, Language language)
         {
             ChatGptRequest request = new("gpt-3.5-turbo",
                 new()
                 {
                     new("user",
-                        $"Peux-tu expliquer le sens du mot {language.GetLanguageInFrench()} {word} dans la phrase {sentence}")
+                        $"Peux-tu expliquer le sens du mot {language.GetLanguageInFrench()} {word} " +
+                        $"dans la phrase {sentences.GetCentralSentence()} " +
+                        $"sachant que cette phrase fait partie du groupe de phrase suivant {sentences.Joined()}")
                 });
 
             HttpRequestMessage requestMessage = new(HttpMethod.Post, "chat/completions")
@@ -40,7 +43,8 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt
 
             string content = template
                 .Replace("{{word}}", word)
-                .Replace("{{sentence}}", sentence)
+                .Replace("{{central}}", sentences.GetCentralSentence())
+                .Replace("{{sentence}}", sentences.Joined())
                 .Replace("{{language}}", language.GetLanguageInFrench())
                 .Replace("{{explanation}}", GetContent(response));
 

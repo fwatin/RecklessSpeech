@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.English;
@@ -13,39 +13,41 @@ namespace RecklessSpeech.Web
 {
     public static class GatewayExtensions
     {
-        public static IServiceCollection AddGateways(this IServiceCollection services, IConfiguration configuration) =>
+        public static IServiceCollection AddGateways(this IServiceCollection services) =>
             services
                 .AddNoteGateway()
-                .AddChatGptGateway(configuration)
+                .AddChatGptGateway()
                 .AddTranslatorGateway();
 
         private static IServiceCollection AddNoteGateway(this IServiceCollection services)
         {
-            services.AddOptions<HttpAnkiNoteGatewayOptions>()
-                .BindConfiguration("AnkiNoteGateway")
+            services.AddOptions<AnkiSettings>()
+                .BindConfiguration(AnkiSettings.SECTION_KEY)
                 .ValidateDataAnnotations();
 
             services.AddHttpClient<INoteGateway, HttpAnkiNoteGateway>(
-                (_, client) =>
-//                    (provider, client) =>
+                (provider, client) =>
                 {
-                    // HttpAnkiNoteGatewayOptions? options =
-                    //     provider.GetRequiredService<IOptions<HttpAnkiNoteGatewayOptions>>().Value;
-                    client.BaseAddress = new("http://localhost:8765/"); //todo résoudre le problème plus tard - en production pas de lecture de l'appsettings
+                    var options = provider.GetRequiredService<IOptions<AnkiSettings>>();
+                    string path = options.Value.Url;
+                    client.BaseAddress = new(path);
                 });
 
             return services;
         }
-        
-        private static IServiceCollection AddChatGptGateway(this IServiceCollection services,
-            IConfiguration configuration)
+
+        private static IServiceCollection AddChatGptGateway(this IServiceCollection services)
         {
-            string chatGptKey = configuration["CHATGPT_KEY"];
+            services.AddOptions<ChatGptSettings>()
+                .BindConfiguration(ChatGptSettings.SECTION_KEY)
+                .ValidateDataAnnotations();
+
             services.AddHttpClient<IChatGptGateway, ChatGptGateway>(
-                (_, client) =>
+                (provider, client) =>
                 {
-                    client.BaseAddress = new Uri("https://api.openai.com/v1/");
-                    client.DefaultRequestHeaders.Add("Authorization",$"Bearer {chatGptKey}");
+                    var options = provider.GetRequiredService<IOptions<ChatGptSettings>>();
+                    client.BaseAddress = new Uri(options.Value.Url);
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {options.Value.SubscriptionKey}");
                 });
 
             return services;

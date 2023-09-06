@@ -10,6 +10,13 @@ namespace RecklessSpeech.Shared.Tests.Sequences
 
         public string Value { get; init; } = "Et ça n'arrive pas par quelques astuces statistiques.";
 
-        public static implicit operator TranslatedSentence(TranslatedSentenceBuilder builder) => new(builder.Value);
+        public static implicit operator SentenceTranslations(TranslatedSentenceBuilder builder) => SentenceTranslations.Create(new[]
+            {
+                builder.Value
+            },
+            new[]
+            {
+                builder.Value
+            });
     }
 }

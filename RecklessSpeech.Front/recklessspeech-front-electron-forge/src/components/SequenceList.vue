@@ -1,6 +1,8 @@
 <script>
 import axios from "axios";
-const backendPort = process.env.NODE_ENV === "development" ? "47973" : "5001";
+const backendPort = process.env.NODE_ENV === "development" ? "47973" : "5000";
+const http = process.env.NODE_ENV === "development" ? "https" : "http";
+const baseUrl = `${http}://localhost:${backendPort}`;
 export default {
   data() {
     return {
@@ -81,7 +83,7 @@ export default {
 
         await axios
           .post(
-            `https://localhost:${backendPort}/api/v1/sequences/enrich-and-send-to-anki/${lang}?id=${id}`
+            `${baseUrl}/api/v1/sequences/enrich-and-send-to-anki/${lang}?id=${id}`
           )
           .then((response) => {
             this.sequences[index].hasExplanations =
@@ -102,7 +104,7 @@ export default {
 
     async import() {
       await axios
-        .get(`https://localhost:${backendPort}/api/v1/sequences`)
+        .get(`${baseUrl}/api/v1/sequences`)
         .then((response) => {
           this.sequences = response.data;
           console.log("sequences importées");
@@ -125,7 +127,7 @@ export default {
 
         const response = await axios
           .post(
-            `https://localhost:${backendPort}/api/v1/sequences/import-json`,
+            `${baseUrl}/api/v1/sequences/import-json`,
             formData,
             {
               headers: {
