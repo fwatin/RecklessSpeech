@@ -18,16 +18,30 @@ const createWindow = () => {
   });
 
   if (process.env.NODE_ENV === 'production') {
-
-    // Start the backend process
+    // Chemin vers le fichier .exe du backend
     const backendPath = path.join(process.resourcesPath, 'backend_publish\\RecklessSpeech.Web.exe');
-    const backendProcess = spawn(backendPath);
-
-    // Handle closing the backend when the mainWindow is closed
+    
+    // Options pour le processus fils
+    const options = {
+      cwd: path.join(process.resourcesPath, 'backend_publish'), // Ici, nous définissons le répertoire de travail
+      detached: true,
+      stdio: ['ignore', 'inherit', 'inherit'],
+      shell: true
+    };
+    
+    
+    // Lance le processus du backend
+    const backendProcess = spawn(backendPath, [], options);
+    
+    // Détache le processus fils
+    backendProcess.unref();
+    
+    // Tue le processus du backend lorsque la fenêtre principale est fermée
     mainWindow.on('closed', () => {
       backendProcess.kill();
     });
   }
+  
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
