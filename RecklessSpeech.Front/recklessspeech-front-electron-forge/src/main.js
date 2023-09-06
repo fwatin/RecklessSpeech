@@ -17,25 +17,21 @@ const createWindow = () => {
     },
   });
 
-  //  if (process.env.NODE_ENV === 'production') {
-  // Chemin vers le fichier .exe du backend
-  //const resourcePath = process.resourcesPath;
-  const resourcePath = 'C:\\Users\\felix\\AppData\\Local\\recklessspeech_front_electron_forge\\app-1.0.0\\resources';
-  const backendPath = path.join(resourcePath, 'backend_publish\\RecklessSpeech.Web.exe');
+  if (process.env.NODE_ENV === 'production') {
+    // Chemin vers le fichier .exe du backend
+    const resourcePath = process.resourcesPath;
+    const backendPath = path.join(resourcePath, 'backend_publish\\RecklessSpeech.Web.exe');
 
-  // Options pour le processus fils
-  const options = {
-    cwd: path.join(resourcePath, 'backend_publish'), // Ici, nous définissons le répertoire de travail
-    detached: false
-  };
+    // Options pour le processus fils
+    const options = {
+      cwd: path.join(resourcePath, 'backend_publish'), // Ici, nous définissons le répertoire de travail
+      detached: false
+    };
 
-  // Lance le processus du backend
-  const backendProcess = spawn(backendPath, [], options);
-  console.log("this is backend process pid : " + backendProcess.pid);
-
-  app.on('window-all-closed', () => {
-    console.log('window-all-closed triggered...');
-  });
+    // Lance le processus du backend
+    const backendProcess = spawn(backendPath, [], options);
+    console.log("this is backend process pid : " + backendProcess.pid);
+  }
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
