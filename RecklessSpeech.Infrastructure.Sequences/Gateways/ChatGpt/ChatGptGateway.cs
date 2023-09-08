@@ -49,7 +49,8 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt
                 .Replace("{{central}}", sentences.GetCentralSentence())
                 .Replace("{{sentence}}", sentences.Joined())
                 .Replace("{{language}}", language.GetLanguageInFrench())
-                .Replace("{{explanation}}", GetContent(response));
+                .Replace("{{explanation}}", GetContent(response))
+                .Replace("{{modelName}}", this.settings.Value.ModelName);
 
             return Explanation.Create(Guid.NewGuid(), content, word, "ChatGpt");
         }
