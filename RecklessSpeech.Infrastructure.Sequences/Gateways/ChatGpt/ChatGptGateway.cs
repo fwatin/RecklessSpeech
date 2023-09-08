@@ -1,4 +1,5 @@
-﻿using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
+﻿using Microsoft.Extensions.Options;
+using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using System.Net.Http.Json;
@@ -9,15 +10,17 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt
     public class ChatGptGateway : IChatGptGateway
     {
         private readonly HttpClient client;
+        private readonly IOptions<ChatGptSettings> settings;
 
-        public ChatGptGateway(HttpClient client)
+        public ChatGptGateway(HttpClient client, IOptions<ChatGptSettings> settings)
         {
             this.client = client;
+            this.settings = settings;
         }
 
         public async Task<Explanation> GetExplanation(string word, OriginalSentences sentences, Language language)
         {
-            ChatGptRequest request = new("gpt-3.5-turbo",
+            ChatGptRequest request = new(this.settings.Value.ModelName,
                 new()
                 {
                     new("user",
