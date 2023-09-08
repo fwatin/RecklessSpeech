@@ -9,5 +9,6 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt
         public string SubscriptionKey { get; set; }
 
         [Required] public string Url { get; set; }
+        [Required] public string ModelName { get; set; }
     }
 }
