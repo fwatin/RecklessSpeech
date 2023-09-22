@@ -116,6 +116,9 @@ namespace RecklessSpeech.Web.Sequences
                     case "dutch":
                         await this.dispatcher.Send(new EnrichDutchSequenceCommand(id));
                         break;
+                    case "italian":
+                        await this.dispatcher.Send(new EnrichItalianSequenceCommand(id));
+                        break;
                 }
 
                 await this.dispatcher.Send(new SendNoteToAnkiCommand(id));
