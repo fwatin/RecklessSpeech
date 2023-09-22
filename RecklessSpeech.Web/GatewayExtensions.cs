@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.English;
+using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Italian;
 using RecklessSpeech.Infrastructure.Sequences.Gateways.Anki;
 using RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt;
 using RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.Mijnwoordenboek;
@@ -55,10 +56,9 @@ namespace RecklessSpeech.Web
 
         private static IServiceCollection AddTranslatorGateway(this IServiceCollection services)
         {
-            services.AddSingleton<IDutchTranslatorGateway, MijnwoordenboekOnlineGateway>();
-
-            services.AddSingleton<IWordReferenceGatewayAccess>(new WordReferenceGatewayOnlineAccess());
-            services.AddSingleton<IEnglishTranslatorGateway, WordReferenceGateway>();
+            services.AddSingleton<IDutchTranslatorGateway, DutchMijnWoordenboekGateway>();
+            services.AddSingleton<IEnglishTranslatorGateway, EnglishWordReferenceGateway>();
+            services.AddSingleton<IItalianTranslatorGateway, ItalianWordReferenceGateway>();
 
             return services;
         }

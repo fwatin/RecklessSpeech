@@ -4,7 +4,7 @@ using RecklessSpeech.Domain.Sequences.Explanations;
 
 namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.Mijnwoordenboek
 {
-    public class MijnwoordenboekOnlineGateway : IDutchTranslatorGateway
+    public class DutchMijnWoordenboekGateway : IDutchTranslatorGateway
     {
         public Explanation GetExplanation(string word)
         {

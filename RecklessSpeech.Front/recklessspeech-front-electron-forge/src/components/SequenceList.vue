@@ -198,6 +198,9 @@ export default {
         <button class="btn btn-info" @click="enrichAndSend('dutch')">
           Enrichir et envoyer en néérlandais
         </button>
+        <button class="btn btn-info" @click="enrichAndSend('italian')">
+          Enrichir et envoyer en italien
+        </button>
       </div>
     </div>
 
