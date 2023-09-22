@@ -1,4 +1,5 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Ports;
+using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences
@@ -29,7 +30,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
                 translatedWord,
                 originalSentences,
                 sentenceTranslations,
-                mediaId);
+                mediaId, new());
 
             this.sequenceRepository.Add(sequence);
 

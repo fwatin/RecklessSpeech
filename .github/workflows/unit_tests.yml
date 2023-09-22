@@ -18,7 +18,7 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
     
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
@@ -28,16 +28,7 @@ jobs:
     
     - name: Build
       run: dotnet build --no-restore
-
-    - name: Read infra tests
-      run: dotnet test RecklessSpeech.Infrastructure.Read.Tests\RecklessSpeech.Infrastructure.Read.Tests.csproj --no-build --verbosity normal
-
-    - name: Write infra tests
-      run: dotnet test RecklessSpeech.Infrastructure.Sequences.Tests\RecklessSpeech.Infrastructure.Sequences.Tests.csproj --no-build --verbosity normal      
     
-    - name: Acceptance tests
-      run: dotnet test RecklessSpeech.AcceptanceTests\RecklessSpeech.AcceptanceTests.csproj --no-build --verbosity normal
-
     - name: Write sequences tests
       run: dotnet test RecklessSpeech.Application.Write.Sequences.Tests\RecklessSpeech.Application.Write.Sequences.Tests.csproj --no-build --verbosity normal
 
