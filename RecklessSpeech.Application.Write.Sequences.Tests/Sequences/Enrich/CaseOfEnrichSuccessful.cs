@@ -41,7 +41,7 @@
             await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            this.sequenceRepository.All.Single().Explanations[0].Content.Value.Should().Contain("pain");
+            this.sequenceRepository.All.Single().Explanations[1].Content.Value.Should().Contain("pain");
         }
     }
 }
