@@ -55,9 +55,7 @@ namespace RecklessSpeech.Web
 
         private static IServiceCollection AddTranslatorGateway(this IServiceCollection services)
         {
-            services.AddSingleton<IDutchTranslatorGateway, MijnwoordenboekOnlineGateway>();
-
-            services.AddSingleton<IWordReferenceGatewayAccess>(new WordReferenceEnglishOnlineAccess());
+            services.AddSingleton<IDutchTranslatorGateway, DutchMijnWoordenboekGateway>();
             services.AddSingleton<IEnglishTranslatorGateway, EnglishWordReferenceGateway>();
 
             return services;
