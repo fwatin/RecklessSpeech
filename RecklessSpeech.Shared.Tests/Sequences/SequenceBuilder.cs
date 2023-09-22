@@ -137,7 +137,8 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.TranslatedWord,
                 this.OriginalSentence,
                 this.TranslatedSentence,
-                this.MediaId);
+                this.MediaId,
+                this.Explanations.Select(x=>x.BuildDomain()).ToList());
 
     }
 }
