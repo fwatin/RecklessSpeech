@@ -3,7 +3,7 @@ using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Englis
 
 namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.WordReference
 {
-    public class WordReferenceGatewayOnlineAccess : IWordReferenceGatewayAccess
+    public class WordReferenceEnglishOnlineAccess : IWordReferenceGatewayAccess
     {
         public (string, string) GetTranslationsAndSourceForAWord(string word)
         {

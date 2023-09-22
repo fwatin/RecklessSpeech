@@ -57,8 +57,8 @@ namespace RecklessSpeech.Web
         {
             services.AddSingleton<IDutchTranslatorGateway, MijnwoordenboekOnlineGateway>();
 
-            services.AddSingleton<IWordReferenceGatewayAccess>(new WordReferenceGatewayOnlineAccess());
-            services.AddSingleton<IEnglishTranslatorGateway, WordReferenceGateway>();
+            services.AddSingleton<IWordReferenceGatewayAccess>(new WordReferenceEnglishOnlineAccess());
+            services.AddSingleton<IEnglishTranslatorGateway, EnglishWordReferenceGateway>();
 
             return services;
         }
