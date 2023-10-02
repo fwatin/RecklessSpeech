@@ -235,6 +235,9 @@ export default {
               class="badge badge-success"
               >Sent to Anki</span
             >
+            <span v-if="sequence.HasMediaComplete == false" class="badge badge-warning"
+              >Incomplete Media</span
+            >
           </div>
         </div>
       </div>
@@ -244,6 +247,10 @@ export default {
 <style>
 .badge-success {
   background-color: green !important;
+  color: white;
+}
+.badge-warning {
+  background-color: rgb(214, 118, 7) !important;
   color: white;
 }
 </style>
