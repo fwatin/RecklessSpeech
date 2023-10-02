@@ -1,4 +1,5 @@
-﻿using RecklessSpeech.Application.Write.Sequences.Ports;
+﻿using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences.Exceptions;
+using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences
@@ -16,9 +17,13 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
 
         public async Task<Unit> Handle(ImportSequenceCommand request, CancellationToken cancellationToken)
         {
-            await this.ImportMedia(request.LeftImageBase64, request.RightImageBase64, request.MediaId.ToString(),
+            MediaId mediaId = MediaId.Create(request.MediaId);
+
+            await this.ImportMedia(request.LeftImageBase64, request.RightImageBase64, mediaId,
                 request.Mp3Base64);
 
+            if (request.Word is null) throw new UndefinedWordException();
+            
             Word word = Word.Create(request.Word);
 
             SentenceTranslations sentenceTranslations = SentenceTranslations.Create(
@@ -30,7 +35,6 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
             AudioFileNameWithExtension audio =
                 AudioFileNameWithExtension.Create($"{request.MediaId.ToString()}.mp3");
 
-            MediaId mediaId = MediaId.Create(request.MediaId);
 
             TranslatedWord translatedWord =
                 TranslatedWord.Create(string.Join(", ", request.WordTranslations));
@@ -51,32 +55,29 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
             return Unit.Value;
         }
 
-        private async Task ImportMedia(string? dtoLeftImage, string? dtoRightImage, string timeModified,
+        private async Task ImportMedia(string? dtoLeftImage, string? dtoRightImage, MediaId mediaId,
             string? mp3InBase64)
         {
-            string? prevBase64 = dtoLeftImage;
-            if (prevBase64 is not null)
+            if (dtoLeftImage is not null)
             {
-                byte[] prev = Convert.FromBase64String(prevBase64);
-                await this.SaveMedia($"{timeModified}_prev.jpg", prev);
+                byte[] prev = Convert.FromBase64String(dtoLeftImage);
+                await this.SaveInMediaRepository($"{mediaId.Value}_prev.jpg", prev);
             }
 
-            string? nextBase64 = dtoRightImage;
-            if (nextBase64 is not null)
+            if (dtoRightImage is not null)
             {
-                byte[] next = Convert.FromBase64String(nextBase64);
-                await this.SaveMedia($"{timeModified}_next.jpg", next);
+                byte[] next = Convert.FromBase64String(dtoRightImage);
+                await this.SaveInMediaRepository($"{mediaId.Value}_next.jpg", next);
             }
 
-            //mp3
             if (mp3InBase64 is not null)
             {
                 byte[] mp3 = Convert.FromBase64String(mp3InBase64);
-                await this.SaveMedia($"{timeModified}.mp3", mp3);
+                await this.SaveInMediaRepository($"{mediaId.Value}.mp3", mp3);
             }
         }
 
-        private async Task SaveMedia(string entryFullName, byte[] content)
+        private async Task SaveInMediaRepository(string entryFullName, byte[] content)
         {
             string[] allowedExtensions = { ".mp3", ".jpg" };
             string extension = Path.GetExtension(entryFullName);
