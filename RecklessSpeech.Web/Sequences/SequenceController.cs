@@ -52,13 +52,8 @@ namespace RecklessSpeech.Web.Sequences
                 {
                     string? prevBase64 = item.context?.phrase?.thumb_prev?.dataURL.Split(',').Last();
                     string? nextBase64 = item.context?.phrase?.thumb_next?.dataURL.Split(',').Last();
-
-                    //mp3
-                    string mp3InBase64 = item.audio.dataURL.Split(',').Last();
-                    byte[] mp3 = Convert.FromBase64String(mp3InBase64);
-                    SaveMediaCommand saveMp3 = new($"{item.timeModified_ms}.mp3", mp3);
-                    await this.dispatcher.Send(saveMp3);
-
+                    string? mp3InBase64 = item.audio?.dataURL?.Split(',').Last();
+                    
                     //sequence
                     TranslationDto translation = new TranslationDto(
                         item.context!.phrase!.hTranslations?.Values.ToArray(),
@@ -74,7 +69,8 @@ namespace RecklessSpeech.Web.Sequences
                         item.context.phrase.reference.title,
                         item.timeModified_ms, 
                         prevBase64, 
-                        nextBase64));
+                        nextBase64,
+                        mp3InBase64));
 
                     await this.dispatcher.Send(import);
                 }

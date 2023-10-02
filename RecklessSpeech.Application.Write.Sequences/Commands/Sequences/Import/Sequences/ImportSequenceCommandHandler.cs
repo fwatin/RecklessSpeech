@@ -16,7 +16,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
 
         public async Task<Unit> Handle(ImportSequenceCommand request, CancellationToken cancellationToken)
         {
-            await this.ImportMedia(request.Dto.LeftImage, request.Dto.RightImage, request.Dto.MediaId.ToString());
+            await this.ImportMedia(request.Dto.LeftImage, request.Dto.RightImage, request.Dto.MediaId.ToString(),request.Dto.mp3);
 
             Word word = Word.Create(request.Dto.Word);
 
@@ -50,7 +50,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
             return Unit.Value;
         }
 
-        private async Task ImportMedia(string? dtoLeftImage, string? dtoRightImage, string timeModified)
+        private async Task ImportMedia(string? dtoLeftImage, string? dtoRightImage, string timeModified,
+            string? mp3InBase64)
         {
             string? prevBase64 = dtoLeftImage;
             if (prevBase64 is not null)
@@ -64,6 +65,13 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
             {
                 byte[] next = Convert.FromBase64String(nextBase64);
                 await this.SaveMedia($"{timeModified}_next.jpg", next);
+            }
+
+            //mp3
+            if (mp3InBase64 is not null)
+            {
+                byte[] mp3 = Convert.FromBase64String(mp3InBase64);
+                await this.SaveMedia($"{timeModified}.mp3", mp3);
             }
         }
 

@@ -5,15 +5,14 @@
     public record TranslationDto(string?[]? HumanTranslation, string?[]? MachineTranslation);
     
     public record ImportSequenceDto
-    (
-        string Word,
+    (string Word,
         string[] TranslatedWordPropositions,
         string[] OriginalSentences,
         TranslationDto TranslatedSentence,
         string Title,
         long MediaId,
         string? LeftImage,
-        string? RightImage
-    );
+        string? RightImage,
+        string? mp3);
 
 }
