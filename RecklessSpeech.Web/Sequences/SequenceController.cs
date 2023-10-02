@@ -8,7 +8,6 @@ using RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
 using RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
-using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Media;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences;
 using System;
 using System.Collections.Generic;
