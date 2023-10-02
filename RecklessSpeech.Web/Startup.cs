@@ -31,6 +31,7 @@ namespace RecklessSpeech.Web
 
         public void Configure(IApplicationBuilder app, IConfiguration config)
         {
+            app.UseHttpsRedirection();
             app.UseExceptionHandler("/error");
             app.UseRouting();
             if (this.configuration.IsSwaggerActive())
