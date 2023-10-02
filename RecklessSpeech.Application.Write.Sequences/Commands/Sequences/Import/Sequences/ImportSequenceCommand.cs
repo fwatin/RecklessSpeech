@@ -14,10 +14,11 @@
     (
         string? LeftImage,
         string? RightImage,
-        long TimeModified,
-        TranslationDto Translation,
-        string formText,
-        string[] formTextTranslation,
+        long MediaId,
+        TranslationDto TranslatedSentence,
+        string Word,
+        string[] TranslatedWordPropositions,
+        string[] OriginalSentences,
         string Title
     );
 
