@@ -53,17 +53,20 @@ namespace RecklessSpeech.Web.Sequences
                     string? prevBase64 = item.context?.phrase?.thumb_prev?.dataURL.Split(',').Last();
                     string? nextBase64 = item.context?.phrase?.thumb_next?.dataURL.Split(',').Last();
                     string? mp3InBase64 = item.audio?.dataURL?.Split(',').Last();
-                    int wordIndex = item.context.wordIndex;
-                    var correspondingToken = item.context.phrase.subtitleTokens["1"][wordIndex];
+                    int? wordIndex = item.context?.wordIndex;
+                    Subtitletokens? correspondingToken = wordIndex is not null
+                        ? item.context?.phrase?.subtitleTokens["1"][wordIndex.Value]
+                        : null;
 
-                    ImportSequenceCommand import = new(new(correspondingToken.form.text,
+                    ImportSequenceCommand import = new(new(
+                        correspondingToken?.form.text,
                         item.wordTranslationsArr,
                         item.context!.phrase!.subtitles.Values.ToArray(),
                         item.context!.phrase!.hTranslations?.Values.ToArray(),
                         item.context!.phrase!.mTranslations?.Values.ToArray(),
                         item.context.phrase.reference.title,
-                        item.timeModified_ms, 
-                        prevBase64, 
+                        item.timeModified_ms,
+                        prevBase64,
                         nextBase64,
                         mp3InBase64));
 

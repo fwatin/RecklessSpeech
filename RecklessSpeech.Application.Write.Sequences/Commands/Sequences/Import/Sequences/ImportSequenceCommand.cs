@@ -3,7 +3,8 @@
     public record ImportSequenceCommand(ImportSequenceDto Dto) : IRequest;
 
     public record ImportSequenceDto
-    (string Word,
+    (
+        string? Word,
         string[] TranslatedWordPropositions,
         string[] OriginalSentences,
         string?[]? HumanTranslation, string?[]? MachineTranslation,
