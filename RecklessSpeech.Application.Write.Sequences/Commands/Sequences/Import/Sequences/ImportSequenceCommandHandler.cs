@@ -16,26 +16,26 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
 
         public async Task<Unit> Handle(ImportSequenceCommand request, CancellationToken cancellationToken)
         {
-            await this.ImportMedia(request.Dto.LeftImage, request.Dto.RightImage, request.Dto.MediaId.ToString(),
-                request.Dto.Mp3);
+            await this.ImportMedia(request.LeftImage, request.RightImage, request.MediaId.ToString(),
+                request.Mp3);
 
-            Word word = Word.Create(request.Dto.Word);
+            Word word = Word.Create(request.Word);
 
             SentenceTranslations sentenceTranslations = SentenceTranslations.Create(
-                request.Dto.HumanTranslation,
-                request.Dto.MachineTranslation);
+                request.HumanTranslation,
+                request.MachineTranslation);
 
-            OriginalSentences originalSentences = OriginalSentences.Create(request.Dto.OriginalSentences.ToList());
+            OriginalSentences originalSentences = OriginalSentences.Create(request.OriginalSentences.ToList());
 
             AudioFileNameWithExtension audio =
-                AudioFileNameWithExtension.Create($"{request.Dto.MediaId.ToString()}.mp3");
+                AudioFileNameWithExtension.Create($"{request.MediaId.ToString()}.mp3");
 
-            MediaId mediaId = MediaId.Create(request.Dto.MediaId);
+            MediaId mediaId = MediaId.Create(request.MediaId);
 
             TranslatedWord translatedWord =
-                TranslatedWord.Create(string.Join(", ", request.Dto.TranslatedWordPropositions));
+                TranslatedWord.Create(string.Join(", ", request.TranslatedWordPropositions));
 
-            HtmlContent htmlContent = HtmlContent.Create(mediaId, originalSentences, word, request.Dto.Title);
+            HtmlContent htmlContent = HtmlContent.Create(mediaId, originalSentences, word, request.Title);
 
             Sequence sequence = Sequence.Create(Guid.NewGuid(),
                 htmlContent,

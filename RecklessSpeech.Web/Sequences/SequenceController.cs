@@ -58,7 +58,7 @@ namespace RecklessSpeech.Web.Sequences
                         ? item.context?.phrase?.subtitleTokens["1"][wordIndex.Value]
                         : null;
 
-                    ImportSequenceCommand import = new(new(
+                    ImportSequenceCommand import = new(
                         correspondingToken?.form.text,
                         item.wordTranslationsArr,
                         item.context!.phrase!.subtitles.Values.ToArray(),
@@ -68,7 +68,7 @@ namespace RecklessSpeech.Web.Sequences
                         item.timeModified_ms,
                         prevBase64,
                         nextBase64,
-                        mp3InBase64));
+                        mp3InBase64);
 
                     await this.dispatcher.Send(import);
                 }
