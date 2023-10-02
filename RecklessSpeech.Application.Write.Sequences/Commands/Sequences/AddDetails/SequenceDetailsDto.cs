@@ -29,8 +29,8 @@ public class Phrase
     public Dictionary<string,string>? mTranslations { get; set; }
     public Dictionary<string,string>? hTranslations { get; set; }
     public Reference reference { get; set; }
-    public Thumb thumb_prev { get; set; }
-    public Thumb thumb_next { get; set; }
+    public Thumb? thumb_prev { get; set; }
+    public Thumb? thumb_next { get; set; }
 }
 
 public class Thumb

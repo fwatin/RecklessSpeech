@@ -1,13 +1,13 @@
 ﻿namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences
 {
-    public record ImportSequenceCommand(
-        string Word,
-        string[] TranslatedWordPropositions,
+    public record ImportSequenceCommand(string? Word,
+        string[] WordTranslations,
         string[] OriginalSentences,
-        TranslationDto TranslatedSentence,
+        string?[]? HumanTranslation, 
+        string?[]? MachineTranslation,
         string Title,
-        long MediaId) : IRequest;
-
-    public record TranslationDto(string?[]? HumanTranslation, string?[]? MachineTranslation);
-
+        long MediaId,
+        string? LeftImageBase64,
+        string? RightImageBase64,
+        string? Mp3Base64) : IRequest;
 }

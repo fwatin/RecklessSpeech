@@ -10,9 +10,10 @@ namespace RecklessSpeech.Application.Read.Queries
             return new(
                 sequence.SequenceId.Value,
                 sequence.Word.Value,
-                sequence.TranslatedWord == null ? "" : sequence.TranslatedWord.Value,
+                sequence.TranslatedWord is null ? "" : sequence.TranslatedWord.Value,
                 sequence.Explanations.Any(),
-                sequence.SentToAnkiTimes
+                sequence.SentToAnkiTimes,
+                sequence.MediaId is not null
             );
         }
         

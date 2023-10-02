@@ -9,8 +9,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
 
         public CaseOfVariousSentence()
         {
-            this.repository = new InMemorySequenceRepository();
-            this.sut = new(this.repository);
+            this.repository = new();
+            this.sut = new(this.repository, new InMemoryMediaRepository());
         }
 
         [Fact]
@@ -19,11 +19,11 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             //Arrange
             ImportSequenceCommand command = new(
                 "target",
-                new[] {"cible"},
-                new []{"target"},
-                new TranslationDto(new []{"cible"},new []{"cible"}),
+                new[] { "cible" },
+                new[] { "target" },
+                new[] { "cible" }, new[] { "cible" },
                 "mp3.mp3",
-                4438);
+                4438, null, null,null);
 
             //Act
             await this.sut.Handle(command, CancellationToken.None);
@@ -38,11 +38,11 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
         {
             //Arrange
             ImportSequenceCommand command = new(
-                "target",new[] {"cible"},
-                new []{"this is the target, and the target is here."},
-                new TranslationDto(new []{"blabla"},new []{"blabla"}),
+                "target", new[] { "cible" },
+                new[] { "this is the target, and the target is here." },
+                new[] { "blabla" }, new[] { "blabla" },
                 "mp3.mp3",
-                4438);
+                4438, null, null,null);
 
             //Act
             await this.sut.Handle(command, CancellationToken.None);
@@ -59,11 +59,11 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
         {
             //Arrange
             ImportSequenceCommand command = new(
-                "target",new[] {"cible", "visée", "rabbit"},
-                new []{"this is the target, and the target is here."},
-                new TranslationDto(new []{"blabla"},new []{"blabla"}),
+                "target", new[] { "cible", "visée", "rabbit" },
+                new[] { "this is the target, and the target is here." },
+                new[] { "blabla" }, new[] { "blabla" },
                 "mp3.mp3",
-                4438);
+                4438, null, null,null);
 
             //Act
             await this.sut.Handle(command, CancellationToken.None);
@@ -71,17 +71,17 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             //Assert
             this.repository.All.Single().TranslatedWord!.Value.Should().Be("cible, visée, rabbit");
         }
-        
+
         [Fact]
         public async Task Should_not_take_into_account_the_case()
         {
             //Arrange
             ImportSequenceCommand command = new(
-                "target",new[] {"cible"},
-                new []{"this is the TARGET."},
-                new TranslationDto(new []{"blabla"},new []{"blabla"}),
+                "target", new[] { "cible" },
+                new[] { "this is the TARGET." },
+                new[] { "blabla" }, new[] { "blabla" },
                 "mp3.mp3",
-                4438);
+                4438, null, null,null);
 
             //Act
             await this.sut.Handle(command, CancellationToken.None);

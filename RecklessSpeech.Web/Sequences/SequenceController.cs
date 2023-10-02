@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿#nullable enable
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -7,7 +8,6 @@ using RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
 using RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
-using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Media;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences;
 using System;
 using System.Collections.Generic;
@@ -49,42 +49,25 @@ namespace RecklessSpeech.Web.Sequences
             {
                 try
                 {
-                    string? prevBase64 = item.context?.phrase?.thumb_prev.dataURL.Split(',').Last();
-                    if (prevBase64 is not null)
-                    {
-                        byte[] prev = Convert.FromBase64String(prevBase64);
-                        SaveMediaCommand savePrev = new($"{item.timeModified_ms}_prev.jpg", prev);
-                        await this.dispatcher.Send(savePrev);
-                    }
+                    string? leftImageBase64 = item.context?.phrase?.thumb_prev?.dataURL.Split(',').Last();
+                    string? rightImageBase64 = item.context?.phrase?.thumb_next?.dataURL.Split(',').Last();
+                    string? mp3Base64 = item.audio?.dataURL?.Split(',').Last();
+                    int? wordIndex = item.context?.wordIndex;
+                    Subtitletokens? correspondingToken = wordIndex is not null
+                        ? item.context?.phrase?.subtitleTokens["1"][wordIndex.Value]
+                        : null;
 
-                    string? nextBase64 = item.context?.phrase?.thumb_next.dataURL.Split(',').Last();
-                    if (nextBase64 is not null)
-                    {
-                        byte[] next = Convert.FromBase64String(nextBase64);
-                        SaveMediaCommand saveNext = new($"{item.timeModified_ms}_next.jpg", next);
-                        await this.dispatcher.Send(saveNext);
-                    }
-
-                    //mp3
-                    string mp3InBase64 = item.audio.dataURL.Split(',').Last();
-                    byte[] mp3 = Convert.FromBase64String(mp3InBase64);
-                    SaveMediaCommand saveMp3 = new($"{item.timeModified_ms}.mp3", mp3);
-                    await this.dispatcher.Send(saveMp3);
-
-                    //sequence
-                    TranslationDto translation = new TranslationDto(
-                        item.context!.phrase!.hTranslations?.Values.ToArray(),
-                        item.context!.phrase!.mTranslations?.Values.ToArray());
-
-                    int wordIndex = item.context.wordIndex;
-                    var correspondingToken = item.context.phrase.subtitleTokens["1"][wordIndex];
-                    
-                    ImportSequenceCommand import = new(correspondingToken.form.text,
+                    ImportSequenceCommand import = new(
+                        correspondingToken?.form.text,
                         item.wordTranslationsArr,
                         item.context!.phrase!.subtitles.Values.ToArray(),
-                        translation,
+                        item.context!.phrase!.hTranslations?.Values.ToArray(),
+                        item.context!.phrase!.mTranslations?.Values.ToArray(),
                         item.context.phrase.reference.title,
-                        item.timeModified_ms);
+                        item.timeModified_ms,
+                        leftImageBase64,
+                        rightImageBase64,
+                        mp3Base64);
 
                     await this.dispatcher.Send(import);
                 }
