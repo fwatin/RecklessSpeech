@@ -17,7 +17,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
             return new(value);
         }
 
-        public static HtmlContent Create(MediaId mediaId, OriginalSentences originalSentences, Word word, string title)
+        public static HtmlContent Create(Media media, OriginalSentences originalSentences, Word word, string title)
         {
             StringBuilder stringBuilder = new();
             string pattern = $"({Regex.Escape(word.Value)})";
@@ -45,7 +45,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
 
             string template = GetTemplate();
 
-            string html = template.Replace("{{mediaId}}", mediaId.Value.ToString());
+            string html = template.Replace("{{mediaId}}", media.MediaId.ToString());
             html = html.Replace("{{html_sentence}}", sentence);
             html = html.Replace("{{title}}", title);
 

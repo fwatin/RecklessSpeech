@@ -13,7 +13,7 @@ namespace RecklessSpeech.Application.Read.Queries
                 sequence.TranslatedWord is null ? "" : sequence.TranslatedWord.Value,
                 sequence.Explanations.Any(),
                 sequence.SentToAnkiTimes,
-                sequence.MediaId is not null
+                sequence.Media is not null && sequence.Media.IsComplete()
             );
         }
         

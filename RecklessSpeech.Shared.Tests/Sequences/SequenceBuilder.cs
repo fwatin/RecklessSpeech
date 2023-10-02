@@ -19,7 +19,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             TranslatedSentenceBuilder translatedSentence,
             List<ExplanationBuilder> explanations,
             TranslatedWordBuilder? translatedWord,
-            MediaIdBuilder mediaId,
+            MediaBuilder media,
             OriginalSentenceBuilder originalSentence)
         {
             this.SequenceId = sequenceId;
@@ -31,7 +31,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             this.TranslatedSentence = translatedSentence;
             this.Explanations = explanations;
             this.TranslatedWord = translatedWord;
-            this.MediaId = mediaId;
+            this.Media = media;
             this.OriginalSentence = originalSentence;
         }
 
@@ -43,7 +43,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
         public TranslatedSentenceBuilder TranslatedSentence { get; init; }
         public List<ExplanationBuilder> Explanations { get; init; }
         public TranslatedWordBuilder? TranslatedWord { get; init; }
-        public MediaIdBuilder MediaId { get; init; }
+        public MediaBuilder Media { get; init; }
         public OriginalSentenceBuilder OriginalSentence { get; init; }
 
 
@@ -137,7 +137,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.TranslatedWord,
                 this.OriginalSentence,
                 this.TranslatedSentence,
-                this.MediaId,
+                this.Media,
                 this.Explanations.Select(x => x.BuildDomain()).ToList());
     }
 }
