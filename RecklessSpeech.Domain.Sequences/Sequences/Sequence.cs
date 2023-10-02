@@ -1,4 +1,5 @@
-﻿using RecklessSpeech.Domain.Sequences.Explanations;
+﻿#nullable enable
+using RecklessSpeech.Domain.Sequences.Explanations;
 
 namespace RecklessSpeech.Domain.Sequences.Sequences
 {
@@ -17,7 +18,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
         public SentenceTranslations SentenceTranslations { get; private init; } = default!;
         public List<Explanation> Explanations { get; set; }
         public TranslatedWord? TranslatedWord { get; set; }
-        public MediaId MediaId { get;  private init; }= default!;
+        public MediaId? MediaId { get;  private init; }= default!;
         public OriginalSentences? OriginalSentences { get; set; }
         public int SentToAnkiTimes { get; set; }
 

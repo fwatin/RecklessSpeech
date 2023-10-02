@@ -9,5 +9,16 @@
         long MediaId) : IRequest;
 
     public record TranslationDto(string?[]? HumanTranslation, string?[]? MachineTranslation);
+    
+    public record ImportSequenceDto
+    (
+        string? LeftImage,
+        string? RightImage,
+        long TimeModified,
+        TranslationDto Translation,
+        string formText,
+        string[] formTextTranslation,
+        string Title
+    );
 
 }

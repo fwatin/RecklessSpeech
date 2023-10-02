@@ -79,7 +79,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                     ? ""
                     : this.TranslatedWord.Value,
                 false,
-                0);
+                0, true);
 
         private string DefaultExampleFromMoneyBall() =>
             "\"<style>\n\n    html,\n    body {\n        padding: 0;\n        margin: 0;\n    }\n\n    .card {\n        " +
@@ -138,7 +138,6 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.OriginalSentence,
                 this.TranslatedSentence,
                 this.MediaId,
-                this.Explanations.Select(x=>x.BuildDomain()).ToList());
-
+                this.Explanations.Select(x => x.BuildDomain()).ToList());
     }
 }
