@@ -16,13 +16,14 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
 
         public async Task<Unit> Handle(ImportSequenceCommand request, CancellationToken cancellationToken)
         {
-            await this.ImportMedia(request.Dto.LeftImage, request.Dto.RightImage, request.Dto.MediaId.ToString(),request.Dto.mp3);
+            await this.ImportMedia(request.Dto.LeftImage, request.Dto.RightImage, request.Dto.MediaId.ToString(),
+                request.Dto.Mp3);
 
             Word word = Word.Create(request.Dto.Word);
 
             SentenceTranslations sentenceTranslations = SentenceTranslations.Create(
-                request.Dto.TranslatedSentence.HumanTranslation,
-                request.Dto.TranslatedSentence.MachineTranslation);
+                request.Dto.HumanTranslation,
+                request.Dto.MachineTranslation);
 
             OriginalSentences originalSentences = OriginalSentences.Create(request.Dto.OriginalSentences.ToList());
 

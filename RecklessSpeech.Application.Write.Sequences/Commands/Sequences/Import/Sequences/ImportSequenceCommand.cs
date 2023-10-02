@@ -2,17 +2,15 @@
 {
     public record ImportSequenceCommand(ImportSequenceDto Dto) : IRequest;
 
-    public record TranslationDto(string?[]? HumanTranslation, string?[]? MachineTranslation);
-    
     public record ImportSequenceDto
     (string Word,
         string[] TranslatedWordPropositions,
         string[] OriginalSentences,
-        TranslationDto TranslatedSentence,
+        string?[]? HumanTranslation, string?[]? MachineTranslation,
         string Title,
         long MediaId,
         string? LeftImage,
         string? RightImage,
-        string? mp3);
+        string? Mp3);
 
 }

@@ -21,7 +21,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
                 "target",
                 new[] { "cible" },
                 new[] { "target" },
-                new(new[] { "cible" }, new[] { "cible" }),
+                new[] { "cible" }, new[] { "cible" },
                 "mp3.mp3",
                 4438, null, null,null));
 
@@ -40,7 +40,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             ImportSequenceCommand command = new(new(
                 "target", new[] { "cible" },
                 new[] { "this is the target, and the target is here." },
-                new(new[] { "blabla" }, new[] { "blabla" }),
+                new[] { "blabla" }, new[] { "blabla" },
                 "mp3.mp3",
                 4438, null, null,null));
 
@@ -61,7 +61,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             ImportSequenceCommand command = new(new(
                 "target", new[] { "cible", "visée", "rabbit" },
                 new[] { "this is the target, and the target is here." },
-                new(new[] { "blabla" }, new[] { "blabla" }),
+                new[] { "blabla" }, new[] { "blabla" },
                 "mp3.mp3",
                 4438, null, null,null));
 
@@ -79,7 +79,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             ImportSequenceCommand command = new(new(
                 "target", new[] { "cible" },
                 new[] { "this is the TARGET." },
-                new(new[] { "blabla" }, new[] { "blabla" }),
+                new[] { "blabla" }, new[] { "blabla" },
                 "mp3.mp3",
                 4438, null, null,null));
 
