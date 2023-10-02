@@ -2,22 +2,22 @@
 
 namespace RecklessSpeech.Shared.Tests.Sequences
 {
-    public class MediaIdBuilder
+    public class MediaBuilder
     {
-        public MediaIdBuilder() { }
+        public MediaBuilder() { }
 
-        public MediaIdBuilder(long value) => this.Value = value;
+        public MediaBuilder(long id) => this.Id = id;
 
-        public long Value { get; init; } = 4351348384;
+        public long Id { get; init; } = 4351348384;
 
-        public static implicit operator MediaId?(MediaIdBuilder? builder)
+        public static implicit operator Media?(MediaBuilder? builder)
         {
             if (builder is null)
             {
                 return null;
             }
 
-            return new(builder.Value);
+            return Media.Create(builder.Id, null, null, null);
         }
     }
 }

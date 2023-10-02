@@ -29,7 +29,8 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 
         public IEnumerable<Sequence> GetOneByMediaId(long mediaId)
         {
-            IEnumerable<Sequence> sequence = this.sequences.Where(x => x.MediaId.Value == mediaId);
+            IEnumerable<Sequence> sequence =
+                this.sequences.Where(x => x.Media is not null && x.Media.MediaId == mediaId);
             return sequence;
         }
     }

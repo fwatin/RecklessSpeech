@@ -17,13 +17,16 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
 
         public async Task<Unit> Handle(ImportSequenceCommand request, CancellationToken cancellationToken)
         {
-            MediaId mediaId = MediaId.Create(request.MediaId);
-
-            await this.ImportMedia(request.LeftImageBase64, request.RightImageBase64, mediaId,
+            Media media = Media.Create(
+                request.MediaId,
+                request.LeftImageBase64,
+                request.RightImageBase64,
                 request.Mp3Base64);
 
+            await this.ImportMedia(media);
+
             if (request.Word is null) throw new UndefinedWordException();
-            
+
             Word word = Word.Create(request.Word);
 
             SentenceTranslations sentenceTranslations = SentenceTranslations.Create(
@@ -39,7 +42,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
             TranslatedWord translatedWord =
                 TranslatedWord.Create(string.Join(", ", request.WordTranslations));
 
-            HtmlContent htmlContent = HtmlContent.Create(mediaId, originalSentences, word, request.Title);
+            HtmlContent htmlContent = HtmlContent.Create(media, originalSentences, word, request.Title);
 
             Sequence sequence = Sequence.Create(Guid.NewGuid(),
                 htmlContent,
@@ -48,32 +51,31 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
                 translatedWord,
                 originalSentences,
                 sentenceTranslations,
-                mediaId, new());
+                media, new());
 
             this.sequenceRepository.Add(sequence);
 
             return Unit.Value;
         }
 
-        private async Task ImportMedia(string? dtoLeftImage, string? dtoRightImage, MediaId mediaId,
-            string? mp3InBase64)
+        private async Task ImportMedia(Media media)
         {
-            if (dtoLeftImage is not null)
+            if (media.LeftImage is not null)
             {
-                byte[] prev = Convert.FromBase64String(dtoLeftImage);
-                await this.SaveInMediaRepository($"{mediaId.Value}_prev.jpg", prev);
+                byte[] prev = Convert.FromBase64String(media.LeftImage);
+                await this.SaveInMediaRepository($"{media.MediaId}_prev.jpg", prev);
             }
 
-            if (dtoRightImage is not null)
+            if (media.RightImage is not null)
             {
-                byte[] next = Convert.FromBase64String(dtoRightImage);
-                await this.SaveInMediaRepository($"{mediaId.Value}_next.jpg", next);
+                byte[] next = Convert.FromBase64String(media.RightImage);
+                await this.SaveInMediaRepository($"{media.MediaId}_next.jpg", next);
             }
 
-            if (mp3InBase64 is not null)
+            if (media.Mp3 is not null)
             {
-                byte[] mp3 = Convert.FromBase64String(mp3InBase64);
-                await this.SaveInMediaRepository($"{mediaId.Value}.mp3", mp3);
+                byte[] mp3 = Convert.FromBase64String(media.Mp3);
+                await this.SaveInMediaRepository($"{media.MediaId}.mp3", mp3);
             }
         }
 

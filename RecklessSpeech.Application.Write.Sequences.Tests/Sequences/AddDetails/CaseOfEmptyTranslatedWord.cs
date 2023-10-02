@@ -21,7 +21,7 @@
             {
                 Word = new(word), TranslatedWord = null, 
                 Explanations = new() { ExplanationBuilder.Create() },
-                MediaId = new(0)
+                Media = new(0)
             };
             this.sequenceRepository.Add(sequenceBuilder);
             Class1[] dtos = { new() { word = new() { text = word }, wordTranslationsArr = new[] { translation } } };
