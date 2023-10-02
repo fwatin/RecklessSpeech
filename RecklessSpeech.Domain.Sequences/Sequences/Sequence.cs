@@ -18,7 +18,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
         public SentenceTranslations SentenceTranslations { get; private init; } = default!;
         public List<Explanation> Explanations { get; set; }
         public TranslatedWord? TranslatedWord { get; set; }
-        public MediaId? MediaId { get;  private init; }= default!;
+        public MediaId? MediaId { get;  private init; }
         public OriginalSentences? OriginalSentences { get; set; }
         public int SentToAnkiTimes { get; set; }
 

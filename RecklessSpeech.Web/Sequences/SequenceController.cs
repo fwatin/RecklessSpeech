@@ -79,13 +79,13 @@ namespace RecklessSpeech.Web.Sequences
 
                     int wordIndex = item.context.wordIndex;
                     var correspondingToken = item.context.phrase.subtitleTokens["1"][wordIndex];
-                    
-                    ImportSequenceCommand import = new(correspondingToken.form.text,
+
+                    ImportSequenceCommand import = new(new(correspondingToken.form.text,
                         item.wordTranslationsArr,
                         item.context!.phrase!.subtitles.Values.ToArray(),
                         translation,
                         item.context.phrase.reference.title,
-                        item.timeModified_ms);
+                        item.timeModified_ms, null, null));
 
                     await this.dispatcher.Send(import);
                 }
