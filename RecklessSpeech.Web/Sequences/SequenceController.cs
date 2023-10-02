@@ -49,9 +49,9 @@ namespace RecklessSpeech.Web.Sequences
             {
                 try
                 {
-                    string? prevBase64 = item.context?.phrase?.thumb_prev?.dataURL.Split(',').Last();
-                    string? nextBase64 = item.context?.phrase?.thumb_next?.dataURL.Split(',').Last();
-                    string? mp3InBase64 = item.audio?.dataURL?.Split(',').Last();
+                    string? leftImageBase64 = item.context?.phrase?.thumb_prev?.dataURL.Split(',').Last();
+                    string? rightImageBase64 = item.context?.phrase?.thumb_next?.dataURL.Split(',').Last();
+                    string? mp3Base64 = item.audio?.dataURL?.Split(',').Last();
                     int? wordIndex = item.context?.wordIndex;
                     Subtitletokens? correspondingToken = wordIndex is not null
                         ? item.context?.phrase?.subtitleTokens["1"][wordIndex.Value]
@@ -65,9 +65,9 @@ namespace RecklessSpeech.Web.Sequences
                         item.context!.phrase!.mTranslations?.Values.ToArray(),
                         item.context.phrase.reference.title,
                         item.timeModified_ms,
-                        prevBase64,
-                        nextBase64,
-                        mp3InBase64);
+                        leftImageBase64,
+                        rightImageBase64,
+                        mp3Base64);
 
                     await this.dispatcher.Send(import);
                 }

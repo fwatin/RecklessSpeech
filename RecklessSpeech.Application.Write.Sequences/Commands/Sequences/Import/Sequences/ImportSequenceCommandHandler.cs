@@ -16,8 +16,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
 
         public async Task<Unit> Handle(ImportSequenceCommand request, CancellationToken cancellationToken)
         {
-            await this.ImportMedia(request.LeftImage, request.RightImage, request.MediaId.ToString(),
-                request.Mp3);
+            await this.ImportMedia(request.LeftImageBase64, request.RightImageBase64, request.MediaId.ToString(),
+                request.Mp3Base64);
 
             Word word = Word.Create(request.Word);
 
@@ -33,7 +33,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
             MediaId mediaId = MediaId.Create(request.MediaId);
 
             TranslatedWord translatedWord =
-                TranslatedWord.Create(string.Join(", ", request.TranslatedWordPropositions));
+                TranslatedWord.Create(string.Join(", ", request.WordTranslations));
 
             HtmlContent htmlContent = HtmlContent.Create(mediaId, originalSentences, word, request.Title);
 
