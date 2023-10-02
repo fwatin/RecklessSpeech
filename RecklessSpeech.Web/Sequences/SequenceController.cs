@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿#nullable enable
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -49,7 +50,7 @@ namespace RecklessSpeech.Web.Sequences
             {
                 try
                 {
-                    string? prevBase64 = item.context?.phrase?.thumb_prev.dataURL.Split(',').Last();
+                    string? prevBase64 = item.context?.phrase?.thumb_prev?.dataURL.Split(',').Last();
                     if (prevBase64 is not null)
                     {
                         byte[] prev = Convert.FromBase64String(prevBase64);
@@ -57,7 +58,7 @@ namespace RecklessSpeech.Web.Sequences
                         await this.dispatcher.Send(savePrev);
                     }
 
-                    string? nextBase64 = item.context?.phrase?.thumb_next.dataURL.Split(',').Last();
+                    string? nextBase64 = item.context?.phrase?.thumb_next?.dataURL.Split(',').Last();
                     if (nextBase64 is not null)
                     {
                         byte[] next = Convert.FromBase64String(nextBase64);
