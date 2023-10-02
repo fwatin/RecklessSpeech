@@ -235,7 +235,7 @@ export default {
               class="badge badge-success"
               >Sent to Anki</span
             >
-            <span v-if="sequence.HasMediaComplete == false" class="badge badge-warning"
+            <span v-if="sequence.hasMediaComplete == false" class="badge badge-warning"
               >Incomplete Media</span
             >
           </div>
