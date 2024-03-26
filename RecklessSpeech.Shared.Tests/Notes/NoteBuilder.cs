@@ -1,5 +1,6 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki;
 using RecklessSpeech.Domain.Sequences.Notes;
+using RecklessSpeech.Shared.Tests.Sequences;
 
 namespace RecklessSpeech.Shared.Tests.Notes
 {
@@ -27,12 +28,13 @@ namespace RecklessSpeech.Shared.Tests.Notes
         public AfterBuilder After { get; init; }
         public SourceBuilder Source { get; init; }
         public AudioBuilder Audio { get; init; }
+        public TagsBuilder Tags { get; init; }
 
         public SendNoteToAnkiCommand BuildCommand() =>
             new(this.Id);
 
         public Note BuildAggregate() =>
-            Note.Hydrate(this.Id, this.Question, this.Answer, this.After, this.Source, this.Audio);
+            Note.Hydrate(this.Id, this.Question, this.Answer, this.After, this.Source, this.Audio,this.Tags);
 
         public static NoteBuilder Create(Guid id) =>
             new(
@@ -43,6 +45,6 @@ namespace RecklessSpeech.Shared.Tests.Notes
                 new(),
                 new());
 
-        public NoteDto BuildDto() => new(this.Question, this.Answer, this.After, this.Source, this.Audio);
+        public NoteDto BuildDto() => new(this.Question, this.Answer, this.After, this.Source, this.Audio,this.Tags);
     }
 }

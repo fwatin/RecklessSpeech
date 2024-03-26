@@ -1,4 +1,5 @@
 ﻿using RecklessSpeech.Domain.Sequences.Explanations;
+using RecklessSpeech.Shared.Tests.Sequences;
 
 namespace RecklessSpeech.Shared.Tests.Explanations
 {
@@ -21,6 +22,7 @@ namespace RecklessSpeech.Shared.Tests.Explanations
         public ContentBuilder Content { get; init; }
         public TargetBuilder Target { get; init; }
         public SourceUrlBuilder SourceUrl { get; init; }
+        public LanguageBuilder Language { get; init; }
 
         public static ExplanationBuilder Create() =>
             new(
@@ -41,13 +43,15 @@ namespace RecklessSpeech.Shared.Tests.Explanations
                 builder.ExplanationId.Value,
                 builder.Content.Value,
                 builder.Target.Value,
-                builder.SourceUrl.Value);
+                builder.SourceUrl.Value,
+                builder.Language.Value);
 
         public Explanation BuildDomain() =>
             Explanation.Hydrate(
                 this.ExplanationId.Value,
                 this.Content.Value,
                 this.Target.Value,
-                this.SourceUrl.Value);
+                this.SourceUrl.Value, 
+                this.Language.Value);
     }
 }

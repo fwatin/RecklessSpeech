@@ -52,7 +52,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt
                 .Replace("{{explanation}}", GetContent(response))
                 .Replace("{{modelName}}", this.settings.Value.ModelName);
 
-            return Explanation.Create(Guid.NewGuid(), content, word, "ChatGpt");
+            return Explanation.Create(Guid.NewGuid(), content, word, "ChatGpt",language);
         }
 
         private static string GetContent(ChatGptResponse response)

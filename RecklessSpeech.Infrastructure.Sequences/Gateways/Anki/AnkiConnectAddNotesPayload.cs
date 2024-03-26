@@ -17,6 +17,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Anki
 
     public class Note
     {
+        public string[] tags { get; init; }
         public string deckName { get; init; }
         public string modelName { get; init; }
         public Fields fields { get; init; }

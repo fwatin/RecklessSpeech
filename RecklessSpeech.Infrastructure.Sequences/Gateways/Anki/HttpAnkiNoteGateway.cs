@@ -67,7 +67,8 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Anki
                     duplicateScope = "deck",
                     duplicateScopeOptions = new() { deckName = "All", checkChildren = false }
                 },
-                fields = CreateFields(dto)
+                fields = CreateFields(dto),
+                tags = CreateTags(dto)
             };
 
             AnkiConnectAddNotesPayload pack = new()
@@ -77,6 +78,12 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Anki
 
 
             return pack;
+        }
+
+        private static string[] CreateTags(NoteDto dto)
+        {
+            var tags = new List<string> { dto.Tags.Value };
+            return tags.ToArray();
         }
 
         private static Fields CreateFields(NoteDto dto) =>

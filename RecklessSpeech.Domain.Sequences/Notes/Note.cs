@@ -11,8 +11,9 @@ namespace RecklessSpeech.Domain.Sequences.Notes
         private readonly Audio audio;
         private readonly Question question;
         private readonly Source source;
+        private readonly Tags tags;
 
-        private Note(NoteId id, Question question, Answer? answer, After after, Source source, Audio audio)
+        private Note(NoteId id, Question question, Answer? answer, After after, Source source, Audio audio, Tags tags)
         {
             this.Id = id;
             this.question = question;
@@ -20,13 +21,14 @@ namespace RecklessSpeech.Domain.Sequences.Notes
             this.after = after;
             this.source = source;
             this.audio = audio;
+            this.tags = tags;
         }
 
         public NoteId Id { get; }
 
         public static Note Hydrate(NoteId id, Question question, Answer? answer, After after, Source source,
-            Audio audio) =>
-            new(id, question, answer, after, source, audio);
+            Audio audio, Tags tags) =>
+            new(id, question, answer, after, source, audio,tags);
 
         public static Note CreateFromSequence(Sequence sequence) =>
             new(
@@ -35,7 +37,8 @@ namespace RecklessSpeech.Domain.Sequences.Notes
                 CreateAnswer(sequence),
                 CreateAfter(sequence),
                 CreateSource(sequence),
-                CreateAudio(sequence)
+                CreateAudio(sequence),
+                CreateTags(sequence)
             );
 
         private static Answer CreateAnswer(Sequence sequence) => sequence.TranslatedWord != null
@@ -59,6 +62,19 @@ namespace RecklessSpeech.Domain.Sequences.Notes
             }
 
             return Source.Create(urlBuilder.ToString());
+        }
+
+        private static Tags CreateTags(Sequence sequence)
+        {
+            if (sequence.Explanations.Any())
+            {
+                Language langue = sequence.Explanations.First().Language;
+                if (langue is Dutch) return new Tags("Netflix_Neerlandais");
+                if (langue is English) return new Tags("Netflix_Anglais");
+                if (langue is Italian) return new Tags("Netflix_italien");
+            }
+
+            return new Tags("");
         }
 
         private static Audio CreateAudio(Sequence sequence)
@@ -87,6 +103,6 @@ namespace RecklessSpeech.Domain.Sequences.Notes
             return After.Create(stringBuilder.ToString());
         }
 
-        public NoteDto GetDto() => new(this.question, this.answer ?? new(""), this.after, this.source, this.audio);
+        public NoteDto GetDto() => new(this.question, this.answer ?? new(""), this.after, this.source, this.audio,this.tags);
     }
 }
