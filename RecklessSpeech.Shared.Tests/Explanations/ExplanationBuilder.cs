@@ -9,13 +9,15 @@ namespace RecklessSpeech.Shared.Tests.Explanations
             ExplanationIdBuilder explanationId,
             ContentBuilder content,
             TargetBuilder target,
-            SourceUrlBuilder sourceUrl
+            SourceUrlBuilder sourceUrl,
+            LanguageBuilder language
         )
         {
             this.ExplanationId = explanationId;
             this.Content = content;
             this.Target = target;
             this.SourceUrl = sourceUrl;
+            this.Language = language;
         }
 
         public ExplanationIdBuilder ExplanationId { get; init; }
@@ -29,12 +31,14 @@ namespace RecklessSpeech.Shared.Tests.Explanations
                 new(),
                 new(),
                 new(),
+                new(),
                 new());
 
         public static ExplanationBuilder Create(Guid id) =>
             new(
                 new(id),
                 new(),
+                new(), 
                 new(),
                 new());
 
@@ -51,7 +55,7 @@ namespace RecklessSpeech.Shared.Tests.Explanations
                 this.ExplanationId.Value,
                 this.Content.Value,
                 this.Target.Value,
-                this.SourceUrl.Value, 
+                this.SourceUrl.Value,
                 this.Language.Value);
     }
 }

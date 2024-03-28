@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using RecklessSpeech.Application.Read.Queries.Notes.Services;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.English;
@@ -9,6 +10,7 @@ using RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt;
 using RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.Mijnwoordenboek;
 using RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.WordReference;
 using System;
+using System.Net.Http;
 
 namespace RecklessSpeech.Web
 {
@@ -26,13 +28,15 @@ namespace RecklessSpeech.Web
                 .BindConfiguration(AnkiSettings.SECTION_KEY)
                 .ValidateDataAnnotations();
 
-            services.AddHttpClient<INoteGateway, HttpAnkiNoteGateway>(
-                (provider, client) =>
-                {
-                    var options = provider.GetRequiredService<IOptions<AnkiSettings>>();
-                    string path = options.Value.Url;
-                    client.BaseAddress = new(path);
-                });
+            Action<IServiceProvider,HttpClient> configureClient = (provider, client) =>
+            {
+                var options = provider.GetRequiredService<IOptions<AnkiSettings>>();
+                string path = options.Value.Url;
+                client.BaseAddress = new(path);
+            };
+            
+            services.AddHttpClient<INoteGateway, HttpAnkiNoteGateway>(configureClient);
+            services.AddHttpClient<IReadNoteGateway, HttpAnkiNoteGateway>(configureClient);
 
             return services;
         }

@@ -6,10 +6,10 @@ namespace RecklessSpeech.Shared.Tests.Sequences
     {
         public TagsBuilder() { }
 
-        public TagsBuilder(string value) => this.Value = value;
+        public TagsBuilder(List<string> value) => this.Values = value;
 
-        public string Value { get; init; } = "word-naked lang-en netflix Green noun";
-
-        public static implicit operator Tags(TagsBuilder builder) => new(builder.Value);
+        public List<string> Values { get; init; } = new() { "word-naked", "lang-en", "netflix", "Green noun" };
+        public string Value => string.Join(' ', this.Values);
+        public static implicit operator List<Tag>(TagsBuilder builder) => builder.Values.Select(Tag.Hydrate).ToList();
     }
 }

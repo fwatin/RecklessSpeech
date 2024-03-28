@@ -1,5 +1,6 @@
 @echo off
 cd /d "%~dp0"
+cd ..
 
 echo "Début de la publication..."
 :: Passer au dossier de l'application .NET et le publier

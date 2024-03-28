@@ -32,4 +32,10 @@
         </EmbeddedResource>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Data\severalwordsinred_metjou.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

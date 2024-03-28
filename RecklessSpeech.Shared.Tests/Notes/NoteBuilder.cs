@@ -12,7 +12,8 @@ namespace RecklessSpeech.Shared.Tests.Notes
             AnswerBuilder answer,
             AfterBuilder after,
             SourceBuilder source,
-            AudioBuilder audio)
+            AudioBuilder audio,
+            TagsBuilder tags)
         {
             this.Id = id;
             this.Question = question;
@@ -20,6 +21,7 @@ namespace RecklessSpeech.Shared.Tests.Notes
             this.After = after;
             this.Source = source;
             this.Audio = audio;
+            this.Tags = tags;
         }
 
         private NoteIdBuilder Id { get; }
@@ -43,7 +45,7 @@ namespace RecklessSpeech.Shared.Tests.Notes
                 new(),
                 new(),
                 new(),
-                new());
+                new(),new());
 
         public NoteDto BuildDto() => new(this.Question, this.Answer, this.After, this.Source, this.Audio,this.Tags);
     }

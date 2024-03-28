@@ -13,7 +13,9 @@ export default {
       selectedJson: null,
       enrichProgression: 0,
       isSending: false,
+      isSendingReversed:false,
       lastSelectedSequenceIndex: null,
+      sendingReverseResponse:""
     };
   },
   created() {
@@ -44,6 +46,20 @@ export default {
         const result = this.sequences[index].word;
         console.log("selectionné :" + result);
       }
+    },
+
+    async reverseWords(){
+      this.isSendingReversed = true;
+      await axios
+          .post(
+            `${baseUrl}/api/v1/notes/reverse-blue-flagged`
+          )
+          .then((response) => {
+            this.sendingReverseResponse = "nombre d'inversés: " + response.data.succeeded.length;
+            console.log(this.sendingReverseResponse)
+          });
+      this.isSendingReversed = false;
+
     },
 
     toggleCheckedSequence(index) {
@@ -159,6 +175,28 @@ export default {
 <template>
   <div class="container mt-5">
 
+    <!-- Envoyer les inversées -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <div class="d-flex align-items-center">
+          <b-spinner variant="primary" v-if="isSendingReversed"></b-spinner>
+          <span class="m-1"
+            >Traiter les notes avec un drapeau bleu pour les inverser</span
+          >
+        </div>
+      </div>
+      <div class="card-body">
+        
+        <button class="btn btn-info mr-2" @click="reverseWords()">
+          Envoyer
+        </button>
+        <label>
+          {{this.sendingReverseResponse}}
+        </label>
+        
+      </div>
+    </div>
+
     <!-- Importer un fichier JSON -->
     <div class="card mb-4">
       <div class="card-header">Sélectionner un fichier JSON</div>
@@ -177,7 +215,7 @@ export default {
         </div>
       </div>
     </div>
-
+    
     <!-- Enrichir -->
     <div class="card mb-4">
       <div class="card-header">
@@ -189,6 +227,7 @@ export default {
         </div>
       </div>
       <div class="card-body">
+        
         <button class="btn btn-secondary mr-2" @click="selectAll()">
           Sélectionner tout
         </button>

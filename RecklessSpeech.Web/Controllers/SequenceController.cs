@@ -16,7 +16,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace RecklessSpeech.Web.Sequences
+namespace RecklessSpeech.Web.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v1/sequences")]
