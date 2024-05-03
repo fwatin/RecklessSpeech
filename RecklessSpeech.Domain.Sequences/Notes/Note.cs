@@ -118,9 +118,10 @@ namespace RecklessSpeech.Domain.Sequences.Notes
 
         public Note CreateReversedNote()
         {
-            var treatHtml = this.GetWordInRedAndHtmlWithDot(this.question.Value);
-            Question reversedQuestion = Question.Create(new(treatHtml.Item2));
-            Answer reversedAnswer = Answer.Create(treatHtml.Item1);
+            (string? formerSequenceInRed, string? newHtmlWithAnswerInGreen) =
+                this.GetWordInRedAndNewHtmlWithReplacedByGreen(this.question.Value);
+            Question reversedQuestion = Question.Create(new(newHtmlWithAnswerInGreen));
+            Answer reversedAnswer = Answer.Create(formerSequenceInRed);
             List<Tag> reversedTags = new(this.tags) { new("result_from_inversion") };
 
             return new(
@@ -133,17 +134,16 @@ namespace RecklessSpeech.Domain.Sequences.Notes
                 reversedTags);
         }
 
-        private (string, string) GetWordInRedAndHtmlWithDot(string html)
+        private (string, string) GetWordInRedAndNewHtmlWithReplacedByGreen(string html)
         {
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
-            string wordInRed = "";
+            string sequenceInRed = "";
 
-            var spanNodes = doc.DocumentNode.SelectNodes("//span[@style]");
+            var spanNodes = doc.DocumentNode.SelectNodes("//span");
             if (spanNodes != null)
             {
                 bool aTargetHasAlreadyBeenFound = false;
-                int lasWordInRed = 0;
 
                 for (int i = 0; i < spanNodes.Count; i++)
                 {
@@ -153,21 +153,16 @@ namespace RecklessSpeech.Domain.Sequences.Notes
                     {
                         if (aTargetHasAlreadyBeenFound is false)
                         {
-                            wordInRed = span.InnerText;
+                            sequenceInRed = span.InnerText;
                             span.InnerHtml = "[traduire le mot : " + this.answer!.Value + "]";
                             span.SetAttributeValue("style", "background-color: rgb(0, 170, 0);");
                             aTargetHasAlreadyBeenFound = true;
-                            lasWordInRed = i;
                         }
                         else
                         {
-                            wordInRed += span.InnerText;
-                            if (i == lasWordInRed + 1)
-                            {
-                                span.InnerHtml = "";
-                                span.SetAttributeValue("style", "background-color: rgb(0, 170, 0);");
-                            }
-                            else throw new("cas non géré");
+                            sequenceInRed += span.InnerText;
+                            span.InnerHtml = "";
+                            span.Attributes.Remove("style");
                         }
                     }
                 }
@@ -175,7 +170,7 @@ namespace RecklessSpeech.Domain.Sequences.Notes
 
             var newHtml = doc.DocumentNode.OuterHtml;
 
-            return (wordInRed, newHtml);
+            return (sequenceInRed, newHtml);
         }
 
         public bool IsATarget(HtmlNode span)

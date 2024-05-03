@@ -16,7 +16,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.ReverseNote
             string html = Data.Data.GetFileInDataFolder("severalwordsinred_metjou.html");
             this.sequenceBuilder = SequenceBuilder.Create() with
             {
-                HtmlContent = new(html)
+                HtmlContent = new(html),
+                TranslatedWord = new("avec toi")
             };
         }
 
@@ -52,7 +53,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.ReverseNote
         }
         
         [Fact]
-        public async Task ShouldNotFindAnythingInRedInQuestionIfContiguous()
+        public async Task ShouldNotFindAnythingInRedInQuestionAnymore()
         {
             //Arrange
             var sequence = this.sequenceBuilder.BuildDomain();
