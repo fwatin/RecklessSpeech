@@ -49,7 +49,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.ReverseNote
 
             //Assert
             this.spyNoteGateway.Note!.Question.Value.Should().NotContain("met");
-            this.spyNoteGateway.Note!.Question.Value.Should().NotContain("jou");
+            this.spyNoteGateway.Note!.Question.Value.Should().NotContain("jou"); 
         }
         
         [Fact]
