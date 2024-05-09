@@ -102,30 +102,19 @@ namespace RecklessSpeech.Web.Controllers
         }
 
         [HttpPost]
-        [Route("enrich-and-send-to-anki/{language}")]
+        [Route("enrich-and-send-to-anki")]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<SequenceSummaryQueryModel>> EnrichAndSendToAnki([FromQuery] Guid id,
-            string language)
+        public async Task<ActionResult<SequenceSummaryQueryModel>> EnrichAndSendToAnki([FromQuery] Guid id)
         {
             try
             {
-                switch (language)
-                {
-                    case "english":
-                        await this.dispatcher.Send(new EnrichEnglishSequenceCommand(id));
-                        break;
-                    case "dutch":
-                        await this.dispatcher.Send(new EnrichDutchSequenceCommand(id));
-                        break;
-                    case "italian":
-                        await this.dispatcher.Send(new EnrichItalianSequenceCommand(id));
-                        break;
-                }
+                await this.dispatcher.Send(new EnrichSequenceCommand(id));
 
                 await this.dispatcher.Send(new SendNoteToAnkiCommand(id));
 
                 SequenceSummaryQueryModel result = await this.dispatcher.Send(new GetOneSequenceQuery(new(id)));
+
                 return this.Ok(result);
             }
             catch (Exception e)

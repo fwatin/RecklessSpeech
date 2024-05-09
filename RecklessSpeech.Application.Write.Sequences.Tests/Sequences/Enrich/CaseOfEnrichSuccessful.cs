@@ -3,23 +3,23 @@
     public class CaseOfEnrichSuccessful
     {
         private readonly SequenceBuilder sequenceBuilder;
-        private readonly EnrichDutchSequenceCommandHandler sut;
+        private readonly EnrichSequenceCommandHandler sut;
         private readonly InMemorySequenceRepository sequenceRepository;
 
         public CaseOfEnrichSuccessful()
         {
-            StubTranslatorGateway stubDutchTranslatorGateway = new();
+            StubTranslatorGatewayFactory stubTranslatorGatewayFactory = new();
             ExplanationBuilder explanationBuilder =
                 ExplanationBuilder.Create(Guid.Parse("F189810B-B15E-4360-911C-5FBCCA771887")) with
             {
                 Content = new("du pain")
             };
-            stubDutchTranslatorGateway.Feed(explanationBuilder);
+            stubTranslatorGatewayFactory.GetStub.Feed(explanationBuilder);
 
             this.sequenceRepository = new();
             this.sut = new(
                 this.sequenceRepository,
-                stubDutchTranslatorGateway,
+                stubTranslatorGatewayFactory,
                 new StubChatGptGateway());
             
 
@@ -35,7 +35,7 @@
         {
             //Arrange
             this.sequenceRepository.Add(this.sequenceBuilder);
-            EnrichDutchSequenceCommand command = this.sequenceBuilder.BuildEnrichCommand();
+            EnrichSequenceCommand command = this.sequenceBuilder.BuildEnrichCommand();
 
             //Act
             await this.sut.Handle(command, CancellationToken.None);

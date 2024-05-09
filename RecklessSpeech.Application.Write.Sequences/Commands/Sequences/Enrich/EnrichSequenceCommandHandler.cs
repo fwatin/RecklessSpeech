@@ -1,30 +1,29 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
-using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Italian;
 using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
 {
-    public record EnrichItalianSequenceCommand(Guid SequenceId) : IRequest;
+    public record EnrichSequenceCommand(Guid SequenceId) : IRequest;
 
-    public class EnrichItalianSequenceCommandHandler : IRequestHandler<EnrichItalianSequenceCommand>
+    public class EnrichSequenceCommandHandler : IRequestHandler<EnrichSequenceCommand>
     {
-        private readonly ISequenceRepository sequenceRepository;
-        private readonly ITranslatorGateway translatorGateway;
+        private readonly ITranslatorGatewayFactory translatorGatewayFactory;
         private readonly IChatGptGateway chatGptGateway;
+        private readonly ISequenceRepository sequenceRepository;
 
-        public EnrichItalianSequenceCommandHandler(
+        public EnrichSequenceCommandHandler(
             ISequenceRepository sequenceRepository,
-            ITranslatorGateway translatorGateway,
+            ITranslatorGatewayFactory translatorGatewayFactory,
             IChatGptGateway chatGptGateway)
         {
             this.sequenceRepository = sequenceRepository;
-            this.translatorGateway = translatorGateway;
+            this.translatorGatewayFactory = translatorGatewayFactory;
             this.chatGptGateway = chatGptGateway;
         }
 
-        public async Task<Unit> Handle(EnrichItalianSequenceCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(EnrichSequenceCommand command, CancellationToken cancellationToken)
         {
             Sequence? sequence = this.sequenceRepository.GetOne(command.SequenceId);
             if (sequence is null)
@@ -39,9 +38,9 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
                 sequence.Explanations.Add(explanationWithChatGpt);
             }
 
-            Explanation explanation = this.translatorGateway.GetExplanation(sequence.ContentToGuessInNativeLanguage());
-            sequence.Explanations.Add(explanation);
-            
+            ITranslatorGateway translatorGateway = this.translatorGatewayFactory.GetTranslatorGateway(sequence.Language);
+            Explanation translationWithDictionary = translatorGateway.GetExplanation(sequence.ContentToGuessInNativeLanguage());
+            sequence.Explanations.Add(translationWithDictionary);
 
             return Unit.Value;
         }

@@ -126,7 +126,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             this.Tags.Value +
             " \"\n";
 
-        public EnrichDutchSequenceCommand BuildEnrichCommand() => new(this.SequenceId.Value);
+        public EnrichSequenceCommand BuildEnrichCommand() => new(this.SequenceId.Value);
 
         public static implicit operator WordSequence(SequenceBuilder builder) => builder.BuildDomain();
 

@@ -11,5 +11,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles
                 Content = new(""),
             };
         }
+
+    }
+    public class EmptyTranslatorGatewayFactory : ITranslatorGatewayFactory
+    {
+        public ITranslatorGateway GetTranslatorGateway(Language language) => new EmptyTranslatorGateway();
     }
 }
