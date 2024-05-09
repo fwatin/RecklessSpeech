@@ -4,12 +4,12 @@ using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences
 {
-    public class ImportSequenceCommandHandler : IRequestHandler<ImportWordCommand>
+    public class ImportWordCommandHandler : IRequestHandler<ImportWordCommand>
     {
         private readonly ISequenceRepository sequenceRepository;
         private readonly IMediaRepository mediaRepository;
 
-        public ImportSequenceCommandHandler(ISequenceRepository sequenceRepository, IMediaRepository mediaRepository)
+        public ImportWordCommandHandler(ISequenceRepository sequenceRepository, IMediaRepository mediaRepository)
         {
             this.sequenceRepository = sequenceRepository;
             this.mediaRepository = mediaRepository;

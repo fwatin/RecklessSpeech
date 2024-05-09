@@ -5,7 +5,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
     public class CaseOfVariousSentence
     {
         private readonly InMemorySequenceRepository repository;
-        private ImportSequenceCommandHandler sut;
+        private ImportWordCommandHandler sut;
 
         public CaseOfVariousSentence()
         {

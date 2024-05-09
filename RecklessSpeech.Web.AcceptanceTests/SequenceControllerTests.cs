@@ -18,9 +18,10 @@ public class SequenceControllerTests
         await using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
         {
             formFile = new FormFile(stream, 0, stream.Length, "file", Path.GetFileName(filePath));
+            var result = await controller.ImportJson(formFile);
+
         }
 
         //Act
-        var result = await controller.ImportJson(formFile);
     }
 }
