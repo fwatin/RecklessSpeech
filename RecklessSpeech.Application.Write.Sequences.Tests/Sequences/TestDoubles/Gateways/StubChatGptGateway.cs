@@ -8,7 +8,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles
 
         public void Feed(Explanation explanation) => this.item = explanation;
 
-        public Task<Explanation> GetExplanation(string word, OriginalSentences sentences, Language language)
+        public Task<Explanation> GetExplanation(Sequence sequence)
         {
             return Task.FromResult(this.item!);
         }

@@ -47,7 +47,7 @@ namespace RecklessSpeech.Web
 
         private static void AddDispatchers(this IServiceCollection services)
         {
-            Assembly applicationRentalWrite = typeof(ImportSequenceCommand).Assembly;
+            Assembly applicationRentalWrite = typeof(ImportWordCommand).Assembly;
             services.AddMediatR(applicationRentalWrite);
             
             Assembly applicationRead = typeof(GetAllSequencesQuery).Assembly;

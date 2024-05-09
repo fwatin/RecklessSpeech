@@ -1,21 +1,22 @@
 ﻿using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences.Exceptions;
 using RecklessSpeech.Application.Write.Sequences.Ports;
+using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 
-namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences
+namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Phrases
 {
-    public class ImportSequenceCommandHandler : IRequestHandler<ImportSequenceCommand>
+    public class ImportPhraseCommandHandler : IRequestHandler<ImportPhraseCommand>
     {
         private readonly ISequenceRepository sequenceRepository;
         private readonly IMediaRepository mediaRepository;
 
-        public ImportSequenceCommandHandler(ISequenceRepository sequenceRepository, IMediaRepository mediaRepository)
+        public ImportPhraseCommandHandler(ISequenceRepository sequenceRepository, IMediaRepository mediaRepository)
         {
             this.sequenceRepository = sequenceRepository;
             this.mediaRepository = mediaRepository;
         }
 
-        public async Task<Unit> Handle(ImportSequenceCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ImportPhraseCommand request, CancellationToken cancellationToken)
         {
             Media media = Media.Create(
                 request.MediaId,
@@ -25,9 +26,9 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
 
             await this.ImportMedia(media);
 
-            if (request.Word is null) throw new UndefinedWordException();
+            if (request.Phrase is null) throw new UndefinedWordException();
 
-            Word word = Word.Create(request.Word);
+            Phrase phrase = Phrase.Create(request.Phrase);
 
             SentenceTranslations sentenceTranslations = SentenceTranslations.Create(
                 request.HumanTranslation,
@@ -35,23 +36,18 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
 
             OriginalSentences originalSentences = OriginalSentences.Create(request.OriginalSentences.ToList());
 
-            AudioFileNameWithExtension audio =
-                AudioFileNameWithExtension.Create($"{request.MediaId.ToString()}.mp3");
+            AudioFileNameWithExtension audio = AudioFileNameWithExtension.Create($"{request.MediaId.ToString()}.mp3");
 
+            HtmlContent htmlContent = HtmlContent.Create(media, originalSentences, phrase, request.Title);
 
-            TranslatedWord translatedWord =
-                TranslatedWord.Create(string.Join(", ", request.WordTranslations));
-
-            HtmlContent htmlContent = HtmlContent.Create(media, originalSentences, word, request.Title);
-
-            Sequence sequence = Sequence.Create(Guid.NewGuid(),
+            PhraseSequence sequence = PhraseSequence.Create(Guid.NewGuid(),
                 htmlContent,
                 audio,
-                word,
-                translatedWord,
                 originalSentences,
                 sentenceTranslations,
-                media, new());
+                media, 
+                new(),
+                Language.GetLanguageFromCode(request.LanguageCode));
 
             this.sequenceRepository.Add(sequence);
 

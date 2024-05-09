@@ -2,7 +2,7 @@
 {
     public class CaseOfEnrichingWithChatGpt
     {
-        private readonly EnrichDutchSequenceCommandHandler sut;
+        private readonly EnrichSequenceCommandHandler sut;
         private readonly InMemorySequenceRepository sequenceRepository;
         private readonly StubChatGptGateway chatGptGateway;
 
@@ -10,7 +10,7 @@
         {
             this.sequenceRepository = new();
             this.chatGptGateway = new();
-            this.sut = new(this.sequenceRepository, new EmptyDutchTranslatorGateway(), this.chatGptGateway);
+            this.sut = new(this.sequenceRepository, new EmptyTranslatorGatewayFactory(), this.chatGptGateway);
         }
 
         [Fact]
@@ -28,7 +28,7 @@
             };
             this.chatGptGateway.Feed(explanation);
 
-            EnrichDutchSequenceCommand command = new(sequenceBuilder.SequenceId.Value);
+            EnrichSequenceCommand command = new(sequenceBuilder.SequenceId.Value);
 
             //Act
             await this.sut.Handle(command, CancellationToken.None);

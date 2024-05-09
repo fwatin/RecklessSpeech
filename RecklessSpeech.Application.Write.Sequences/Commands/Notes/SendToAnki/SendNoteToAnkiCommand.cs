@@ -1,6 +1,6 @@
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Notes;
-using RecklessSpeech.Domain.Sequences.Sequences;
+
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki
 {
     public record SendNoteToAnkiCommand(Guid Id)  : IRequest;
@@ -18,7 +18,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki
 
         public async Task<Unit> Handle(SendNoteToAnkiCommand command, CancellationToken cancellationToken)
         {
-            Sequence? sequence = this.sequenceRepository.GetOne(command.Id);
+            var sequence = this.sequenceRepository.GetOne(command.Id);
             if (sequence is null)
             {
                 return Unit.Value;

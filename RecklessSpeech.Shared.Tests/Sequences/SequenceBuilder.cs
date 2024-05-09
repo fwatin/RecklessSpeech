@@ -1,5 +1,6 @@
 ﻿using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
+using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Shared.Tests.Explanations;
 
@@ -20,7 +21,8 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             List<ExplanationBuilder> explanations,
             TranslatedWordBuilder? translatedWord,
             MediaBuilder media,
-            OriginalSentenceBuilder originalSentence)
+            OriginalSentenceBuilder originalSentence, 
+            LanguageBuilder language)
         {
             this.SequenceId = sequenceId;
             this.HtmlContent = htmlContent;
@@ -33,6 +35,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             this.TranslatedWord = translatedWord;
             this.Media = media;
             this.OriginalSentence = originalSentence;
+            this.Language = language;
         }
 
         public SequenceIdBuilder SequenceId { get; init; }
@@ -44,6 +47,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
         public List<ExplanationBuilder> Explanations { get; init; }
         public TranslatedWordBuilder? TranslatedWord { get; init; }
         public MediaBuilder Media { get; init; }
+        public LanguageBuilder Language { get; init; }
         public OriginalSentenceBuilder OriginalSentence { get; init; }
 
 
@@ -69,7 +73,8 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 new(),
                 null,
                 new(),
-                new());
+                new(),
+                new(new English()));
 
         public SequenceSummaryQueryModel BuildQueryModel() =>
             new(
@@ -125,12 +130,12 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             this.Tags.Value +
             " \"\n";
 
-        public EnrichDutchSequenceCommand BuildEnrichCommand() => new(this.SequenceId.Value);
+        public EnrichSequenceCommand BuildEnrichCommand() => new(this.SequenceId.Value);
 
-        public static implicit operator Sequence(SequenceBuilder builder) => builder.BuildDomain();
+        public static implicit operator WordSequence(SequenceBuilder builder) => builder.BuildDomain();
 
-        public Sequence BuildDomain() =>
-            Sequence.Create(this.SequenceId.Value,
+        public WordSequence BuildDomain() =>
+            WordSequence.Create(this.SequenceId.Value,
                 this.HtmlContent,
                 this.AudioFileNameWithExtension,
                 this.Word,
@@ -138,6 +143,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.OriginalSentence,
                 this.TranslatedSentence,
                 this.Media,
-                this.Explanations.Select(x => x.BuildDomain()).ToList());
+                this.Explanations.Select(x => x.BuildDomain()).ToList(),
+                this.Language);
     }
 }

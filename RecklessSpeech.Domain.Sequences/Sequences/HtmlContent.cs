@@ -17,17 +17,17 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
             return new(value);
         }
 
-        public static HtmlContent Create(Media media, OriginalSentences originalSentences, Word word, string title)
+        public static HtmlContent Create(Media media, OriginalSentences originalSentences, ISequence sequence, string title)
         {
             StringBuilder stringBuilder = new();
-            string pattern = $"({Regex.Escape(word.Value)})";
+            string pattern = $"({Regex.Escape(sequence.Value)})";
             var splittedSentenceKeepingSeparator = Regex.Split(originalSentences.GetCentralSentence(),
                 pattern,
                 RegexOptions.IgnoreCase);
 
             foreach (var wordInSentence in splittedSentenceKeepingSeparator)
             {
-                if (wordInSentence.ToLowerInvariant().StartsWith(word.Value.ToLowerInvariant()))
+                if (wordInSentence.ToLowerInvariant().StartsWith(sequence.Value.ToLowerInvariant()))
                 {
                     string underlined =
                         $"<span class=\"dc-gap\"><span class=\"dc-down dc-lang-en dc-orig\"" +

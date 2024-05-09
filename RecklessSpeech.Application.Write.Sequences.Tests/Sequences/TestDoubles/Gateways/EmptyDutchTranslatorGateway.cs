@@ -2,7 +2,7 @@
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Gateways
 {
-    public class EmptyDutchTranslatorGateway : IDutchTranslatorGateway
+    public class EmptyTranslatorGateway : ITranslatorGateway
     {
         public Explanation GetExplanation(string word)
         {
@@ -11,5 +11,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles
                 Content = new(""),
             };
         }
+
+    }
+    public class EmptyTranslatorGatewayFactory : ITranslatorGatewayFactory
+    {
+        public ITranslatorGateway GetTranslatorGateway(Language language) => new EmptyTranslatorGateway();
     }
 }

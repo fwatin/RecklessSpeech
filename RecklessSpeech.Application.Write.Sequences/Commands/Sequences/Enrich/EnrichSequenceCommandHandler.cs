@@ -5,25 +5,25 @@ using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
 {
-    public record EnrichDutchSequenceCommand(Guid SequenceId) : IRequest;
+    public record EnrichSequenceCommand(Guid SequenceId) : IRequest;
 
-    public class EnrichDutchSequenceCommandHandler : IRequestHandler<EnrichDutchSequenceCommand>
+    public class EnrichSequenceCommandHandler : IRequestHandler<EnrichSequenceCommand>
     {
-        private readonly IDutchTranslatorGateway dutchTranslatorGateway;
+        private readonly ITranslatorGatewayFactory translatorGatewayFactory;
         private readonly IChatGptGateway chatGptGateway;
         private readonly ISequenceRepository sequenceRepository;
 
-        public EnrichDutchSequenceCommandHandler(
+        public EnrichSequenceCommandHandler(
             ISequenceRepository sequenceRepository,
-            IDutchTranslatorGateway dutchTranslatorGateway,
+            ITranslatorGatewayFactory translatorGatewayFactory,
             IChatGptGateway chatGptGateway)
         {
             this.sequenceRepository = sequenceRepository;
-            this.dutchTranslatorGateway = dutchTranslatorGateway;
+            this.translatorGatewayFactory = translatorGatewayFactory;
             this.chatGptGateway = chatGptGateway;
         }
 
-        public async Task<Unit> Handle(EnrichDutchSequenceCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(EnrichSequenceCommand command, CancellationToken cancellationToken)
         {
             Sequence? sequence = this.sequenceRepository.GetOne(command.SequenceId);
             if (sequence is null)
@@ -34,12 +34,16 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
             if (sequence.OriginalSentences is not null)
             {
                 Explanation explanationWithChatGpt =
-                    await this.chatGptGateway.GetExplanation(sequence.Word.Value, sequence.OriginalSentences,new Dutch());
+                    await this.chatGptGateway.GetExplanation(sequence);
                 sequence.Explanations.Add(explanationWithChatGpt);
             }
 
-            Explanation translationWithDictionary = this.dutchTranslatorGateway.GetExplanation(sequence.Word.Value);
-            sequence.Explanations.Add(translationWithDictionary);
+            if (sequence is WordSequence)
+            {
+                ITranslatorGateway translatorGateway = this.translatorGatewayFactory.GetTranslatorGateway(sequence.Language);
+                Explanation translationWithDictionary = translatorGateway.GetExplanation(sequence.ContentToGuessInNativeLanguage());
+                sequence.Explanations.Add(translationWithDictionary);    
+            }
 
             return Unit.Value;
         }

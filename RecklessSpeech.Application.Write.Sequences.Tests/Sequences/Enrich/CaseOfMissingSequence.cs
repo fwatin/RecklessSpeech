@@ -3,14 +3,14 @@
     public class CaseOfMissingSequence
     {
         private readonly InMemorySequenceRepository sequenceRepository;
-        private readonly EnrichDutchSequenceCommandHandler sut;
+        private readonly EnrichSequenceCommandHandler sut;
 
         public CaseOfMissingSequence()
         {
             this.sequenceRepository = new();
 
             this.sut = new(this.sequenceRepository,
-                new DummyDictionaryGateway(),
+                new DummyDictionaryGatewayFactory(),
                 new DummyChatGptGateway());
         }
 

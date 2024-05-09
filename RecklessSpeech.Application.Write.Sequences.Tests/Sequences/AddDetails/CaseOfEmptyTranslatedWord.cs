@@ -19,9 +19,11 @@
             //Arrange
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create() with
             {
-                Word = new(word), TranslatedWord = null, 
+                Word = new(word),
+                TranslatedWord = null,
                 Explanations = new() { ExplanationBuilder.Create() },
-                Media = new(0)
+                Media = new(0),
+                Language = new(new Dutch())
             };
             this.sequenceRepository.Add(sequenceBuilder);
             Class1[] dtos = { new() { word = new() { text = word }, wordTranslationsArr = new[] { translation } } };
@@ -31,7 +33,8 @@
             await this.sut.Handle(command, CancellationToken.None);
 
             //Arrange
-            this.sequenceRepository.All.Single().TranslatedWord!.Value.Should().Be(translation);
+            WordSequence sequence = (WordSequence)this.sequenceRepository.All.Single();
+            sequence.TranslatedWord!.Value.Should().Be(translation);
         }
     }
 }
