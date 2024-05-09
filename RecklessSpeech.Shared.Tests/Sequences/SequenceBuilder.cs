@@ -1,5 +1,6 @@
 ﻿using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
+using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
 using RecklessSpeech.Shared.Tests.Explanations;
 
@@ -20,7 +21,8 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             List<ExplanationBuilder> explanations,
             TranslatedWordBuilder? translatedWord,
             MediaBuilder media,
-            OriginalSentenceBuilder originalSentence)
+            OriginalSentenceBuilder originalSentence, 
+            LanguageBuilder language)
         {
             this.SequenceId = sequenceId;
             this.HtmlContent = htmlContent;
@@ -33,6 +35,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
             this.TranslatedWord = translatedWord;
             this.Media = media;
             this.OriginalSentence = originalSentence;
+            this.Language = language;
         }
 
         public SequenceIdBuilder SequenceId { get; init; }
@@ -70,7 +73,8 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 new(),
                 null,
                 new(),
-                new());
+                new(),
+                new(new English()));
 
         public SequenceSummaryQueryModel BuildQueryModel() =>
             new(

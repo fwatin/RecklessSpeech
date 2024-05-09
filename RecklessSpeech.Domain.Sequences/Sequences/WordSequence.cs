@@ -5,8 +5,6 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
 {
     public sealed class WordSequence : Sequence
     {
-        public AudioFileNameWithExtension AudioFile = default!;
-
         private WordSequence(SequenceId sequenceId) : base(sequenceId)
         {
         }

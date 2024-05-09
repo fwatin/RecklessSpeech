@@ -22,7 +22,8 @@
                 Word = new(word),
                 TranslatedWord = null,
                 Explanations = new() { ExplanationBuilder.Create() },
-                Media = new(0)
+                Media = new(0),
+                Language = new(new Dutch())
             };
             this.sequenceRepository.Add(sequenceBuilder);
             Class1[] dtos = { new() { word = new() { text = word }, wordTranslationsArr = new[] { translation } } };

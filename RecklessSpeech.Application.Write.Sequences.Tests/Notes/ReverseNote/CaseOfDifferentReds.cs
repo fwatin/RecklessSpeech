@@ -17,7 +17,8 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.ReverseNote
             this.sequenceBuilder = SequenceBuilder.Create() with
             {
                 HtmlContent = new(html),
-                TranslatedWord = new("la gueule de bois")
+                TranslatedWord = new("la gueule de bois"),
+                Language = new(new Dutch())
             };
         }
 
