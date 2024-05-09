@@ -1,6 +1,6 @@
 ﻿namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences
 {
-    public record ImportSequenceCommand(string? Word,
+    public record ImportWordCommand(string? Word,
         string[] WordTranslations,
         string[] OriginalSentences,
         string?[]? HumanTranslation, 

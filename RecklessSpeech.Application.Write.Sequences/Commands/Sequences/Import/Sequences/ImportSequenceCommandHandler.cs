@@ -4,7 +4,7 @@ using RecklessSpeech.Domain.Sequences.Sequences;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences
 {
-    public class ImportSequenceCommandHandler : IRequestHandler<ImportSequenceCommand>
+    public class ImportSequenceCommandHandler : IRequestHandler<ImportWordCommand>
     {
         private readonly ISequenceRepository sequenceRepository;
         private readonly IMediaRepository mediaRepository;
@@ -15,7 +15,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.S
             this.mediaRepository = mediaRepository;
         }
 
-        public async Task<Unit> Handle(ImportSequenceCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ImportWordCommand request, CancellationToken cancellationToken)
         {
             Media media = Media.Create(
                 request.MediaId,

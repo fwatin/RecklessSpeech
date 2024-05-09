@@ -52,24 +52,32 @@ namespace RecklessSpeech.Web.Controllers
                     string? leftImageBase64 = item.context?.phrase?.thumb_prev?.dataURL.Split(',').Last();
                     string? rightImageBase64 = item.context?.phrase?.thumb_next?.dataURL.Split(',').Last();
                     string? mp3Base64 = item.audio?.dataURL?.Split(',').Last();
-                    int? wordIndex = item.context?.wordIndex;
-                    Subtitletokens? correspondingToken = wordIndex is not null
-                        ? item.context?.phrase?.subtitleTokens["1"][wordIndex.Value]
-                        : null;
 
-                    ImportSequenceCommand import = new(
-                        correspondingToken?.form.text,
-                        item.wordTranslationsArr,
-                        item.context!.phrase!.subtitles.Values.ToArray(),
-                        item.context!.phrase!.hTranslations?.Values.ToArray(),
-                        item.context!.phrase!.mTranslations?.Values.ToArray(),
-                        item.context.phrase.reference.title,
-                        item.timeModified_ms,
-                        leftImageBase64,
-                        rightImageBase64,
-                        mp3Base64);
+                    if (item.itemType == "WORD")
+                    {
+                        int? wordIndex = item.context?.wordIndex;
+                        Subtitletokens? correspondingToken = wordIndex is not null
+                            ? item.context?.phrase?.subtitleTokens["1"][wordIndex.Value]
+                            : null;
 
-                    await this.dispatcher.Send(import);
+                        ImportWordCommand importWord = new(
+                            correspondingToken?.form.text,
+                            item.wordTranslationsArr,
+                            item.context!.phrase!.subtitles.Values.ToArray(),
+                            item.context!.phrase!.hTranslations?.Values.ToArray(),
+                            item.context!.phrase!.mTranslations?.Values.ToArray(),
+                            item.context.phrase.reference.title,
+                            item.timeModified_ms,
+                            leftImageBase64,
+                            rightImageBase64,
+                            mp3Base64);
+
+                        await this.dispatcher.Send(importWord);
+                    }
+                    else if (item.itemType == "PHRASE")
+                    {
+                        
+                    }
                 }
                 catch (Exception e)
                 {

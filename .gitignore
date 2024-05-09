@@ -56,3 +56,5 @@
 /RecklessSpeech.Infrastructure.Daos/bin/*
 /RecklessSpeech.Infrastructure.Daos/obj/*
 /backend_publish/*
+/RecklessSpeech.Web.AcceptanceTests/bin/*
+/RecklessSpeech.Web.AcceptanceTests/obj/*

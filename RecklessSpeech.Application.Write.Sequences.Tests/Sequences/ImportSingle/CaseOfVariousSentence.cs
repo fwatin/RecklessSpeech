@@ -17,7 +17,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
         public async Task Case_of_sentence_has_only_one_word()
         {
             //Arrange
-            ImportSequenceCommand command = new(
+            ImportWordCommand command = new(
                 "target",
                 new[] { "cible" },
                 new[] { "target" },
@@ -37,7 +37,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
         public async Task Case_of_sentence_with_special_characters()
         {
             //Arrange
-            ImportSequenceCommand command = new(
+            ImportWordCommand command = new(
                 "target", new[] { "cible" },
                 new[] { "this is the target, and the target is here." },
                 new[] { "blabla" }, new[] { "blabla" },
@@ -58,7 +58,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
         public async Task Should_separate_translations_with_coma()
         {
             //Arrange
-            ImportSequenceCommand command = new(
+            ImportWordCommand command = new(
                 "target", new[] { "cible", "visée", "rabbit" },
                 new[] { "this is the target, and the target is here." },
                 new[] { "blabla" }, new[] { "blabla" },
@@ -76,7 +76,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
         public async Task Should_not_take_into_account_the_case()
         {
             //Arrange
-            ImportSequenceCommand command = new(
+            ImportWordCommand command = new(
                 "target", new[] { "cible" },
                 new[] { "this is the TARGET." },
                 new[] { "blabla" }, new[] { "blabla" },
