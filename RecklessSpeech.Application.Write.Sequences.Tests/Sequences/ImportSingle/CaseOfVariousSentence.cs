@@ -23,7 +23,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
                 new[] { "target" },
                 new[] { "cible" }, new[] { "cible" },
                 "mp3.mp3",
-                4438, null, null,null);
+                4438, null, null,null,"en");
 
             //Act
             await this.sut.Handle(command, CancellationToken.None);
@@ -42,7 +42,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
                 new[] { "this is the target, and the target is here." },
                 new[] { "blabla" }, new[] { "blabla" },
                 "mp3.mp3",
-                4438, null, null,null);
+                4438, null, null,null,"en");
 
             //Act
             await this.sut.Handle(command, CancellationToken.None);
@@ -63,7 +63,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
                 new[] { "this is the target, and the target is here." },
                 new[] { "blabla" }, new[] { "blabla" },
                 "mp3.mp3",
-                4438, null, null,null);
+                4438, null, null,null,"en");
 
             //Act
             await this.sut.Handle(command, CancellationToken.None);
@@ -81,7 +81,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
                 new[] { "this is the TARGET." },
                 new[] { "blabla" }, new[] { "blabla" },
                 "mp3.mp3",
-                4438, null, null,null);
+                4438, null, null,null,"en");
 
             //Act
             await this.sut.Handle(command, CancellationToken.None);

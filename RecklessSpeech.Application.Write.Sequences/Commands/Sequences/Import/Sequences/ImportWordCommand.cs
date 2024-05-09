@@ -3,11 +3,12 @@
     public record ImportWordCommand(string? Word,
         string[] WordTranslations,
         string[] OriginalSentences,
-        string?[]? HumanTranslation, 
+        string?[]? HumanTranslation,
         string?[]? MachineTranslation,
         string Title,
         long MediaId,
         string? LeftImageBase64,
         string? RightImageBase64,
-        string? Mp3Base64) : IRequest;
+        string? Mp3Base64,
+        string LanguageCode) : IRequest;
 }

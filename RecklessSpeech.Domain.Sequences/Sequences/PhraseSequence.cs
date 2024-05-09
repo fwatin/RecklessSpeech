@@ -16,7 +16,8 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
             OriginalSentences originalSentences,
             SentenceTranslations sentenceTranslations,
             Media media,
-            List<Explanation> explanations)
+            List<Explanation> explanations,
+            Language language)
         {
             return new(new(id))
             {
@@ -27,7 +28,8 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
                 SentenceTranslations = sentenceTranslations,
                 Media = media,
                 Explanations = explanations,
-                SentToAnkiTimes = 0
+                SentToAnkiTimes = 0,
+                Language = language
             };
         }
 

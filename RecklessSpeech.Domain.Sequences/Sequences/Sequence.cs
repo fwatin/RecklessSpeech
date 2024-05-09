@@ -9,6 +9,8 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
         public HtmlContent HtmlContent { get; protected init; } = default!;
         public SentenceTranslations SentenceTranslations { get; protected init; } = default!;
         public List<Explanation> Explanations { get; set; }
+        
+        public Language Language { get; protected set; }
 
         protected Sequence(SequenceId sequenceId)
         {

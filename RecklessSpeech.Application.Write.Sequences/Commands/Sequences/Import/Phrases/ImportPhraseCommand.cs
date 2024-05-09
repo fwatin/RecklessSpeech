@@ -9,5 +9,6 @@
         long MediaId,
         string? LeftImageBase64,
         string? RightImageBase64,
-        string? Mp3Base64) : IRequest;
+        string? Mp3Base64,
+        string LanguageCode) : IRequest;
 }

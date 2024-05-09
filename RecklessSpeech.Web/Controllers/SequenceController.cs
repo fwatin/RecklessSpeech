@@ -71,7 +71,7 @@ namespace RecklessSpeech.Web.Controllers
                             item.timeModified_ms,
                             leftImageBase64,
                             rightImageBase64,
-                            mp3Base64);
+                            mp3Base64,item.langCode_G);
 
                         await this.dispatcher.Send(importWord);
                     }
@@ -86,7 +86,7 @@ namespace RecklessSpeech.Web.Controllers
                             item.timeModified_ms,
                             leftImageBase64,
                             rightImageBase64,
-                            mp3Base64);
+                            mp3Base64, item.langCode_G);
                         await this.dispatcher.Send(importPhrase);
                     }
                 }

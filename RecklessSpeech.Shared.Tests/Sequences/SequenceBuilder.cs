@@ -44,6 +44,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
         public List<ExplanationBuilder> Explanations { get; init; }
         public TranslatedWordBuilder? TranslatedWord { get; init; }
         public MediaBuilder Media { get; init; }
+        public LanguageBuilder Language { get; init; }
         public OriginalSentenceBuilder OriginalSentence { get; init; }
 
 
@@ -138,6 +139,7 @@ namespace RecklessSpeech.Shared.Tests.Sequences
                 this.OriginalSentence,
                 this.TranslatedSentence,
                 this.Media,
-                this.Explanations.Select(x => x.BuildDomain()).ToList());
+                this.Explanations.Select(x => x.BuildDomain()).ToList(),
+                this.Language);
     }
 }

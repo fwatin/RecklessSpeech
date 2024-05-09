@@ -1,6 +1,6 @@
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Notes;
-using RecklessSpeech.Domain.Sequences.Sequences;
+
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki
 {
     public record SendNoteToAnkiCommand(Guid Id)  : IRequest;
