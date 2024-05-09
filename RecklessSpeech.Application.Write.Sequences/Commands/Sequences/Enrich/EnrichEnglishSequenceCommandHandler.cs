@@ -35,7 +35,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
             if (sequence.OriginalSentences is not null)
             {
                 Explanation explanationWithChatGpt =
-                    await this.chatGptGateway.GetExplanation(sequence.ContentToGuessInNativeLanguage(), sequence.OriginalSentences,new English());
+                    await this.chatGptGateway.GetExplanation(sequence);
                 sequence.Explanations.Add(explanationWithChatGpt);
             }
 

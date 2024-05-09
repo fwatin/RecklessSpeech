@@ -18,16 +18,11 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt
             this.settings = settings;
         }
 
-        public async Task<Explanation> GetExplanation(string word, OriginalSentences sentences, Language language)
+        public async Task<Explanation> GetExplanation(Sequence sequence)
         {
+            var sentences = sequence.OriginalSentences;
             ChatGptRequest request = new(this.settings.Value.ModelName,
-                new()
-                {
-                    new("user",
-                        $"Peux-tu expliquer le sens du mot {language.GetLanguageInFrench()} {word} " +
-                        $"dans la phrase {sentences.GetCentralSentence()} " +
-                        $"sachant que cette phrase fait partie du groupe de phrase suivant {sentences.Joined()}")
-                });
+                new() { new("user", sequence.SentenceToAskChatGptExplanation) });
 
             HttpRequestMessage requestMessage = new(HttpMethod.Post, "chat/completions")
             {
@@ -45,14 +40,16 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt
             string template = await File.ReadAllTextAsync(path);
 
             string content = template
-                .Replace("{{word}}", word)
+                .Replace("{{word}}", sequence.ContentToGuessInTargetedLanguage())
                 .Replace("{{central}}", sentences.GetCentralSentence())
                 .Replace("{{sentence}}", sentences.Joined())
-                .Replace("{{language}}", language.GetLanguageInFrench())
+                .Replace("{{language}}", sequence.Language.GetLanguageInFrench())
                 .Replace("{{explanation}}", GetContent(response))
                 .Replace("{{modelName}}", this.settings.Value.ModelName);
 
-            return Explanation.Create(Guid.NewGuid(), content, word, "ChatGpt",language);
+            return Explanation.Create(Guid.NewGuid(), content, 
+                sequence.ContentToGuessInTargetedLanguage()!, "ChatGpt",
+                sequence.Language);
         }
 
         private static string GetContent(ChatGptResponse response)

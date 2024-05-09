@@ -11,6 +11,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
         public List<Explanation> Explanations { get; set; }
         
         public Language Language { get; protected set; }
+        public abstract string SentenceToAskChatGptExplanation { get;  }
 
         protected Sequence(SequenceId sequenceId)
         {
