@@ -80,7 +80,7 @@ export default {
       }
     },
 
-    async enrichAndSend(lang) {
+    async enrichAndSend() {
       this.enrichProgression = 0;
       this.isSending = true;
       let toBeEnrichedIndexes = this.checkedSequenceIndexes.slice();
@@ -99,7 +99,7 @@ export default {
 
         await axios
           .post(
-            `${baseUrl}/api/v1/sequences/enrich-and-send-to-anki/${lang}?id=${id}`
+            `${baseUrl}/api/v1/sequences/enrich-and-send-to-anki?id=${id}`
           )
           .then((response) => {
             this.sequences[index].hasExplanations =
@@ -231,14 +231,8 @@ export default {
         <button class="btn btn-secondary mr-2" @click="selectAll()">
           Sélectionner tout
         </button>
-        <button class="btn btn-info mr-2" @click="enrichAndSend('english')">
-          Enrichir et envoyer en anglais
-        </button>
-        <button class="btn btn-info" @click="enrichAndSend('dutch')">
-          Enrichir et envoyer en néérlandais
-        </button>
-        <button class="btn btn-info" @click="enrichAndSend('italian')">
-          Enrichir et envoyer en italien
+        <button class="btn btn-info mr-2" @click="enrichAndSend()">
+          envoyer vers Anki
         </button>
       </div>
     </div>
