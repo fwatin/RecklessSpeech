@@ -38,9 +38,12 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
                 sequence.Explanations.Add(explanationWithChatGpt);
             }
 
-            ITranslatorGateway translatorGateway = this.translatorGatewayFactory.GetTranslatorGateway(sequence.Language);
-            Explanation translationWithDictionary = translatorGateway.GetExplanation(sequence.ContentToGuessInNativeLanguage());
-            sequence.Explanations.Add(translationWithDictionary);
+            if (sequence is WordSequence)
+            {
+                ITranslatorGateway translatorGateway = this.translatorGatewayFactory.GetTranslatorGateway(sequence.Language);
+                Explanation translationWithDictionary = translatorGateway.GetExplanation(sequence.ContentToGuessInNativeLanguage());
+                sequence.Explanations.Add(translationWithDictionary);    
+            }
 
             return Unit.Value;
         }
