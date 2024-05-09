@@ -10,7 +10,7 @@
         {
             this.sequenceRepository = new();
             this.chatGptGateway = new();
-            this.sut = new(this.sequenceRepository, new EmptyDutchTranslatorGateway(), this.chatGptGateway);
+            this.sut = new(this.sequenceRepository, new EmptyTranslatorGateway(), this.chatGptGateway);
         }
 
         [Fact]

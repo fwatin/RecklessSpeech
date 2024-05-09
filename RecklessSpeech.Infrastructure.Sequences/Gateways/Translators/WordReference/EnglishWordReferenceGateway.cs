@@ -1,10 +1,11 @@
 ﻿using HtmlAgilityPack;
+using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.English;
 using RecklessSpeech.Domain.Sequences.Explanations;
 
 namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.WordReference
 {
-    public class EnglishWordReferenceGateway : IEnglishTranslatorGateway
+    public class EnglishWordReferenceGateway : ITranslatorGateway
     {
         public Explanation GetExplanation(string word)
         {

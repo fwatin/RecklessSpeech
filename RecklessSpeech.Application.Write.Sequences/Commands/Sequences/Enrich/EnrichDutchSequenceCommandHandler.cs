@@ -9,13 +9,13 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
 
     public class EnrichDutchSequenceCommandHandler : IRequestHandler<EnrichDutchSequenceCommand>
     {
-        private readonly IDutchTranslatorGateway dutchTranslatorGateway;
+        private readonly ITranslatorGateway dutchTranslatorGateway;
         private readonly IChatGptGateway chatGptGateway;
         private readonly ISequenceRepository sequenceRepository;
 
         public EnrichDutchSequenceCommandHandler(
             ISequenceRepository sequenceRepository,
-            IDutchTranslatorGateway dutchTranslatorGateway,
+            ITranslatorGateway dutchTranslatorGateway,
             IChatGptGateway chatGptGateway)
         {
             this.sequenceRepository = sequenceRepository;

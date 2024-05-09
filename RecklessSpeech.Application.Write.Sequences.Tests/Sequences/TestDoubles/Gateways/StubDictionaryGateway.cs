@@ -2,7 +2,7 @@
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Gateways
 {
-    public class StubDutchTranslatorGateway : IDutchTranslatorGateway
+    public class StubTranslatorGateway : ITranslatorGateway
     {
         private Explanation? item;
 

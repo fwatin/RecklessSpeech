@@ -33,5 +33,15 @@
                 new(target),
                 new(sourceUrl),
                 language);
+
+        public static Explanation CreateEmpty()
+        {
+            return new Explanation
+            (new(Guid.Empty),
+                new(""),
+                new(""),
+                new(""),
+                Language.GetLanguageFromCode("en")); //sale mais je m'en branle
+        }
     }
 }

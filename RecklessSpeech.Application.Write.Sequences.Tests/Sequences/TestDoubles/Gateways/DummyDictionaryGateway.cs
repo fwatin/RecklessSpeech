@@ -2,7 +2,7 @@
 
 namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles.Gateways
 {
-    public class DummyDictionaryGateway : IDutchTranslatorGateway
+    public class DummyDictionaryGateway : ITranslatorGateway
     {
         public Explanation GetExplanation(string word) => throw new();
     }

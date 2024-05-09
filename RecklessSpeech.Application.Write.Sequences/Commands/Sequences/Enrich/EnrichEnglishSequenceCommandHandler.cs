@@ -11,12 +11,12 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
     public class EnrichEnglishSequenceCommandHandler : IRequestHandler<EnrichEnglishSequenceCommand>
     {
         private readonly ISequenceRepository sequenceRepository;
-        private readonly IEnglishTranslatorGateway translatorGateway;
+        private readonly ITranslatorGateway translatorGateway;
         private readonly IChatGptGateway chatGptGateway;
 
         public EnrichEnglishSequenceCommandHandler(
             ISequenceRepository sequenceRepository,
-            IEnglishTranslatorGateway translatorGateway,
+            ITranslatorGateway translatorGateway,
             IChatGptGateway chatGptGateway)
         {
             this.sequenceRepository = sequenceRepository;

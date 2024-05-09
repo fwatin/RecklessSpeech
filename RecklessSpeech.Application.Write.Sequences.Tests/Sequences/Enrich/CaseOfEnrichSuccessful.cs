@@ -8,7 +8,7 @@
 
         public CaseOfEnrichSuccessful()
         {
-            StubDutchTranslatorGateway stubDutchTranslatorGateway = new();
+            StubTranslatorGateway stubDutchTranslatorGateway = new();
             ExplanationBuilder explanationBuilder =
                 ExplanationBuilder.Create(Guid.Parse("F189810B-B15E-4360-911C-5FBCCA771887")) with
             {
