@@ -44,8 +44,8 @@ namespace RecklessSpeech.Domain.Sequences.Notes
                 CreateTags(sequence).ToList()
             );
 
-        private static Answer CreateAnswer(Sequence sequence) => sequence.TranslatedWord != null
-            ? Answer.Create(sequence.TranslatedWord!.Value)
+        private static Answer CreateAnswer(Sequence sequence) => sequence.ContentToGuessInTargetedLanguage() != null
+            ? Answer.Create(sequence.ContentToGuessInTargetedLanguage()!)
             : Answer.Create("");
 
         private static Source CreateSource(Sequence sequence)

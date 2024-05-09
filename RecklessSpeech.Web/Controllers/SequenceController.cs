@@ -8,6 +8,7 @@ using RecklessSpeech.Application.Read.Queries.Sequences.GetOne;
 using RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
+using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Phrases;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences;
 using System;
 using System.Collections.Generic;
@@ -76,7 +77,17 @@ namespace RecklessSpeech.Web.Controllers
                     }
                     else if (item.itemType == "PHRASE")
                     {
-                        
+                        ImportPhraseCommand importPhrase = new(
+                            item.context!.phrase!.subtitles["1"],
+                            item.context!.phrase!.subtitles.Values.ToArray(),
+                            item.context!.phrase!.hTranslations?.Values.ToArray(),
+                            item.context!.phrase!.mTranslations?.Values.ToArray(),
+                            item.context.phrase.reference.title,
+                            item.timeModified_ms,
+                            leftImageBase64,
+                            rightImageBase64,
+                            mp3Base64);
+                        await this.dispatcher.Send(importPhrase);
                     }
                 }
                 catch (Exception e)

@@ -34,11 +34,11 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
             if (sequence.OriginalSentences is not null)
             {
                 Explanation explanationWithChatGpt =
-                    await this.chatGptGateway.GetExplanation(sequence.Word.Value, sequence.OriginalSentences,new Dutch());
+                    await this.chatGptGateway.GetExplanation(sequence.ContentToGuessInNativeLanguage(), sequence.OriginalSentences,new Dutch());
                 sequence.Explanations.Add(explanationWithChatGpt);
             }
 
-            Explanation translationWithDictionary = this.dutchTranslatorGateway.GetExplanation(sequence.Word.Value);
+            Explanation translationWithDictionary = this.dutchTranslatorGateway.GetExplanation(sequence.ContentToGuessInNativeLanguage());
             sequence.Explanations.Add(translationWithDictionary);
 
             return Unit.Value;

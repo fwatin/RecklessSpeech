@@ -18,7 +18,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetai
 
                 foreach (Sequence sequence in sequences)
                 {
-                    sequence.TranslatedWord = TranslatedWord.Create(item.wordTranslationsArr.First());
+                    sequence.Translation = item.wordTranslationsArr.First();
 
                     if (item.context?.phrase?.subtitles is null) return Task.FromResult(Unit.Value);
 

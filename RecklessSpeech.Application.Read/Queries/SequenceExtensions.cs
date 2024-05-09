@@ -9,14 +9,12 @@ namespace RecklessSpeech.Application.Read.Queries
         {
             return new(
                 sequence.SequenceId.Value,
-                sequence.Word.Value,
-                sequence.TranslatedWord is null ? "" : sequence.TranslatedWord.Value,
+                sequence.ContentToGuessInNativeLanguage(),
+                sequence.ContentToGuessInTargetedLanguage() is null ? "" : sequence.ContentToGuessInTargetedLanguage()!,
                 sequence.Explanations.Any(),
                 sequence.SentToAnkiTimes,
                 sequence.Media is not null && sequence.Media.IsComplete()
             );
         }
-        
-        
     }
 }

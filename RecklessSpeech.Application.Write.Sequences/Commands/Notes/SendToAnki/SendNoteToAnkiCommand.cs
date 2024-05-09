@@ -18,7 +18,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Notes.SendToAnki
 
         public async Task<Unit> Handle(SendNoteToAnkiCommand command, CancellationToken cancellationToken)
         {
-            Sequence? sequence = this.sequenceRepository.GetOne(command.Id);
+            var sequence = this.sequenceRepository.GetOne(command.Id);
             if (sequence is null)
             {
                 return Unit.Value;

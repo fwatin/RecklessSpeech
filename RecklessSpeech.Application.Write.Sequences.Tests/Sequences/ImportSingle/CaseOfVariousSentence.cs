@@ -69,7 +69,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             await this.sut.Handle(command, CancellationToken.None);
 
             //Assert
-            this.repository.All.Single().TranslatedWord!.Value.Should().Be("cible, visée, rabbit");
+            ((WordSequence)this.repository.All.Single()).TranslatedWord!.Value.Should().Be("cible, visée, rabbit");
         }
 
         [Fact]

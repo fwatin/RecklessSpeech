@@ -127,10 +127,10 @@ namespace RecklessSpeech.Shared.Tests.Sequences
 
         public EnrichDutchSequenceCommand BuildEnrichCommand() => new(this.SequenceId.Value);
 
-        public static implicit operator Sequence(SequenceBuilder builder) => builder.BuildDomain();
+        public static implicit operator WordSequence(SequenceBuilder builder) => builder.BuildDomain();
 
-        public Sequence BuildDomain() =>
-            Sequence.Create(this.SequenceId.Value,
+        public WordSequence BuildDomain() =>
+            WordSequence.Create(this.SequenceId.Value,
                 this.HtmlContent,
                 this.AudioFileNameWithExtension,
                 this.Word,
