@@ -35,7 +35,7 @@
 
             //Assert
             this.sequenceRepository.GetAll().Single().Explanations
-                .Any(x => x.Content.Value.Contains("C'est une expression pour dire prout")).Should().BeTrue();
+                .Any(x => x.ExplanationInHtml.Value.Contains("C'est une expression pour dire prout")).Should().BeTrue();
         }
     }
 }

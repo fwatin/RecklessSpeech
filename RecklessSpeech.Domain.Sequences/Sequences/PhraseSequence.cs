@@ -35,7 +35,7 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
 
         public override string SentenceToAskChatGptExplanation =>
             $"Peux-tu expliquer le sens de la phrase suivante : \"{this.Phrase.Value}\" ?";
-        public override string? ContentToGuessInTargetedLanguage() => this.SentenceTranslations.GetMainSentenceTranslation();
+        public override string ContentToGuessInTargetedLanguage() => this.SentenceTranslations.GetMainSentenceTranslation();
         public override string ContentToGuessInNativeLanguage() => this.Phrase.Value;
 
         public override string Translation

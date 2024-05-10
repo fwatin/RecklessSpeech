@@ -75,11 +75,11 @@ namespace RecklessSpeech.Domain.Sequences.Notes
                 switch (langue)
                 {
                     case Dutch:
-                        return new Tag[1] { new("Netflix_Neerlandais") };
+                        return new Tag[] { new("Netflix_Neerlandais") };
                     case English:
-                        return new Tag[1] { new("Netflix_Anglais") };
+                        return new Tag[] { new("Netflix_Anglais") };
                     case Italian:
-                        return new Tag[1] { new("Netflix_Italien") };
+                        return new Tag[] { new("Netflix_Italien") };
                 }
             }
 
@@ -107,7 +107,7 @@ namespace RecklessSpeech.Domain.Sequences.Notes
 
             foreach (var explanation in sequence.Explanations)
             {
-                stringBuilder.AppendLine(explanation.Content.Value);
+                stringBuilder.AppendLine(explanation.ExplanationInHtml.Value);
             }
 
             return After.Create(stringBuilder.ToString());

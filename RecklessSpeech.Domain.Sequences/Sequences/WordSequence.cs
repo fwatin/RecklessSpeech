@@ -1,5 +1,4 @@
-﻿#nullable enable
-using RecklessSpeech.Domain.Sequences.Explanations;
+﻿using RecklessSpeech.Domain.Sequences.Explanations;
 
 namespace RecklessSpeech.Domain.Sequences.Sequences
 {

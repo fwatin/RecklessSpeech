@@ -46,7 +46,7 @@ namespace RecklessSpeech.Shared.Tests.Explanations
             Explanation.Create(
                 builder.ExplanationId.Value,
                 builder.Content.Value,
-                builder.Target.Value,
+                builder.Target.Value,null,
                 builder.SourceUrl.Value,
                 builder.Language.Value);
 
@@ -54,6 +54,7 @@ namespace RecklessSpeech.Shared.Tests.Explanations
             Explanation.Hydrate(
                 this.ExplanationId.Value,
                 this.Content.Value,
+                null,
                 this.Target.Value,
                 this.SourceUrl.Value,
                 this.Language.Value);

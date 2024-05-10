@@ -12,5 +12,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.TestDoubles
         {
             return Task.FromResult(this.item!);
         }
+
+        public Task<string> GetSingleWordTranslation(WordSequence wordSequence, Explanation explanationWithChatGpt)
+        {
+            return Task.FromResult("");
+        }
     }
 }
