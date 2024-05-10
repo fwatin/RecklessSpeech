@@ -10,6 +10,6 @@ namespace RecklessSpeech.Shared.Tests.Explanations
 
         public string Value { get; init; } = "veut dire genre trucs, astuces";
 
-        public static implicit operator Content(ContentBuilder builder) => new(builder.Value);
+        public static implicit operator ExplanationInHtml(ContentBuilder builder) => new(builder.Value);
     }
 }

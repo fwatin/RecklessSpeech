@@ -1,47 +1,67 @@
-﻿namespace RecklessSpeech.Domain.Sequences.Explanations
+﻿using System.Text.RegularExpressions;
+
+namespace RecklessSpeech.Domain.Sequences.Explanations
 {
     public sealed class Explanation
     {
-        //todo virer id c'est un value object
-        private Explanation(ExplanationId explanationId, Content content, Target target, SourceUrl sourceUrl, Language language)
+        private Explanation(
+            ExplanationInHtml explanationInHtml,
+            RawExplanation? rawExplanation,
+            SourceUrl sourceUrl, 
+            Language language)
         {
-            this.ExplanationId = explanationId;
-            this.Content = content;
-            this.Target = target;
+            this.ExplanationInHtml = explanationInHtml;
+            this.RawExplanation = rawExplanation;
             this.SourceUrl = sourceUrl;
             this.Language = language;
         }
 
-        public Content Content { get; init; }
-        public Target Target { get; init; }
-        public ExplanationId ExplanationId { get; init; }
+        public ExplanationInHtml ExplanationInHtml { get; set; }
+        public RawExplanation? RawExplanation { get; init; }
         public SourceUrl SourceUrl { get; init; }
         public Language Language { get; }
 
-        public static Explanation Create(Guid id, string content, string target, string sourceUrl,Language language) =>
+        public static Explanation Create(
+            string explanationInHtml, 
+            string? rawExplanation,
+            string sourceUrl, 
+            Language language) =>
             new(
-                new(id),
-                new(content),
-                new(target),
+                new(explanationInHtml),
+                rawExplanation is null ? null : new(rawExplanation),
                 new(sourceUrl),
                 language);
 
-        public static Explanation Hydrate(Guid id, string content, string target, string sourceUrl, Language language) =>
+        public static Explanation Hydrate(string explanationInHtml, string? rawExplanation,
+            string sourceUrl, Language language) =>
             new(
-                new(id),
-                new(content),
-                new(target),
+                new(explanationInHtml),
+                rawExplanation is null ? null : new(rawExplanation),
                 new(sourceUrl),
                 language);
 
         public static Explanation CreateEmpty()
         {
-            return new Explanation
-            (new(Guid.Empty),
-                new(""),
+            return new(new(""),
                 new(""),
                 new(""),
                 Language.GetLanguageFromCode("en")); //sale mais je m'en branle
+        }
+
+        public void HighlightTerm(string wordToHighlight)
+        {
+            var html = this.ExplanationInHtml.Value;
+
+            var escapedWord = Regex.Escape(wordToHighlight);
+
+            const string styleToApply = "background-color: rgb(157, 0, 0);";
+
+            var replacement = $"<span style=\"{styleToApply}\">{wordToHighlight}</span>";
+
+            var regex = new Regex($@"\b{escapedWord}\b", RegexOptions.IgnoreCase);
+            html = regex.Replace(html, replacement);
+
+            this.ExplanationInHtml = new(html);
         }
     }
 }

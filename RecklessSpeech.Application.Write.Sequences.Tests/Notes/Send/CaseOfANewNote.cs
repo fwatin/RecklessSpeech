@@ -78,8 +78,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             //Arrange
             SequenceBuilder sequenceBuilder = SequenceBuilder.Create(this.sequenceId) with
             {
-                TranslatedSentence = new("hey this is the translated sentence from Netflix"),
-                Explanations = new() { ExplanationBuilder.Create() with { Target = new("a lot of explanations") } }
+                TranslatedSentence = new("des trucs")
             };
             this.sequenceRepository.Add(sequenceBuilder);
 
@@ -87,8 +86,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             await this.sut.Handle(this.command, CancellationToken.None);
 
             //Assert
-            this.spyGateway.Note!.After.Value.Trim().Should().Be(
-                "translated sentence from Netflix: \"hey this is the translated sentence from Netflix\"veut dire genre trucs, astuces");
+            this.spyGateway.Note!.After.Value.Trim().Should().Be("translated sentence from Netflix: \"des trucs\"");
         }
 
         [Fact]

@@ -1,5 +1,4 @@
-﻿#nullable enable
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using RecklessSpeech.Application.Read.Queries.Notes.GetByTag;
 using RecklessSpeech.Application.Write.Sequences.Commands.Notes.ReverseNote;
@@ -34,7 +33,7 @@ namespace RecklessSpeech.Web.Controllers
                 notes = await this.dispatcher.Send(new GetNotesWithBlueFlagQuery());
             }
 
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine($"error while getting notes with blue flag");
             }
@@ -46,7 +45,7 @@ namespace RecklessSpeech.Web.Controllers
                     ReverseNoteResult result = await this.dispatcher.Send(new ReverseNoteCommand(note));
                     if (result.HasBeenReversed) succeeded.Add(result.Word);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     failed.Add(note.GetDto().Answer.Value);
                 }

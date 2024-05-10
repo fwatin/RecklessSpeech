@@ -2,6 +2,7 @@
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Domain.Sequences.Explanations;
 using RecklessSpeech.Domain.Sequences.Sequences;
+using HtmlContent = RecklessSpeech.Domain.Sequences.Sequences.HtmlContent;
 
 namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Phrases
 {

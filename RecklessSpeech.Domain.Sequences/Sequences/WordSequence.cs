@@ -1,12 +1,45 @@
-﻿#nullable enable
-using RecklessSpeech.Domain.Sequences.Explanations;
+﻿using RecklessSpeech.Domain.Sequences.Explanations;
 
 namespace RecklessSpeech.Domain.Sequences.Sequences
 {
     public sealed class WordSequence : Sequence
     {
-        private WordSequence(SequenceId sequenceId) : base(sequenceId)
+        private WordSequence(
+            SequenceId sequenceId,
+            HtmlContent htmlContent,
+            AudioFileNameWithExtension audioFileNameWithExtension,
+            Word word,
+            TranslatedWord translatedWord,
+            OriginalSentences originalSentences,
+            SentenceTranslations sentenceTranslations,
+            Media media,
+            List<Explanation> explanations,
+            Language language
+        ) : base(sequenceId)
         {
+            this.HtmlContent = htmlContent;
+            this.AudioFile = audioFileNameWithExtension;
+            this.Word = word;
+            this.TranslatedWord = translatedWord;
+            this.OriginalSentences = originalSentences;
+            this.SentenceTranslations = sentenceTranslations;
+            this.Media = media;
+            this.Explanations = explanations;
+            this.SentToAnkiTimes = 0;
+            this.Language = language;
+
+            var explanationSentence =
+                $"translated sentence from Netflix: \"{SentenceTranslations.GetMainSentenceTranslation()}\"";
+            Explanation explanationFromTranslation = Explanation.Create
+            (
+                explanationSentence,
+                null,
+                new(""),
+                this.Language
+            );
+
+
+            this.Explanations.Add(explanationFromTranslation);
         }
 
         public Word Word { get; private init; } = default!;
@@ -25,19 +58,19 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
             List<Explanation> explanations,
             Language language)
         {
-            return new(new(id))
-            {
-                HtmlContent = htmlContent,
-                AudioFile = audioFileNameWithExtension,
-                Word = word,
-                TranslatedWord = translatedWord,
-                OriginalSentences = originalSentences,
-                SentenceTranslations = sentenceTranslations,
-                Media = media,
-                Explanations = explanations,
-                SentToAnkiTimes = 0,
-                Language = language
-            };
+            return new(
+                    new(id),
+                    htmlContent,
+                    audioFileNameWithExtension,
+                    word,
+                    translatedWord,
+                    originalSentences,
+                    sentenceTranslations,
+                    media,
+                    explanations,
+                    language
+                )
+                ;
         }
 
         public override string SentenceToAskChatGptExplanation =>

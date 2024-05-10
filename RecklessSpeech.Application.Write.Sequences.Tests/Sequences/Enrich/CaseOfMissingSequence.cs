@@ -23,7 +23,7 @@
 
             await this.sut.Handle(SequenceBuilder.Create(Guid.NewGuid()).BuildEnrichCommand(), CancellationToken.None);
 
-            this.sequenceRepository.All.Single().Explanations.Should().BeEmpty();
+            this.sequenceRepository.All.Single().Explanations.Should().HaveCount(1);
         }
     }
 }
