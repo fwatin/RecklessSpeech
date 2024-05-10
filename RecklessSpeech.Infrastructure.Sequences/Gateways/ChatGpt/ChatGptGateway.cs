@@ -53,8 +53,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt
 
             return Explanation.Create(
                 htmlContent,
-                chatGptResponse,
-                sequence.ContentToGuessInTargetedLanguage()!, 
+                chatGptResponse, 
                 "ChatGpt",
                 sequence.Language);
         }

@@ -40,8 +40,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
         public async Task Should_note_contains_url_of_dictionary_in_source()
         {
             //Arrange
-            ExplanationBuilder explanationBuilder =
-                ExplanationBuilder.Create(Guid.Parse("684F35A0-B472-4D5A-8C42-74C4646490CB"));
+            ExplanationBuilder.Create(Guid.Parse("684F35A0-B472-4D5A-8C42-74C4646490CB"));
             SequenceBuilder sequenceBuilder =
                 SequenceBuilder.Create(Guid.Parse("B03B23B5-EB9F-4EB8-A762-308A39ADA735")) with
                 {

@@ -101,10 +101,6 @@ namespace RecklessSpeech.Domain.Sequences.Notes
         {
             StringBuilder stringBuilder = new();
 
-            stringBuilder.Append(
-                $"translated sentence from Netflix: \"{sequence.SentenceTranslations.GetMainSentenceTranslation()}\"");
-
-
             foreach (var explanation in sequence.Explanations)
             {
                 stringBuilder.AppendLine(explanation.ExplanationInHtml.Value);

@@ -25,7 +25,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.Mijnwoord
         {
             (string translations, string sourceUrl) = this.GetTranslationsAndSourceForAWord(word);
 
-            Explanation explanation = Explanation.Create( translations,"", word, sourceUrl, new Dutch());
+            Explanation explanation = Explanation.Create( translations,"", sourceUrl, new Dutch());
 
             return explanation;
         }

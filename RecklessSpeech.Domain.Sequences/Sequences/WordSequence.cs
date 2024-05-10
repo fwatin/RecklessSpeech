@@ -27,7 +27,19 @@ namespace RecklessSpeech.Domain.Sequences.Sequences
             this.Explanations = explanations;
             this.SentToAnkiTimes = 0;
             this.Language = language;
-            //this.Explanations.Add(new Explanation());
+
+            var explanationSentence =
+                $"translated sentence from Netflix: \"{SentenceTranslations.GetMainSentenceTranslation()}\"";
+            Explanation explanationFromTranslation = Explanation.Create
+            (
+                explanationSentence,
+                null,
+                new(""),
+                this.Language
+            );
+
+
+            this.Explanations.Add(explanationFromTranslation);
         }
 
         public Word Word { get; private init; } = default!;
