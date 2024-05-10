@@ -20,10 +20,11 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             ImportWordCommand command = new(
                 "target",
                 new[] { "cible" },
-                new[] { "target" },
-                new[] { "cible" }, new[] { "cible" },
+                new[] { "blabla", "target", "blabla" },
+                new[] { "blabla", "cible", "blabla" },
+                new[] { "blabla", "cible", "blabla" },
                 "mp3.mp3",
-                4438, null, null,null,"en");
+                4438, null, null, null, "en");
 
             //Act
             await this.sut.Handle(command, CancellationToken.None);
@@ -39,10 +40,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             //Arrange
             ImportWordCommand command = new(
                 "target", new[] { "cible" },
-                new[] { "this is the target, and the target is here." },
-                new[] { "blabla" }, new[] { "blabla" },
+                new[] { "", "this is the target, and the target is here.", "" },
+                new[] { "", "blabla", "" }, new[] { "", "blabla", "" },
                 "mp3.mp3",
-                4438, null, null,null,"en");
+                4438, null, null, null, "en");
 
             //Act
             await this.sut.Handle(command, CancellationToken.None);
@@ -60,10 +61,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             //Arrange
             ImportWordCommand command = new(
                 "target", new[] { "cible", "visée", "rabbit" },
-                new[] { "this is the target, and the target is here." },
-                new[] { "blabla" }, new[] { "blabla" },
+                new[] { "", "this is the target, and the target is here.", "" },
+                new[] { "", "blabla", "" }, new[] { "", "blabla", "" },
                 "mp3.mp3",
-                4438, null, null,null,"en");
+                4438, null, null, null, "en");
 
             //Act
             await this.sut.Handle(command, CancellationToken.None);
@@ -78,10 +79,10 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Sequences.ImportSingl
             //Arrange
             ImportWordCommand command = new(
                 "target", new[] { "cible" },
-                new[] { "this is the TARGET." },
-                new[] { "blabla" }, new[] { "blabla" },
+                new[] { "", "this is the TARGET.", "" },
+                new[] { "", "blabla", "" }, new[] { "", "blabla", "" },
                 "mp3.mp3",
-                4438, null, null,null,"en");
+                4438, null, null, null, "en");
 
             //Act
             await this.sut.Handle(command, CancellationToken.None);
