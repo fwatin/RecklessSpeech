@@ -31,17 +31,22 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
                 return Unit.Value;
             }
 
+            string? singleWordTranslation = null;
+
             if (sequence.OriginalSentences is not null)
             {
                 Explanation? explanationWithChatGpt = await this.chatGptGateway.GetExplanation(sequence);
-                sequence.Explanations.Add(explanationWithChatGpt);
 
-                if (explanationWithChatGpt?.RawExplanation is not null && sequence is WordSequence)
+                if (explanationWithChatGpt?.RawExplanation is not null && sequence is WordSequence word)
                 {
-                    var word = sequence as WordSequence;
-                    string singleWordTranslation =
+                    singleWordTranslation =
                         await this.chatGptGateway.GetSingleWordTranslation(word, explanationWithChatGpt);
-                    sequence.Translation = singleWordTranslation;
+                    word.Translation = singleWordTranslation;
+                }
+
+                if (explanationWithChatGpt is not null)
+                {
+                    sequence.Explanations.Add(explanationWithChatGpt);
                 }
             }
 
@@ -51,7 +56,16 @@ namespace RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich
                     this.translatorGatewayFactory.GetTranslatorGateway(sequence.Language);
                 Explanation translationWithDictionary =
                     translatorGateway.GetExplanation(sequence.ContentToGuessInNativeLanguage());
+
                 sequence.Explanations.Add(translationWithDictionary);
+            }
+
+            if (singleWordTranslation is not null)
+            {
+                foreach (Explanation explanation in sequence.Explanations)
+                {
+                    explanation.HighlightTerm(singleWordTranslation);
+                }
             }
 
             return Unit.Value;

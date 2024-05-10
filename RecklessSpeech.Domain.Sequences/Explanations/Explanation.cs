@@ -1,4 +1,6 @@
-﻿namespace RecklessSpeech.Domain.Sequences.Explanations
+﻿using System.Text.RegularExpressions;
+
+namespace RecklessSpeech.Domain.Sequences.Explanations
 {
     public sealed class Explanation
     {
@@ -18,7 +20,7 @@
             this.Language = language;
         }
 
-        public ExplanationInHtml ExplanationInHtml { get; init; }
+        public ExplanationInHtml ExplanationInHtml { get; set; }
         public RawExplanation? RawExplanation { get; init; }
         public Target Target { get; init; }
         public ExplanationId ExplanationId { get; init; }
@@ -54,6 +56,22 @@
                 new(""),
                 new(""),
                 Language.GetLanguageFromCode("en")); //sale mais je m'en branle
+        }
+
+        public void HighlightTerm(string wordToHighlight)
+        {
+            var html = this.ExplanationInHtml.Value;
+
+            var escapedWord = Regex.Escape(wordToHighlight);
+
+            const string styleToApply = "background-color: rgb(157, 0, 0);";
+
+            var replacement = $"<span style=\"{styleToApply}\">{wordToHighlight}</span>";
+
+            var regex = new Regex($@"\b{escapedWord}\b", RegexOptions.IgnoreCase);
+            html = regex.Replace(html, replacement);
+
+            this.ExplanationInHtml = new(html);
         }
     }
 }
