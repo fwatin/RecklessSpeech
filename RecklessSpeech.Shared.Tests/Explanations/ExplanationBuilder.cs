@@ -6,21 +6,18 @@ namespace RecklessSpeech.Shared.Tests.Explanations
     public record ExplanationBuilder
     {
         private ExplanationBuilder(
-            ExplanationIdBuilder explanationId,
             ContentBuilder content,
             TargetBuilder target,
             SourceUrlBuilder sourceUrl,
             LanguageBuilder language
         )
         {
-            this.ExplanationId = explanationId;
             this.Content = content;
             this.Target = target;
             this.SourceUrl = sourceUrl;
             this.Language = language;
         }
 
-        public ExplanationIdBuilder ExplanationId { get; init; }
         public ContentBuilder Content { get; init; }
         public TargetBuilder Target { get; init; }
         public SourceUrlBuilder SourceUrl { get; init; }
@@ -31,12 +28,10 @@ namespace RecklessSpeech.Shared.Tests.Explanations
                 new(),
                 new(),
                 new(),
-                new(),
                 new());
 
         public static ExplanationBuilder Create(Guid id) =>
             new(
-                new(id),
                 new(),
                 new(), 
                 new(),
@@ -44,7 +39,6 @@ namespace RecklessSpeech.Shared.Tests.Explanations
 
         public static implicit operator Explanation(ExplanationBuilder builder) =>
             Explanation.Create(
-                builder.ExplanationId.Value,
                 builder.Content.Value,
                 builder.Target.Value,null,
                 builder.SourceUrl.Value,
@@ -52,7 +46,6 @@ namespace RecklessSpeech.Shared.Tests.Explanations
 
         public Explanation BuildDomain() =>
             Explanation.Hydrate(
-                this.ExplanationId.Value,
                 this.Content.Value,
                 null,
                 this.Target.Value,

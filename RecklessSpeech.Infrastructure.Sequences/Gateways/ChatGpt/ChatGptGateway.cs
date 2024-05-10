@@ -52,7 +52,6 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt
                 .Replace("{{modelName}}", this.settings.Value.ModelName);
 
             return Explanation.Create(
-                Guid.NewGuid(),
                 htmlContent,
                 chatGptResponse,
                 sequence.ContentToGuessInTargetedLanguage()!, 

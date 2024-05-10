@@ -4,15 +4,12 @@ namespace RecklessSpeech.Domain.Sequences.Explanations
 {
     public sealed class Explanation
     {
-        //todo virer id c'est un value object
         private Explanation(
-            ExplanationId explanationId,
             ExplanationInHtml explanationInHtml,
             RawExplanation? rawExplanation,
             Target target,
             SourceUrl sourceUrl, Language language)
         {
-            this.ExplanationId = explanationId;
             this.ExplanationInHtml = explanationInHtml;
             this.RawExplanation = rawExplanation;
             this.Target = target;
@@ -23,24 +20,21 @@ namespace RecklessSpeech.Domain.Sequences.Explanations
         public ExplanationInHtml ExplanationInHtml { get; set; }
         public RawExplanation? RawExplanation { get; init; }
         public Target Target { get; init; }
-        public ExplanationId ExplanationId { get; init; }
         public SourceUrl SourceUrl { get; init; }
         public Language Language { get; }
 
-        public static Explanation Create(Guid id, string explanationInHtml, string? rawExplanation, string target,
+        public static Explanation Create(string explanationInHtml, string? rawExplanation, string target,
             string sourceUrl, Language language) =>
             new(
-                new(id),
                 new(explanationInHtml),
                 rawExplanation is null ? null : new(rawExplanation),
                 new(target),
                 new(sourceUrl),
                 language);
 
-        public static Explanation Hydrate(Guid id, string explanationInHtml, string? rawExplanation, string target,
+        public static Explanation Hydrate(string explanationInHtml, string? rawExplanation, string target,
             string sourceUrl, Language language) =>
             new(
-                new(id),
                 new(explanationInHtml),
                 rawExplanation is null ? null : new(rawExplanation),
                 new(target),
@@ -49,9 +43,7 @@ namespace RecklessSpeech.Domain.Sequences.Explanations
 
         public static Explanation CreateEmpty()
         {
-            return new Explanation
-            (new(Guid.Empty),
-                new(""),
+            return new(new(""),
                 new(""),
                 new(""),
                 new(""),

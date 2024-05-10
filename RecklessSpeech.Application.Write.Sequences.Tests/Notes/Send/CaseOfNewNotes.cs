@@ -45,7 +45,7 @@ namespace RecklessSpeech.Application.Write.Sequences.Tests.Notes.Send
             SequenceBuilder sequenceBuilder =
                 SequenceBuilder.Create(Guid.Parse("B03B23B5-EB9F-4EB8-A762-308A39ADA735")) with
                 {
-                    Explanations = new() { ExplanationBuilder.Create(explanationBuilder.ExplanationId.Value) }
+                    Explanations = new() { ExplanationBuilder.Create() }
                 };
             this.sequenceRepository.Add(sequenceBuilder.BuildDomain());
 

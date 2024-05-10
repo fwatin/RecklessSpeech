@@ -15,7 +15,7 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.WordRefer
         {
             (string translations, string sourceUrl) = this.GetTranslationsAndSourceForAWord(word);
 
-            Explanation explanation = Explanation.Create(Guid.NewGuid(), translations,null, word, sourceUrl,new Italian());
+            Explanation explanation = Explanation.Create( translations,null, word, sourceUrl,new Italian());
 
             return explanation;
         }
