@@ -4,6 +4,6 @@ namespace RecklessSpeech.Application.Read.Queries.Notes.Services
 {
     public interface IReadNoteGateway
     {
-        Task<IReadOnlyCollection<Note>> GetByFlag(int flagNumber);
+        Task<IReadOnlyCollection<Note>> GetByFlagAndWithoutTag(int flagNumber,string missingTag);
     }
 }

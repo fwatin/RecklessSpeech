@@ -4,9 +4,9 @@ using RecklessSpeech.Domain.Sequences.Notes;
 
 namespace RecklessSpeech.Application.Read.Queries.Notes.GetByTag
 {
-    public record GetNotesWithBlueFlagQuery : IRequest<IReadOnlyCollection<Note>>;
+    public record GetNotesToBeReversedQuery : IRequest<IReadOnlyCollection<Note>>;
 
-    public class GetNotesByTagQueryHandler : IRequestHandler<GetNotesWithBlueFlagQuery, IReadOnlyCollection<Note>>
+    public class GetNotesByTagQueryHandler : IRequestHandler<GetNotesToBeReversedQuery, IReadOnlyCollection<Note>>
     {
         private readonly IReadNoteGateway noteGateway;
 
@@ -15,10 +15,10 @@ namespace RecklessSpeech.Application.Read.Queries.Notes.GetByTag
             this.noteGateway = noteGateway;
         }
         
-        public async Task<IReadOnlyCollection<Note>> Handle(GetNotesWithBlueFlagQuery request,
+        public async Task<IReadOnlyCollection<Note>> Handle(GetNotesToBeReversedQuery request,
             CancellationToken cancellationToken)
         {
-            return await noteGateway.GetByFlag(4);
+            return await noteGateway.GetByFlagAndWithoutTag(4, "reversed");
         }
     }
 }

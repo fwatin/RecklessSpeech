@@ -112,9 +112,9 @@ namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Anki
                 Audio = dto.Audio.Value
             };
 
-        public async Task<IReadOnlyCollection<Domain.Sequences.Notes.Note>> GetByFlag(int flagNumber)
+        public async Task<IReadOnlyCollection<Domain.Sequences.Notes.Note>> GetByFlagAndWithoutTag(int flagNumber,string missingTag)
         {
-            FindAnkiNotesPayload payload = new($"flag:{flagNumber}");
+            FindAnkiNotesPayload payload = new($"flag:{flagNumber} -tag:{missingTag}");
             StringContent findNotesIdsStringContent =
                 new(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
 

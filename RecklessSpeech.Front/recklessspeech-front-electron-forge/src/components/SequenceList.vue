@@ -15,11 +15,13 @@ export default {
       isSending: false,
       isSendingReversed:false,
       lastSelectedSequenceIndex: null,
-      sendingReverseResponse:""
+      sendingReverseResponse:"",
+      countToReverse:null
     };
   },
   created() {
     this.import();
+    this.getWordCountToReverse();
   },
   methods: {
     selectSequence(index, isShiftPressed) {
@@ -59,7 +61,19 @@ export default {
             console.log(this.sendingReverseResponse)
           });
       this.isSendingReversed = false;
+      await this.getWordCountToReverse();
 
+    },
+
+    async getWordCountToReverse(){
+      await axios
+          .get(
+            `${baseUrl}/api/v1/notes/reverse-blue-flagged`
+          )
+          .then((response) => {
+            this.countToReverse = response.data.length;
+            console.log("nombre à inverser :" + this.countToReverse)
+          });
     },
 
     toggleCheckedSequence(index) {
@@ -181,7 +195,7 @@ export default {
         <div class="d-flex align-items-center">
           <b-spinner variant="primary" v-if="isSendingReversed"></b-spinner>
           <span class="m-1"
-            >Traiter les notes avec un drapeau bleu pour les inverser</span
+            >Traiter les notes avec un drapeau bleu pour les inverser ({{ this.countToReverse }})</span
           >
         </div>
       </div>

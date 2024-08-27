@@ -5,6 +5,7 @@ using RecklessSpeech.Application.Write.Sequences.Commands.Notes.ReverseNote;
 using RecklessSpeech.Domain.Sequences.Notes;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -18,6 +19,26 @@ namespace RecklessSpeech.Web.Controllers
         private readonly IMediator dispatcher;
         public NoteController(IMediator dispatcher) => this.dispatcher = dispatcher;
 
+        [HttpGet]
+        [Route("reverse-blue-flagged")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<long>> GetNotesToBeReversed()
+        {
+            IReadOnlyCollection<Note> notes = ArraySegment<Note>.Empty;
+            try
+            {
+                notes = await this.dispatcher.Send(new GetNotesToBeReversedQuery());
+            }
+
+            catch (Exception)
+            {
+                Console.WriteLine($"error while getting notes with blue flag");
+            }
+
+            List<long?> result = notes.Select(x => x.AnkiId).ToList();
+            return this.Ok(result);
+        }
+
 
         [HttpPost]
         [Route("reverse-blue-flagged")]
@@ -30,7 +51,7 @@ namespace RecklessSpeech.Web.Controllers
             List<string> failed = new();
             try
             {
-                notes = await this.dispatcher.Send(new GetNotesWithBlueFlagQuery());
+                notes = await this.dispatcher.Send(new GetNotesToBeReversedQuery());
             }
 
             catch (Exception)
