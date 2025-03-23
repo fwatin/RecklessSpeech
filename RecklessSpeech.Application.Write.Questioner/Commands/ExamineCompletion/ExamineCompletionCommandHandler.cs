@@ -1,17 +1,20 @@
 ﻿using MediatR;
+using RecklessSpeech.Application.Write.Questioner.Ports;
 
 namespace RecklessSpeech.Application.Write.Questioner.Commands.ExamineCompletion
 {
     public class ExamineCompletionCommandHandler : IRequestHandler<ExamineCompletionCommand, InterestResult>
     {
-        public ExamineCompletionCommandHandler()
+        private readonly IReadNoteGateway readNoteGateway;
+
+        public ExamineCompletionCommandHandler(IReadNoteGateway readNoteGateway)
         {
-            
+            this.readNoteGateway = readNoteGateway;
         }
-        
-        public Task<InterestResult> Handle(ExamineCompletionCommand request, CancellationToken cancellationToken)
+
+        public async Task<InterestResult> Handle(ExamineCompletionCommand command, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var relatedNotes = await this.readNoteGateway.GetBySubject(command.Subject);
         }
     }
 }

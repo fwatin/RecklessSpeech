@@ -7,5 +7,5 @@ namespace RecklessSpeech.Application.Write.Questioner.Commands.ExamineCompletion
 {
     public record InterestResult(IReadOnlyList<string> Interests);
 
-    public class ExamineCompletionCommand(Completion completion) : IRequest<InterestResult>;
+    public record ExamineCompletionCommand(Completion Completion, string Subject) : IRequest<InterestResult>;
 }
