@@ -15,6 +15,9 @@ namespace RecklessSpeech.Application.Write.Questioner.Commands.ExamineCompletion
         public async Task<InterestResult> Handle(ExamineCompletionCommand command, CancellationToken cancellationToken)
         {
             var relatedNotes = await this.readNoteGateway.GetBySubject(command.Subject);
+            
+            
+            return new(new List<string>());
         }
     }
 }

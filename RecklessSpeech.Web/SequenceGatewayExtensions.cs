@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using RecklessSpeech.Application.Read.Queries.Notes.Services;
 using RecklessSpeech.Application.Write.Sequences.Ports;
 using RecklessSpeech.Application.Write.Sequences.Ports.TranslatorGateways.Dutch;
+using RecklessSpeech.Infrastructure.Sequences;
 using RecklessSpeech.Infrastructure.Sequences.Gateways.Anki;
 using RecklessSpeech.Infrastructure.Sequences.Gateways.ChatGpt;
 using RecklessSpeech.Infrastructure.Sequences.Gateways.Translators.Mijnwoordenboek;
@@ -11,23 +12,23 @@ using System.Net.Http;
 
 namespace RecklessSpeech.Web
 {
-    public static class GatewayExtensions
+    public static class SequenceGatewayExtensions
     {
-        public static IServiceCollection AddGateways(this IServiceCollection services) =>
+        public static IServiceCollection AddSequenceGateways(this IServiceCollection services) =>
             services
-                .AddNoteGateway()
-                .AddChatGptGateway()
-                .AddTranslatorGateway();
+                .AddSequenceNoteGateway()
+                .AddSequenceChatGptGateway()
+                .AddSequenceTranslatorGateway();
 
-        private static IServiceCollection AddNoteGateway(this IServiceCollection services)
+        private static IServiceCollection AddSequenceNoteGateway(this IServiceCollection services)
         {
-            services.AddOptions<AnkiSettings>()
-                .BindConfiguration(AnkiSettings.SECTION_KEY)
+            services.AddOptions<AnkiSequenceSettings>()
+                .BindConfiguration(AnkiSequenceSettings.SECTION_KEY)
                 .ValidateDataAnnotations();
 
             Action<IServiceProvider,HttpClient> configureClient = (provider, client) =>
             {
-                var options = provider.GetRequiredService<IOptions<AnkiSettings>>();
+                var options = provider.GetRequiredService<IOptions<AnkiSequenceSettings>>();
                 string path = options.Value.Url;
                 client.BaseAddress = new(path);
             };
@@ -38,7 +39,7 @@ namespace RecklessSpeech.Web
             return services;
         }
 
-        private static IServiceCollection AddChatGptGateway(this IServiceCollection services)
+        private static IServiceCollection AddSequenceChatGptGateway(this IServiceCollection services)
         {
             services.AddOptions<ChatGptSettings>()
                 .BindConfiguration(ChatGptSettings.SECTION_KEY)
@@ -55,7 +56,7 @@ namespace RecklessSpeech.Web
             return services;
         }
 
-        private static IServiceCollection AddTranslatorGateway(this IServiceCollection services)
+        private static IServiceCollection AddSequenceTranslatorGateway(this IServiceCollection services)
         {
             services.AddSingleton<ITranslatorGatewayFactory, TranslatorGatewayFactory>();
 

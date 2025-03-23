@@ -1,13 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
-namespace RecklessSpeech.Infrastructure.Sequences.Gateways.Anki
+namespace RecklessSpeech.Infrastructure.Questioner
 {
-    public class AnkiSettings
+    public class AnkiQuestionerSettings
     {
         public const string SECTION_KEY = "Anki";
 
         [Required] public string Url { get; set; }
-
-        [Required] public string MediaPath { get; set; }
     }
 }

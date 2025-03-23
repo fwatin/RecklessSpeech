@@ -6,8 +6,8 @@ namespace RecklessSpeech.Infrastructure.Sequences.Repositories
 {
     public class FileMediaRepository : IMediaRepository
     {
-        private readonly IOptions<AnkiSettings> settings;
-        public FileMediaRepository(IOptions<AnkiSettings> settings)
+        private readonly IOptions<AnkiSequenceSettings> settings;
+        public FileMediaRepository(IOptions<AnkiSequenceSettings> settings)
         {
             this.settings = settings;
         }

@@ -9,6 +9,7 @@
         <ProjectReference Include="..\RecklessSpeech.Application.Read\RecklessSpeech.Application.Read.csproj" />
         <ProjectReference Include="..\RecklessSpeech.Application.Write.Questioner\RecklessSpeech.Application.Write.Questioner.csproj" />
         <ProjectReference Include="..\RecklessSpeech.Application.Write.Sequences\RecklessSpeech.Application.Write.Sequences.csproj" />
+        <ProjectReference Include="..\RecklessSpeech.Infrastructure.Questioner\RecklessSpeech.Infrastructure.Questioner.csproj" />
         <ProjectReference Include="..\RecklessSpeech.Infrastructure.Sequences\RecklessSpeech.Infrastructure.Sequences.csproj" />
     </ItemGroup>
 
@@ -23,6 +24,10 @@
         <None Update="appsettings.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Settings\" />
     </ItemGroup>
 
 
