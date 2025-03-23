@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using RecklessSpeech.Application.Read.Queries.Sequences.GetAll;
+using RecklessSpeech.Application.Write.Questioner.Commands.ExamineCompletion;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences;
 using RecklessSpeech.Web.Configuration;
 using RecklessSpeech.Web.Configuration.Swagger;
@@ -49,7 +50,10 @@ namespace RecklessSpeech.Web
         {
             Assembly applicationRentalWrite = typeof(ImportWordCommand).Assembly;
             services.AddMediatR(applicationRentalWrite);
-            
+
+            Assembly applicationQuestionerWrite = typeof(ExamineCompletionCommand).Assembly;
+            services.AddMediatR(applicationQuestionerWrite);
+
             Assembly applicationRead = typeof(GetAllSequencesQuery).Assembly;
             services.AddMediatR(applicationRead);
         }
