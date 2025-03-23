@@ -58,3 +58,9 @@
 /backend_publish/*
 /RecklessSpeech.Web.AcceptanceTests/bin/*
 /RecklessSpeech.Web.AcceptanceTests/obj/*
+/RecklessSpeech.Application.Write.Questioner/bin/*
+/RecklessSpeech.Application.Write.Questioner/obj/*
+/RecklessSpeech.Domain.Questioner/bin/*
+/RecklessSpeech.Domain.Questioner/obj/*
+/RecklessSpeech.Infrastructure.Questioner/bin/*
+/RecklessSpeech.Infrastructure.Questioner/obj/*
