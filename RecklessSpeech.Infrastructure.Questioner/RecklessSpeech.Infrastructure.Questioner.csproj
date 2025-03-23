@@ -10,4 +10,8 @@
       <ProjectReference Include="..\RecklessSpeech.Application.Write.Questioner\RecklessSpeech.Application.Write.Questioner.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    </ItemGroup>
+
 </Project>
