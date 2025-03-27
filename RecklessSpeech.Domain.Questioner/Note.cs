@@ -7,6 +7,11 @@ namespace RecklessSpeech.Domain.Questioner
         private readonly Question question;
         private readonly Answer? answer;
         private readonly After after;
+        
+        public string Slimmed => 
+            $"Question: {question}" +
+            "---" + 
+            $"Réponse : {answer}";
 
         private Note(NoteId id, Question question, Answer? answer, After after)
         {
