@@ -5,20 +5,20 @@ namespace RecklessSpeech.Application.Write.Questioner.Commands.ExamineCompletion
 {
     public class ExamineCompletionCommandHandler : IRequestHandler<ExamineCompletionCommand, InterestResult>
     {
-        private readonly IReadNoteGateway readNoteGateway;
-        private readonly IChatGptGateway chatGptGateway;
+        private readonly IQuestionerReadNoteGateway questionerReadNoteGateway;
+        private readonly IQuestionerChatGptGateway questionerChatGptGateway;
 
-        public ExamineCompletionCommandHandler(IReadNoteGateway readNoteGateway, IChatGptGateway chatGptGateway)
+        public ExamineCompletionCommandHandler(IQuestionerReadNoteGateway questionerReadNoteGateway, IQuestionerChatGptGateway questionerChatGptGateway)
         {
-            this.readNoteGateway = readNoteGateway;
-            this.chatGptGateway = chatGptGateway;
+            this.questionerReadNoteGateway = questionerReadNoteGateway;
+            this.questionerChatGptGateway = questionerChatGptGateway;
         }
 
         public async Task<InterestResult> Handle(ExamineCompletionCommand command, CancellationToken cancellationToken)
         {
-            var relatedNotes = await this.readNoteGateway.GetBySubject(command.Subject);
+            var relatedNotes = await this.questionerReadNoteGateway.GetBySubject(command.Subject);
             
-            IReadOnlyList<string> questions = await this.chatGptGateway.GetInterests(relatedNotes, command.Completion);
+            IReadOnlyList<string> questions = await this.questionerChatGptGateway.GetInterests(relatedNotes, command.Completion);
             
             return new(questions);
         }

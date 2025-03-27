@@ -2,7 +2,7 @@
 
 namespace RecklessSpeech.Application.Write.Questioner.Ports
 {
-    public interface IReadNoteGateway
+    public interface IQuestionerReadNoteGateway
     {
         Task<IReadOnlyCollection<Note>> GetBySubject(string subject);
     }

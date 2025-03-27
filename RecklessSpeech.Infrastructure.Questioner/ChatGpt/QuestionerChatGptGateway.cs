@@ -6,12 +6,12 @@ using System.Text.Json;
 
 namespace RecklessSpeech.Infrastructure.Questioner.ChatGpt
 {
-    public class ChatGptGateway : IChatGptGateway
+    public class QuestionerChatGptGateway : IQuestionerChatGptGateway
     {
         private readonly HttpClient client;
         private readonly IOptions<ChatGptSettings> settings;
 
-        public ChatGptGateway(HttpClient client, IOptions<ChatGptSettings> settings)
+        public QuestionerChatGptGateway(HttpClient client, IOptions<ChatGptSettings> settings)
         {
             this.client = client;
             this.settings = settings;

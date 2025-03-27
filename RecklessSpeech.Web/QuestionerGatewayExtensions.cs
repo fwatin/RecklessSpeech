@@ -21,7 +21,7 @@ namespace RecklessSpeech.Web
                 .ValidateDataAnnotations();
 
             services
-                .AddHttpClient<IReadNoteGateway, HttpAnkiNoteGateway>(
+                .AddHttpClient<IQuestionerReadNoteGateway, HttpAnkiNoteGateway>(
                     (provider, client) =>
                     {
                         var options = provider.GetRequiredService<IOptions<AnkiQuestionerSettings>>();
@@ -37,7 +37,7 @@ namespace RecklessSpeech.Web
                 .BindConfiguration(ChatGptSettings.SECTION_KEY)
                 .ValidateDataAnnotations();
 
-            services.AddHttpClient<IChatGptGateway, ChatGptGateway>(
+            services.AddHttpClient<IQuestionerChatGptGateway, QuestionerChatGptGateway>(
                 (provider, client) =>
                 {
                     var options = provider.GetRequiredService<IOptions<ChatGptSettings>>();

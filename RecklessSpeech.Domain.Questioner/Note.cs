@@ -9,9 +9,9 @@ namespace RecklessSpeech.Domain.Questioner
         private readonly After after;
         
         public string Slimmed => 
-            $"Question: {question}" +
+            $"Question: {question.Value}" +
             "---" + 
-            $"Réponse : {answer}";
+            $"Réponse : {answer?.Value}";
 
         private Note(NoteId id, Question question, Answer? answer, After after)
         {

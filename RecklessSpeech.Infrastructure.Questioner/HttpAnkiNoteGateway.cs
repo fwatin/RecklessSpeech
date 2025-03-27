@@ -10,7 +10,7 @@ using Question = RecklessSpeech.Domain.Questioner.Question;
 
 namespace RecklessSpeech.Infrastructure.Questioner
 {
-    public class HttpAnkiNoteGateway(HttpClient client) : IReadNoteGateway
+    public class HttpAnkiNoteGateway(HttpClient client) : IQuestionerReadNoteGateway
     {
         public async Task<IReadOnlyCollection<Note>> GetBySubject(string subject)
         {
