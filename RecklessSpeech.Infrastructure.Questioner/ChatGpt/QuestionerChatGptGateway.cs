@@ -20,14 +20,19 @@ namespace RecklessSpeech.Infrastructure.Questioner.ChatGpt
         public async Task<IReadOnlyList<string>> GetInterests(IReadOnlyCollection<Note> relatedNotes,
             Completion commandCompletion)
         {
-            string question = "Dans le texte suivant, peux tu écrire une liste de questions " +
+            string question = "Dans le texte suivant, peux tu écrire une liste de question/réponse " +
                               "qui seraient des candidats pour des fiches Anki ?" +
-                              "en retour je souhaite une liste." +
+                              "Génère un ensemble de questions/réponses en format JSON :" +
+                              "{\n  \"cards\": [\n    {\n      \"question\": \"…\",\n      \"answer\": \"…\"\n    },\n    …\n  ]\n}\n" +
+                              "N’inclus aucun texte hors de la structure JSON." +
                               "---" +
-                              "Le texte est le suivant : " + commandCompletion +
+                              "Le texte est le suivant : " + commandCompletion.Value +
                               "---" +
-                              "Voici des extraits de fiches pour que tu puisses t'inspirer du niveau de détail et de mon style : " +
-                              string.Join("\n", relatedNotes.Select(n => n.Slimmed));
+                              "Voici des fiches extraites de Anki déjà existantes pour que tu puisses t'en inspirer " +
+                              "mais je ne les veux pas dans ma réponse car elles sont déjà dans mon Anki." +
+                              string.Join("\n", relatedNotes.Select(n => n.Slimmed))+
+                              "---" 
+                              ;
 
             ChatGptRequest request = new(this.settings.Value.ModelName,
                 new() { new("user", question) });
