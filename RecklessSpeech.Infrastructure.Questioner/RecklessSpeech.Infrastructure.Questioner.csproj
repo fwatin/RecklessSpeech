@@ -7,11 +7,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\RecklessSpeech.Application.Write.Questioner\RecklessSpeech.Application.Write.Questioner.csproj" />
+        <ProjectReference Include="..\RecklessSpeech.Application.Write.Questioner\RecklessSpeech.Application.Write.Questioner.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
+        <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1"/>
+        <PackageReference Include="Microsoft.Extensions.Primitives" Version="7.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="ChatGpt\templates\display_explanation.html">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </EmbeddedResource>
     </ItemGroup>
 
 </Project>
