@@ -22,7 +22,7 @@ namespace RecklessSpeech.Infrastructure.Questioner.ChatGpt
             IReadOnlyCollection<Note> relatedNotes,
             Completion commandCompletion, string subject)
         {
-            string path = Path.Combine(AppContext.BaseDirectory,"ChatGpt", "templates", "answer-structure.json");
+            string path = Path.Combine(AppContext.BaseDirectory, "ChatGpt", "templates", "answer-structure.json");
             string functionJson = await File.ReadAllTextAsync(path);
 
             var functionDefinition = JsonSerializer.Deserialize<FunctionDefinition>(functionJson);
@@ -52,7 +52,7 @@ namespace RecklessSpeech.Infrastructure.Questioner.ChatGpt
             string jsonRequest = JsonSerializer.Serialize(requestBody);
 
             // 6) Envoyer la requête
-            using var request = new HttpRequestMessage(HttpMethod.Post, this.settings.Value.Url);
+            using var request = new HttpRequestMessage(HttpMethod.Post, "chat/completions");
             request.Headers.Add("Authorization", $"Bearer {this.settings.Value.SubscriptionKey}");
             request.Content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
@@ -70,16 +70,16 @@ namespace RecklessSpeech.Infrastructure.Questioner.ChatGpt
                 Console.WriteLine("Erreur lors de la désérialisation de la réponse : " + ex.Message);
                 Console.WriteLine("Contenu : " + responseContent);
             }
-            
+
             if (chatResponse?.Choices == null || chatResponse.Choices.Count == 0)
             {
                 Console.WriteLine("Pas de réponse du modèle.");
                 return Array.Empty<string>();
             }
-            
+
             // 8) Récupérer la function_call
             var functionCall = chatResponse.Choices[0].Message.FunctionCall;
-            
+
             Console.WriteLine("Nom de la fonction appelée : " + functionCall.Name);
             Console.WriteLine("Arguments JSON (brut) : " + functionCall.Arguments);
 
@@ -94,7 +94,7 @@ namespace RecklessSpeech.Infrastructure.Questioner.ChatGpt
                 Console.WriteLine("Impossible de parser les arguments de la fonction : " + ex.Message);
                 return Array.Empty<string>();
             }
-            
+
             // 10) Affichage
             if (createCardsArgs?.Cards != null)
             {
@@ -106,14 +106,10 @@ namespace RecklessSpeech.Infrastructure.Questioner.ChatGpt
                     Console.WriteLine($"{i++}. Question: {card.Question}");
                     Console.WriteLine($"   Réponse: {card.Answer}");
                     questions.Add($"{card.Question} {card.Answer}");
-                    return questions;
                 }
+                return questions;
             }
-            else
-            {
-                Console.WriteLine("Aucune carte trouvée dans les arguments.");
-                return Array.Empty<string>();
-            }
+            Console.WriteLine("Aucune carte trouvée dans les arguments.");
             return Array.Empty<string>();
         }
     }
