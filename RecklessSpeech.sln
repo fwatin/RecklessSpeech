@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Domain.Quest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecklessSpeech.Infrastructure.Questioner", "RecklessSpeech.Infrastructure.Questioner\RecklessSpeech.Infrastructure.Questioner.csproj", "{E85EB227-96F4-4D3C-940A-840FAE97A490}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Front", "Front", "{7A0CA554-3690-4C4B-98EE-F5C3D020AFDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -294,6 +296,7 @@ Global
 		{E8C085D7-F321-4919-A650-7C0978B45757} = {333F97BC-D4CF-4A4B-8A5C-5BFD2671A639}
 		{FFB507A5-65B9-4FCF-B709-32B3EFB0A8A4} = {333F97BC-D4CF-4A4B-8A5C-5BFD2671A639}
 		{E85EB227-96F4-4D3C-940A-840FAE97A490} = {333F97BC-D4CF-4A4B-8A5C-5BFD2671A639}
+		{7A0CA554-3690-4C4B-98EE-F5C3D020AFDD} = {F5FE3C2D-76C8-44E5-B602-462B12D2D8B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6DDC6F2-CD4F-4DFD-B477-D143345078EF}

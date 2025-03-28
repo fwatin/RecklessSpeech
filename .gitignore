@@ -64,3 +64,5 @@
 /RecklessSpeech.Domain.Questioner/obj/*
 /RecklessSpeech.Infrastructure.Questioner/bin/*
 /RecklessSpeech.Infrastructure.Questioner/obj/*
+/RecklessSpeech.Front.Wpf/obj/*
+/RecklessSpeech.Front.Wpf/bin/*
