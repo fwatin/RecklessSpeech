@@ -1,32 +1,44 @@
-﻿namespace RecklessSpeech.Infrastructure.Questioner.ChatGpt
-{
-    public class ChatGptResponse
-    {
-        public string? Id { get; set; }
-        public string? Object { get; set; }
-        public int created { get; set; }
-        public string? model { get; set; }
-        public Usage? usage { get; set; }
-        public Choice[]? choices { get; set; }
-    }
+﻿using System.Text.Json.Serialization;
 
-    public class Usage
+namespace RecklessSpeech.Infrastructure.Questioner.ChatGpt
+{
+    // Pour la réponse du chat
+    public class ChatResponse
     {
-        public int PromptTokens { get; set; }
-        public int CompletionTokens { get; set; }
-        public int TotalTokens { get; set; }
+        [JsonPropertyName("choices")] public List<Choice> Choices { get; set; }
     }
 
     public class Choice
     {
-        public Message? Message { get; set; }
-        public string? FinishReason { get; set; }
-        public int index { get; set; }
+        [JsonPropertyName("message")] public Message Message { get; set; }
     }
 
     public class Message
     {
-        public string? Role { get; set; }
-        public string? Content { get; set; }
+        [JsonPropertyName("role")] public string Role { get; set; }
+
+        [JsonPropertyName("content")] public string Content { get; set; }
+
+        [JsonPropertyName("function_call")] public FunctionCall FunctionCall { get; set; }
+    }
+
+    public class FunctionCall
+    {
+        [JsonPropertyName("name")] public string Name { get; set; }
+
+        [JsonPropertyName("arguments")] public string Arguments { get; set; }
+    }
+
+    // Modèle pour extraire le "cards" dans function_call.arguments
+    public class CreateCardsArgs
+    {
+        [JsonPropertyName("cards")] public List<Card> Cards { get; set; }
+    }
+
+    public class Card
+    {
+        [JsonPropertyName("question")] public string Question { get; set; }
+
+        [JsonPropertyName("answer")] public string Answer { get; set; }
     }
 }

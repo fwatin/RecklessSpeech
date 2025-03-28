@@ -1,0 +1,15 @@
+﻿assistant:
+   role: "system"
+   content: "Tu es un assistant spécialisé dans la génération de questions-réponses pour Anki."
+
+user:
+   content: "Analyse ce texte et crée-moi 5 cartes Q/R."
+
+assistant:
+   name: "create_cards"  <-- l'assistant renvoie directement l'appel de fonction
+   arguments: {
+     "cards": [
+        { "question": "...", "answer": "..." },
+        ...
+     ]
+   }

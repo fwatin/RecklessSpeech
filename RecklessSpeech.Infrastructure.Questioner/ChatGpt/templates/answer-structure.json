@@ -1,0 +1,21 @@
+﻿{
+  "name": "create_cards",
+  "description": "Crée des cartes de questions-réponses pour Anki",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "cards": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "question": { "type": "string" },
+            "answer": { "type": "string" }
+          },
+          "required": ["question", "answer"]
+        }
+      }
+    },
+    "required": ["cards"]
+  }
+}
