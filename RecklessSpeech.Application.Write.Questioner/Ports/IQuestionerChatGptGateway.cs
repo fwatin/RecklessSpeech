@@ -5,6 +5,6 @@ namespace RecklessSpeech.Application.Write.Questioner.Ports
     public interface IQuestionerChatGptGateway
     {
         Task<IReadOnlyList<string>> GetInterests(IReadOnlyCollection<Note> relatedNotes,
-            Completion commandCompletion);
+            Completion commandCompletion,string subject);
     }
 }
