@@ -1,15 +1,14 @@
-﻿using System;
+﻿using RecklessSpeech.Front.Wpf.Helpers;
+using System;
 using System.Windows.Input;
 
-using RecklessSpeech.Front.Wpf.Helpers;
-
-namespace RecklessSpeech.Front.Wpf.ViewModels
+namespace RecklessSpeech.Front.Wpf.Pages.ShellDialog
 {
     public class ShellDialogViewModel : Observable
     {
         private ICommand _closeCommand;
 
-        public ICommand CloseCommand => _closeCommand ?? (_closeCommand = new RelayCommand(OnClose));
+        public ICommand CloseCommand => this._closeCommand ?? (this._closeCommand = new RelayCommand(this.OnClose));
 
         public Action<bool?> SetResult { get; set; }
 
@@ -20,7 +19,7 @@ namespace RecklessSpeech.Front.Wpf.ViewModels
         private void OnClose()
         {
             bool result = true;
-            SetResult(result);
+            this.SetResult(result);
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace System.Windows.Controls
+﻿using System.Windows;
+using System.Windows.Controls;
+
+namespace RecklessSpeech.Front.Wpf.Helpers
 {
     public static class FrameExtensions
     {

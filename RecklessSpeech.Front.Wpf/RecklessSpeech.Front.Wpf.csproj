@@ -10,9 +10,15 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.8" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
-    <PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="29.1.33" />
-    <PackageReference Include="Syncfusion.Themes.Office2019White.WPF" Version="29.1.33" />
-    <PackageReference Include="Syncfusion.Tools.WPF" Version="29.1.33" />
+    <PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="27.1.53"/>
+    <PackageReference Include="Syncfusion.Themes.Office2019White.WPF" Version="27.1.53" />
+    <PackageReference Include="Syncfusion.Tools.WPF" Version="27.1.53" />
+    <PackageReference Include="Syncfusion.Grid.WPF" Version="27.1.53"/>
+    <PackageReference Include="Syncfusion.PdfViewer.WPF" Version="27.1.53"/>
+    <PackageReference Include="Syncfusion.SfGrid.WPF" Version="27.1.53"/>
+    <PackageReference Include="Syncfusion.SfInput.WPF" Version="27.1.53"/>
+    <PackageReference Include="Syncfusion.SfTextInputLayout.WPF" Version="27.1.53"/>
+    <PackageReference Include="Syncfusion.Shared.WPF" Version="27.1.53"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -34,5 +40,28 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\Main\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\ShellDialog\ShellDialogWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Shell\ShellWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\DisplayQuestions\DisplayQuestionsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 </Project>

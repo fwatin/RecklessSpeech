@@ -1,16 +1,10 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-
-using RecklessSpeech.Front.Wpf.Contracts.Services;
+﻿using RecklessSpeech.Front.Wpf.Contracts.Services;
 using RecklessSpeech.Front.Wpf.Contracts.Views;
-using RecklessSpeech.Front.Wpf.ViewModels;
-
 using Syncfusion.SfSkinManager;
 using Syncfusion.Windows.Shared;
-using Syncfusion.Windows.Tools.Controls;
+using System.Windows.Controls;
 
-namespace RecklessSpeech.Front.Wpf.Views
+namespace RecklessSpeech.Front.Wpf.Pages.Shell
 {
     public partial class ShellWindow : ChromelessWindow, IShellWindow
     {
@@ -18,17 +12,17 @@ namespace RecklessSpeech.Front.Wpf.Views
         public ShellWindow(IPageService pageService, ShellViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = viewModel;
-            SfSkinManager.SetTheme(this, new Theme(themeName));
+            this.DataContext = viewModel;
+            SfSkinManager.SetTheme(this, new Theme(this.themeName));
         }
 
         public Frame GetNavigationFrame()
-            => shellFrame;
+            => this.shellFrame;
 
         public void ShowWindow()
-            => Show();
+            => this.Show();
 
         public void CloseWindow()
-            => Close();
+            => this.Close();
     }
 }

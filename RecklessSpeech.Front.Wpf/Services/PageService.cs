@@ -5,8 +5,7 @@ using System.Windows.Controls;
 
 using RecklessSpeech.Front.Wpf.Contracts.Services;
 using RecklessSpeech.Front.Wpf.Helpers;
-using RecklessSpeech.Front.Wpf.ViewModels;
-using RecklessSpeech.Front.Wpf.Views;
+using RecklessSpeech.Front.Wpf.Pages.Main;
 
 namespace RecklessSpeech.Front.Wpf.Services
 {

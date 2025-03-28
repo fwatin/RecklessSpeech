@@ -1,0 +1,68 @@
+﻿<Page x:Class="RecklessSpeech.Front.Wpf.Pages.DisplayQuestions.DisplayQuestionsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      d:DataContext="{d:DesignInstance shellDialog:DisplayQuestionsViewModel, IsDesignTimeCreatable=True}"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:displayQuestions="clr-namespace:RecklessSpeech.Front.Wpf.Pages.DisplayQuestions"
+      xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+      xmlns:shellDialog="clr-namespace:RecklessSpeech.Front.Wpf.Pages.ShellDialog"
+      mc:Ignorable="d"
+      Title="DisplayQuestionsPage" Height="450" Width="800">
+
+    <Page.Resources>
+        <!-- Template pour les boutons +/- -->
+        <DataTemplate x:Key="QuantityCellTemplate"
+                      d:DataContext="{d:DesignInstance displayQuestions:QuestionModel}"
+                      DataType="{x:Type displayQuestions:QuestionModel}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="-"
+                        Style="{StaticResource RoundButtonStyle}"
+                        Command="{Binding ElementName=DataGrid, Path=DataContext.DecreaseQuantityCommand}"
+                        CommandParameter="{Binding}" />
+                <TextBlock Text="{Binding Quantity}"
+                           Width="50"
+                           TextAlignment="Center"
+                           VerticalAlignment="Center" />
+                <Button Content="+"
+                        Style="{StaticResource RoundButtonStyle}"
+                        Command="{Binding ElementName=DataGrid, Path=DataContext.IncreaseQuantityCommand}"
+                        CommandParameter="{Binding}" />
+            </StackPanel>
+        </DataTemplate>
+
+    </Page.Resources>
+    <Grid>
+
+        <Syncfusion:SfDataGrid Name="DataGrid"
+                               AllowSorting="True"
+                               VerticalAlignment="Stretch"
+                               HorizontalAlignment="Stretch"
+                               AlternatingRowStyle="{StaticResource AlternateRowStyle}"
+                               AllowFiltering="True"
+                               Margin="10,0,10,10"
+                               AllowGrouping="True"
+                               ShowGroupDropArea="True"
+                               AllowEditing="True"
+                               SelectionMode="Extended"
+                               GridLinesVisibility="Both"
+                               HeaderLinesVisibility="Both"
+                               AllowResizingColumns="True"
+                               AutoGenerateColumns="False"
+                               HeaderRowHeight="25"
+                               ItemsSource="{Binding Questions}">
+            <Syncfusion:SfDataGrid.Columns>
+
+                <Syncfusion:GridTextColumn HeaderText="Norme"
+                                           MappingName="Question"
+                                           IsReadOnly="True"
+                                           TextAlignment="Center"
+                                           Width="100" />
+                
+                
+
+            </Syncfusion:SfDataGrid.Columns>
+        </Syncfusion:SfDataGrid>
+
+    </Grid>
+</Page>

@@ -6,7 +6,7 @@ using System.Windows.Navigation;
 using RecklessSpeech.Front.Wpf.Contracts.Services;
 using RecklessSpeech.Front.Wpf.Contracts.ViewModels;
 using RecklessSpeech.Front.Wpf.Contracts.Views;
-
+using RecklessSpeech.Front.Wpf.Helpers;
 using Syncfusion.Windows.Shared;
 
 namespace RecklessSpeech.Front.Wpf.Services

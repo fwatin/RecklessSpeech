@@ -1,15 +1,13 @@
 ﻿using System.Windows.Controls;
 
-using RecklessSpeech.Front.Wpf.ViewModels;
-
-namespace RecklessSpeech.Front.Wpf.Views
+namespace RecklessSpeech.Front.Wpf.Pages.Main
 {
     public partial class MainPage : Page
     {
         public MainPage(MainViewModel viewModel)
         {
-            InitializeComponent();
-            DataContext = viewModel;
+            this.InitializeComponent();
+            this.DataContext = viewModel;
         }
     }
 }

@@ -10,9 +10,10 @@ using Microsoft.Extensions.Hosting;
 using RecklessSpeech.Front.Wpf.Contracts.Services;
 using RecklessSpeech.Front.Wpf.Contracts.Views;
 using RecklessSpeech.Front.Wpf.Models;
+using RecklessSpeech.Front.Wpf.Pages.Main;
+using RecklessSpeech.Front.Wpf.Pages.Shell;
+using RecklessSpeech.Front.Wpf.Pages.ShellDialog;
 using RecklessSpeech.Front.Wpf.Services;
-using RecklessSpeech.Front.Wpf.ViewModels;
-using RecklessSpeech.Front.Wpf.Views;
 
 namespace RecklessSpeech.Front.Wpf
 {
@@ -27,12 +28,12 @@ namespace RecklessSpeech.Front.Wpf
 
         public T GetService<T>()
             where T : class
-            => _host.Services.GetService(typeof(T)) as T;
+            => _host.Services.GetService(typeof(T)) as T; 
 
         public App()
         {
 			// Add your Syncfusion license key for WPF platform with corresponding Syncfusion NuGet version referred in project. For more information about license key see https://help.syncfusion.com/common/essential-studio/licensing/license-key.
-			// Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Add your license key here"); 
+			 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mzc4NDI0OUAzMjM5MmUzMDJlMzAzYjMyMzkzYkFKUDRGdUNDaHFHcjVVTncwc01Hd0VpckE1Y2s1RkhkQXpKcHArZmhGZ3c9"); 
         }
 
         private async void OnStartup(object sender, StartupEventArgs e)

@@ -1,8 +1,6 @@
-﻿using System;
+﻿using RecklessSpeech.Front.Wpf.Helpers;
 
-using RecklessSpeech.Front.Wpf.Helpers;
-
-namespace RecklessSpeech.Front.Wpf.ViewModels
+namespace RecklessSpeech.Front.Wpf.Pages.Main
 {
     public class MainViewModel : Observable
     {

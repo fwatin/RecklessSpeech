@@ -1,6 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
-namespace System.Windows
+namespace RecklessSpeech.Front.Wpf.Helpers
 {
     public static class WindowExtensions
     {
