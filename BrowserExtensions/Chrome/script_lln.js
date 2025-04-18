@@ -42,6 +42,7 @@ if (window.location.href.startsWith("https://www.netflix.com/watch/") ||
 ) {
   var interval = 1000;
   console.log('start clicking every ' + interval + ' ms...');
+  chrome.runtime.sendMessage({ action: "setIconGreen" });
   var intervalId = setInterval(() => {
     console.log('Pour arrêter: clearInterval(' + intervalId + ')');
     clickOnSubtitleWords();

@@ -1,12 +1,34 @@
 {
   "manifest_version": 3,
   "name": "RecklessSpeech",
-  "version": "1.0",
+  "version": "2.0",
   "description": "Une extension qui exécute un script pour sélectionner les mots sur Language Reactor.",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/icon-blue-16.png",
+      "32": "icons/icon-blue-32.png",
+      "48": "icons/icon-blue-48.png",
+      "128": "icons/icon-blue-128.png"
+    },
+    "default_title": "RecklessSpeech"
+  },
+  "icons": {
+    "128": "icons/icon-blue-128.png"
+  },
   "content_scripts": [
     {
-      "matches": ["*://*/*"],
-      "js": ["script_lln.js"]
+      "matches": [
+        "*://*/*"
+      ],
+      "js": [
+        "script_lln.js"
+      ]
     }
+  ],
+  "permissions": [
+    "scripting"
   ]
 }
