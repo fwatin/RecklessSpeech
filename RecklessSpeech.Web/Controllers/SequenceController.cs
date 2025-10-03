@@ -60,28 +60,36 @@ namespace RecklessSpeech.Web.Controllers
                             ? item.context?.phrase?.subtitleTokens["1"][wordIndex.Value]
                             : null;
 
+                        string[]? t = item.context?.phrase?.reference.title_arr;
+                        string title = string.Empty;
+                        if (t?.Length == 3) title = $"{t[0]} {t[1]} : {t[2]}";
+
                         ImportWordCommand importWord = new(
                             correspondingToken?.form.text,
                             item.wordTranslationsArr,
                             item.context!.phrase!.subtitles.Values.ToArray(),
                             item.context!.phrase!.hTranslations?.Values.ToArray(),
                             item.context!.phrase!.mTranslations?.Values.ToArray(),
-                            item.context.phrase.reference.title,
+                            title,
                             item.timeModified_ms,
                             leftImageBase64,
                             rightImageBase64,
-                            mp3Base64,item.langCode_G);
+                            mp3Base64, item.langCode_G);
 
                         await this.dispatcher.Send(importWord);
                     }
                     else if (item.itemType == "PHRASE")
                     {
+                        string[]? t = item.context?.phrase?.reference.title_arr;
+                        string title = string.Empty;
+                        if (t?.Length == 3) title = $"{t[0]} {t[1]} : {t[2]}";
+                        
                         ImportPhraseCommand importPhrase = new(
                             item.context!.phrase!.subtitles["1"],
                             item.context!.phrase!.subtitles.Values.ToArray(),
                             item.context!.phrase!.hTranslations?.Values.ToArray(),
                             item.context!.phrase!.mTranslations?.Values.ToArray(),
-                            item.context.phrase.reference.title,
+                            title,
                             item.timeModified_ms,
                             leftImageBase64,
                             rightImageBase64,

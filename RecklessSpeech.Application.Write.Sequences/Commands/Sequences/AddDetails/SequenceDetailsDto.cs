@@ -89,7 +89,7 @@ public class Reference
     public string movieId { get; set; }
     public string langCode_N { get; set; }
     public string langCode_G { get; set; }
-    public string title { get; set; }
+    public string[] title_arr { get; set; }
     public int subtitleIndex { get; set; }
     public int numSubs { get; set; }
     public int startTime_ms { get; set; }
