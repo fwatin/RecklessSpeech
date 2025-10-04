@@ -9,6 +9,7 @@ using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.AddDetails;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Enrich;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Phrases;
 using RecklessSpeech.Application.Write.Sequences.Commands.Sequences.Import.Sequences;
+using RecklessSpeech.Web.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -62,7 +63,11 @@ namespace RecklessSpeech.Web.Controllers
 
                         string[]? t = item.context?.phrase?.reference.title_arr;
                         string title = string.Empty;
-                        if (t?.Length == 3) title = $"{t[0]} {t[1]} : {t[2]}";
+                        
+                        string time = item.context?.phrase?.reference?.startTime_ms.ConvertMillisecondsToIso8601() ??
+                                      string.Empty;
+                        
+                        if (t?.Length == 3) title = $"{t[0]} {t[1]} : {t[2]} ({time})";
 
                         ImportWordCommand importWord = new(
                             correspondingToken?.form.text,
@@ -83,7 +88,7 @@ namespace RecklessSpeech.Web.Controllers
                         string[]? t = item.context?.phrase?.reference.title_arr;
                         string title = string.Empty;
                         if (t?.Length == 3) title = $"{t[0]} {t[1]} : {t[2]}";
-                        
+
                         ImportPhraseCommand importPhrase = new(
                             item.context!.phrase!.subtitles["1"],
                             item.context!.phrase!.subtitles.Values.ToArray(),

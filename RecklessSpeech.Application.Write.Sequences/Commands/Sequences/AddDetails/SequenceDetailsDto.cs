@@ -92,7 +92,7 @@ public class Reference
     public string[] title_arr { get; set; }
     public int subtitleIndex { get; set; }
     public int numSubs { get; set; }
-    public int startTime_ms { get; set; }
+    public long startTime_ms { get; set; }
     public int endTime_ms { get; set; }
 }
 
